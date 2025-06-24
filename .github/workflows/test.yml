@@ -27,13 +27,13 @@ jobs:
       run: dotnet restore
 
     - name: 🔨 Build
-      run: dotnet build -p:PublishAot=false
+      run: dotnet build -p:PublishAot=false --configuration Release
 
     - name: 🧪 Test
-      run: dotnet test --no-build
+      run: dotnet test --no-build --configuration Release
 
     - name: 🔨 Build AOT tests
-      run: dotnet build '.\tests\Bshox.Tests\' -t:PublishAll --no-dependencies -p:PublishDir="Temp/Bshox.Tests"
+      run: dotnet build '.\tests\Bshox.Tests\' -t:PublishAll --no-dependencies -p:PublishDir="Temp/Bshox.Tests" --configuration Release
 
     - name: 🧪 Test AOT
       run: dotnet test --no-ansi --test-modules "Temp/**/Bshox.Tests"
