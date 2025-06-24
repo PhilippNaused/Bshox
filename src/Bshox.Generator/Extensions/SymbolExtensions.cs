@@ -151,12 +151,17 @@ internal static class SymbolExtensions
 
     public static bool TryParseBshoxSurrogateAttribute(this ISymbol symbol, IGeneratorContext context, out ContractParameters parameters, [NotNullWhen(true)] out ITypeSymbol? typeSymbol)
     {
-        typeSymbol = null;
         parameters = default;
 
         var genericAttribute = symbol.GetGenericAttribute(context.KnownSymbols.BshoxSurrogateAttribute1);
         if (genericAttribute is null)
         {
+            // try to parse the non-generic attribute
+            if (symbol.TryParseBshoxSurrogateAttribute2(context, out typeSymbol))
+            {
+                return true;
+            }
+
             context.ReportDiagnostic(Diagnostics.SurrogateTypeMustHaveAttribute, symbol, symbol);
             return false;
         }
@@ -169,7 +174,19 @@ internal static class SymbolExtensions
         }
         parameters = ParseContractParameters(genericAttribute);
         return true;
+    }
 
+    private static bool TryParseBshoxSurrogateAttribute2(this ISymbol symbol, IGeneratorContext context, [NotNullWhen(true)] out ITypeSymbol? typeSymbol)
+    {
+        typeSymbol = null;
+        var data = symbol.GetAttribute(context.KnownSymbols.BshoxSurrogateAttribute);
+        if (data is null || data.ConstructorArguments.Length != 1)
+        {
+            return false;
+        }
+        var value = data.ConstructorArguments[0];
+        typeSymbol = value.Value as ITypeSymbol;
+        return typeSymbol is not null;
     }
 
     private static ContractParameters ParseContractParameters(AttributeData data)

@@ -12,6 +12,7 @@ internal sealed class KnownTypeSymbols(Compilation compilation)
     public INamedTypeSymbol BshoxMemberAttribute { get; } = GetType(compilation, typeof(BshoxMemberAttribute));
     public INamedTypeSymbol BshoxSerializerAttribute { get; } = GetType(compilation, typeof(BshoxSerializerAttribute));
     public INamedTypeSymbol BshoxDefaultContractAttribute { get; } = GetType(compilation, typeof(BshoxDefaultContractAttribute));
+    public INamedTypeSymbol BshoxSurrogateAttribute { get; } = GetType(compilation, typeof(BshoxSurrogateAttribute));
     public INamedTypeSymbol BshoxSurrogateAttribute1 { get; } = GetType(compilation, typeof(BshoxSurrogateAttribute<>));
     public INamedTypeSymbol BshoxContract { get; } = GetTypeByMetadataName(compilation, "Bshox.BshoxContract`1").ConstructUnboundGenericType();
 

@@ -3,41 +3,45 @@ namespace Bshox.Generator.Tests;
 internal class SurrogatesTests
 {
     [Test]
-    public async Task DateTimeOffsetSerializer()
+    [MatrixDataSource]
+    public async Task DateTimeOffsetSerializer([Matrix] bool generic)
     {
-        const string sourceCode = """
-                                  using System;
-                                  using System.ComponentModel;
-                                  using Bshox.Attributes;
+        string attribute = generic
+            ? "[BshoxSurrogate<DateTimeOffset>]"
+            : "[BshoxSurrogate(typeof(DateTimeOffset))]";
+        string sourceCode = $$"""
+                            using System;
+                            using System.ComponentModel;
+                            using Bshox.Attributes;
 
-                                  namespace TestModels;
+                            namespace TestModels;
 
-                                  [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
-                                  partial class DateTimeOffsetSerializer;
+                            [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
+                            partial class DateTimeOffsetSerializer;
 
-                                  [BshoxSurrogate<DateTimeOffset>]
-                                  struct DateTimeOffsetSurrogate
-                                  {
-                                      public DateTimeOffsetSurrogate(DateTimeOffset value)
-                                      {
-                                          UtcTicks = value.UtcTicks;
-                                  #if NET8_0_OR_GREATER
-                                          TotalOffsetMinutes = (short)value.TotalOffsetMinutes;
-                                  #else
-                                          TotalOffsetMinutes = (short)value.Offset.TotalMinutes;
-                                  #endif
-                                      }
+                            {{attribute}}
+                            struct DateTimeOffsetSurrogate
+                            {
+                                public DateTimeOffsetSurrogate(DateTimeOffset value)
+                                {
+                                    UtcTicks = value.UtcTicks;
+                            #if NET8_0_OR_GREATER
+                                    TotalOffsetMinutes = (short)value.TotalOffsetMinutes;
+                            #else
+                                    TotalOffsetMinutes = (short)value.Offset.TotalMinutes;
+                            #endif
+                                }
 
-                                      [BshoxMember(1)]
-                                      public long UtcTicks { get; set; }
+                                [BshoxMember(1)]
+                                public long UtcTicks { get; set; }
 
-                                      [BshoxMember(2)]
-                                      [DefaultValue(0)]
-                                      public short TotalOffsetMinutes { get; set; }
+                                [BshoxMember(2)]
+                                [DefaultValue(0)]
+                                public short TotalOffsetMinutes { get; set; }
 
-                                      public readonly DateTimeOffset Convert() => new DateTimeOffset(UtcTicks, TimeSpan.Zero).ToOffset(TimeSpan.FromMinutes(TotalOffsetMinutes));
-                                  }
-                                  """;
+                                public readonly DateTimeOffset Convert() => new DateTimeOffset(UtcTicks, TimeSpan.Zero).ToOffset(TimeSpan.FromMinutes(TotalOffsetMinutes));
+                            }
+                            """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
         await Assert.That(diagnostics).IsEmpty();

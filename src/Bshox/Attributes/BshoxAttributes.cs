@@ -22,9 +22,24 @@ public class BshoxContractAttribute : Attribute
     public bool ImplicitMembers { get; set; }
 }
 
+/// <summary>
+/// TODO
+/// </summary>
+/// <typeparam name="T">TODO</typeparam>
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
-public sealed class BshoxSurrogateAttribute<T> : BshoxContractAttribute;
+public sealed class BshoxSurrogateAttribute<T>() : BshoxSurrogateAttribute(typeof(T));
+
+/// <summary>
+/// TODO
+/// </summary>
+/// <param name="type">TODO</param>
+[ExcludeFromCodeCoverage]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
+public class BshoxSurrogateAttribute(Type type) : BshoxContractAttribute
+{
+    public Type Type { get; } = type;
+}
 
 /// <summary>
 /// Indicates that the property or field is a member of a Bshox contract.
@@ -40,6 +55,10 @@ public sealed class BshoxMemberAttribute(uint key) : Attribute
     public uint Key { get; } = key;
 }
 
+/// <summary>
+/// TODO
+/// </summary>
+/// <param name="types">TODO</param>
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
 public sealed class BshoxSerializerAttribute(params Type[] types) : Attribute

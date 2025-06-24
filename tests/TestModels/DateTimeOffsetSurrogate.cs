@@ -9,7 +9,11 @@ namespace TestModels;
 public partial class DateTimeOffsetSerializer;
 
 [ExcludeFromCodeCoverage]
+#if NETCOREAPP
 [BshoxSurrogate<DateTimeOffset>]
+#else
+[BshoxSurrogate(typeof(DateTimeOffset))] // The mono runtime will crash if you add a generic attribute to a struct.
+#endif
 internal struct DateTimeOffsetSurrogate
 {
     public DateTimeOffsetSurrogate(DateTimeOffset value)

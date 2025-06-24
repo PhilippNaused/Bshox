@@ -212,9 +212,15 @@ namespace Bshox.Attributes
         public System.Type[] Types { get; }
     }
     [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
-    public sealed class BshoxSurrogateAttribute<T> : Bshox.Attributes.BshoxContractAttribute
+    public sealed class BshoxSurrogateAttribute<T> : Bshox.Attributes.BshoxSurrogateAttribute
     {
         public BshoxSurrogateAttribute();
+    }
+    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
+    public class BshoxSurrogateAttribute : Bshox.Attributes.BshoxContractAttribute
+    {
+        public BshoxSurrogateAttribute(System.Type type);
+        public System.Type Type { get; }
     }
 }
 namespace Bshox.Internals
