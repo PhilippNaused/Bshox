@@ -1,0 +1,52 @@
+<Project>
+
+  <!-- Build settings -->
+  <PropertyGroup>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <IsWindows>$([System.OperatingSystem]::IsWindows())</IsWindows>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Bshox.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <!-- Code Analysis -->
+  <PropertyGroup>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>CS1591</NoWarn>
+    <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
+    <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
+    <MSBuildTreatWarningsAsErrors>True</MSBuildTreatWarningsAsErrors>
+    <AnalysisLevel>10.0</AnalysisLevel>
+    <AnalysisMode>All</AnalysisMode>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- <AnalysisModeStyle>Recommended</AnalysisModeStyle> -->
+  </PropertyGroup>
+
+  <!-- Package properties -->
+  <PropertyGroup>
+    <Version Condition="'$(Version)' == ''">0.0.0.0-Dev-$(Configuration)</Version>
+    <Product>Bshox</Product>
+    <Description>High performance binary serialization for C#</Description>
+    <Author>Philipp Naused</Author>
+    <Company>$(Author)</Company>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageProjectUrl>https://github.com/PhilippNaused/Bshox</PackageProjectUrl>
+    <Copyright>© $(Company)</Copyright>
+    <RepositoryType>git</RepositoryType>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>serializer</PackageTags>
+  </PropertyGroup>
+
+</Project>

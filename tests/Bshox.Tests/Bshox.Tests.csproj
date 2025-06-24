@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net462;net48;net8.0;net9.0;net10.0</TargetFrameworks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+    <NoWarn>$(NoWarn);CA1000;CA1002;CA1515;IDE0058</NoWarn>
+    <!-- <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles> -->
+    <!-- <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath> -->
+    <TrimmerSingleWarn>true</TrimmerSingleWarn>
+    <!-- Bug in TUnit -->
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);IL2104;IL3053;IL3050</WarningsNotAsErrors>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+    <PublishAot Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</PublishAot>
+    <SelfContained>true</SelfContained>
+    <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\fuzz\Bshox.Fuzz.Meta\TestCases\*"
+                      Link="Bshox.Fuzz.Meta\TestCases\%(Filename)%(Extension)"
+                      LogicalName="Bshox.Fuzz.Meta\TestCases\%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\fuzz\Bshox.Fuzz.Meta\Regression\*"
+                      Link="Bshox.Fuzz.Meta\Regression\%(Filename)%(Extension)"
+                      LogicalName="Bshox.Fuzz.Meta\Regression\%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\fuzz\Bshox.Fuzz.Text\TestCases\*"
+                      Link="Bshox.Fuzz.Text\TestCases\%(Filename)%(Extension)"
+                      LogicalName="Bshox.Fuzz.Text\TestCases\%(Filename)%(Extension)" />
+    <EmbeddedResource Include="..\fuzz\Bshox.Fuzz.Text\Regression\*"
+                      Link="Bshox.Fuzz.Text\Regression\%(Filename)%(Extension)"
+                      LogicalName="Bshox.Fuzz.Text\Regression\%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="TUnit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Bshox.MetaData\Bshox.MetaData.csproj" />
+    <ProjectReference Include="..\..\src\Bshox\Bshox.csproj" />
+    <ProjectReference Include="..\..\src\Bshox.Generator\Bshox.Generator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="..\Bshox.Utils\Bshox.Utils.csproj" />
+    <ProjectReference Include="..\TestModels\TestModels.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\src\Bshox\Bshox.targets" />
+
+</Project>

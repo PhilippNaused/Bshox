@@ -1,0 +1,80 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</TargetFrameworks>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Bshox</RootNamespace>
+    <BeforePack>$(BeforePack);IncludeAnalyzersInPackage</BeforePack>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- <PackageReference Include="Microsoft.Bcl.AsyncInterfaces"
+                      Condition="'$(TargetFramework)' == 'netstandard2.0'" /> -->
+    <PackageReference Include="IsExternalInit">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Nullable">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Memory"
+                      Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+    <ProjectReference Include="..\Bshox.Generator\Bshox.Generator.csproj"
+                      Condition="'$(_SkipAnalyzer)' != 'true'"
+                      ReferenceOutputAssembly="false"
+                      PackAsAnalyzer="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Benchmark;Bshox.Tests;Bshox.MetaData"
+                        PublicKey="0024000004800000940000000602000000240000525341310004000001000100dd5aaf9dfcf30dc5f78e30f2ccbd27f7dc88c9a8db26eda6ed229b883fd34edbdcffce799b053db93a3c4d288e976266f67acb9cd2fa5d24c3642e5b8191d53aebe1954a64512f7d9e992eeb779d011e2c25b4b76d8cacde8f0c675c8093a2f4b8eaafbf6ff24e271d502b023c5f5f2afced11ed447be096d332d3f8c4f70fcd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DefaultContracts.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DefaultContracts.g.cs</LastGenOutput>
+    </None>
+    <None Update="Contracts\SurrogateContracts.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>SurrogateContracts.g.cs</LastGenOutput>
+    </None>
+    <None Update="Contracts\ValueTupleContract.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ValueTupleContract.g.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Bshox.targets"
+          Pack="true"
+          PackagePath="build/;buildTransitive/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- T4 Text Templates -->
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DefaultContracts.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DefaultContracts.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Contracts\SurrogateContracts.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SurrogateContracts.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Contracts\ValueTupleContract.g.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ValueTupleContract.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

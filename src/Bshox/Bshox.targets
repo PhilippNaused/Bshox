@@ -1,0 +1,39 @@
+<Project>
+
+  <Target Name="_BshoxGatherAnalyzers">
+    <ItemGroup>
+      <_BshoxAnalyzer Include="@(Analyzer)"
+                      Condition="'%(Analyzer.NuGetPackageId)' == 'Bshox'" />
+    </ItemGroup>
+  </Target>
+
+  <!-- Remove the analyzer if Roslyn is too old -->
+  <Target Name="_BshoxRemoveAnalyzersIfRoslynTooOld"
+          Condition="'$(CSharpCoreTargetsPath)' != ''"
+          AfterTargets="ResolvePackageDependenciesForBuild;ResolveNuGetPackageAssets"
+          DependsOnTargets="_BshoxGatherAnalyzers">
+
+    <GetAssemblyIdentity AssemblyFiles="$([System.IO.Path]::Combine(`$([System.IO.Path]::GetDirectoryName($(CSharpCoreTargetsPath)))`,`Microsoft.Build.Tasks.CodeAnalysis.dll`))">
+      <Output TaskParameter="Assemblies"
+              ItemName="CurrentRoslynIdentity" />
+    </GetAssemblyIdentity>
+
+    <PropertyGroup>
+      <BshoxMinRoslynVersion>4.9.2</BshoxMinRoslynVersion>
+      <CurrentRoslynVersion>@(CurrentRoslynIdentity->'%(Version)')</CurrentRoslynVersion>
+      <CurrentRoslynVersionTooOld Condition="$([MSBuild]::VersionLessThan($(CurrentRoslynVersion), $(BshoxMinRoslynVersion)))">true</CurrentRoslynVersionTooOld>
+    </PropertyGroup>
+
+    <Message Importance="Low"
+             Text="Current Roslyn version: $(CurrentRoslynVersion) Minimum Required: $(BshoxMinRoslynVersion)" />
+
+    <ItemGroup Condition="'$(CurrentRoslynVersionTooOld)' == 'true'">
+      <Analyzer Remove="@(_BshoxAnalyzer)" />
+    </ItemGroup>
+
+    <Error Condition="'$(CurrentRoslynVersionTooOld)' == 'true'"
+           Code="BSHOX014"
+           Text="The Bshox source generator has been disabled because the current compiler version ($(CurrentRoslynVersion)) is too low. Bshox requires at least Roslyn $(BshoxMinRoslynVersion)." />
+  </Target>
+
+</Project>

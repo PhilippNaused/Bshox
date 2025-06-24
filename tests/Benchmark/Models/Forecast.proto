@@ -1,0 +1,62 @@
+syntax = "proto3";
+package Benchmark.Models;
+import "google/protobuf/timestamp.proto";
+
+// https://github.com/open-meteo/open-meteo/blob/82c087f87fbc91d63683fa5c9c6a78b1cf70f31b/openapi.yml
+
+message CurrentWeather2 {
+  google.protobuf.Timestamp Time = 1;
+  float Temperature = 2;
+  float WindSpeed = 3;
+  float WindDirection = 4;
+  WeatherCode2 WeatherCode = 5;
+}
+
+message Forecast2 {
+  float Latitude = 1;
+  float Longitude = 2;
+  float Elevation = 3;
+  double GenerationTime = 4;
+  int32 UtcOffsetSeconds = 5;
+  HourlyResponse2 Hourly = 6;
+  map<string,string> HourlyUnits = 7;
+  CurrentWeather2 CurrentWeather = 8;
+}
+
+message HourlyResponse2 {
+  repeated google.protobuf.Timestamp Time = 1;
+  repeated float Temperature = 2;
+  repeated float Precipitation = 3;
+  repeated WeatherCode2 WeatherCode = 4;
+}
+
+enum WeatherCode2 {
+  ClearSky = 0;
+  MainlyClear = 1;
+  PartlyCloudy = 2;
+  Overcast = 3;
+  Fog = 45;
+  DepositRimeFog = 48;
+  DrizzleLight = 51;
+  DrizzleModerate = 53;
+  DrizzleDense = 55;
+  FreezingDrizzleLight = 56;
+  FreezingDrizzleDense = 57;
+  RainSlight = 61;
+  RainModerate = 63;
+  RainHeavy = 65;
+  FreezingRainLight = 66;
+  FreezingRainHeavy = 67;
+  SnowLight = 71;
+  SnowModerate = 73;
+  SnowHeavy = 75;
+  SnowGrains = 77;
+  RainShowersSlight = 80;
+  RainShowersModerate = 81;
+  RainShowersViolent = 82;
+  SnowShowersSlight = 85;
+  SnowShowersHeavy = 86;
+  Thunderstorm = 95;
+  ThunderstormSlightHail = 96;
+  ThunderstormHeavyHail = 99;
+}

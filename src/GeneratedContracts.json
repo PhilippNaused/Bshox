@@ -1,0 +1,158 @@
+{
+  "Surrogates": [
+    {
+      "Name": "IDictionary",
+      "Type": "System.Collections.Generic.IDictionary<TKey, TValue>",
+      "SurrogateType": "Dictionary<TKey, TValue>",
+      "From": "surrogate",
+      "To": "new Dictionary<TKey, TValue>(value)",
+      "Where": "TKey : notnull"
+    },
+    {
+      "Name": "IList",
+      "Type": "System.Collections.Generic.IList<T>",
+      "SurrogateType": "List<T>",
+      "From": "surrogate",
+      "To": "[.. value]"
+    },
+    {
+      "Name": "ConcurrentDictionary",
+      "Type": "System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>",
+      "SurrogateType": "Dictionary<TKey, TValue>",
+      "From": "new System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>(surrogate)",
+      "To": "new Dictionary<TKey, TValue>(value)",
+      "Where": "TKey : notnull"
+    }
+  ],
+  "Primitives": [
+    {
+      "Name": "SByte",
+      "Type": "sbyte",
+      "Encoding": "VarInt",
+      "Read": "unchecked((sbyte)checked((byte)reader.ReadVarInt32()))",
+      "Write": "writer.WriteVarInt32(unchecked((byte){0}))"
+    },
+    {
+      "Name": "Byte",
+      "Type": "byte",
+      "Encoding": "VarInt",
+      "Read": "checked((byte)reader.ReadVarInt32())",
+      "Write": "writer.WriteVarInt32({0})"
+    },
+    {
+      "Name": "Int16",
+      "Type": "short",
+      "Encoding": "VarInt",
+      "Read": "unchecked((short)checked((ushort)reader.ReadVarInt32()))",
+      "Write": "writer.WriteVarInt32(unchecked((ushort){0}))"
+    },
+    {
+      "Name": "UInt16",
+      "Type": "ushort",
+      "Encoding": "VarInt",
+      "Read": "checked((ushort)reader.ReadVarInt32())",
+      "Write": "writer.WriteVarInt32({0})"
+    },
+    {
+      "Name": "Char",
+      "Type": "char",
+      "Encoding": "VarInt",
+      "Read": "checked((char)reader.ReadVarInt32())",
+      "Write": "writer.WriteVarInt32((uint){0})"
+    },
+    {
+      "Name": "Int32",
+      "Type": "int",
+      "Encoding": "VarInt",
+      "Read": "unchecked((int)reader.ReadVarInt32())",
+      "Write": "writer.WriteVarInt32(unchecked((uint){0}))"
+    },
+    {
+      "Name": "Int32Z",
+      "Type": "int",
+      "Encoding": "VarInt",
+      "Read": "reader.ReadZigZagVarInt32()",
+      "Write": "writer.WriteZigZagVarInt32({0})"
+    },
+    {
+      "Name": "UInt32",
+      "Type": "uint",
+      "Encoding": "VarInt",
+      "Read": "reader.ReadVarInt32()",
+      "Write": "writer.WriteVarInt32({0})"
+    },
+    {
+      "Name": "UInt64",
+      "Type": "ulong",
+      "Encoding": "VarInt",
+      "Read": "reader.ReadVarInt64()",
+      "Write": "writer.WriteVarInt64({0})"
+    },
+    {
+      "Name": "Int64",
+      "Type": "long",
+      "Encoding": "VarInt",
+      "Read": "unchecked((long)reader.ReadVarInt64())",
+      "Write": "writer.WriteVarInt64(unchecked((ulong){0}))"
+    },
+    {
+      "Name": "Int64Z",
+      "Type": "long",
+      "Encoding": "VarInt",
+      "Read": "reader.ReadZigZagVarInt64()",
+      "Write": "writer.WriteZigZagVarInt64({0})"
+    },
+    {
+      "Name": "Single",
+      "Type": "float",
+      "Encoding": "Fixed4",
+      "Read": "reader.ReadSingle()",
+      "Write": "writer.WriteSingle({0})",
+      "SpanOptimized": true
+    },
+    {
+      "Name": "Double",
+      "Type": "double",
+      "Encoding": "Fixed8",
+      "Read": "reader.ReadDouble()",
+      "Write": "writer.WriteDouble({0})",
+      "SpanOptimized": true
+    },
+    {
+      "Name": "String",
+      "Type": "string",
+      "Encoding": "Prefixed",
+      "Read": "reader.ReadString()",
+      "Write": "writer.WriteString({0})"
+    },
+    {
+      "Name": "Boolean",
+      "Type": "bool",
+      "Encoding": "VarInt",
+      "Read": "reader.ReadByte() != 0",
+      "Write": "writer.WriteByte({0} ? (byte)1 : (byte)0)"
+    },
+    {
+      "Name": "ByteArray",
+      "Type": "byte[]",
+      "Encoding": "Prefixed",
+      "Read": "reader.ReadByteArray()",
+      "Write": "writer.WriteByteArray({0})"
+    },
+    {
+      "Name": "Guid",
+      "Type": "System.Guid",
+      "Encoding": "Prefixed"
+    },
+    {
+      "Name": "DateTime",
+      "Type": "System.DateTime",
+      "Encoding": "Fixed8"
+    },
+    {
+      "Name": "TimeSpan",
+      "Type": "System.TimeSpan",
+      "Encoding": "VarInt"
+    }
+  ]
+}

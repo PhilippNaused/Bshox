@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net472;net8.0;net9.0;net10.0</TargetFrameworks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);CA1000;CA1001;CA1002;CA1515;CA1822;CA2007;CS7022</NoWarn>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="*.log" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+    <PackageReference Include="System.IO.Hashing" />
+    <PackageReference Include="System.Text.Json"
+                      GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Text.Json.SourceGeneration">
+      <Private>true</Private>
+      <HintPath>$(PkgSystem_Text_Json)\analyzers\dotnet\roslyn4.4\cs\System.Text.Json.SourceGeneration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Bshox\Bshox.csproj"
+                      Aliases="bsx" />
+    <ProjectReference Include="..\..\src\Bshox.Generator\Bshox.Generator.csproj"
+                      SetTargetFramework="TargetFramework=netstandard2.0" />
+  </ItemGroup>
+
+</Project>
