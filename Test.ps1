@@ -21,4 +21,9 @@ Remove-Item -Path "$PSScriptRoot/Temp" -Recurse -Force -ErrorAction Ignore
 dotnet build --configuration $Configuration '.\tests\Bshox.Tests\' -t:PublishAll --no-dependencies -p:PublishDir="$PSScriptRoot/Temp/Bshox.Tests"
 
 # Run AOT tests using MTP
-dotnet test --no-ansi --test-modules "Temp/**/*.exe"
+if ($IsWindows) {
+  dotnet test --no-ansi --test-modules "Temp/**/Bshox.Tests.exe"
+}
+else {
+  dotnet test --no-ansi --test-modules "Temp/**/Bshox.Tests"
+}
