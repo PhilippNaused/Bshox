@@ -66,7 +66,11 @@ public static class Validation
         }
         else
         {
-            Directory.GetParent(path)!.Create();
+            var dir = Directory.GetParent(path)!;
+            if (!dir.Exists)
+            {
+                dir.Create();
+            }
             overwrite = true;
         }
 
