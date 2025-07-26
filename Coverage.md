@@ -3,16 +3,16 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 04-Jun-25 - 16:11:37                                                     |
+| Generated on:        | 26 Jul 2025 - 11:48:32                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 66                                                                       |
 | Files:               | 64                                                                       |
-| **Line coverage:**   | 84.9% (3686 of 4340)                                                     |
-| Covered lines:       | 3686                                                                     |
+| **Line coverage:**   | 84.9% (3699 of 4353)                                                     |
+| Covered lines:       | 3699                                                                     |
 | Uncovered lines:     | 654                                                                      |
-| Coverable lines:     | 4340                                                                     |
-| Total lines:         | 7474                                                                     |
+| Coverable lines:     | 4353                                                                     |
+| Total lines:         | 7492                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
@@ -76,7 +76,7 @@
 | Bshox.Generator.Diagnostics                        |      100% |
 | Bshox.Generator.Extensions.EnumerableExtensions    |     83.8% |
 | Bshox.Generator.Extensions.SourceWriterExtension   |      100% |
-| Bshox.Generator.Extensions.SymbolExtensions        |     86.1% |
+| Bshox.Generator.Extensions.SymbolExtensions        |     86.9% |
 | Bshox.Generator.Extensions.SyntaxExtensions        |      100% |
 | Bshox.Generator.Extensions.TypedConstantExtensions |      100% |
 | Bshox.Generator.Helpers.SourceWriter               |     89.4% |

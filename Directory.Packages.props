@@ -22,9 +22,9 @@
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="protobuf-net" Version="3.2.52" />
     <PackageVersion Include="SharpFuzz" Version="2.2.0" />
-    <PackageVersion Include="System.IO.Hashing" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="System.IO.Hashing" Version="10.0.0-preview.6.25358.103" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
-    <PackageVersion Include="System.Text.Json" Version="10.0.0-preview.5.25277.114" />
+    <PackageVersion Include="System.Text.Json" Version="10.0.0-preview.6.25358.103" />
     <PackageVersion Include="TUnit" Version="0.25.21" />
     <PackageVersion Include="TUnit.Core" Version="0.25.21" />
   </ItemGroup>

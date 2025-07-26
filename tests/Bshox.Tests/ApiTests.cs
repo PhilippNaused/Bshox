@@ -61,7 +61,7 @@ internal class ApiTests
         var ms = new MemoryStream();
         var stream = new BufferedStream(ms, 1);
         TestSerializer.Int32Array.Serialize(stream, s_Array);
-        stream.Flush();
+        await stream.FlushAsync();
         await Assert.That(ms.ToArray()).IsEquivalentTo(s_Expected);
     }
 
@@ -71,7 +71,7 @@ internal class ApiTests
         var ms = new MemoryStream();
         var stream = new BufferedStream(ms, 1);
         TestSerializer.Instance.Serialize(stream, s_Array, typeof(int[]));
-        stream.Flush();
+        await stream.FlushAsync();
         await Assert.That(ms.ToArray()).IsEquivalentTo(s_Expected);
     }
 
@@ -127,7 +127,9 @@ internal class ApiTests
     public async Task DeserializeFromStream2()
     {
         var stream = new MemoryStream(s_Expected);
+#pragma warning disable CA1849 // Call async methods when in an async method
         var result = TestSerializer.Instance.Deserialize(stream, typeof(int[]));
+#pragma warning restore CA1849 // Call async methods when in an async method
         await Assert.That(result).IsEquivalentTo(s_Array);
     }
 
@@ -161,7 +163,9 @@ internal class ApiTests
     {
         var stream = new MemoryStream(s_Expected);
         var buffered = new BufferedStream(stream, 1);
+#pragma warning disable CA1849 // Call async methods when in an async method
         var result = TestSerializer.Instance.Deserialize(buffered, typeof(int[]));
+#pragma warning restore CA1849 // Call async methods when in an async method
         await Assert.That(result).IsEquivalentTo(s_Array);
     }
 

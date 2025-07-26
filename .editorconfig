@@ -470,3 +470,6 @@ dotnet_diagnostic.CA2002.severity = error
 dotnet_diagnostic.CA2241.severity = error
 dotnet_diagnostic.CA2248.severity = error
 dotnet_diagnostic.CA2249.severity = warning
+
+[tests/**/*.cs]
+dotnet_diagnostic.CA2007.severity = none
