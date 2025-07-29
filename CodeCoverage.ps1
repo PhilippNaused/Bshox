@@ -11,9 +11,6 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-# restore ReportGenerator
-dotnet tool restore
-
 $ReportDir = 'coverage-report'
 $CoverageDir = 'coverage'
 
@@ -27,6 +24,7 @@ New-Item -Type Directory $CoverageDir -ErrorAction Ignore
 dotnet test --no-ansi --solution .\tests\UnitTests.slnf --coverage --coverage-output-format 'xml' --results-directory $CoverageDir -p:PublishAot=false
 
 # create the report
+dotnet tool restore
 dotnet ReportGenerator -Reports:"$CoverageDir/*" -TargetDir:"$ReportDir" -ReportTypes:'HtmlInline;MarkdownSummaryGithub'
 Copy-Item (Join-Path $ReportDir 'SummaryGithub.md') -Destination (Join-Path $PSScriptRoot 'Coverage.md') -Force
 
