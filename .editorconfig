@@ -473,3 +473,7 @@ dotnet_diagnostic.CA2249.severity = warning
 
 [tests/**/*.cs]
 dotnet_diagnostic.CA2007.severity = none
+
+[samples/*.cs]
+dotnet_diagnostic.IDE0040.severity = none
+dotnet_diagnostic.IDE0058.severity = none
