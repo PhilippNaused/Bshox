@@ -30,7 +30,8 @@ public static class ICSharpCodeExtensions
             UseDebugSymbols = false, // we don't need the debug symbols
             ShowDebugInfo = false, // we don't need the debug info
             LoadInMemory = true, // faster than loading from disk
-            FileScopedNamespaces = false
+            FileScopedNamespaces = false,
+            SortCustomAttributes = true, // sort attributes by name
         };
         var format = settings.CSharpFormattingOptions;
         format.IndentationString = "    "; // 4 spaces is the de facto standard for C#
