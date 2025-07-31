@@ -5,17 +5,6 @@ namespace Bshox.Tests;
 
 public class DateTimeOffsetSerializerTests
 {
-    [Before(Class)]
-    public static void Setup()
-    {
-        // fail if using MONO
-        if (Type.GetType("Mono.Runtime") is not null)
-        {
-            // TODO: fix usage of generic attribute in .NET Framework
-            Assert.Fail("This test is not supported on MONO");
-        }
-    }
-
     [Test]
     public async Task Test1()
     {

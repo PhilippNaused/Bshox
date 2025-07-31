@@ -1,4 +1,5 @@
 using System.IO.Hashing;
+using System.Runtime.InteropServices;
 using System.Text;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
@@ -30,8 +31,11 @@ public class FrameworksConfig : BaseConfig
         _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(CoreRuntime.Core10_0).WithId("Net100-x64"));
         _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(CoreRuntime.Core90).WithId("Net90-x64"));
         _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(CoreRuntime.Core80).WithId("Net80-x64").AsBaseline());
-        _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(ClrRuntime.Net48).WithId("Net48-x64"));
-        _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X86).WithRuntime(ClrRuntime.Net48).WithId("Net48-x86"));
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(ClrRuntime.Net48).WithId("Net48-x64"));
+            _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X86).WithRuntime(ClrRuntime.Net48).WithId("Net48-x86"));
+        }
         _ = HideColumns(Column.Platform);
         _ = HideColumns(Column.Runtime);
     }

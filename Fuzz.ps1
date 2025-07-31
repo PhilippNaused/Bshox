@@ -6,7 +6,7 @@ param (
   [Parameter(Mandatory)]
   [string]$ProjectName,
 
-  [ValidateSet('net8.0', 'net9.0', 'net10.0')]
+  [ValidateSet('net8.0', 'net10.0')]
   [Parameter()]
   [string]$tfm = 'net10.0',
 
