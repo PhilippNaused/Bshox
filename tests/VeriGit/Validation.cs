@@ -14,7 +14,7 @@ public static class Validation
 {
     public static Task Validate(string actual, string extension = "txt", string? targetName = null, [CallerFilePath] string callerFilePath = "")
     {
-        string sourceDir = Directory.GetParent(callerFilePath)?.FullName ?? throw new InvalidOperationException();
+        string sourceDir = Path.GetDirectoryName(callerFilePath) ?? throw new InvalidOperationException("Caller file path directory is null");
         string fileName = GetFilename(targetName);
         fileName = $"{fileName}.{extension}";
         var filePath = Path.Combine(sourceDir, "Snapshots", fileName);
