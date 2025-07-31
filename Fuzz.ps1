@@ -20,7 +20,7 @@ $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
 if (-Not $IsLinux) {
-  throw "OS not supported. Use Linux instead."
+  throw 'OS not supported. Use Linux instead.'
 }
 
 dotnet tool restore
@@ -30,8 +30,8 @@ $inDir = Get-Item ".\tests\fuzz\$ProjectName\TestCases"
 
 $timeout = 10000
 
-$outputDir = "bin"
-$findingsDir = "findings"
+$outputDir = 'bin'
+$findingsDir = 'findings'
 
 $projectDll = "$ProjectName.dll"
 $target = Join-Path $outputDir $ProjectName
@@ -47,23 +47,23 @@ if (Test-Path $findingsDir) {
 dotnet publish $project -c Debug -f $tfm -o $outputDir
 
 $exclusions = @(
-  "dnlib.dll",
-  "SharpFuzz.dll",
-  "SharpFuzz.Common.dll",
+  'dnlib.dll',
+  'SharpFuzz.dll',
+  'SharpFuzz.Common.dll',
   $projectDll
 )
 
-$fuzzingTargets = Get-ChildItem $outputDir -Filter "*.dll" `
+$fuzzingTargets = Get-ChildItem $outputDir -Filter '*.dll' `
 | Where-Object { $_.Name -notin $exclusions } `
-| Where-Object { $_.Name -notlike "System.*.dll" }
+| Where-Object { $_.Name -notlike 'System.*.dll' }
 
 if (($fuzzingTargets | Measure-Object).Count -eq 0) {
-  throw "No fuzzing targets found"
+  throw 'No fuzzing targets found'
 }
 
 foreach ($fuzzingTarget in $fuzzingTargets) {
   Write-Output "Instrumenting $fuzzingTarget"
-  dotnet sharpfuzz $fuzzingTarget.FullName "Bshox"
+  dotnet sharpfuzz $fuzzingTarget.FullName 'Bshox'
 
   if ($LastExitCode -ne 0) {
     throw "An error occurred while instrumenting $fuzzingTarget"
@@ -89,7 +89,7 @@ try {
 
   $arg = $null
   if ($Processors -gt 1) {
-    $arg = "-M", "Main"
+    $arg = '-M', 'Main'
   }
 
   afl-fuzz -i $inDir -o $findingsDir -t $timeout $arg $target -m 50 -t 500
@@ -100,5 +100,5 @@ finally {
 
   # Sanitize filenames
   # : is not allowed in filenames on Windows and causes issues since WSL will replace it with  (0xF03A)
-  Get-ChildItem $findingsDir -Recurse -Filter "*:*" | ForEach-Object { Rename-Item $_ -NewName ($_.Name -replace ":", "=") }
+  Get-ChildItem $findingsDir -Recurse -Filter '*:*' | ForEach-Object { Rename-Item $_ -NewName ($_.Name -replace ':', '=') }
 }

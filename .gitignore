@@ -411,4 +411,4 @@ gen/
 # afl-fuzz results
 /findings/
 
-/Temp/
+/temp/

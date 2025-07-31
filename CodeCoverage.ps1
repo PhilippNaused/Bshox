@@ -21,13 +21,13 @@ Remove-Item $ReportDir -Recurse -ErrorAction Ignore
 New-Item -Type Directory $CoverageDir -ErrorAction Ignore
 
 # Use solution filter to only test projects
-dotnet test --no-ansi --solution .\tests\UnitTests.slnf --coverage --coverage-output-format 'xml' --results-directory $CoverageDir -p:PublishAot=false
+dotnet test --no-ansi --solution '.\tests\UnitTests.slnf' --coverage --coverage-output-format 'xml' --results-directory $CoverageDir -p:PublishAot=false
 
 # create the report
 dotnet tool restore
 dotnet ReportGenerator -Reports:"$CoverageDir/*" -TargetDir:"$ReportDir" -ReportTypes:'HtmlInline;MarkdownSummaryGithub'
-Copy-Item (Join-Path $ReportDir 'SummaryGithub.md') -Destination (Join-Path $PSScriptRoot 'Coverage.md') -Force
+Copy-Item (Join-Path $ReportDir 'SummaryGithub.md') -Destination 'Coverage.md' -Force
 
 if ($Open) {
-  Invoke-Item $ReportDir\index.html
+  Invoke-Item (Join-Path $ReportDir 'index.html')
 }
