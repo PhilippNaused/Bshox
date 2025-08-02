@@ -7,6 +7,7 @@
     <BeforePack>$(BeforePack);IncludeAnalyzersInPackage</BeforePack>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -52,6 +53,9 @@
     <None Include="Bshox.targets"
           Pack="true"
           PackagePath="build/;buildTransitive/" />
+    <None Include="$(MSBuildThisFileDirectory)..\..\README.md"
+          Pack="true"
+          PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
