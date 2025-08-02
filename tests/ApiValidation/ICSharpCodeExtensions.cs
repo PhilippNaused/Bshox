@@ -84,16 +84,17 @@ public static class ICSharpCodeExtensions
         var ts = decompiler.TypeSystem;
         var module = ts.MainModule;
         using var peFile = new PEFile(assembly);
-        var sb = new StringBuilder().AppendLine($"// {module.FullAssemblyName}")
+        var meta = module.MetadataFile!;
+        var sb = new StringBuilder().AppendLine($"// {module.AssemblyName}, PublicKeyToken={meta.Metadata.GetPublicKeyToken()}")
             .AppendLine($"// Platform: {GetPlatformDisplayName(peFile)}")
-            .AppendLine($"// Runtime: {module.MetadataFile!.Metadata.MetadataVersion}");
+            .AppendLine($"// Runtime: {meta.Metadata.MetadataVersion}");
 
-        foreach (var reference in module.MetadataFile.AssemblyReferences)
+        foreach (var reference in meta.AssemblyReferences)
         {
             sb = sb.AppendLine($"// Reference: {reference.FullName}");
         }
 
-        foreach (var reference in module.MetadataFile.ModuleReferences)
+        foreach (var reference in meta.ModuleReferences)
         {
             sb = sb.AppendLine($"// Reference: {reference.Name}");
         }
@@ -183,7 +184,9 @@ public static class ICSharpCodeExtensions
             "System.Reflection.AssemblyInformationalVersionAttribute", // contains the git commit
             "System.Runtime.CompilerServices.CompilerGeneratedAttribute", // don't care. Also ruins the formatting.
             "System.Runtime.CompilerServices.MethodImplAttribute", // doesn't affect the API
-            "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" // doesn't affect the API
+            "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute", // doesn't affect the API
+            "System.Reflection.AssemblyFileVersionAttribute",
+            "System.Reflection.AssemblyVersionAttribute"
         ];
 
         public override void VisitAttributeSection(AttributeSection attributeSection)
