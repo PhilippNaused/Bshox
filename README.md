@@ -1,6 +1,8 @@
 # Bshox
 
-Bshox is a binary serialization framework for C# optimized for speed and AOT/Trim compatibility.
+![GitHub Release](https://img.shields.io/github/v/release/PhilippNaused/Bshox?include_prereleases)
+
+Bshox is a binary serialization framework for C# optimized for speed and AOT/Trim compatibility.\
 It uses a similar syntax existing frameworks like `protobuf-net` or `MessagePack`, but instead of using Reflection, Bshox relies **exclusively** on compile-time code generation for maximum performance and minimal overhead.
 
 ## Features
