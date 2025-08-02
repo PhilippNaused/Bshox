@@ -5,7 +5,7 @@ It uses a similar syntax existing frameworks like `protobuf-net` or `MessagePack
 
 ## Features
 
-- Higher performance and lower memory usage compared to other frameworks
+- Higher performance and lower memory usage compared to other frameworks (See: [benchmarks](/docs/benchmarks/results/))
 - .NET Standard 2.0 compatible
 - Full AOT and Trim support
 - **No** reflection
