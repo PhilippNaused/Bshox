@@ -33,10 +33,10 @@ jobs:
       run: dotnet build -p:PublishAot=false --configuration Release
 
     - name: 🧪 Test
-      run: dotnet test --no-build --configuration Release
+      run: dotnet test --no-ansi --no-progress --disable-logo --no-build --configuration Release
 
     - name: 🔨 Build AOT tests
       run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$GITHUB_WORKSPACE/temp/Bshox.Tests" --configuration Release
 
     - name: 🧪 Test AOT
-      run: dotnet test --test-modules "temp/**/Bshox.Tests"
+      run: dotnet test --no-ansi --no-progress --disable-logo --test-modules "temp/**/Bshox.Tests"

@@ -14,7 +14,7 @@ $PSNativeCommandUseErrorActionPreference = $true
 dotnet build --configuration $Configuration -p:PublishAot=false
 
 # Run regular tests using MTP
-dotnet test --no-ansi --configuration $Configuration --no-build
+dotnet test --no-ansi --no-progress --disable-logo --configuration $Configuration --no-build
 
 # Publish AOT tests
 Remove-Item -Path "$PSScriptRoot\temp\*" -Recurse -Force -ErrorAction Ignore
@@ -22,8 +22,8 @@ dotnet build --configuration $Configuration "$PSScriptRoot\tests\Bshox.Tests" -t
 
 # Run AOT tests using MTP
 if ($IsWindows) {
-  dotnet test --no-ansi --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests.exe"
+  dotnet test --no-ansi --no-progress --disable-logo --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests.exe"
 }
 else {
-  dotnet test --no-ansi --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests"
+  dotnet test --no-ansi --no-progress --disable-logo --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests"
 }

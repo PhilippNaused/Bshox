@@ -9,7 +9,6 @@
     <Nullable>enable</Nullable>
     <InvariantGlobalization>true</InvariantGlobalization>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
     <IsWindows>$([System.OperatingSystem]::IsWindows())</IsWindows>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Bshox.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>

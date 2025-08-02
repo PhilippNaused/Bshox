@@ -43,7 +43,7 @@ jobs:
       run: dotnet build --no-restore --property:Version=${{ inputs.version }} --configuration Release
 
     - name: 🧪 Test
-      run: dotnet test --no-build --verbosity quiet --configuration Release
+      run: dotnet test --no-ansi --no-progress --disable-logo --no-build --configuration Release
 
     - name: 📦 Pack
       run: dotnet pack --no-build --property:Version=${{ inputs.version }} --output ./publish --configuration Release
