@@ -39,8 +39,9 @@
     <Description>High performance binary serialization for C#</Description>
     <Author>Philipp Naused</Author>
     <Company>$(Author)</Company>
+    <RepositoryUrl>https://github.com/PhilippNaused/Bshox</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <PackageProjectUrl>https://github.com/PhilippNaused/Bshox</PackageProjectUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
     <Copyright>© $(Company)</Copyright>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
