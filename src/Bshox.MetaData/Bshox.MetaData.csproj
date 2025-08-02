@@ -7,6 +7,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <!-- Not yet ready -->
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
