@@ -32,6 +32,8 @@ public static class BshoxContractExtensions
         return buffer.WrittenMemory.ToArray();
     }
 
+    // TODO: add async version
+
     #endregion Serialize
 
     #region Deserialize

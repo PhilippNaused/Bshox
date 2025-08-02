@@ -16,6 +16,10 @@ internal static class GeneratedContract
             return false;
         }
         var members = GetMembers(parameters, context, (INamedTypeSymbol)symbol);
+        if (members.Count == 0)
+        {
+            // TODO: create warning diagnostic for no members
+        }
         string escapeFullName = ContractHelper.EscapeFullName(symbol);
         var generator = new ContractGenerator(parameters, members, $"{escapeFullName}__BshoxContract");
         var dependencies = members.Select(member => member.ContractDemand).ToImmutableArray();

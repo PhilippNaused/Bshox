@@ -64,7 +64,7 @@ public class GeneratedContractTests
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
+        await Assert.That(diagnostics).IsEmpty(); // TODO: fix. There should be a warning here
         await Assert.That(generatedOutput).IsNotEmpty();
     }
 
