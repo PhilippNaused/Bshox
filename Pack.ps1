@@ -12,5 +12,5 @@ if (Test-Path '.\publish') {
   Remove-Item '.\publish\*' -Recurse -Force
 }
 
-dotnet build --configuration Release '.\src\Bshox.MetaData'
-dotnet pack --configuration Release --output '.\publish' --no-build
+dotnet build --configuration Release '.\src\Packages.slnf'
+dotnet pack --configuration Release '.\src\Packages.slnf' --output '.\publish' --no-build

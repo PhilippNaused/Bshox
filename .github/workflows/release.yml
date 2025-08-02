@@ -34,16 +34,16 @@ jobs:
           9.0.x
 
     - name: 🛠️ Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/Packages.slnf
 
     - name: 🔨 Build Generator
-      run: dotnet build --no-restore --property:Version=${{ inputs.version }} --configuration Release src/Bshox.Generator/
+      run: dotnet build  src/Bshox.Generator/ --no-restore --property:Version=${{ inputs.version }} --configuration Release
 
     - name: 🔨 Build
-      run: dotnet build --no-restore --property:Version=${{ inputs.version }} --configuration Release
+      run: dotnet build src/Packages.slnf --no-restore --property:Version=${{ inputs.version }} --configuration Release
 
     - name: 📦 Pack
-      run: dotnet pack --no-build --property:Version=${{ inputs.version }} --output ./publish --configuration Release
+      run: dotnet pack src/Packages.slnf --no-build --property:Version=${{ inputs.version }} --output ./publish --configuration Release
 
     - uses: actions/upload-artifact@v4
       name: 🚀 Upload
