@@ -10,7 +10,7 @@
     <!-- <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles> -->
     <!-- <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath> -->
     <TrimmerSingleWarn>true</TrimmerSingleWarn>
-    <!-- Bug in TUnit -->
+    <!-- Bug in TUnit https://github.com/thomhurst/TUnit/issues/2410 -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);IL2104;IL3053;IL3050</WarningsNotAsErrors>
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
     <PublishAot Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</PublishAot>
