@@ -18,7 +18,6 @@
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
-    <PackageReference Include="System.IO.Hashing" />
     <PackageReference Include="System.Text.Json"
                       GeneratePathProperty="true" />
   </ItemGroup>

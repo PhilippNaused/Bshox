@@ -1,6 +1,5 @@
-using System.IO.Hashing;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
@@ -13,7 +12,8 @@ public class BaseConfig : ManualConfig
 {
     public BaseConfig()
     {
-        ArtifactsPath = Path.Combine("tests", nameof(Benchmark), "results", Crc32.HashToUInt32(Encoding.UTF8.GetBytes(Environment.MachineName)).ToString());
+        static string GetMyPath([CallerFilePath] string filePath = "") => filePath; // Get the path of this file
+        ArtifactsPath = Path.Combine(GetMyPath(), "../../../docs/benchmarks");
         Orderer = new DefaultOrderer(SummaryOrderPolicy.Declared);
         _ = HideColumns(StatisticColumn.StdDev);
         _ = HideColumns(StatisticColumn.Median);

@@ -398,8 +398,8 @@ FodyWeavers.xsd
 *.sln.iml
 
 # Benchmark results
-tests/Benchmark/results/**/*.*
-!tests/Benchmark/results/**/*.md
+docs/benchmarks/**/*.*
+!docs/benchmarks/**/*.md
 
 # Source generator output
 gen/

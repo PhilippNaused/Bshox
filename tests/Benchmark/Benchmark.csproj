@@ -23,7 +23,6 @@
     </PackageReference>
     <PackageReference Include="MessagePack" />
     <PackageReference Include="protobuf-net" />
-    <PackageReference Include="System.IO.Hashing" />
     <PackageReference Include="System.Text.Json"
                       Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))" />
   </ItemGroup>
