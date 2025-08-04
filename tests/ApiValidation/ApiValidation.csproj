@@ -10,6 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Polyfill.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="ICSharpCode.Decompiler" />
     <PackageReference Include="TUnit" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />

@@ -159,29 +159,29 @@ public class CustomContractTests
         await Assert.That(generatedOutput).IsEmpty();
     }
 
-    [Test]
-    [Explicit] // not implemented yet
-    public async Task CustomContractFromGenericMethod()
-    {
-        const string sourceCode = """
-                                  using Bshox;
-                                  using Bshox.Attributes;
-                                  namespace TestModels;
+    // [Test]
+    // [Explicit] // not implemented yet
+    // public async Task CustomContractFromGenericMethod()
+    // {
+    //     const string sourceCode = """
+    //                               using Bshox;
+    //                               using Bshox.Attributes;
+    //                               namespace TestModels;
 
-                                  internal class Test1
-                                  {
-                                      public static BshoxContract<T> Contract1<T>() => null;
-                                  }
+    //                               internal class Test1
+    //                               {
+    //                                   public static BshoxContract<T> Contract1<T>() => null;
+    //                               }
 
-                                  [BshoxSerializer(typeof(int))]
-                                  [BshoxDefaultContract(typeof(Test1), "Contract1")]
-                                  public partial class CustomContracts1;
-                                  """;
-        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+    //                               [BshoxSerializer(typeof(int))]
+    //                               [BshoxDefaultContract(typeof(Test1), "Contract1")]
+    //                               public partial class CustomContracts1;
+    //                               """;
+    //     var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
-        await Utils.ValidateOutput(generatedOutput, 1);
-    }
+    //     await Assert.That(diagnostics).IsEmpty();
+    //     await Utils.ValidateOutput(generatedOutput, 1);
+    // }
 
     [Test]
     public async Task CustomContractGenericProperty()
@@ -207,30 +207,30 @@ public class CustomContractTests
         await Utils.ValidateOutput(generatedOutput, 1);
     }
 
-    [Test]
-    [Explicit] // not implemented yet
-    public async Task CustomContractUnboundGeneric()
-    {
-        const string sourceCode = """
-                                  using Bshox;
-                                  using Bshox.Attributes;
-                                  using System.Collections.Generic;
-                                  namespace TestModels;
+    // [Test]
+    // [Explicit] // not implemented yet
+    // public async Task CustomContractUnboundGeneric()
+    // {
+    //     const string sourceCode = """
+    //                               using Bshox;
+    //                               using Bshox.Attributes;
+    //                               using System.Collections.Generic;
+    //                               namespace TestModels;
 
-                                  internal class Test1<T>
-                                  {
-                                      public static BshoxContract<List<T>> Contract1 => null;
-                                  }
+    //                               internal class Test1<T>
+    //                               {
+    //                                   public static BshoxContract<List<T>> Contract1 => null;
+    //                               }
 
-                                  [BshoxSerializer(typeof(List<int>))]
-                                  [BshoxDefaultContract(typeof(Test1<>), "Contract1")]
-                                  public partial class CustomContracts1;
-                                  """;
-        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+    //                               [BshoxSerializer(typeof(List<int>))]
+    //                               [BshoxDefaultContract(typeof(Test1<>), "Contract1")]
+    //                               public partial class CustomContracts1;
+    //                               """;
+    //     var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
-        await Utils.ValidateOutput(generatedOutput, 1);
-    }
+    //     await Assert.That(diagnostics).IsEmpty();
+    //     await Utils.ValidateOutput(generatedOutput, 1);
+    // }
 
     [Test]
     public async Task CustomContractFromField()
