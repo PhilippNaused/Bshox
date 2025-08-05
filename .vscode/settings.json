@@ -8,6 +8,7 @@
     "netstandard",
     "Protobuf",
     "Randomizer",
+    "Reentrancy",
     "Templating",
     "Trimmable",
     "Typeless",
