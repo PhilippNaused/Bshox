@@ -3,16 +3,16 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 26 Jul 2025 - 11:48:32                                                   |
+| Generated on:        | 5 Aug 2025 - 21:02:18                                                    |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 66                                                                       |
 | Files:               | 64                                                                       |
-| **Line coverage:**   | 84.9% (3699 of 4353)                                                     |
-| Covered lines:       | 3699                                                                     |
+| **Line coverage:**   | 84.9% (3702 of 4356)                                                     |
+| Covered lines:       | 3702                                                                     |
 | Uncovered lines:     | 654                                                                      |
-| Coverable lines:     | 4353                                                                     |
-| Total lines:         | 7492                                                                     |
+| Coverable lines:     | 4356                                                                     |
+| Total lines:         | 7498                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
@@ -52,38 +52,38 @@
 | Bshox.Internals.StreamSequence                                        |     92.8% |
 
 </details>
-<details><summary>Bshox.Generator.dll - 90.9%</summary>
+<details><summary>Bshox.Generator.dll - 91%</summary>
 
-| **Name**                                           |  **Line** |
-|:---------------------------------------------------|----------:|
-| **Bshox.Generator.dll**                            | **90.9%** |
-| Bshox.Generator.BshoxGenerator                     |       90% |
-| Bshox.Generator.Constants                          |      100% |
-| Bshox.Generator.ContractResolver                   |       88% |
-| Bshox.Generator.Contracts.ContractDemand           |     90.9% |
-| Bshox.Generator.Contracts.ContractGenerator        |     90.3% |
-| Bshox.Generator.Contracts.ContractHelper           |       95% |
-| Bshox.Generator.Contracts.ContractInfo             |     74.2% |
-| Bshox.Generator.Contracts.GeneratedContract        |     93.7% |
-| Bshox.Generator.Contracts.InlineContractData       |      100% |
-| Bshox.Generator.Contracts.KnownTypeInfo            |     95.3% |
-| Bshox.Generator.Contracts.SurrogateContract        |      100% |
-| Bshox.Generator.Contracts.SurrogateGenerator       |     96.8% |
-| Bshox.Generator.Data.ContractParameters            |      100% |
-| Bshox.Generator.Data.KnownTypeSymbols              |      100% |
-| Bshox.Generator.Data.MemberInfo                    |     89.4% |
-| Bshox.Generator.DiagnosticException                |        0% |
-| Bshox.Generator.Diagnostics                        |      100% |
-| Bshox.Generator.Extensions.EnumerableExtensions    |     83.8% |
-| Bshox.Generator.Extensions.SourceWriterExtension   |      100% |
-| Bshox.Generator.Extensions.SymbolExtensions        |     86.9% |
-| Bshox.Generator.Extensions.SyntaxExtensions        |      100% |
-| Bshox.Generator.Extensions.TypedConstantExtensions |      100% |
-| Bshox.Generator.Helpers.SourceWriter               |     89.4% |
-| Bshox.Generator.ProviderExtensions                 |      100% |
-| Bshox.Generator.SerializerGenerator                |     92.6% |
-| Bshox.Generator.SerializerInfo                     |     95.6% |
-| Bshox.Generator.UseDepthLockCorrectly              |     88.5% |
+| **Name**                                           | **Line** |
+|:---------------------------------------------------|---------:|
+| **Bshox.Generator.dll**                            |  **91%** |
+| Bshox.Generator.BshoxGenerator                     |      90% |
+| Bshox.Generator.Constants                          |     100% |
+| Bshox.Generator.ContractResolver                   |      88% |
+| Bshox.Generator.Contracts.ContractDemand           |    90.9% |
+| Bshox.Generator.Contracts.ContractGenerator        |    90.3% |
+| Bshox.Generator.Contracts.ContractHelper           |      95% |
+| Bshox.Generator.Contracts.ContractInfo             |    74.2% |
+| Bshox.Generator.Contracts.GeneratedContract        |    94.1% |
+| Bshox.Generator.Contracts.InlineContractData       |     100% |
+| Bshox.Generator.Contracts.KnownTypeInfo            |    95.3% |
+| Bshox.Generator.Contracts.SurrogateContract        |     100% |
+| Bshox.Generator.Contracts.SurrogateGenerator       |    96.8% |
+| Bshox.Generator.Data.ContractParameters            |     100% |
+| Bshox.Generator.Data.KnownTypeSymbols              |     100% |
+| Bshox.Generator.Data.MemberInfo                    |    89.4% |
+| Bshox.Generator.DiagnosticException                |       0% |
+| Bshox.Generator.Diagnostics                        |     100% |
+| Bshox.Generator.Extensions.EnumerableExtensions    |    83.8% |
+| Bshox.Generator.Extensions.SourceWriterExtension   |     100% |
+| Bshox.Generator.Extensions.SymbolExtensions        |    86.9% |
+| Bshox.Generator.Extensions.SyntaxExtensions        |     100% |
+| Bshox.Generator.Extensions.TypedConstantExtensions |     100% |
+| Bshox.Generator.Helpers.SourceWriter               |    89.4% |
+| Bshox.Generator.ProviderExtensions                 |     100% |
+| Bshox.Generator.SerializerGenerator                |    92.6% |
+| Bshox.Generator.SerializerInfo                     |    95.6% |
+| Bshox.Generator.UseDepthLockCorrectly              |    88.5% |
 
 </details>
 <details><summary>Bshox.MetaData.dll - 87.6%</summary>
