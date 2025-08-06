@@ -1,6 +1,5 @@
 using Bshox.Attributes;
 using Bshox.Utils;
-using TUnit.Assertions.AssertConditions.Throws;
 
 #pragma warning disable CA2000 // Dispose objects before losing scope
 
