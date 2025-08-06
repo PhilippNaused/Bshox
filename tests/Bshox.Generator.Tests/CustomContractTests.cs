@@ -159,6 +159,7 @@ public class CustomContractTests
         await Assert.That(generatedOutput).IsEmpty();
     }
 
+    // Bug: https://github.com/thomhurst/TUnit/issues/2755
     // [Test]
     // [Explicit] // not implemented yet
     // public async Task CustomContractFromGenericMethod()
@@ -207,6 +208,7 @@ public class CustomContractTests
         await Utils.ValidateOutput(generatedOutput, 1);
     }
 
+    // Bug: https://github.com/thomhurst/TUnit/issues/2755
     // [Test]
     // [Explicit] // not implemented yet
     // public async Task CustomContractUnboundGeneric()
