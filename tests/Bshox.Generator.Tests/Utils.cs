@@ -77,9 +77,7 @@ public static class Utils
             .RunGeneratorsAndUpdateCompilation(compilation,
                 out var outputCompilation,
                 out diagnostics, TestContext.Current?.CancellationToken ?? CancellationToken.None);
-#pragma warning disable TUnit0200 // Avoid using '.Result'
         diagnostics = [.. diagnostics, .. outputCompilation.GetDiagnostics(TestContext.Current?.CancellationToken ?? CancellationToken.None), .. x.GetAllDiagnosticsAsync().Result];
-#pragma warning restore TUnit0200 // Avoid using '.Result'
 
         diagnostics = [.. diagnostics.Distinct()];
 
@@ -134,9 +132,7 @@ public static class Utils
     {
         private protected override void Process(SourceProductionContext context, KnownTypeSymbols knownTypes, ClassDeclarationSyntax classDeclaration, INamedTypeSymbol symbol)
         {
-#pragma warning disable TUnit0200
             action(context, knownTypes, classDeclaration, symbol).GetAwaiter().GetResult();
-#pragma warning restore TUnit0200
         }
     }
 }
