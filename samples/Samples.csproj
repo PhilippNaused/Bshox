@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\tests\Polyfill.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="IsExternalInit">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
