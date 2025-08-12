@@ -124,6 +124,22 @@ internal class ApiTests
     }
 
     [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task DeserializeFromMemoryStreamOffset(bool publiclyVisible)
+    {
+        const int offset = 70;
+        byte[] offsetArray = new byte[offset + s_Expected.Length + 42];
+        s_Expected.CopyTo(offsetArray, offset);
+        const int offset2 = 20;
+        var stream = new MemoryStream(offsetArray, offset - offset2, s_Expected.Length + offset2, true, publiclyVisible);
+        stream.Position += offset2; // skip some bytes
+        int[] result = TestSerializer.Int32Array.Deserialize(stream);
+        await Assert.That(stream.Position).IsEqualTo(s_Expected.Length + offset2);
+        await Assert.That(result).IsEquivalentTo(s_Array);
+    }
+
+    [Test]
     public async Task DeserializeFromStream2()
     {
         var stream = new MemoryStream(s_Expected);

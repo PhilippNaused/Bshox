@@ -94,20 +94,25 @@ public static class BshoxContractExtensions
         return value;
     }
 
-    internal static bool TryGetBuffer(MemoryStream memoryStream, out ReadOnlyMemory<byte> memory)
+    internal static bool TryGetBuffer(MemoryStream memoryStream, out ArraySegment<byte> buffer)
     {
-        if (memoryStream.TryGetBuffer(out var buffer))
+        if (memoryStream.TryGetBuffer(out buffer))
         {
-            memory = buffer.AsMemory((int)memoryStream.Position);
             return true;
         }
 
         // the _exposable flag is not set.
         // => use reflection to get the private _buffer field
-        byte[]? buffer2 = null;
+        byte[]? array = null;
+        int? origin = null;
         try
         {
-            buffer2 = typeof(MemoryStream).GetField("_buffer", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(memoryStream) as byte[];
+            array = typeof(MemoryStream).GetField("_buffer", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(memoryStream) as byte[];
+            var obj = typeof(MemoryStream).GetField("_origin", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(memoryStream);
+            if (obj is int originValue)
+            {
+                origin = originValue;
+            }
         }
 #pragma warning disable CA1031 // Do not catch general exception types
         catch
@@ -115,20 +120,21 @@ public static class BshoxContractExtensions
         {
             Debug.Fail("Failed to get the _buffer field from MemoryStream.");
         }
-        if (buffer2 is not null)
+        if (array is not null && origin is not null)
         {
-            memory = buffer2.AsMemory((int)memoryStream.Position);
+            buffer = new ArraySegment<byte>(array, origin.Value, (int)memoryStream.Length);
             return true;
         }
 
-        memory = default;
+        buffer = default;
         return false;
     }
 
     private static bool TryDeserialize<T>(this BshoxContract<T> contract, MemoryStream memoryStream, [NotNullWhen(true)] out T? value)
     {
-        if (TryGetBuffer(memoryStream, out var memory))
+        if (TryGetBuffer(memoryStream, out var buffer))
         {
+            var memory = buffer.AsMemory((int)memoryStream.Position);
             var reader = new BshoxReader(memory);
             contract.Deserialize(ref reader, out value!);
             memoryStream.Position += reader.Consumed;
