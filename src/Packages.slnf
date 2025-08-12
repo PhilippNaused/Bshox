@@ -3,7 +3,7 @@
     "path": "..\\Bshox.slnx",
     "projects": [
       "src\\Bshox.Generator\\Bshox.Generator.csproj",
-      "src\\Bshox.MetaData\\Bshox.MetaData.csproj",
+      "src\\Bshox.Utils\\Bshox.Utils.csproj",
       "src\\Bshox\\Bshox.csproj"
     ]
   }

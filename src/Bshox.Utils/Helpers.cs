@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 internal static class Helpers
 {

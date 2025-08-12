@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public sealed class Fixed4(float Value) : BshoxValue(BshoxCode.Fixed4)
 {

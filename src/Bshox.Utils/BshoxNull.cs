@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public sealed class BshoxNull : BshoxValue
 {

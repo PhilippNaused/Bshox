@@ -39,7 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Bshox.MetaData\Bshox.MetaData.csproj" />
+    <ProjectReference Include="..\..\src\Bshox.Utils\Bshox.Utils.csproj" />
     <ProjectReference Include="..\..\src\Bshox\Bshox.csproj" />
     <ProjectReference Include="..\..\src\Bshox.Generator\Bshox.Generator.csproj"
                       OutputItemType="Analyzer"

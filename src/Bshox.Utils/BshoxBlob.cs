@@ -1,7 +1,7 @@
 using System.Text;
 using Bshox.Internals;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public sealed class BshoxBlob(byte[] Data) : BshoxValue(BshoxCode.Prefixed)
 {

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Bshox.Internals;
 #endif
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 [Serializable]
 public sealed class BshoxParserException : BshoxException

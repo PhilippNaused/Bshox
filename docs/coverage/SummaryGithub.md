@@ -3,7 +3,7 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 5 Aug 2025 - 21:13:10                                                    |
+| Generated on:        | 12 Aug 2025 - 19:20:37                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 66                                                                       |
@@ -86,22 +86,22 @@
 | Bshox.Generator.UseDepthLockCorrectly              |    88.5% |
 
 </details>
-<details><summary>Bshox.MetaData.dll - 87.6%</summary>
+<details><summary>Bshox.Utils.dll - 87.6%</summary>
 
-| **Name**                        |  **Line** |
-|:--------------------------------|----------:|
-| **Bshox.MetaData.dll**          | **87.6%** |
-| Bshox.Meta.BshoxArray           |       74% |
-| Bshox.Meta.BshoxBlob            |     85.7% |
-| Bshox.Meta.BshoxNull            |      100% |
-| Bshox.Meta.BshoxObject          |     74.6% |
-| Bshox.Meta.BshoxParserException |       80% |
-| Bshox.Meta.BshoxTextParser      |     89.8% |
-| Bshox.Meta.BshoxValue           |      100% |
-| Bshox.Meta.Extensions           |      100% |
-| Bshox.Meta.Fixed4               |      100% |
-| Bshox.Meta.Fixed8               |      100% |
-| Bshox.Meta.Helpers              |      100% |
-| Bshox.Meta.VarInt               |     88.8% |
+| **Name**                         |  **Line** |
+|:---------------------------------|----------:|
+| **Bshox.Utils.dll**              | **87.6%** |
+| Bshox.Utils.BshoxArray           |       74% |
+| Bshox.Utils.BshoxBlob            |     85.7% |
+| Bshox.Utils.BshoxNull            |      100% |
+| Bshox.Utils.BshoxObject          |     74.6% |
+| Bshox.Utils.BshoxParserException |       80% |
+| Bshox.Utils.BshoxTextParser      |     89.8% |
+| Bshox.Utils.BshoxValue           |      100% |
+| Bshox.Utils.Extensions           |      100% |
+| Bshox.Utils.Fixed4               |      100% |
+| Bshox.Utils.Fixed8               |      100% |
+| Bshox.Utils.Helpers              |      100% |
+| Bshox.Utils.VarInt               |     88.8% |
 
 </details>

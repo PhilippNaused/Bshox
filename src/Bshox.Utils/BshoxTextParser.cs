@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 // https://github.com/protocolbuffers/protoscope/blob/main/language.txt
 public partial class BshoxTextParser

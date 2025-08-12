@@ -1,4 +1,4 @@
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 internal static class Constants
 {

@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public sealed class VarInt(ulong Value) : BshoxValue(BshoxCode.VarInt)
 {

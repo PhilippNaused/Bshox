@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 #pragma warning disable CA1710 // Identifiers should have correct suffix
 public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection<KeyValuePair<uint, BshoxValue>>

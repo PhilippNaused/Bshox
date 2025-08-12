@@ -1,7 +1,7 @@
 using Benchmark.Models;
 using BenchmarkDotNet.Attributes;
 using Bshox;
-using Bshox.Meta;
+using Bshox.Utils;
 
 namespace Benchmark;
 

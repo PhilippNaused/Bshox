@@ -1,11 +1,11 @@
 using System.Collections.Immutable;
+using System.Diagnostics;
 using Bshox.Attributes;
 using Bshox.Generator.Contracts;
 using Bshox.Generator.Data;
 using Bshox.Generator.Extensions;
 using Bshox.Generator.Helpers;
 using Microsoft.CodeAnalysis;
-using System.Diagnostics;
 
 namespace Bshox.Generator;
 

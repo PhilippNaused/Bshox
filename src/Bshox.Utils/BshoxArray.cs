@@ -2,7 +2,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Text;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), IList<BshoxValue>
 {

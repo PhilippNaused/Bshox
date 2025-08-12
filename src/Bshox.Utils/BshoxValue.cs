@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public abstract class BshoxValue
 {

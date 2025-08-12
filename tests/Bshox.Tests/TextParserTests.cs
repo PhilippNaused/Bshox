@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
-using Bshox.Meta;
 using Bshox.TestUtils;
+using Bshox.Utils;
 using TUnit.Assertions.AssertConditions.Throws;
 
 namespace Bshox.Tests;

@@ -11,7 +11,7 @@
             <ModulePaths>
               <Include>
                 <ModulePath>\\Bshox\.dll$</ModulePath>
-                <ModulePath>\\Bshox\.MetaData\.dll$</ModulePath>
+                <ModulePath>\\Bshox\.Utils\.dll$</ModulePath>
                 <ModulePath>\\Bshox\.Generator\.dll$</ModulePath>
               </Include>
             </ModulePaths>

@@ -1,5 +1,5 @@
 using Bshox;
-using Bshox.Meta;
+using Bshox.Utils;
 
 SharpFuzz.Fuzzer.OutOfProcess.Run(stream =>
 {

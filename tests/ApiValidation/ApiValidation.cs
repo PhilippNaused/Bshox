@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Runtime.Versioning;
 using Bshox;
 using Bshox.Generator;
-using Bshox.Meta;
+using Bshox.Utils;
 using VeriGit;
 
 namespace ApiValidation;
@@ -17,7 +17,7 @@ internal class ApiValidation
     }
 
     [Test]
-    public Task BshoxMeta()
+    public Task BshoxUtils()
     {
         var assembly = typeof(BshoxTextParser).Assembly;
         return Validate(assembly);

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 using System.Text;
 using Bshox.Internals;
-using Bshox.Meta;
+using Bshox.Utils;
 using Bshox.TestUtils;
 
 namespace Bshox.Tests;

@@ -1,6 +1,6 @@
 using Bshox.Internals;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public static class Extensions
 {

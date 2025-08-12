@@ -2,7 +2,7 @@ using System.Buffers;
 using System.Diagnostics;
 using Bshox.Internals;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public partial class BshoxTextParser
 {

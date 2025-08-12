@@ -1,6 +1,6 @@
 #if NETCOREAPP
 using Benchmark.Models;
-using Bshox.Meta;
+using Bshox.Utils;
 #endif
 
 namespace Benchmark.Tests;

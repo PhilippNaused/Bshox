@@ -15,7 +15,7 @@
   <Folder Name="/src/">
     <File Path="src/GeneratedContracts.json" />
     <Project Path="src/Bshox.Generator/Bshox.Generator.csproj" />
-    <Project Path="src/Bshox.MetaData/Bshox.MetaData.csproj" />
+    <Project Path="src/Bshox.Utils/Bshox.Utils.csproj" />
     <Project Path="src/Bshox/Bshox.csproj" />
   </Folder>
   <Folder Name="/tests/">

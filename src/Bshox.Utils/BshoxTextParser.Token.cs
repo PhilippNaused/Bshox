@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace Bshox.Meta;
+namespace Bshox.Utils;
 
 public partial class BshoxTextParser
 {
