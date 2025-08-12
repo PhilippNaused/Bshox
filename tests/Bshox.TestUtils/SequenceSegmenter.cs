@@ -1,7 +1,7 @@
 using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Bshox.Utils;
+namespace Bshox.TestUtils;
 
 
 [ExcludeFromCodeCoverage]

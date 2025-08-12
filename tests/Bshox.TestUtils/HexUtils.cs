@@ -3,7 +3,7 @@ using System.Diagnostics;
 #endif
 using System.Diagnostics.CodeAnalysis;
 
-namespace Bshox.Utils;
+namespace Bshox.TestUtils;
 
 [ExcludeFromCodeCoverage]
 public static class HexUtils

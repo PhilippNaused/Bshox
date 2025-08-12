@@ -52,19 +52,19 @@ public class DictionarySerializerTests
 
         var value2 = DictionarySerializer2.ListValueTupleStringTestType7.Deserialize<List<(string Key, TestType7 Value)>>(ms);
 
-        await TestUtils.AssertEqual(value2.Count, 4);
+        await TestHelper.AssertEqual(value2.Count, 4);
 
-        await TestUtils.AssertEqual(value2[0].Key, "a");
-        await TestUtils.AssertEqual(value2[0].Value, new TestType7(1, "a"));
+        await TestHelper.AssertEqual(value2[0].Key, "a");
+        await TestHelper.AssertEqual(value2[0].Value, new TestType7(1, "a"));
 
-        await TestUtils.AssertEqual(value2[1].Key, "b");
-        await TestUtils.AssertEqual(value2[1].Value, new TestType7(2, "b"));
+        await TestHelper.AssertEqual(value2[1].Key, "b");
+        await TestHelper.AssertEqual(value2[1].Value, new TestType7(2, "b"));
 
-        await TestUtils.AssertEqual(value2[2].Key, "c");
-        await TestUtils.AssertEqual(value2[2].Value, new TestType7(3, "c"));
+        await TestHelper.AssertEqual(value2[2].Key, "c");
+        await TestHelper.AssertEqual(value2[2].Value, new TestType7(3, "c"));
 
-        await TestUtils.AssertEqual(value2[3].Key, " ");
-        await TestUtils.AssertEqual(value2[3].Value, null);
+        await TestHelper.AssertEqual(value2[3].Key, " ");
+        await TestHelper.AssertEqual(value2[3].Value, null);
     }
 
     [Test]

@@ -1,7 +1,7 @@
 using BenchmarkDotNet.Attributes;
 using Bshox;
 using Bshox.Contracts;
-using Bshox.Utils;
+using Bshox.TestUtils;
 
 namespace Benchmark;
 

@@ -24,7 +24,7 @@
     <Project Path="tests/Benchmark/Benchmark.csproj" />
     <Project Path="tests/Bshox.Generator.Tests/Bshox.Generator.Tests.csproj" />
     <Project Path="tests/Bshox.Tests/Bshox.Tests.csproj" />
-    <Project Path="tests/Bshox.Utils/Bshox.Utils.csproj" />
+    <Project Path="tests/Bshox.TestUtils/Bshox.TestUtils.csproj" />
     <Project Path="tests/Generator.Benchmark/Generator.Benchmark.csproj" />
     <Project Path="tests/TestModels/TestModels.csproj" />
     <Project Path="tests/VeriGit/VeriGit.csproj" />

@@ -1,5 +1,5 @@
 using Bshox.Internals;
-using Bshox.Utils;
+using Bshox.TestUtils;
 
 namespace Bshox.Tests;
 
@@ -23,7 +23,7 @@ internal sealed class BshoxEncodingTests
         var writer = new BshoxWriter(stream);
         writer.WriteZigZagVarInt64(l);
         writer.Flush();
-        TestUtils.WriteContext(stream);
+        TestHelper.WriteContext(stream);
         var reader = new BshoxReader(stream.WrittenMemory);
         long x = reader.ReadZigZagVarInt64();
         await Assert.That(x).IsEqualTo(l);
@@ -44,7 +44,7 @@ internal sealed class BshoxEncodingTests
         var writer = new BshoxWriter(stream);
         writer.WriteVarInt64(l);
         writer.Flush();
-        TestUtils.WriteContext(stream);
+        TestHelper.WriteContext(stream);
         var reader = new BshoxReader(stream.WrittenMemory);
         ulong x = reader.ReadVarInt64();
         await Assert.That(x).IsEqualTo(l);
@@ -58,7 +58,7 @@ internal sealed class BshoxEncodingTests
         var writer = new BshoxWriter(stream);
         writer.WriteTag(key, type);
         writer.Flush();
-        TestUtils.WriteContext(stream);
+        TestHelper.WriteContext(stream);
         var reader = new BshoxReader(stream.WrittenMemory);
         uint key2 = reader.ReadTag(out var type2);
         await Assert.That(key2).IsEqualTo(key);
@@ -73,7 +73,7 @@ internal sealed class BshoxEncodingTests
         var writer = new BshoxWriter(stream);
         writer.WriteString(s);
         writer.Flush();
-        TestUtils.WriteContext(stream);
+        TestHelper.WriteContext(stream);
         var reader = new BshoxReader(stream.WrittenMemory);
         string x = reader.ReadString();
         await Assert.That(x).IsEqualTo(s);
@@ -93,7 +93,7 @@ internal sealed class BshoxEncodingTests
         string s = new Random(1).NextString(l);
         writer.WriteString(s);
         writer.Flush();
-        TestUtils.WriteContext(stream);
+        TestHelper.WriteContext(stream);
         var reader = new BshoxReader(stream.WrittenMemory);
         string x = reader.ReadString();
         await Assert.That(x).IsEqualTo(s);

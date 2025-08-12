@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 using Bshox.Attributes;
-using Bshox.Utils;
+using Bshox.TestUtils;
 using Google.Protobuf.WellKnownTypes;
 using MessagePack;
 using ProtoBuf;

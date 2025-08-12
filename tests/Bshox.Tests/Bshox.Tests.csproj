@@ -45,7 +45,7 @@
                       OutputItemType="Analyzer"
                       ReferenceOutputAssembly="false"
                       SetTargetFramework="TargetFramework=netstandard2.0" />
-    <ProjectReference Include="..\Bshox.Utils\Bshox.Utils.csproj" />
+    <ProjectReference Include="..\Bshox.TestUtils\Bshox.TestUtils.csproj" />
     <ProjectReference Include="..\TestModels\TestModels.csproj" />
   </ItemGroup>
 

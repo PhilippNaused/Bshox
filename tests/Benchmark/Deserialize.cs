@@ -4,7 +4,7 @@ using System.Text.Json;
 using Benchmark.Models;
 using BenchmarkDotNet.Attributes;
 using Bshox;
-using Bshox.Utils;
+using Bshox.TestUtils;
 using Google.Protobuf;
 using MessagePack;
 using ProtoBuf.Meta;

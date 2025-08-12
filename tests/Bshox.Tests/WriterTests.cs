@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Bshox.Internals;
-using Bshox.Utils;
+using Bshox.TestUtils;
 
 namespace Bshox.Tests;
 

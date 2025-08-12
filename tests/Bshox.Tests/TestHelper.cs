@@ -5,11 +5,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Bshox.Internals;
 using Bshox.Meta;
-using Bshox.Utils;
+using Bshox.TestUtils;
 
 namespace Bshox.Tests;
 
-public static class TestUtils
+public static class TestHelper
 {
 #if NETCOREAPP
     private const DynamicallyAccessedMemberTypes DynamicallyAccessedMembers =

@@ -1,4 +1,4 @@
-using Bshox.Utils;
+using Bshox.TestUtils;
 using TestModels;
 
 namespace Bshox.Tests;
