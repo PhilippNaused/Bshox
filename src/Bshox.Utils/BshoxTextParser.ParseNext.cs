@@ -63,7 +63,7 @@ public partial class BshoxTextParser
         if (start != Constants.StartArray)
             throw new BshoxParserException(start, $"Expected '{Constants.StartArray}' but got '{start}'.");
         BshoxArray array = [];
-        var encoding = BshoxCode.Null;
+        BshoxCode? encoding = null;
         while (_tokens.Count > 0)
         {
             if (_tokens.Peek() == Constants.EndArray) // end of array
@@ -72,13 +72,9 @@ public partial class BshoxTextParser
                 return array;
             }
 
-            if (encoding is BshoxCode.Null)
-                encoding = GuessNextEncoding();
+            encoding ??= GuessNextEncoding();
 
-            var token = _tokens.Peek();
             var value = ParseNextValue(encoding);
-            if (value.Encoding is BshoxCode.Null)
-                throw new BshoxParserException(token, "Null values are not allowed in arrays");
             array.Add(value);
             Debug.Assert(value.Encoding == array.ElementEncoding, "value.Encoding == array.ElementEncoding");
         }
@@ -98,26 +94,16 @@ public partial class BshoxTextParser
         try
         {
             encoding ??= GuessNextEncoding();
-            switch (encoding)
+            return encoding switch
             {
-                case BshoxCode.Null:
-                    _ = _tokens.Dequeue();
-                    return BshoxValue.Null;
-                case BshoxCode.VarInt:
-                    return new VarInt(ParseVarInt(_tokens.Dequeue()));
-                case BshoxCode.Fixed4:
-                    return new Fixed4(ParseFixed4(_tokens.Dequeue()));
-                case BshoxCode.Fixed8:
-                    return new Fixed8(ParseFixed8(_tokens.Dequeue()));
-                case BshoxCode.Prefixed:
-                    return new BshoxBlob(ParseBlob(_tokens.Dequeue()));
-                case BshoxCode.Array:
-                    return ParseNextArray();
-                case BshoxCode.SubObject:
-                    return ParseNextObject();
-                default:
-                    throw new NotSupportedException($"Unsupported encoding: {encoding}");
-            }
+                BshoxCode.VarInt => new VarInt(ParseVarInt(_tokens.Dequeue())),
+                BshoxCode.Fixed4 => new Fixed4(ParseFixed4(_tokens.Dequeue())),
+                BshoxCode.Fixed8 => new Fixed8(ParseFixed8(_tokens.Dequeue())),
+                BshoxCode.Prefixed => new BshoxBlob(ParseBlob(_tokens.Dequeue())),
+                BshoxCode.Array => ParseNextArray(),
+                BshoxCode.SubObject => ParseNextObject(),
+                _ => throw new NotSupportedException($"Unsupported encoding: {encoding}"),
+            };
         }
         finally
         {

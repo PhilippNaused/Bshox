@@ -71,7 +71,6 @@ public ref partial struct BshoxWriter
     public void WriteArrayHeader(int count, BshoxCode elementEncoding)
     {
         Debug.Assert(count >= 0, "count >= 0");
-        Debug.Assert(elementEncoding is not BshoxCode.Null, "elementEncoding is not BshoxCode.Null");
         WriteVarInt64(((ulong)count << 3) | (ulong)elementEncoding);
     }
 

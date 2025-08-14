@@ -12,6 +12,6 @@ public class TestType4Tests
             List = [new TestType1(), new TestType1 { Value1 = 1 }]
         };
 
-        await Serializer4.TestType4.TestSerialization(value, "0D160009010000");
+        await Serializer4.TestType4.TestSerialization(value, "0C150008010000");
     }
 }

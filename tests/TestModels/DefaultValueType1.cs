@@ -21,7 +21,7 @@ public record DefaultValueType1
     [DefaultValue("Hello, World!")]
     public string Value3 { get; set; } = "Hello, World!";
 
-    [DefaultValue(null)]
+    [DefaultValue(null)] // TODO: this should cause an error!
     public string? Value4 { get; set; }
 
     public string? Value5 { get; set; }

@@ -34,20 +34,11 @@ public interface IBshoxContract
 /// The abstract base class for all Bshox contracts.
 /// </summary>
 /// <typeparam name="T">The type that this contract is describing</typeparam>
-public abstract class BshoxContract<T> : IBshoxContract
+/// <param name="encoding">The encoding format used by this contract</param>
+public abstract class BshoxContract<T>(BshoxCode encoding) : IBshoxContract
 {
-    /// <param name="encoding">The encoding format used by this contract</param>
-    protected BshoxContract(BshoxCode encoding)
-    {
-        if (encoding == BshoxCode.Null)
-        {
-            throw new ArgumentException($"The {nameof(encoding)} cannot be {nameof(BshoxCode.Null)}.", nameof(encoding));
-        }
-        Encoding = encoding;
-    }
-
     /// <inheritdoc />
-    public BshoxCode Encoding { get; }
+    public BshoxCode Encoding { get; } = encoding;
 
     /// <inheritdoc />
     Type IBshoxContract.Type { get; } = typeof(T);

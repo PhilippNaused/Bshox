@@ -22,13 +22,13 @@ partial class DateTimeOffsetSerializer
             using var _ = writer.DepthLock();
             var __UtcTicks = value.UtcTicks;
             {
-                writer.WriteByte(9);
+                writer.WriteByte(8);
                 writer.WriteVarInt64(unchecked((ulong)__UtcTicks));
             }
             var __TotalOffsetMinutes = value.TotalOffsetMinutes;
             if (__TotalOffsetMinutes != 0)
             {
-                writer.WriteByte(17);
+                writer.WriteByte(16);
                 writer.WriteVarInt32(unchecked((ushort)__TotalOffsetMinutes));
             }
             writer.WriteByte(0);
@@ -46,7 +46,7 @@ partial class DateTimeOffsetSerializer
                 {
                     case 0:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Null);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         value = new global::TestModels.DateTimeOffsetSurrogate
                         {
                             UtcTicks = __UtcTicks,

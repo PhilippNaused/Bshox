@@ -109,10 +109,9 @@ public class TextParserTests
                 7: [0 0]
                 8: `00`
                 9: "0" #0
-                10: null
                 9999: {0: {0: 0i64}}
               }
-              """, new uint[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 9999 })]
+              """, new uint[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 9999 })]
     [Arguments("{}", new uint[0])] // edge case: empty object
     public async Task ParseObject(string text, uint[] keys)
     {
@@ -121,15 +120,15 @@ public class TextParserTests
     }
 
     [Test]
-    [Arguments("[]", 0, BshoxCode.Null)]
-    [Arguments("    [ # This is a comment\n  ]   ", 0, BshoxCode.Null)]
+    [Arguments("[]", 0, null)]
+    [Arguments("    [ # This is a comment\n  ]   ", 0, null)]
     [Arguments("[1 2 3 4]", 4, BshoxCode.VarInt)]
     [Arguments("[1.0i32 2i32 0xAi32 1e-5]", 4, BshoxCode.Fixed4)]
     [Arguments("[1.0 2i64 0xAi64 1e-5]", 4, BshoxCode.Fixed8)]
     [Arguments("[\"Hi!\" `AABBCC`]", 2, BshoxCode.Prefixed)]
     [Arguments("[[][]]", 2, BshoxCode.Array)]
     [Arguments("[{}{}{}]", 3, BshoxCode.SubObject)]
-    public async Task ParseArray(string text, int count, BshoxCode encoding)
+    public async Task ParseArray(string text, int count, BshoxCode? encoding)
     {
         var actual = await GetValue<BshoxArray>(text);
         await Assert.That(actual).IsNotNull();
@@ -167,7 +166,6 @@ public class TextParserTests
                                 3: `AABBCC`
                                 4: "Hello, World!"
                                 # This is a comment
-                                5: null
                                 6: true
                                 7: false
                                 8: inf32
@@ -181,7 +179,7 @@ public class TextParserTests
                             }
                             """;
         var actual = await GetValue<BshoxObject>(text);
-        await Assert.That(actual.Select(kv => kv.Key)).IsEquivalentTo(new uint[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+        await Assert.That(actual.Select(kv => kv.Key)).IsEquivalentTo(new uint[] { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
         await Assert.That(actual[1]).IsTypeOf<Fixed4>();
     }
 
@@ -244,7 +242,6 @@ public class TextParserTests
     [Arguments("`AABBCC`", BshoxCode.Prefixed)] // hex literal
     [Arguments("\"AABBCC\"", BshoxCode.Prefixed)] // uft8 literal
 
-    [Arguments("null", BshoxCode.Null)] // literal
     [Arguments("true", BshoxCode.VarInt)] // literal
     [Arguments("false", BshoxCode.VarInt)] // literal
     [Arguments("inf32", BshoxCode.Fixed4)] // literal

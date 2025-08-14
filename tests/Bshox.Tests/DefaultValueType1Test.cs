@@ -16,6 +16,6 @@ public class DefaultValueType1Test
             Value5 = null
         };
 
-        await DefaultValueTypeSerializer.DefaultValueType1.TestSerialization(value, "2800");
+        await DefaultValueTypeSerializer.DefaultValueType1.TestSerialization(value, "00");
     }
 }

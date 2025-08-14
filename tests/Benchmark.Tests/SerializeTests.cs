@@ -39,7 +39,7 @@ public sealed class SerializeTests : Serialize
 
             // relative size reduction when using Brotli compression
             await Assert.That(Compressibility(json)).IsEqualTo(0.522768259f);
-            await Assert.That(Compressibility(bshox)).IsEqualTo(0.0172700286f);
+            await Assert.That(Compressibility(bshox)).IsEqualTo(0.017934263f);
             await Assert.That(Compressibility(messagePack)).IsEqualTo(0.154380441f);
             await Assert.That(Compressibility(proto)).IsEqualTo(0.112567306f);
             await Assert.That(Compressibility(google)).IsEqualTo(0.109992981f);

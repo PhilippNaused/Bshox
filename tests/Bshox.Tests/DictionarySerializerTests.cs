@@ -15,7 +15,7 @@ public class DictionarySerializerTests
             [" "] = null,
         };
 
-        await DictionarySerializer1.DictionaryStringTestType7.TestSerialization(value, "260C016116090114016100000C016216090214016200000C016316090314016300000C012000");
+        await DictionarySerializer1.DictionaryStringTestType7.TestSerialization(value, "250B016115080113016100000B016215080213016200000B016315080313016300000B012000");
 
         await DictionarySerializer1.DictionaryStringTestType7.TestProtoScope(value, """
                                                                               [
@@ -77,7 +77,7 @@ public class DictionarySerializerTests
             ("c", new TestType7(3, "c"))
         ];
 
-        await DictionarySerializer2.ListValueTupleStringTestType7.TestSerialization(value, "1E0C016116090114016100000C016116090214016200000C01631609031401630000");
+        await DictionarySerializer2.ListValueTupleStringTestType7.TestSerialization(value, "1D0B016115080113016100000B016115080213016200000B01631508031301630000");
 
         var ms = new MemoryStream();
         DictionarySerializer2.ListValueTupleStringTestType7.Serialize(ms, value);

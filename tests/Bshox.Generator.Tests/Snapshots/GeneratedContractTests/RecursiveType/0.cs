@@ -22,11 +22,7 @@ partial class RecursiveTestTypeSerializer
             using var _ = writer.DepthLock();
             var __Value1 = value.Value1;
             {
-                if (__Value1 == null)
-                {
-                    writer.WriteByte(8);
-                }
-                else
+                if (__Value1 is not null)
                 {
                     writer.WriteTag(1, _gen_bshox_t.c_RecursiveTestType.Encoding);
                     _gen_bshox_t.c_RecursiveTestType.Serialize(ref writer, in __Value1);
@@ -46,7 +42,7 @@ partial class RecursiveTestTypeSerializer
                 {
                     case 0:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Null);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         value = new global::TestModels.RecursiveTestType
                         {
                             Value1 = __Value1,
@@ -55,15 +51,8 @@ partial class RecursiveTestTypeSerializer
                     }
                     case 1:
                     {
-                        if (encoding is bsx::BshoxCode.Null)
-                        {
-                            __Value1 = null;
-                        }
-                        else
-                        {
-                            bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_RecursiveTestType.Encoding);
-                            _gen_bshox_t.c_RecursiveTestType.Deserialize(ref reader, out __Value1);
-                        }
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_RecursiveTestType.Encoding);
+                        _gen_bshox_t.c_RecursiveTestType.Deserialize(ref reader, out __Value1);
                         break;
                     }
                     default:

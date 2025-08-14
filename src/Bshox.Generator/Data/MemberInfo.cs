@@ -93,6 +93,7 @@ internal sealed class MemberInfo
 
     private bool NeedsExplicitNullSupport()
     {
+        // TODO: check if this is still needed
         if (IsValueType)
             return false; // value types are never null
         if (ImplicitDefault)
@@ -127,22 +128,7 @@ internal sealed class MemberInfo
 
         if (NeedsExplicitNullSupport())
         {
-            code.WriteLine($"if ({LocalVariableName} == null)");
-            code.OpenScope();
-            {
-                code.WriteComment($"Encoding: {BshoxCode.Null}");
-                uint tag = (Key << 3) | (uint)BshoxCode.Null;
-                if (tag < 128)
-                {
-                    code.WriteLine($"writer.WriteByte({tag});");
-                }
-                else
-                {
-                    code.WriteLine($"writer.WriteVarInt32({tag});");
-                }
-            }
-            code.CloseScope();
-            code.WriteLine("else");
+            code.WriteLine($"if ({LocalVariableName} is not null)");
             code.OpenScope();
             {
                 WriteInnerSerialize(code);
@@ -193,33 +179,7 @@ internal sealed class MemberInfo
         code.WriteLine($"case {Key}:");
         code.OpenScope();
         {
-            if (NeedsExplicitNullSupport())
-            {
-                code.WriteLine("if (encoding is bsx::BshoxCode.Null)");
-                code.OpenScope();
-                {
-                    if (IsReferenceType) // TODO: consider Nullable<T>
-                    {
-                        code.WriteLine($"{LocalVariableName} = null;");
-                    }
-                    else
-                    {
-                        Debug.Assert(!IsValueType, "!IsValueType"); // this should only happen for unconstrained type parameters
-                        code.WriteLine($"{LocalVariableName} = default;");
-                    }
-                }
-                code.CloseScope();
-                code.WriteLine("else");
-                code.OpenScope();
-                {
-                    WriteInnerDeserialize(code);
-                }
-                code.CloseScope();
-            }
-            else
-            {
-                WriteInnerDeserialize(code);
-            }
+            WriteInnerDeserialize(code);
             code.WriteLine("break;");
         }
         code.CloseScope();

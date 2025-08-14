@@ -22,7 +22,7 @@ partial class Serializer1
             using var _ = writer.DepthLock();
             var __Value = value.Value;
             {
-                writer.WriteByte(9);
+                writer.WriteByte(8);
                 writer.WriteVarInt32(unchecked((uint)__Value));
             }
             writer.WriteByte(0);
@@ -39,7 +39,7 @@ partial class Serializer1
                 {
                     case 0:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Null);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         value = new global::TestModels.Type1<int>
                         {
                             Value = __Value,

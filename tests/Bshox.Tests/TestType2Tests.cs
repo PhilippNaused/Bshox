@@ -13,7 +13,7 @@ public class TestType2Tests
             Value2 = "Hello, World!"
         };
 
-        await Serializer2.TestType2.TestSerialization(value, "092A140D48656C6C6F2C20576F726C642100");
+        await Serializer2.TestType2.TestSerialization(value, "082A130D48656C6C6F2C20576F726C642100");
         await Serializer2.TestType2.TestProtoScope(value, """
             {
               1: 42
@@ -70,6 +70,6 @@ public class TestType2Tests
             });
         }
 
-        await Serializer2.ListTestType2.TestSerialization(list, "16140F48656C6C6F2C20576F726C64212030000901140F48656C6C6F2C20576F726C6421203100");
+        await Serializer2.ListTestType2.TestSerialization(list, "15130F48656C6C6F2C20576F726C64212030000801130F48656C6C6F2C20576F726C6421203100");
     }
 }

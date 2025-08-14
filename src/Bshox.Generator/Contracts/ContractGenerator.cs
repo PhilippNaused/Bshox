@@ -202,10 +202,8 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         code.Indentation += 2;
         code.OpenScope();
         {
-            code.WriteComment("Encoding: Null");
-
-            // throw exception if encoding is not the expected encoding (Null)
-            code.WriteLine("bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Null);");
+            // throw exception if encoding is not the expected encoding (0)
+            code.WriteLine("bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);");
             code.WriteLine($"value = new {typeName}"); // object initializer
             code.OpenScope();
             foreach (var member in members)

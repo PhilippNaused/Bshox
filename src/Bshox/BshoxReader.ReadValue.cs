@@ -74,8 +74,6 @@ public ref partial struct BshoxReader
         if (minSize < 0)
             throw EndOfStream();
         CheckBufferSize(minSize);
-        if (encoding is BshoxCode.Null)
-            throw BshoxException.InvalidEncoding(encoding); // Null is not allowed as the encoding of an array
         if (count > int.MaxValue)
             throw EndOfStream(); // TODO: better exception
         return checked((int)count);
@@ -88,7 +86,6 @@ public ref partial struct BshoxReader
     {
         return encoding switch
         {
-            BshoxCode.Null => 0,
             BshoxCode.VarInt => 1,
             BshoxCode.Fixed4 => 4,
             BshoxCode.Fixed8 => 8,
@@ -161,8 +158,6 @@ public ref partial struct BshoxReader
     {
         switch (encoding)
         {
-            case BshoxCode.Null:
-                break;
             case BshoxCode.VarInt:
                 _ = ReadVarInt64();
                 break;
@@ -194,7 +189,7 @@ public ref partial struct BshoxReader
                     uint key = ReadTag(out BshoxCode code);
                     if (key == 0)
                     {
-                        BshoxException.ThrowIfWrongEncoding(code, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(code, 0);
                         break;
                     }
                     SkipValue(code);

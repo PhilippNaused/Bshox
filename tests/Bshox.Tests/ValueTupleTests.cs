@@ -7,8 +7,8 @@ public class ValueTupleTests
     [Test]
     public async Task Test1()
     {
-        await ValueTupleSerializer.ValueTupleInt32Int32Int32Int32.TestSerialization((1, 2, 3, 4), "090111021903210400");
-        await ValueTupleSerializer.ValueTupleUInt32StringByte.TestSerialization((7u, "Test", (byte)0x23), "0907140454657374192300");
+        await ValueTupleSerializer.ValueTupleInt32Int32Int32Int32.TestSerialization((1, 2, 3, 4), "080110021803200400");
+        await ValueTupleSerializer.ValueTupleUInt32StringByte.TestSerialization((7u, "Test", (byte)0x23), "0807130454657374182300");
     }
 
     [Test]

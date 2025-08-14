@@ -10,8 +10,6 @@ public abstract class BshoxValue
         Encoding = encoding;
     }
 
-    public static BshoxValue Null => BshoxNull.Instance;
-
     public BshoxCode Encoding { get; }
 
     public static BshoxValue Read(ref BshoxReader reader, BshoxCode encoding)
@@ -20,7 +18,6 @@ public abstract class BshoxValue
         using var _ = reader.DepthLock();
         return encoding switch
         {
-            BshoxCode.Null => BshoxNull.Instance,
             BshoxCode.VarInt => VarInt.Read(ref reader),
             BshoxCode.Fixed4 => Fixed4.Read(ref reader),
             BshoxCode.Fixed8 => Fixed8.Read(ref reader),

@@ -43,12 +43,6 @@ public class TextEncodingTests
     }
 
     [Test]
-    public async Task Null()
-    {
-        await Assert.That(BshoxValue.Null.ToString()).IsEqualTo("null");
-    }
-
-    [Test]
     public async Task EmptyArray()
     {
         await Assert.That(new BshoxArray().ToString()).IsEqualTo("[]");

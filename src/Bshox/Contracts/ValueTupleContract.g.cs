@@ -32,7 +32,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -86,7 +86,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -149,7 +149,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -221,7 +221,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -302,7 +302,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -392,7 +392,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -491,7 +491,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:
@@ -599,7 +599,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
                     case 1:

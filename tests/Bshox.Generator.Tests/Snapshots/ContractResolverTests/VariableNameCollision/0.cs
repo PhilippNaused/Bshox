@@ -45,7 +45,7 @@ partial class Serializer1
                 {
                     case 0:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Null);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         value = new global::TestModels.Type1
                         {
                             Value1 = __Value1,

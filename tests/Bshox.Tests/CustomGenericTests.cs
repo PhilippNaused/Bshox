@@ -15,6 +15,6 @@ public class CustomGenericTests
             }
         };
 
-        await CustomGenericTypeSerializer.CustomGenericTypeTestType2.TestSerialization(value, "0E09010000");
+        await CustomGenericTypeSerializer.CustomGenericTypeTestType2.TestSerialization(value, "0D08010000");
     }
 }

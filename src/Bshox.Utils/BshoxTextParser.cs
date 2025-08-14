@@ -55,8 +55,6 @@ public partial class BshoxTextParser
         // first, check if the text is a literal
         switch (token.Span)
         {
-            case Constants.Null:
-                return BshoxCode.Null;
             case Constants.True:
             case Constants.False:
                 return BshoxCode.VarInt;

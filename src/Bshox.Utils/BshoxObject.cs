@@ -19,7 +19,7 @@ public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection
             uint key = reader.ReadTag(out var encoding);
             if (key == 0)
             {
-                BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                BshoxException.ThrowIfWrongEncoding(encoding, 0);
                 break;
             }
             obj.Add(key, Read(ref reader, encoding));

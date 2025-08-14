@@ -13,10 +13,6 @@ SharpFuzz.Fuzzer.OutOfProcess.Run(stream =>
     foreach (BshoxCode code in Enum.GetValues(typeof(BshoxCode)))
 #endif
     {
-        if (code == BshoxCode.Null)
-        {
-            continue;
-        }
         var reader = new BshoxReader(array);
         try
         {

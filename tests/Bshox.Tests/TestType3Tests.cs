@@ -22,7 +22,7 @@ public class TestType3Tests
             }
         };
 
-        await Serializer3.TestType3.TestSerialization(value, "0E092A0016092A1404546573740000");
+        await Serializer3.TestType3.TestSerialization(value, "0D082A0015082A1304546573740000");
         await Serializer3.TestType3.TestProtoScope(value, """
             {
               1: {

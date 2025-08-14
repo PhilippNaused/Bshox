@@ -16,7 +16,7 @@ public class TestType1Tests
             Value3 = _guid
         };
 
-        await Serializer1.TestType1.TestSerialization(value, "09D6FF0312422800001C1000112233445566778899AABBCCDDEEFF00");
+        await Serializer1.TestType1.TestSerialization(value, "08D6FF0311422800001B1000112233445566778899AABBCCDDEEFF00");
 
         await Serializer1.TestType1.TestProtoScope(value, """
             {
@@ -137,6 +137,6 @@ public class TestType1Tests
             });
         }
 
-        await Serializer1.ListTestType1.TestSerialization(list, "1E00090100090200");
+        await Serializer1.ListTestType1.TestSerialization(list, "1D00080100080200");
     }
 }

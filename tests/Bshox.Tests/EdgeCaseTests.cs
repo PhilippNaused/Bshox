@@ -49,7 +49,7 @@ public class EdgeCaseTests
         Serializer2.ListListTestType2ArrayArray.Serialize(ms, list);
 
         var hex = ms.ToArray().ToHex();
-        await Assert.That(hex).IsEqualTo("150D0D160901140131000902140132000D0D16090314013300090414013400");
+        await Assert.That(hex).IsEqualTo("140C0C150801130131000802130132000C0C15080313013300080413013400");
 
         ms.Position = 0;
         var list2 = Serializer2.ListListTestType2ArrayArray.Deserialize(ms);

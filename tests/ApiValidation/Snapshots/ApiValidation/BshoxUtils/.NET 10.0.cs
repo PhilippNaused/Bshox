@@ -29,7 +29,7 @@ namespace Bshox.Utils
         public BshoxArray(int capacity);
         public BshoxArray();
         public int Count { get; }
-        public Bshox.BshoxCode ElementEncoding { get; }
+        public Bshox.BshoxCode? ElementEncoding { get; }
         public Bshox.Utils.BshoxValue this[int index] { get; set; }
         public void Add(Bshox.Utils.BshoxValue item);
         public void Clear();
@@ -50,11 +50,6 @@ namespace Bshox.Utils
         public string AsHexString();
         public string AsUtf8String();
         public static Bshox.Utils.BshoxBlob Read(ref Bshox.BshoxReader reader);
-        public override void Write(ref Bshox.BshoxWriter writer);
-    }
-    public sealed class BshoxNull : Bshox.Utils.BshoxValue
-    {
-        public static Bshox.Utils.BshoxNull Instance { get; }
         public override void Write(ref Bshox.BshoxWriter writer);
     }
     public sealed class BshoxObject : Bshox.Utils.BshoxValue, System.Collections.Generic.ICollection<System.Collections.Generic.KeyValuePair<uint, Bshox.Utils.BshoxValue>>, System.Collections.Generic.IEnumerable<System.Collections.Generic.KeyValuePair<uint, Bshox.Utils.BshoxValue>>, System.Collections.IEnumerable
@@ -86,7 +81,6 @@ namespace Bshox.Utils
     public abstract class BshoxValue
     {
         public Bshox.BshoxCode Encoding { get; }
-        public static Bshox.Utils.BshoxValue Null { get; }
         public static Bshox.Utils.BshoxValue Read(ref Bshox.BshoxReader reader, Bshox.BshoxCode encoding);
         public override string ToString();
         public abstract void Write(ref Bshox.BshoxWriter writer);

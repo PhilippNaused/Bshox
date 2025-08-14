@@ -11,7 +11,6 @@ internal static class Constants
     public const string Fixed8Suffix = "i64";
     public const string HexPrefix = "0x";
 
-    public const string Null = "null";
     public const string True = "true";
     public const string False = "false";
     public const string PositiveInfinity32 = "inf32";

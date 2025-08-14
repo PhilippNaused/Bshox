@@ -25,13 +25,12 @@ namespace Bshox
 {
     public enum BshoxCode : byte
     {
-        Null = 0,
-        VarInt = 1,
-        Fixed4 = 2,
-        Fixed8 = 3,
-        Prefixed = 4,
-        Array = 5,
-        SubObject = 6
+        VarInt = 0,
+        Fixed4 = 1,
+        Fixed8 = 2,
+        Prefixed = 3,
+        Array = 4,
+        SubObject = 5
     }
     public static class BshoxConstants
     {

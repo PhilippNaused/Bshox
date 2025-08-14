@@ -15,16 +15,12 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
     /// <summary>
     /// The encoding of the elements in the array.
     /// This value is set when the first element is added to the array.
-    /// If the array is empty, the encoding may be <see cref="BshoxCode.Null"/>.
+    /// If the array is empty, the encoding may be <c>null</c>.
     /// </summary>
-    public BshoxCode ElementEncoding { get; private set; }
+    public BshoxCode? ElementEncoding { get; private set; }
 
     private void UpdateEncoding(BshoxValue newValue)
     {
-        if (newValue.Encoding is BshoxCode.Null)
-        {
-            throw new BshoxException("Null values are not allowed in arrays");
-        }
         if (_values.Count == 0)
         {
             // first element, set the element encoding
@@ -41,7 +37,6 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
     {
         var count = reader.ReadArrayHeader(out var elementEncoding);
         Debug.Assert(count >= 0, "count >= 0");
-        Debug.Assert(elementEncoding is not BshoxCode.Null, "elementEncoding is not BshoxCode.Null"); // The reader should have thrown an exception
         var array = new BshoxArray(count)
         {
             ElementEncoding = elementEncoding
@@ -58,10 +53,11 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
     public override void Write(ref BshoxWriter writer)
     {
         using var _ = writer.DepthLock();
-        writer.WriteArrayHeader(Count, ElementEncoding);
+        BshoxCode encoding = ElementEncoding ?? BshoxCode.VarInt;
+        writer.WriteArrayHeader(Count, encoding);
         foreach (var value in _values)
         {
-            Debug.Assert(value.Encoding == ElementEncoding, "value.Encoding == ElementEncoding");
+            Debug.Assert(value.Encoding == encoding, "value.Encoding == encoding");
             value.Write(ref writer);
         }
     }

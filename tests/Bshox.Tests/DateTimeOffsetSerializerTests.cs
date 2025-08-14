@@ -9,9 +9,9 @@ public class DateTimeOffsetSerializerTests
     public async Task Test1()
     {
         DateTimeOffset value = new(631524443600111719, TimeSpan.FromHours(5));
-        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "09E780B3B78CFFE7E10811AC0200");
+        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "08E780B3B78CFFE7E10810AC0200");
         value = new DateTimeOffset(631524443600111719, TimeSpan.Zero);
-        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "09E7908BFEAA84E8E10800");
+        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "08E7908BFEAA84E8E10800");
     }
 
     [Test]
@@ -45,14 +45,14 @@ public class DateTimeOffsetSerializerTests
     public async Task MaxValue()
     {
         var value = DateTimeOffset.MaxValue;
-        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "09FFFFDCA1DF8E8AE52B00");
+        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "08FFFFDCA1DF8E8AE52B00");
     }
 
     [Test]
     public async Task MinValue()
     {
         var value = DateTimeOffset.MinValue;
-        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "090000");
+        await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value, "080000");
         await DateTimeOffsetSerializer.DateTimeOffset.TestProtoScope(value, """
             {
               1: 0

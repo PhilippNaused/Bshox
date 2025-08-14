@@ -45,7 +45,7 @@ namespace Bshox.Contracts
                 {
                     case 0:
                     {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Null);
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
                         return;
                     }
 <# for(var j = 1; j <= i; j++) { #>
