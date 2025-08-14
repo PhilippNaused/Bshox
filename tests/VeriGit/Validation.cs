@@ -24,10 +24,9 @@ public static class Validation
     private static string GetFilename(string? targetName)
     {
         var ctx = TestContext.Current ?? throw new InvalidOperationException("TestContext.Current is null");
-        var test = ctx.TestDetails;
         char sep = Path.DirectorySeparatorChar;
-        var fileName = FileNameEscape(ctx.GetTestDisplayName());
-        fileName = $"{test.TestClass.Name}{sep}{fileName}";
+        var fileName = FileNameEscape(ctx.GetDisplayName());
+        fileName = $"{ctx.GetClassTypeName()}{sep}{fileName}";
         if (targetName is not null)
         {
             fileName = $"{fileName}{sep}{targetName}";

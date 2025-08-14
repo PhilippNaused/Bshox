@@ -1,5 +1,3 @@
-using TUnit.Assertions.AssertConditions.Throws;
-
 namespace Bshox.Tests;
 
 public class BshoxOptionsTests

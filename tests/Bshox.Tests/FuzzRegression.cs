@@ -1,6 +1,5 @@
 using System.Text;
 using Bshox.Utils;
-using TUnit.Assertions.AssertConditions.Throws;
 
 namespace Bshox.Tests;
 

@@ -424,7 +424,9 @@ internal sealed class WriterTests : IDisposable
     [Arguments(byte.MaxValue, "FF")]
     [Arguments(uint.MinValue, "00-00-00-00")]
     //[Arguments(TimeSpan.Zero, "00-00-00-00-00-00-00-00")]
+#pragma warning disable TUnit0300 // Generic type or method may not be AOT-compatible
     public async Task WriteUnsafe_Hex<T>(T value, string expected) where T : unmanaged
+#pragma warning restore TUnit0300 // Generic type or method may not be AOT-compatible
     {
         var writer = GetWriter();
         writer.WriteUnsafe(in value);

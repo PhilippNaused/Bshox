@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="..\Polyfill.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Benchmark\Benchmark.csproj" />
     <ProjectReference Include="..\Generator.Benchmark\Generator.Benchmark.csproj" />
     <ProjectReference Include="..\VeriGit\VeriGit.csproj" />
