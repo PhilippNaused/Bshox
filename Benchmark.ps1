@@ -4,7 +4,7 @@
 param (
   [ValidateSet('net8.0', 'net9.0', 'net10.0', 'net48')]
   [Parameter()]
-  [string]$tfm = 'net8.0',
+  [string]$tfm = 'net10.0',
 
   [Parameter()]
   [switch]$Generator

@@ -21,6 +21,7 @@ public class BaseConfig : ManualConfig
         _ = HideColumns(Column.Gen0);
         _ = HideColumns(Column.Gen1);
         _ = HideColumns(Column.Gen2);
+        _ = HideColumns(Column.RatioSD);
     }
 }
 
