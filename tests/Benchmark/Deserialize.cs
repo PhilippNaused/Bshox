@@ -1,5 +1,4 @@
 using System.Buffers;
-using System.Diagnostics;
 using System.Text.Json;
 using Benchmark.Models;
 using BenchmarkDotNet.Attributes;
@@ -20,11 +19,11 @@ public class DeserializeCold : Deserialize;
 public class Deserialize
 {
     private readonly TypeModel protoSerializer = Forecast.GetProtoModel();
-    private ReadOnlySequence<byte> _bshoxData;
-    private ReadOnlySequence<byte> _jsonData;
-    private ReadOnlySequence<byte> _messageData;
-    private ReadOnlySequence<byte> _protoData;
-    private ReadOnlySequence<byte> _googleData;
+    internal ReadOnlySequence<byte> _bshoxData;
+    internal ReadOnlySequence<byte> _jsonData;
+    internal ReadOnlySequence<byte> _messageData;
+    internal ReadOnlySequence<byte> _protoData;
+    internal ReadOnlySequence<byte> _googleData;
 
     internal Forecast data = null!;
     internal Forecast2 data2 = null!;
@@ -63,7 +62,10 @@ public class Deserialize
 
     private ReadOnlySequence<byte> Get(byte[] bytes)
     {
-        Debug.Assert(bytes.Length > 256, "bytes.Length > 256");
+        if (bytes.Length < 256)
+        {
+            throw new ArgumentException("Data must be at least 256 bytes long for segmentation tests.", nameof(bytes));
+        }
         return Segmented ? SequenceSegmenter.MakeSegmentedSequence(bytes, 128) : new ReadOnlySequence<byte>(bytes);
     }
 

@@ -7,6 +7,18 @@ internal class BenchmarkTests
     {
         var b = new Deserialize();
         b.Setup();
+
+        await Assert.That(b._bshoxData.Length).IsEqualTo(3011);
+#if NETFRAMEWORK
+        await Assert.That(b._jsonData.Length).IsEqualTo(9865);
+#else
+        await Assert.That(b._jsonData.Length).IsEqualTo(9421);
+#endif
+        await Assert.That(b._messageData.Length).IsEqualTo(4463);
+        await Assert.That(b._protoData.Length).IsEqualTo(4273);
+        await Assert.That(b._googleData.Length).IsEqualTo(4273);
+
+        // Deserialize methods
         var value = b.Bshox();
         await Assert.That(value).IsEquivalentTo(b.data);
 
