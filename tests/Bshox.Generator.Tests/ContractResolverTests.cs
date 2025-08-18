@@ -237,6 +237,6 @@ public class ContractResolverTests
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
         await Assert.That(diagnostics).IsEmpty();
-        await Assert.That(generatedOutput).IsNotEmpty();
+        await Utils.ValidateOutput(generatedOutput, 2);
     }
 }

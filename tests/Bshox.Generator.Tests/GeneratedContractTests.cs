@@ -3,24 +3,26 @@ namespace Bshox.Generator.Tests;
 public class GeneratedContractTests
 {
     [Test]
-    public async Task NoMembers1()
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task NoMembers(bool implicitMembers)
     {
-        const string sourceCode = """
-                                  using Bshox.Attributes;
-                                  namespace TestModels;
+        string sourceCode = $$"""
+                            using Bshox.Attributes;
+                            namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
-                                  public partial class Serializer1;
+                            [BshoxSerializer(typeof(Type1))]
+                            public partial class Serializer1;
 
-                                  [BshoxContract(ImplicitMembers = true)]
-                                  public record Type1
-                                  {
+                            [BshoxContract(ImplicitMembers = {{implicitMembers.ToString().ToLower()}})]
+                            public record Type1
+                            {
 
-                                  }
-                                  """;
+                            }
+                            """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
+        await Assert.That(diagnostics).IsEmpty(); // TODO: fix. There should be a warning here
         await Assert.That(generatedOutput).IsNotEmpty();
     }
 
@@ -47,32 +49,13 @@ public class GeneratedContractTests
     }
 
     [Test]
-    public async Task NoMembers2()
-    {
-        const string sourceCode = """
-                                  using Bshox.Attributes;
-                                  namespace TestModels;
-
-                                  [BshoxSerializer(typeof(Type1))]
-                                  public partial class Serializer1;
-
-                                  [BshoxContract(ImplicitMembers = false)]
-                                  public record Type1
-                                  {
-
-                                  }
-                                  """;
-        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
-
-        await Assert.That(diagnostics).IsEmpty(); // TODO: fix. There should be a warning here
-        await Assert.That(generatedOutput).IsNotEmpty();
-    }
-
-    [Test]
-    [Arguments("public")]
-    [Arguments("internal")]
-    [Arguments("protected internal")]
-    public async Task GoodMemberAccess(string access)
+    [Arguments("public", true)]
+    [Arguments("internal", true)]
+    [Arguments("protected internal", true)]
+    [Arguments("private", false)]
+    [Arguments("protected", false)]
+    [Arguments("private protected", false)]
+    public async Task MemberAccess(string access, bool valid)
     {
         string sourceCode = $$"""
                             using Bshox.Attributes;
@@ -90,33 +73,15 @@ public class GeneratedContractTests
                             """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
-        await Assert.That(generatedOutput).IsNotEmpty();
-    }
-
-    [Test]
-    [Arguments("private")]
-    [Arguments("protected")]
-    [Arguments("private protected")]
-    public async Task BadMemberAccess(string access)
-    {
-        string sourceCode = $$"""
-                            using Bshox.Attributes;
-                            namespace TestModels;
-
-                            [BshoxSerializer(typeof(Type1))]
-                            public partial class Serializer1;
-
-                            [BshoxContract(ImplicitMembers = false)]
-                            public record Type1
-                            {
-                                [BshoxMember(1)]
-                                {{access}} int Value { get; set; }
-                            }
-                            """;
-        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
-
-        await Assert.That(diagnostics.Select(d => d.Id)).All().Satisfy(x => x.IsEqualTo("CS0122"));
-        await Assert.That(generatedOutput).IsNotEmpty(); // TODO: fix this
+        if (valid)
+        {
+            await Assert.That(diagnostics).IsEmpty();
+            await Assert.That(generatedOutput).IsNotEmpty();
+        }
+        else
+        {
+            await Assert.That(diagnostics.Select(d => d.Id)).All().Satisfy(x => x.IsEqualTo("CS0122"));
+            await Assert.That(generatedOutput).IsNotEmpty(); // TODO: fix this
+        }
     }
 }
