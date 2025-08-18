@@ -8,16 +8,14 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+    <PolySharpExcludeTypeForwardedToDeclarations>true</PolySharpExcludeTypeForwardedToDeclarations>
   </PropertyGroup>
 
   <ItemGroup>
     <!-- <PackageReference Include="Microsoft.Bcl.AsyncInterfaces"
                       Condition="'$(TargetFramework)' == 'netstandard2.0'" /> -->
-    <PackageReference Include="IsExternalInit">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Nullable">
+    <PackageReference Include="PolySharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

@@ -38,6 +38,7 @@ public class BshoxException : Exception
         base.GetObjectData(info, context);
     }
 
+    [StackTraceHidden]
     public static void ThrowIfWrongEncoding(BshoxCode encoding, BshoxCode expected)
     {
         if (encoding != expected)

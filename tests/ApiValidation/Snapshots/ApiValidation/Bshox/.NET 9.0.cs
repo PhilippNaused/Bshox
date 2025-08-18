@@ -66,6 +66,7 @@ namespace Bshox
         protected BshoxException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         [System.Obsolete("This API supports obsolete formatter-based serialization. It should not be called or extended by application code.", DiagnosticId = "SYSLIB0051", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
+        [System.Diagnostics.StackTraceHidden]
         public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
     }
     public readonly record struct BshoxOptions
@@ -203,7 +204,7 @@ namespace Bshox.Attributes
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public sealed class BshoxMemberAttribute : System.Attribute
     {
-        public BshoxMemberAttribute(uint key);
+        public BshoxMemberAttribute([System.Diagnostics.CodeAnalysis.ConstantExpected(Min = 1u, Max = 536870911u)] uint key);
         public uint Key { get; }
     }
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = false, Inherited = false)]

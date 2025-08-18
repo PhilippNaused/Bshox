@@ -198,7 +198,7 @@ namespace Bshox.Attributes
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public sealed class BshoxMemberAttribute : System.Attribute
     {
-        public BshoxMemberAttribute(uint key);
+        public BshoxMemberAttribute([System.Diagnostics.CodeAnalysis.ConstantExpected(Min = 1u, Max = 536870911u)] uint key);
         public uint Key { get; }
     }
     [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = false, Inherited = false)]

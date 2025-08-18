@@ -47,7 +47,7 @@ public class BshoxSurrogateAttribute(Type type) : BshoxContractAttribute
 /// <param name="key">The unique identifier of this member. Must be positive and cannot be greater than <c>536870911</c></param>
 [ExcludeFromCodeCoverage]
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
-public sealed class BshoxMemberAttribute(uint key) : Attribute
+public sealed class BshoxMemberAttribute([ConstantExpected(Min = BshoxConstants.MinKey, Max = BshoxConstants.MaxKey)] uint key) : Attribute
 {
     /// <summary>
     /// The unique identifier of this member. Must be positive and cannot be greater than <c>536870911</c>
