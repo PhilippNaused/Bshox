@@ -5,7 +5,6 @@ using Bshox;
 
 namespace Benchmark;
 
-[MemoryDiagnoser]
 [Config(typeof(FrameworksConfig))]
 public class Frameworks
 {

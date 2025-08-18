@@ -14,7 +14,7 @@ public class BaseConfig : ManualConfig
     {
         static string GetMyPath([CallerFilePath] string filePath = "") => filePath; // Get the path of this file
         ArtifactsPath = Path.Combine(GetMyPath(), "../../../docs/benchmarks");
-        Orderer = new DefaultOrderer(SummaryOrderPolicy.Declared);
+        Orderer = new DefaultOrderer(SummaryOrderPolicy.Declared, jobOrderPolicy: JobOrderPolicy.Numeric);
         _ = HideColumns(StatisticColumn.StdDev);
         _ = HideColumns(StatisticColumn.Median);
 
@@ -29,16 +29,16 @@ public class FrameworksConfig : BaseConfig
 {
     public FrameworksConfig()
     {
-        _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(CoreRuntime.Core10_0).WithId("Net100-x64"));
-        _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(CoreRuntime.Core90).WithId("Net90-x64"));
-        _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(CoreRuntime.Core80).WithId("Net80-x64").AsBaseline());
+        var job = Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64);
+        _ = AddJob(job.WithRuntime(CoreRuntime.Core10_0).WithId("net10.0-x64"));
+        _ = AddJob(job.WithRuntime(CoreRuntime.Core90).WithId("net9.0-x64"));
+        _ = AddJob(job.WithRuntime(CoreRuntime.Core80).WithId("net8.0-x64").AsBaseline());
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
-            _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64).WithRuntime(ClrRuntime.Net48).WithId("Net48-x64"));
-            _ = AddJob(Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X86).WithRuntime(ClrRuntime.Net48).WithId("Net48-x86"));
+            _ = AddJob(job.WithRuntime(ClrRuntime.Net48).WithId("net48-x64"));
+            _ = AddJob(job.WithRuntime(ClrRuntime.Net48).WithPlatform(Platform.X86).WithId("net48-x86"));
         }
-        _ = HideColumns(Column.Platform);
-        _ = HideColumns(Column.Runtime);
+        _ = HideColumns(Column.Job);
     }
 }
 
