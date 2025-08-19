@@ -22,18 +22,18 @@ public static class Utils
         "Bshox.Generator",
     ];
 
-    private static List<MetadataReference>? s_References;
+    private static List<MetadataReference>? references;
 
     public static CSharpCompilation GetCompilation(string sourceCode, CSharpCompilationOptions? options = null, CSharpParseOptions? options2 = null)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode, options2);
-        s_References ??= GetReferences();
+        references ??= GetReferences();
 
-        // Console.WriteLine($"Assemblies:\n{string.Join(",\n", s_References.Select(r => r.Display).OrderBy(n => n))}");
+        // Console.WriteLine($"Assemblies:\n{string.Join(",\n", references.Select(r => r.Display).OrderBy(n => n))}");
 
         var compilation = CSharpCompilation.Create("SourceGeneratorTests",
             [syntaxTree],
-            s_References,
+            references,
             options ?? new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
         return compilation;

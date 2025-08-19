@@ -76,7 +76,7 @@ public class ContractResolverTests
                                 """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Utils.RunTest(sourceCode, async (ctx, types, @class, symbol) =>
+        await Utils.RunTest(sourceCode, async (ctx, types, _, symbol) =>
         {
             var info = new SerializerInfo(symbol, types, ctx);
             await Assert.That(info.HasErrors).IsFalse();

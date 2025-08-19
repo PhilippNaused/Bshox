@@ -29,17 +29,17 @@ public class BshoxGenerator : IIncrementalGenerator
             .SelectWithSymbol(context.CompilationProvider)
             .Combine(symbolsAndSettings);
 
-        context.RegisterSourceOutput(bshoxSerializerClasses, (context, tuple) =>
+        context.RegisterSourceOutput(bshoxSerializerClasses, (ctx, tuple) =>
         {
             (KnownTypeSymbols knownTypes, LanguageVersion langVersion) = tuple.Right;
             (ClassDeclarationSyntax classDeclaration, INamedTypeSymbol symbol) = tuple.Left;
             if (langVersion < LanguageVersion.CSharp12)
             {
-                context.ReportDiagnostic(Diagnostic.Create(Diagnostics.LangVersionMustBe12OrHigher, null, langVersion.MapSpecifiedToEffectiveVersion().ToDisplayString()));
+                ctx.ReportDiagnostic(Diagnostic.Create(Diagnostics.LangVersionMustBe12OrHigher, null, langVersion.MapSpecifiedToEffectiveVersion().ToDisplayString()));
                 return;
             }
 
-            Process(context, knownTypes, classDeclaration, symbol);
+            Process(ctx, knownTypes, classDeclaration, symbol);
         });
     }
 

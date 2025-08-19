@@ -5,8 +5,8 @@ namespace Bshox.Contracts;
 /// </summary>
 internal sealed class DictionaryContract<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) : BshoxContract<Dictionary<TKey, TValue>>(BshoxCode.Array) where TKey : notnull
 {
-    private readonly byte keyTag = checked((byte)((1 << 3) | (uint)keyContract.Encoding));
-    private readonly byte valueTag = checked((byte)((2 << 3) | (uint)valueContract.Encoding));
+    private readonly byte _keyTag = checked((byte)((1 << 3) | (uint)keyContract.Encoding));
+    private readonly byte _valueTag = checked((byte)((2 << 3) | (uint)valueContract.Encoding));
 
     /// <inheritdoc />
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly Dictionary<TKey, TValue> value)
@@ -23,11 +23,11 @@ internal sealed class DictionaryContract<TKey, TValue>(BshoxContract<TKey> keyCo
             var key = pair.Key;
             var value1 = pair.Value;
 #endif
-            writer.WriteByte(keyTag);
+            writer.WriteByte(_keyTag);
             keyContract.Serialize(ref writer, in key);
             if (value1 is not null)
             {
-                writer.WriteByte(valueTag);
+                writer.WriteByte(_valueTag);
                 valueContract.Serialize(ref writer, in value1);
             }
             writer.WriteByte(0);
@@ -52,12 +52,12 @@ internal sealed class DictionaryContract<TKey, TValue>(BshoxContract<TKey> keyCo
                 var tag = reader.ReadByte();
                 if (tag == 0)
                     break;
-                if (tag == keyTag)
+                if (tag == _keyTag)
                     keyContract.Deserialize(ref reader, out key);
-                else if (tag == valueTag)
+                else if (tag == _valueTag)
                     valueContract.Deserialize(ref reader, out value1);
                 else
-                    throw new BshoxException($"Unexpected tag: {tag}. Must be either 0, {keyTag}, or {valueTag}.");
+                    throw new BshoxException($"Unexpected tag: {tag}. Must be either 0, {_keyTag}, or {_valueTag}.");
             }
 
             if (key is null)
