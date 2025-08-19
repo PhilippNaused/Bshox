@@ -1,4 +1,5 @@
 using System.Buffers.Binary;
+using System.Diagnostics;
 
 namespace Bshox;
 
@@ -74,8 +75,8 @@ public ref partial struct BshoxReader
         if (minSize < 0)
             throw EndOfStream();
         CheckBufferSize(minSize);
-        if (count > int.MaxValue)
-            throw EndOfStream(); // TODO: better exception
+        Debug.Assert(count <= BshoxConstants.MaxKey, "count <= BshoxConstants.MaxKey");
+        Debug.Assert(count <= int.MaxValue, "count <= int.MaxValue");
         return checked((int)count);
     }
 

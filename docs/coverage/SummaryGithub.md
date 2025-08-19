@@ -3,31 +3,31 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 18 Aug 2025 - 20:04:39                                                   |
+| Generated on:        | 19 Aug 2025 - 20:25:09                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 57                                                                       |
 | Files:               | 63                                                                       |
-| **Line coverage:**   | 89.7% (3547 of 3951)                                                     |
-| Covered lines:       | 3547                                                                     |
-| Uncovered lines:     | 404                                                                      |
+| **Line coverage:**   | 89.8% (3548 of 3951)                                                     |
+| Covered lines:       | 3548                                                                     |
+| Uncovered lines:     | 403                                                                      |
 | Coverable lines:     | 3951                                                                     |
-| Total lines:         | 7421                                                                     |
+| Total lines:         | 7422                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 89.1%</summary>
+<details><summary>Bshox.dll - 89.2%</summary>
 
 | **Name**                                                   |  **Line** |
 |:-----------------------------------------------------------|----------:|
-| **Bshox.dll**                                              | **89.1%** |
+| **Bshox.dll**                                              | **89.2%** |
 | Bshox.BshoxContract<T>                                     |      100% |
 | Bshox.BshoxContractExtensions                              |     91.2% |
 | Bshox.BshoxException                                       |      100% |
 | Bshox.BshoxOptions                                         |      100% |
-| Bshox.BshoxReader                                          |     91.7% |
+| Bshox.BshoxReader                                          |       92% |
 | Bshox.BshoxSerializer                                      |       96% |
 | Bshox.BshoxWriter                                          |       95% |
 | Bshox.Contracts.ArrayContract<T>                           |      100% |

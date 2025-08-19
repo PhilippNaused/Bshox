@@ -9,7 +9,7 @@ public partial class Serializer4;
 
 [ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true, ImplicitDefaultValues = true)]
-public sealed record TestType4 : IEquatable<TestType4>
+public sealed record TestType4
 {
 #pragma warning disable CA2227 // Collection properties should be read only
     public List<TestType1>? List { get; set; }

@@ -6,7 +6,7 @@ namespace Samples;
 [BshoxSerializer(typeof(int), typeof(string))]
 partial class Example1;
 
-partial class Tests
+class Tests
 {
     [Test]
     public async Task Example1Test()
