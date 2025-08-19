@@ -1,6 +1,8 @@
 using Bshox;
 using Bshox.Attributes;
 
+namespace Samples;
+
 [BshoxSerializer(typeof(int), typeof(string))]
 partial class Example1;
 
