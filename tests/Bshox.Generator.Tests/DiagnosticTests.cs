@@ -1,6 +1,5 @@
 using System.Collections.Immutable;
 using Bshox.Generator.Extensions;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
 namespace Bshox.Generator.Tests;
