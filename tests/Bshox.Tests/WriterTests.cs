@@ -437,42 +437,53 @@ internal sealed class WriterTests : IDisposable
         await Assert.That(Hex(array)).IsEqualTo(expected);
     }
 
+    private const int TestBufferSize = 40;
+
     private unsafe struct Buffer1
     {
-        public fixed byte x[1024];
+        private fixed byte _x[TestBufferSize];
+        public ref byte Byte => ref _x[0];
     }
 
     [Test]
     public async Task WriteUnsafe_FixedSizeBuffer()
     {
-        var value = new Buffer1();
+        var value = new Buffer1
+        {
+            Byte = 0xFF
+        };
 
         var writer = GetWriter();
         writer.WriteUnsafe(in value);
         writer.Flush();
 
         var array = GetOutput();
-        await Assert.That(array).HasCount(1024);
+        await Assert.That(array).HasCount(TestBufferSize);
+        await Assert.That(array[0]).IsEqualTo((byte)0xFF);
+        await Assert.That(array.Skip(1)).ContainsOnly(b => b == 0);
     }
 
 #if NET8_0_OR_GREATER
-    [InlineArray(1024)]
+    [InlineArray(TestBufferSize)]
     private struct Buffer2
     {
-        public byte _element0;
+        private byte _element0;
     }
 
     [Test]
     public async Task WriteUnsafe_InlineArray()
     {
         var value = new Buffer2();
+        value[0] = 0xFF;
 
         var writer = GetWriter();
         writer.WriteUnsafe(in value);
         writer.Flush();
 
         var array = GetOutput();
-        await Assert.That(array).HasCount(1024);
+        await Assert.That(array).HasCount(TestBufferSize);
+        await Assert.That(array[0]).IsEqualTo((byte)0xFF);
+        await Assert.That(array.Skip(1)).ContainsOnly(b => b == 0);
     }
 #endif
 
