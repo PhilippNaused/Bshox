@@ -47,6 +47,15 @@ internal class ApiTests
     }
 
     [Test]
+    public async Task SerializeToNonSeekingStream()
+    {
+        var ms = new MemoryStream();
+        var stream = new NonSeekableStream(ms);
+        TestSerializer.Int32Array.Serialize(stream, s_Array);
+        await Assert.That(ms.ToArray()).IsEquivalentTo(s_Expected);
+    }
+
+    [Test]
     public async Task SerializeToMemoryStream2()
     {
         var stream = new MemoryStream();
@@ -118,6 +127,15 @@ internal class ApiTests
     public async Task DeserializeFromStream()
     {
         var stream = new MemoryStream(s_Expected);
+        int[] result = TestSerializer.Int32Array.Deserialize(stream);
+        await Assert.That(result).IsEquivalentTo(s_Array);
+    }
+
+    [Test]
+    public async Task DeserializeFromNonSeekingStream()
+    {
+        var ms = new MemoryStream(s_Expected);
+        var stream = new NonSeekableStream(ms);
         int[] result = TestSerializer.Int32Array.Deserialize(stream);
         await Assert.That(result).IsEquivalentTo(s_Array);
     }

@@ -59,7 +59,11 @@ public static class BshoxContractExtensions
             return value;
         }
 
-        long startPos = stream.Position;
+        long startPos = -1;
+        if (stream.CanSeek)
+        {
+            startPos = stream.Position;
+        }
         using var sequence = new StreamSequence(stream);
         sequence.ReadAll(); // this always reads everything from the stream
 
@@ -80,7 +84,11 @@ public static class BshoxContractExtensions
             return value;
         }
 
-        long startPos = stream.Position;
+        long startPos = -1;
+        if (stream.CanSeek)
+        {
+            startPos = stream.Position;
+        }
         using var sequence = new StreamSequence(stream);
         await sequence.ReadAllAsync(cancellationToken).ConfigureAwait(false); // this always reads everything from the stream
 
