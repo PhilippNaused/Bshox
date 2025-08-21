@@ -159,7 +159,7 @@ namespace Bshox
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract);
         public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> contract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
-        public static Bshox.BshoxContract<TEnum> Enum<TEnum, TInner>(Bshox.BshoxContract<TInner> contract) where TEnum : unmanaged, System.Enum where TInner : unmanaged;
+        public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
         public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> contract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<System.Collections.Generic.List<T>> contract);
         public static Bshox.BshoxContract<System.Collections.Generic.List<T>> List<T>(Bshox.BshoxContract<T> contract);

@@ -38,8 +38,8 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     {
         c_Type1 = new TestModels_Type1__BshoxContract();
         c_Int32 = bsx::DefaultContracts.Int32;
-        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels2.MyEnum, int>(c_Int32);
-        c_MyEnum_1 = bsx::DefaultContracts.Enum<global::TestModels.MyEnum, int>(c_Int32);
+        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels2.MyEnum>(c_Int32);
+        c_MyEnum_1 = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>(c_Int32);
     }
 
     protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)

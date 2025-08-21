@@ -274,7 +274,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             // TODO: add inline info
             Dependencies = [ContractDemand.DefaultForType(enumUnderlyingType)],
             StaticDependencies = true,
-            InitializeStatementFormat = $"bsx::DefaultContracts.Enum<{enumType.FullyQualifiedToString()}, {enumUnderlyingType.FullyQualifiedToString()}>($0)"
+            InitializeStatementFormat = $"bsx::DefaultContracts.Enum<{enumType.FullyQualifiedToString()}>($0)"
         };
     }
 

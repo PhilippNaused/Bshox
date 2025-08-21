@@ -164,18 +164,30 @@ public static partial class DefaultContracts
     /// <summary>
     /// TODO
     /// </summary>
-    /// <typeparam name="TEnum">The enum type</typeparam>
-    /// <typeparam name="TInner">The underlying primitive type of the enum</typeparam>
+    /// <typeparam name="T">The enum type</typeparam>
     /// <param name="contract">TODO</param>
     /// <returns>TODO</returns>
     /// <exception cref="ArgumentException">TODO</exception>
-    public static BshoxContract<TEnum> Enum<TEnum, TInner>(BshoxContract<TInner> contract) where TEnum : unmanaged, Enum where TInner : unmanaged
+    public static BshoxContract<T> Enum<T>(IBshoxContract contract) where T : unmanaged, Enum
     {
-        if (typeof(TEnum).GetEnumUnderlyingType() != typeof(TInner))
+#pragma warning disable IDE0072 // Add missing cases
+        return Type.GetTypeCode(typeof(T)) switch
+#pragma warning restore IDE0072 // Add missing cases
         {
-            throw new ArgumentException("The underlying type of the enum must be the same as the provided contract type.");
-        }
-        return new EnumContract<TEnum, TInner>(contract);
+            TypeCode.SByte => new EnumContract<T, sbyte>((BshoxContract<sbyte>)contract),
+            TypeCode.Byte => new EnumContract<T, byte>((BshoxContract<byte>)contract),
+            TypeCode.Int16 => new EnumContract<T, short>((BshoxContract<short>)contract),
+            TypeCode.UInt16 => new EnumContract<T, ushort>((BshoxContract<ushort>)contract),
+            TypeCode.Int32 => new EnumContract<T, int>((BshoxContract<int>)contract), // default value => hot path
+            TypeCode.UInt32 => new EnumContract<T, uint>((BshoxContract<uint>)contract),
+            TypeCode.Int64 => new EnumContract<T, long>((BshoxContract<long>)contract),
+            TypeCode.UInt64 => new EnumContract<T, ulong>((BshoxContract<ulong>)contract),
+
+            // The runtime also allows these types, but the language doesn't, so we don't support them:
+            // char, float, double, nint, nuint, bool
+            // See: https://github.com/dotnet/runtime/blob/d3425021075c54d095e7d6b3afd611c4fd81b913/src/coreclr/System.Private.CoreLib/src/System/Enum.CoreCLR.cs#L35
+            _ => throw new ArgumentException($"Unsupported enum underlying type: {typeof(T).GetEnumUnderlyingType()}"),
+        };
     }
 
     private sealed class EnumContract<TEnum, TInner>(BshoxContract<TInner> contract) : BshoxContract<TEnum>(contract.Encoding) where TEnum : unmanaged, Enum where TInner : unmanaged

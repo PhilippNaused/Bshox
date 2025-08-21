@@ -3,26 +3,26 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 19 Aug 2025 - 20:43:23                                                   |
+| Generated on:        | 21 Aug 2025 - 23:24:38                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 57                                                                       |
 | Files:               | 63                                                                       |
-| **Line coverage:**   | 89.8% (3564 of 3967)                                                     |
-| Covered lines:       | 3564                                                                     |
-| Uncovered lines:     | 403                                                                      |
-| Coverable lines:     | 3967                                                                     |
-| Total lines:         | 7438                                                                     |
+| **Line coverage:**   | 89.9% (3579 of 3980)                                                     |
+| Covered lines:       | 3579                                                                     |
+| Uncovered lines:     | 401                                                                      |
+| Coverable lines:     | 3980                                                                     |
+| Total lines:         | 7450                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 89.3%</summary>
+<details><summary>Bshox.dll - 89.6%</summary>
 
 | **Name**                                                   |  **Line** |
 |:-----------------------------------------------------------|----------:|
-| **Bshox.dll**                                              | **89.3%** |
+| **Bshox.dll**                                              | **89.6%** |
 | Bshox.BshoxContract<T>                                     |      100% |
 | Bshox.BshoxContractExtensions                              |     91.9% |
 | Bshox.BshoxException                                       |      100% |
@@ -36,7 +36,7 @@
 | Bshox.Contracts.IDictionaryContract<TKey, TValue>          |        0% |
 | Bshox.Contracts.IListContract<T>                           |        0% |
 | Bshox.Contracts.ListContract<T>                            |      100% |
-| Bshox.DefaultContracts                                     |     89.3% |
+| Bshox.DefaultContracts                                     |     90.8% |
 | Bshox.Internals.DepthLockScope                             |      100% |
 | Bshox.Internals.EncodingHelper                             |     72.7% |
 | Bshox.Internals.EndiannessHelper                           |      100% |
