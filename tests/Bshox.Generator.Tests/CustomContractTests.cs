@@ -160,7 +160,7 @@ public class CustomContractTests
     }
 
     [Test]
-    [Skip("not implemented yet")]
+    [Explicit] // not implemented yet
     public async Task CustomContractFromGenericMethod()
     {
         const string sourceCode = """
@@ -208,7 +208,7 @@ public class CustomContractTests
     }
 
     [Test]
-    [Skip("not implemented yet")]
+    [Explicit] // not implemented yet
     public async Task CustomContractUnboundGeneric()
     {
         const string sourceCode = """
