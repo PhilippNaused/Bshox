@@ -6,13 +6,12 @@ Unknown processor
   [Host] : .NET 10.0.0 (10.0.25.38108), X64 RyuJIT AVX2
   Dry    : .NET 10.0.0 (10.0.25.38108), X64 RyuJIT AVX2
 
-Job=Dry  EnvironmentVariables=DOTNET_TieredPGO=0  Server=True
-IterationCount=1  LaunchCount=10  RunStrategy=ColdStart
-UnrollFactor=1  WarmupCount=1
+Job=Dry  IterationCount=1  LaunchCount=10  
+RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1  
 
 ```
-| Method         |     Mean |   Error | Ratio | RatioSD | Allocated | Alloc Ratio |
-|----------------|---------:|--------:|------:|--------:|----------:|------------:|
-| Base           | 358.7 ms | 5.76 ms |  1.00 |    0.01 |   1.33 MB |        1.00 |
-| BshoxGenerator | 663.9 ms | 3.39 ms |  1.85 |    0.02 |   3.62 MB |        2.72 |
-| JsonGenerator  | 713.2 ms | 3.19 ms |  1.99 |    0.02 |   8.87 MB |        6.66 |
+| Method         | Mean     | Error   | Ratio | RatioSD | Allocated | Alloc Ratio |
+|--------------- |---------:|--------:|------:|--------:|----------:|------------:|
+| Base           | 382.9 ms | 8.62 ms |  1.00 |    0.02 |   1.33 MB |        1.00 |
+| BshoxGenerator | 700.2 ms | 7.45 ms |  1.83 |    0.03 |   3.62 MB |        2.72 |
+| JsonGenerator  | 753.7 ms | 3.21 ms |  1.97 |    0.03 |   8.87 MB |        6.66 |

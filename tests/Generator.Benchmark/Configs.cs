@@ -26,7 +26,7 @@ public class ColdConfig : BaseConfig
 {
     public ColdConfig()
     {
-        _ = AddJob(Job.Dry.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithLaunchCount(10));
+        _ = AddJob(Job.Dry.WithLaunchCount(10));
     }
 }
 
@@ -34,6 +34,6 @@ public class MediumConfig : BaseConfig
 {
     public MediumConfig()
     {
-        _ = AddJob(Job.MediumRun.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true));
+        _ = AddJob(Job.MediumRun.WithWarmupCount(20));
     }
 }

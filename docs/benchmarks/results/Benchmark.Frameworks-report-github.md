@@ -10,19 +10,18 @@ Unknown processor
   net48-x64   : .NET Framework 4.8.1 (4.8.9310.0), X64 RyuJIT VectorSize=256
   net48-x86   : .NET Framework 4.8.1 (4.8.9310.0), X86 LegacyJIT
 
-EnvironmentVariables=DOTNET_TieredPGO=0  Server=True
 
 ```
-| Method      | Platform | Runtime            |     Mean |     Error | Ratio |
-|-------------|----------|--------------------|---------:|----------:|------:|
-| Deserialize | X64      | .NET 8.0           | 1.532 μs | 0.0066 μs |  1.00 |
-| Deserialize | X64      | .NET 9.0           | 1.590 μs | 0.0050 μs |  1.04 |
-| Deserialize | X64      | .NET 10.0          | 1.571 μs | 0.0069 μs |  1.03 |
-| Deserialize | X64      | .NET Framework 4.8 | 3.859 μs | 0.0163 μs |  2.52 |
-| Deserialize | X86      | .NET Framework 4.8 | 3.672 μs | 0.0106 μs |  2.40 |
-|             |          |                    |          |           |       |
-| Serialize   | X64      | .NET 8.0           | 2.686 μs | 0.0529 μs |  1.00 |
-| Serialize   | X64      | .NET 9.0           | 1.385 μs | 0.0077 μs |  0.52 |
-| Serialize   | X64      | .NET 10.0          | 1.354 μs | 0.0026 μs |  0.50 |
-| Serialize   | X64      | .NET Framework 4.8 | 2.783 μs | 0.0108 μs |  1.04 |
-| Serialize   | X86      | .NET Framework 4.8 | 3.666 μs | 0.0105 μs |  1.37 |
+| Method      | Platform | Runtime            |       Mean |    Error | Ratio |
+|-------------|----------|--------------------|-----------:|---------:|------:|
+| Deserialize | X64      | .NET 8.0           | 1,029.8 ns |  5.31 ns |  1.00 |
+| Deserialize | X64      | .NET 9.0           |   846.1 ns |  4.84 ns |  0.82 |
+| Deserialize | X64      | .NET 10.0          |   922.6 ns |  3.13 ns |  0.90 |
+| Deserialize | X64      | .NET Framework 4.8 | 3,680.0 ns | 22.44 ns |  3.57 |
+| Deserialize | X86      | .NET Framework 4.8 | 3,604.8 ns | 16.30 ns |  3.50 |
+|             |          |                    |            |          |       |
+| Serialize   | X64      | .NET 8.0           | 1,202.9 ns |  5.22 ns |  1.00 |
+| Serialize   | X64      | .NET 9.0           |   744.3 ns |  2.14 ns |  0.62 |
+| Serialize   | X64      | .NET 10.0          |   771.3 ns | 10.97 ns |  0.64 |
+| Serialize   | X64      | .NET Framework 4.8 | 2,753.7 ns | 32.57 ns |  2.29 |
+| Serialize   | X86      | .NET Framework 4.8 | 3,487.7 ns | 13.97 ns |  2.90 |

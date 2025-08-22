@@ -29,7 +29,7 @@ public class FrameworksConfig : BaseConfig
 {
     public FrameworksConfig()
     {
-        var job = Job.Default.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithPlatform(Platform.X64);
+        var job = Job.Default.WithPlatform(Platform.X64);
         _ = AddJob(job.WithRuntime(CoreRuntime.Core10_0).WithId("net10.0-x64"));
         _ = AddJob(job.WithRuntime(CoreRuntime.Core90).WithId("net9.0-x64"));
         _ = AddJob(job.WithRuntime(CoreRuntime.Core80).WithId("net8.0-x64").AsBaseline());
@@ -46,7 +46,7 @@ public class ColdConfig : BaseConfig
 {
     public ColdConfig()
     {
-        _ = AddJob(Job.Dry.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true).WithLaunchCount(25));
+        _ = AddJob(Job.Dry.WithLaunchCount(25));
     }
 }
 
@@ -54,6 +54,6 @@ public class MediumConfig : BaseConfig
 {
     public MediumConfig()
     {
-        _ = AddJob(Job.MediumRun.WithEnvironmentVariable("DOTNET_TieredPGO", "0").WithGcServer(true));
+        _ = AddJob(Job.MediumRun);
     }
 }
