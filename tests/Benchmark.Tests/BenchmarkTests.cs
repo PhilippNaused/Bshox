@@ -5,7 +5,7 @@ internal class BenchmarkTests
     [Test]
     public async Task Deserialize()
     {
-        var b = new Deserialize();
+        var b = new DeserializeCompare();
         b.Setup();
 
         await Assert.That(b._bshoxData.Length).IsEqualTo(3011);

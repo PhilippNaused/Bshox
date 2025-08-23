@@ -12,8 +12,8 @@ RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 ```
 | Method           |      Mean |     Error | Ratio | Allocated | Alloc Ratio |
 |------------------|----------:|----------:|------:|----------:|------------:|
-| Bshox            |  1.993 ms | 0.0544 ms |  1.00 |   4.16 KB |        1.00 |
-| System.Text.Json |  7.485 ms | 0.2047 ms |  3.76 |  15.45 KB |        3.72 |
-| MessagePack      |  4.495 ms | 0.0535 ms |  2.26 |   4.16 KB |        1.00 |
-| protobuf-net     | 22.990 ms | 0.2243 ms | 11.55 |   4.29 KB |        1.03 |
-| Google.Protobuf  |  2.903 ms | 0.0499 ms |  1.46 |   15.5 KB |        3.73 |
+| Bshox            |  4.189 ms | 0.1070 ms |  1.00 |      3 KB |        1.00 |
+| System.Text.Json | 21.416 ms | 0.3080 ms |  5.12 |   9.23 KB |        3.08 |
+| MessagePack      | 22.559 ms | 0.2760 ms |  5.39 |   4.38 KB |        1.46 |
+| protobuf-net     | 10.603 ms | 0.2408 ms |  2.53 |  16.56 KB |        5.52 |
+| Google.Protobuf  |  6.109 ms | 0.1817 ms |  1.46 |   4.32 KB |        1.44 |

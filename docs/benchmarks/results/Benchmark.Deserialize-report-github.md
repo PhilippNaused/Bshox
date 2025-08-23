@@ -10,10 +10,9 @@ Job=MediumRun  IterationCount=15  LaunchCount=2
 WarmupCount=10
 
 ```
-| Method           |        Mean |    Error | Ratio | Allocated | Alloc Ratio |
-|------------------|------------:|---------:|------:|----------:|------------:|
-| Bshox            |    934.1 ns |  8.38 ns |  1.00 |   4.16 KB |        1.00 |
-| System.Text.Json | 27,557.2 ns | 52.27 ns | 29.51 |  15.45 KB |        3.72 |
-| MessagePack      |  2,725.7 ns | 56.56 ns |  2.92 |   4.16 KB |        1.00 |
-| protobuf-net     |  7,873.7 ns | 50.30 ns |  8.43 |   4.29 KB |        1.03 |
-| Google.Protobuf  |  4,003.7 ns | 78.16 ns |  4.29 |   15.5 KB |        3.73 |
+| Method | TieredCompilation | Segmented |       Mean |    Error | Allocated |
+|--------|-------------------|-----------|-----------:|---------:|----------:|
+| Bshox  | 0                 | False     | 1,352.2 ns | 11.42 ns |   4.16 KB |
+| Bshox  | 1                 | False     |   915.6 ns |  8.19 ns |   4.16 KB |
+| Bshox  | 0                 | True      | 1,602.5 ns |  8.19 ns |   4.21 KB |
+| Bshox  | 1                 | True      | 1,029.4 ns |  2.68 ns |   4.21 KB |

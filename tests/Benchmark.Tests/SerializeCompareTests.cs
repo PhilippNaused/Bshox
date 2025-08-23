@@ -5,7 +5,7 @@ using Bshox.Utils;
 
 namespace Benchmark.Tests;
 
-public sealed class SerializeTests : Serialize
+public sealed class SerializeCompareTests : SerializeCompare
 {
     [Test]
     public async Task Regression()
