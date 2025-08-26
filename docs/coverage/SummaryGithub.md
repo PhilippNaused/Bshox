@@ -3,42 +3,42 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 26 Aug 2025 - 20:18:44                                                   |
+| Generated on:        | 26 Aug 2025 - 23:15:30                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 54                                                                       |
 | Files:               | 63                                                                       |
-| **Line coverage:**   | 90.6% (3579 of 3950)                                                     |
-| Covered lines:       | 3579                                                                     |
+| **Line coverage:**   | 90.7% (3621 of 3992)                                                     |
+| Covered lines:       | 3621                                                                     |
 | Uncovered lines:     | 371                                                                      |
-| Coverable lines:     | 3950                                                                     |
-| Total lines:         | 7456                                                                     |
+| Coverable lines:     | 3992                                                                     |
+| Total lines:         | 7498                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 91.7%</summary>
+<details><summary>Bshox.dll - 92%</summary>
 
-| **Name**                                         |  **Line** |
-|:-------------------------------------------------|----------:|
-| **Bshox.dll**                                    | **91.7%** |
-| Bshox.BshoxContract<T>                           |      100% |
-| Bshox.BshoxContractExtensions                    |     91.9% |
-| Bshox.BshoxException                             |      100% |
-| Bshox.BshoxOptions                               |      100% |
-| Bshox.BshoxReader                                |       92% |
-| Bshox.BshoxSerializer                            |     96.3% |
-| Bshox.BshoxWriter                                |       95% |
-| Bshox.Contracts.ArrayContract<T>                 |      100% |
-| Bshox.Contracts.DictionaryContract<TKey, TValue> |     95.6% |
-| Bshox.Contracts.ListContract<T>                  |      100% |
-| Bshox.DefaultContracts                           |     90.8% |
-| Bshox.Internals.DepthLockScope                   |      100% |
-| Bshox.Internals.EncodingHelper                   |     72.7% |
-| Bshox.Internals.EndiannessHelper                 |      100% |
-| Bshox.Internals.PooledByteBufferWriter           |     71.6% |
-| Bshox.Internals.StreamSequence                   |     92.8% |
+| **Name**                                         | **Line** |
+|:-------------------------------------------------|---------:|
+| **Bshox.dll**                                    |  **92%** |
+| Bshox.BshoxContract<T>                           |     100% |
+| Bshox.BshoxContractExtensions                    |    91.9% |
+| Bshox.BshoxException                             |     100% |
+| Bshox.BshoxOptions                               |     100% |
+| Bshox.BshoxReader                                |      92% |
+| Bshox.BshoxSerializer                            |    96.3% |
+| Bshox.BshoxWriter                                |      95% |
+| Bshox.Contracts.ArrayContract<T>                 |     100% |
+| Bshox.Contracts.DictionaryContract<TKey, TValue> |    95.6% |
+| Bshox.Contracts.ListContract<T>                  |     100% |
+| Bshox.DefaultContracts                           |    90.8% |
+| Bshox.Internals.DepthLockScope                   |     100% |
+| Bshox.Internals.EncodingHelper                   |    72.7% |
+| Bshox.Internals.EndiannessHelper                 |     100% |
+| Bshox.Internals.PooledByteBufferWriter           |    81.8% |
+| Bshox.Internals.StreamSequence                   |    92.8% |
 
 </details>
 <details><summary>Bshox.Generator.dll - 91.1%</summary>

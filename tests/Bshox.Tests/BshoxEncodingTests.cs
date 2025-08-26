@@ -24,7 +24,7 @@ internal sealed class BshoxEncodingTests
         writer.WriteZigZagVarInt64(l);
         writer.Flush();
         TestHelper.WriteContext(stream);
-        var reader = new BshoxReader(stream.WrittenMemory);
+        var reader = new BshoxReader(stream.GetReadOnlySequence());
         long x = reader.ReadZigZagVarInt64();
         await Assert.That(x).IsEqualTo(l);
     }
@@ -45,7 +45,7 @@ internal sealed class BshoxEncodingTests
         writer.WriteVarInt64(l);
         writer.Flush();
         TestHelper.WriteContext(stream);
-        var reader = new BshoxReader(stream.WrittenMemory);
+        var reader = new BshoxReader(stream.GetReadOnlySequence());
         ulong x = reader.ReadVarInt64();
         await Assert.That(x).IsEqualTo(l);
     }
@@ -59,7 +59,7 @@ internal sealed class BshoxEncodingTests
         writer.WriteTag(key, type);
         writer.Flush();
         TestHelper.WriteContext(stream);
-        var reader = new BshoxReader(stream.WrittenMemory);
+        var reader = new BshoxReader(stream.GetReadOnlySequence());
         uint key2 = reader.ReadTag(out var type2);
         await Assert.That(key2).IsEqualTo(key);
         await Assert.That(type).IsEqualTo(type2);
@@ -74,7 +74,7 @@ internal sealed class BshoxEncodingTests
         writer.WriteString(s);
         writer.Flush();
         TestHelper.WriteContext(stream);
-        var reader = new BshoxReader(stream.WrittenMemory);
+        var reader = new BshoxReader(stream.GetReadOnlySequence());
         string x = reader.ReadString();
         await Assert.That(x).IsEqualTo(s);
     }
@@ -94,7 +94,7 @@ internal sealed class BshoxEncodingTests
         writer.WriteString(s);
         writer.Flush();
         TestHelper.WriteContext(stream);
-        var reader = new BshoxReader(stream.WrittenMemory);
+        var reader = new BshoxReader(stream.GetReadOnlySequence());
         string x = reader.ReadString();
         await Assert.That(x).IsEqualTo(s);
     }

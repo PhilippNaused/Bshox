@@ -127,7 +127,7 @@ public abstract class BshoxSerializer
     {
         using var buffer = new PooledByteBufferWriter();
         Serialize(buffer, value, inputType);
-        return buffer.WrittenMemory.ToArray();
+        return buffer.ToArray();
     }
 
     #endregion Serialize

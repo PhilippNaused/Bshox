@@ -29,7 +29,7 @@ public static class BshoxContractExtensions
     {
         using var buffer = new PooledByteBufferWriter();
         contract.Serialize(buffer, in value);
-        return buffer.WrittenMemory.ToArray();
+        return buffer.ToArray();
     }
 
     // TODO: add async version

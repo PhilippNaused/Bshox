@@ -86,25 +86,17 @@ internal class ApiTests
     [Test]
     public async Task SerializeToBufferWriter()
     {
-#if NETCOREAPP
-        var writer = new System.Buffers.ArrayBufferWriter<byte>();
-#else
         using var writer = new Internals.PooledByteBufferWriter();
-#endif
         TestSerializer.Int32Array.Serialize(writer, s_Array);
-        await Assert.That(writer.WrittenMemory.ToArray()).IsEquivalentTo(s_Expected);
+        await Assert.That(writer.ToArray()).IsEquivalentTo(s_Expected);
     }
 
     [Test]
     public async Task SerializeToBufferWriter2()
     {
-#if NETCOREAPP
-        var writer = new System.Buffers.ArrayBufferWriter<byte>();
-#else
         using var writer = new Internals.PooledByteBufferWriter();
-#endif
         TestSerializer.Instance.Serialize(writer, s_Array, typeof(int[]));
-        await Assert.That(writer.WrittenMemory.ToArray()).IsEquivalentTo(s_Expected);
+        await Assert.That(writer.ToArray()).IsEquivalentTo(s_Expected);
     }
 
     [Test]

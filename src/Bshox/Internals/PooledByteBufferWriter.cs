@@ -1,20 +1,40 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
 using System.Buffers;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace Bshox.Internals;
 
 /// <summary>
+/// Inspired by the internal .NET implementation of PooledByteBufferWriter.
 /// <see href="https://github.com/dotnet/runtime/blob/release/8.0/src/libraries/Common/src/System/Text/Json/PooledByteBufferWriter.cs"/>
 /// </summary>
 internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 {
+    private sealed class Segment : ReadOnlySequenceSegment<byte>
+    {
+        internal readonly byte[] Buffer;
+
+        public Segment(long index, byte[] buffer, int length)
+        {
+            Buffer = buffer;
+            Memory = buffer.AsMemory(0, length);
+            RunningIndex = index;
+        }
+
+        public int Length => Memory.Length;
+
+        internal void SetNext(Segment segment)
+        {
+            Next = segment;
+        }
+    }
+
+    private readonly List<Segment> _segments = [];
     private byte[] _buffer;
     private int _index;
+    private long _segLength;
 
-    private const int MinimumBufferSize = 256;
+    private const int MinimumBufferSize = 0;
     private const int DefaultBufferSize = 16 * 1024;
 
     // Value copied from Array.MaxLength in System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Array.cs.
@@ -25,38 +45,54 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         Debug.Assert(initialCapacity > 0, "initialCapacity > 0");
 
         _buffer = ArrayPool<byte>.Shared.Rent(initialCapacity);
-        _index = 0;
     }
 
-    public ReadOnlyMemory<byte> WrittenMemory
+    public ReadOnlySequence<byte> GetReadOnlySequence()
     {
-        get
+        if (_segments.Count == 0)
         {
-            Debug.Assert(_index <= _buffer.Length, "_index <= _buffer.Length");
-            return _buffer.AsMemory(0, _index);
+            return new ReadOnlySequence<byte>(_buffer, 0, _index);
         }
+        var first = _segments[0];
+        var last = _segments[^1];
+        var lastSegment = new Segment(_segLength, _buffer, _index);
+        last.SetNext(lastSegment);
+        return new ReadOnlySequence<byte>(first, 0, lastSegment, lastSegment.Length);
     }
 
-    public int WrittenCount => _index;
+    public byte[] ToArray()
+    {
+        var array = new byte[Length];
+        int offset = 0;
+        if (_segments.Count > 0)
+        {
+            foreach (var segment in _segments)
+            {
+                Buffer.BlockCopy(segment.Buffer, 0, array, offset, segment.Length);
+                offset += segment.Length;
+            }
+        }
+        Buffer.BlockCopy(_buffer, 0, array, offset, _index);
+        return array;
+    }
 
-    public int Capacity => _buffer.Length;
-
-    public int FreeCapacity => _buffer.Length - _index;
+    public long Length => _segLength + _index;
 
     /// <summary>
     /// Returns the rented buffer back to the pool
     /// </summary>
     public void Dispose()
     {
-        if (_buffer == Array.Empty<byte>())
-        {
-            return;
-        }
-
-        byte[] toReturn = _buffer;
+        ArrayPool<byte>.Shared.Return(_buffer, true);
         _buffer = [];
         _index = 0;
-        ArrayPool<byte>.Shared.Return(toReturn, true);
+
+        foreach (var segment in _segments)
+        {
+            ArrayPool<byte>.Shared.Return(segment.Buffer, true);
+        }
+        _segments.Clear();
+        _segLength = 0;
     }
 
     public void Advance(int count)
@@ -80,66 +116,72 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 
     internal void WriteToStream(Stream destination)
     {
-#if NETCOREAPP
-        destination.Write(WrittenMemory.Span);
-#else
+        foreach (var segment in _segments)
+        {
+            destination.Write(segment.Buffer, 0, segment.Length);
+        }
         destination.Write(_buffer, 0, _index);
-#endif
     }
 
 #if NETCOREAPP
-    internal ValueTask WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
+    internal async ValueTask WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
-        return destination.WriteAsync(WrittenMemory, cancellationToken);
+        foreach (var segment in _segments)
+        {
+            await destination.WriteAsync(segment.Memory, cancellationToken).ConfigureAwait(false);
+        }
+        await destination.WriteAsync(_buffer.AsMemory(_index), cancellationToken).ConfigureAwait(false);
     }
 #else
-    internal Task WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
+    internal async Task WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
-        return destination.WriteAsync(_buffer, 0, _index, cancellationToken);
+        foreach (var segment in _segments)
+        {
+            await destination.WriteAsync(segment.Buffer, 0, segment.Length, cancellationToken).ConfigureAwait(false);
+        }
+        await destination.WriteAsync(_buffer, 0, _index, cancellationToken).ConfigureAwait(false);
     }
 #endif
 
     private void CheckAndResizeBuffer(int sizeHint)
     {
         Debug.Assert(sizeHint >= 0, "sizeHint >= 0");
+        Debug.Assert(_buffer.Length >= _index, "_buffer.Length >= _index");
 
         int currentLength = _buffer.Length;
         int availableSpace = currentLength - _index;
 
-        sizeHint = Math.Max(sizeHint, DefaultBufferSize);
-
-        // If we've reached ~1GB written, grow to the maximum buffer
-        // length to avoid incessant minimal growths causing perf issues.
-        if (_index >= MaximumBufferSize / 2)
-        {
-            sizeHint = Math.Max(sizeHint, MaximumBufferSize - currentLength);
-        }
-
         if (sizeHint > availableSpace)
         {
-            int growBy = Math.Max(sizeHint, currentLength);
+            ResizeBuffer(sizeHint);
+        }
+    }
 
-            int newSize = currentLength + growBy;
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+    private void ResizeBuffer(int sizeHint)
+    {
+        sizeHint = Math.Max(sizeHint, DefaultBufferSize);
 
-            if ((uint)newSize > MaximumBufferSize)
-            {
-                newSize = currentLength + sizeHint;
-            }
-
-            byte[] oldBuffer = _buffer;
-
-            _buffer = ArrayPool<byte>.Shared.Rent(newSize);
-
-            Debug.Assert(oldBuffer.Length >= _index, "oldBuffer.Length >= _index");
-            Debug.Assert(_buffer.Length >= _index, "_buffer.Length >= _index");
-
-            Span<byte> oldBufferAsSpan = oldBuffer.AsSpan(0, _index);
-            oldBufferAsSpan.CopyTo(_buffer);
-            oldBufferAsSpan.Clear();
-            ArrayPool<byte>.Shared.Return(oldBuffer);
+        var segment = new Segment(_segLength, _buffer, _index);
+        if (_segments.Count > 0)
+        {
+            var last = _segments[^1];
+            Debug.Assert(last is not null, "last is not null");
+            last!.SetNext(segment);
+        }
+        else
+        {
+            Debug.Assert(_segments.Count == 0, "_segments.Count == 0");
+            Debug.Assert(_segLength == 0, "_segLength == 0");
         }
 
-        Debug.Assert(_buffer.Length - _index > 0, "_buffer.Length - _index > 0");
-        Debug.Assert(_buffer.Length - _index >= sizeHint, "_buffer.Length - _index >= sizeHint");
+        _segments.Add(segment);
+        _segLength += _index;
+
+        _buffer = ArrayPool<byte>.Shared.Rent(sizeHint);
+
+        Debug.Assert(_buffer.Length >= _index, "_buffer.Length >= _index");
+        Debug.Assert(_buffer.Length >= sizeHint, "_buffer.Length >= sizeHint");
+        _index = 0;
     }
 }

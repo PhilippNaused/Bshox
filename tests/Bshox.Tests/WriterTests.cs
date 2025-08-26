@@ -16,7 +16,7 @@ internal sealed class WriterTests : IDisposable
 
     public void Dispose() => Reset();
 
-    private byte[] GetOutput() => buffer.WrittenMemory.ToArray();
+    private byte[] GetOutput() => buffer.ToArray();
 
     private void Reset()
     {
@@ -26,9 +26,9 @@ internal sealed class WriterTests : IDisposable
     private BshoxReader GetReader()
     {
         const int SegmentSize = 3;
-        var seq = SequenceSegmenter.MakeSegmentedSequence(buffer.WrittenMemory, SegmentSize);
-        Debug.Assert(seq.Length == buffer.WrittenMemory.Length, "seq.Length == buffer.WrittenMemory.Length");
-        Debug.Assert(seq.IsSingleSegment == (buffer.WrittenMemory.Length <= SegmentSize), "seq.IsSingleSegment == (buffer.WrittenMemory.Length <= SegmentSize)");
+        var seq = SequenceSegmenter.MakeSegmentedSequence(buffer.ToArray(), SegmentSize);
+        Debug.Assert(seq.Length == buffer.Length, "seq.Length == buffer.WrittenMemory.Length");
+        Debug.Assert(seq.IsSingleSegment == (buffer.Length <= SegmentSize), "seq.IsSingleSegment == (buffer.WrittenMemory.Length <= SegmentSize)");
         return new BshoxReader(seq);
     }
 

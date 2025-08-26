@@ -8,7 +8,7 @@ public static class Extensions
     {
         using var buffer = new PooledByteBufferWriter();
         contract.Serialize(buffer, value);
-        var reader = new BshoxReader(buffer.WrittenMemory);
+        var reader = new BshoxReader(buffer.GetReadOnlySequence());
         return BshoxValue.Read(ref reader, contract.Encoding);
     }
 

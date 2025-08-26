@@ -56,7 +56,7 @@ public static class TestHelper
         var writer = new BshoxWriter(buffer);
         metaValue.Write(ref writer);
         writer.Flush();
-        await AssertEqual(buffer.WrittenMemory.ToArray(), bytes);
+        await AssertEqual(buffer.ToArray(), bytes);
 
         string text = metaValue.ToString();
         Debug.WriteLine(text);
@@ -69,7 +69,7 @@ public static class TestHelper
     [Conditional("DEBUG")]
     internal static void WriteContext(PooledByteBufferWriter buffer)
     {
-        WriteContext(buffer.WrittenMemory);
+        WriteContext(buffer.ToArray());
     }
 
     [Conditional("DEBUG")]
