@@ -23,6 +23,10 @@ message Forecast2 {
   CurrentWeather2 CurrentWeather = 8;
 }
 
+message Forecast2Array {
+  repeated Forecast2 Items = 1;
+}
+
 message HourlyResponse2 {
   repeated google.protobuf.Timestamp Time = 1;
   repeated float Temperature = 2;

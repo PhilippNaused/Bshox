@@ -1,7 +1,5 @@
-#if NETCOREAPP
 using Benchmark.Models;
 using Bshox.Utils;
-#endif
 
 namespace Benchmark.Tests;
 
@@ -10,6 +8,7 @@ public sealed class SerializeCompareTests : SerializeCompare
     [Test]
     public async Task Regression()
     {
+        Count = 100;
         Setup();
 
         byte[] bshox = Bshox();
@@ -20,48 +19,43 @@ public sealed class SerializeCompareTests : SerializeCompare
         using (Assert.Multiple())
         {
 #if NETCOREAPP // netfx uses less compact json
-            await Assert.That(json).HasCount(9421);
+            await Assert.That(json).HasCount(941402);
 #else
-            await Assert.That(json).HasCount(9865);
+            await Assert.That(json).HasCount(986354);
 #endif
-            await Assert.That(bshox).HasCount(3011);
-            await Assert.That(messagePack).HasCount(4463);
-            await Assert.That(proto).HasCount(4273);
-            await Assert.That(google).HasCount(4273);
-            await Assert.That(proto).HasCount(google.Length);
+            await Assert.That(bshox).HasCount(300988);
+            await Assert.That(messagePack).HasCount(446625);
+            await Assert.That(proto).HasCount(426556);
+            await Assert.That(google).HasCount(426874);
+            await Assert.That(proto).HasCount(426556);
 
-#if NETCOREAPP
-            float jsonLength = json.Length;
-            await Assert.That(bshox.Length / jsonLength).IsEqualTo(0.319605142f);
-            await Assert.That(messagePack.Length / jsonLength).IsEqualTo(0.473728895f);
-            await Assert.That(proto.Length / jsonLength).IsEqualTo(0.453561187f);
-            await Assert.That(google.Length / jsonLength).IsEqualTo(0.453561187f);
-
-            // relative size reduction when using Brotli compression
-            await Assert.That(Compressibility(json)).IsEqualTo(0.522768259f);
-            await Assert.That(Compressibility(bshox)).IsEqualTo(0.017934263f);
-            await Assert.That(Compressibility(messagePack)).IsEqualTo(0.154380441f);
-            await Assert.That(Compressibility(proto)).IsEqualTo(0.112567306f);
-            await Assert.That(Compressibility(google)).IsEqualTo(0.109992981f);
+#if NET9_0_OR_GREATER
+            // size after when using gzip compression.
+            await Assert.That(CompressedSize(json)).IsEqualTo(420399);
+            await Assert.That(CompressedSize(bshox)).IsEqualTo(285102);
+            await Assert.That(CompressedSize(messagePack)).IsEqualTo(359522);
+            await Assert.That(CompressedSize(proto)).IsEqualTo(356002);
+            await Assert.That(CompressedSize(google)).IsEqualTo(355984);
 #endif
         }
     }
 
-#if NETCOREAPP
     [Test]
     public Task BshoxText()
     {
-        Setup();
         var bshox = ForecastSerializer.Forecast.ToBshoxString(Forecast.GetRandom());
         return VeriGit.Validation.Validate(bshox.Replace("\r\n", "\n"));
     }
 
-    private static async Task<float> Compressibility(byte[] data)
+#if NET9_0_OR_GREATER
+    private static int CompressedSize(byte[] data)
     {
-        var dest = new byte[System.IO.Compression.BrotliEncoder.GetMaxCompressedLength(data.Length)];
-        var success = System.IO.Compression.BrotliEncoder.TryCompress(data, dest, out int size2);
-        await Assert.That(success).IsTrue();
-        return 1 - (float)size2 / data.Length;
+        var ms = new MemoryStream();
+        using (var gzip = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionLevel.Optimal, true))
+        {
+            gzip.Write(data);
+        }
+        return (int)ms.Length;
     }
 #endif
 }

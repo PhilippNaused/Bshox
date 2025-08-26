@@ -16,29 +16,40 @@ public class SerializeCompareCold : SerializeCompare;
 public class SerializeCompare
 {
     private readonly TypeModel protoSerializer = Forecast.GetProtoModel();
-    private Forecast data = null!;
-    private Forecast2 data2 = null!;
+    private Forecast[] data = null!;
+    private Forecast2Array data2 = null!;
 
     [GlobalSetup]
     public void Setup()
     {
+        var random = new Random(42);
         // doesn't work: MessagePack.FormatterNotRegisteredException : System.DateTime[] is not registered in resolver: Benchmark.Models.MyMessagePackResolver
         // MessagePackSerializer.DefaultOptions = MessagePackSerializer.DefaultOptions.WithResolver(MyMessagePackResolver.Instance);
-
-        data = Forecast.GetRandom();
-        data2 = Forecast.GetRandom2();
+        data = new Forecast[Count];
+        data2 = new Forecast2Array
+        {
+            Items = { Capacity = Count }
+        };
+        for (int i = 0; i < Count; i++)
+        {
+            data[i] = Forecast.GetRandom(random: random);
+            data2.Items.Add(Forecast.GetRandom2(random: random));
+        }
     }
+
+    [Params(1, 1000)]
+    public int Count { get; set; } = 1;
 
     [Benchmark(Baseline = true)]
     public byte[] Bshox()
     {
-        return ForecastSerializer.Forecast.Serialize(in data);
+        return ForecastSerializer.ForecastArray.Serialize(in data);
     }
 
     [Benchmark(Description = "System.Text.Json")]
     public byte[] Json()
     {
-        return JsonSerializer.SerializeToUtf8Bytes(data, ForecastJsonContext.Default.Forecast);
+        return JsonSerializer.SerializeToUtf8Bytes(data, ForecastJsonContext.Default.ForecastArray);
     }
 
     [Benchmark]

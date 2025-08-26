@@ -12,10 +12,11 @@ namespace Benchmark.Models;
 #pragma warning disable CA2227 // Collection properties should be read only
 #pragma warning disable CA1819 // Properties should not return arrays
 
-[BshoxSerializer(typeof(Forecast))]
+[BshoxSerializer(typeof(Forecast), typeof(Forecast[]))]
 internal partial class ForecastSerializer;
 
 [JsonSerializable(typeof(Forecast))]
+[JsonSerializable(typeof(Forecast[]))]
 [JsonSourceGenerationOptions]
 internal sealed partial class ForecastJsonContext : JsonSerializerContext;
 
@@ -54,9 +55,9 @@ public sealed record Forecast
     [BshoxMember(8), Key(8)]
     public CurrentWeather CurrentWeather { get; set; }
 
-    public static Forecast GetRandom(int size = 7 * 24)
+    public static Forecast GetRandom(int size = 7 * 24, Random? random = null)
     {
-        var random = new Random(42);
+        random ??= new Random(42);
         return new Forecast
         {
             Latitude = random.NextSingle(-90f, 90f),
@@ -89,9 +90,9 @@ public sealed record Forecast
         };
     }
 
-    public static Forecast2 GetRandom2(int size = 7 * 24)
+    public static Forecast2 GetRandom2(int size = 7 * 24, Random? random = null)
     {
-        var random = new Random(42);
+        random ??= new Random(42);
         return new Forecast2
         {
             Latitude = random.NextSingle(-90f, 90f),
@@ -130,8 +131,9 @@ public sealed record Forecast
         model.DefaultCompatibilityLevel = CompatibilityLevel.Level300;
         model.UseImplicitZeroDefaults = false;
         model.AllowPackedEncodingAtRoot = true;
-        _ = model.Add(typeof(WeatherCode));
-        _ = model.Add(typeof(Forecast));
+        _ = model.Add<WeatherCode>();
+        _ = model.Add<Forecast>();
+        _ = model.Add<Forecast[]>();
         model.AutoAddMissingTypes = true;
         return model.Compile();
     }
