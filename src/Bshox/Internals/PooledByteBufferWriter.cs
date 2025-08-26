@@ -15,11 +15,12 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     private int _index;
 
     private const int MinimumBufferSize = 256;
+    private const int DefaultBufferSize = 16 * 1024;
 
     // Value copied from Array.MaxLength in System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Array.cs.
     public const int MaximumBufferSize = 0X7FFFFFC7;
 
-    public PooledByteBufferWriter(int initialCapacity = MinimumBufferSize)
+    public PooledByteBufferWriter(int initialCapacity = DefaultBufferSize)
     {
         Debug.Assert(initialCapacity > 0, "initialCapacity > 0");
 
@@ -105,7 +106,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         int currentLength = _buffer.Length;
         int availableSpace = currentLength - _index;
 
-        sizeHint = Math.Max(sizeHint, MinimumBufferSize);
+        sizeHint = Math.Max(sizeHint, DefaultBufferSize);
 
         // If we've reached ~1GB written, grow to the maximum buffer
         // length to avoid incessant minimal growths causing perf issues.

@@ -66,8 +66,9 @@ public class Medium2Config : BaseConfig
 {
     public Medium2Config()
     {
-        _ = AddJob(Job.MediumRun.WithEnvironmentVariable("DOTNET_TieredCompilation", "0"));
-        _ = AddJob(Job.MediumRun.WithEnvironmentVariable("DOTNET_TieredCompilation", "1"));
+        var job = Job.MediumRun.WithMaxRelativeError(0.01);
+        _ = AddJob(job.WithEnvironmentVariable("DOTNET_TieredCompilation", "0"));
+        _ = AddJob(job.WithEnvironmentVariable("DOTNET_TieredCompilation", "1"));
         _ = AddColumn(new TieredCompilationColumn());
         _ = HideColumns(Column.EnvironmentVariables);
     }

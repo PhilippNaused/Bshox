@@ -3,7 +3,7 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 22 Aug 2025 - 00:02:32                                                   |
+| Generated on:        | 26 Aug 2025 - 20:18:44                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 54                                                                       |
@@ -12,7 +12,7 @@
 | Covered lines:       | 3579                                                                     |
 | Uncovered lines:     | 371                                                                      |
 | Coverable lines:     | 3950                                                                     |
-| Total lines:         | 7455                                                                     |
+| Total lines:         | 7456                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
