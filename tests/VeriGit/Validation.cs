@@ -131,7 +131,7 @@ public static class Validation
         Unmodified
     }
 
-    private const int MaxProcessCount = 1;
+    private const int MaxProcessCount = 2;
 
     private static readonly SemaphoreSlim semaphore = new(MaxProcessCount, MaxProcessCount);
 
@@ -144,7 +144,12 @@ public static class Validation
             var info = new ProcessStartInfo("git", arguments)
             {
                 RedirectStandardOutput = true,
-                UseShellExecute = false
+                UseShellExecute = false,
+                EnvironmentVariables =
+                {
+                    ["GIT_OPTIONAL_LOCKS"] = "0", // avoid hanging due to lock contention
+                    ["GIT_LITERAL_PATHSPECS"] = "0" // no globing
+                }
             };
             var process = Process.Start(info)!;
 #if NETCOREAPP
