@@ -1,0 +1,9 @@
+<Project>
+
+  <PropertyGroup>
+    <UseCurrentRuntimeIdentifier>true</UseCurrentRuntimeIdentifier>
+  </PropertyGroup>
+
+  <Import Project="../Directory.Build.props" />
+
+</Project>

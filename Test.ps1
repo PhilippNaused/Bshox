@@ -18,7 +18,7 @@ dotnet test --no-ansi --no-progress --disable-logo --configuration $Configuratio
 
 # Publish AOT tests
 Remove-Item -Path "$PSScriptRoot\temp\*" -Recurse -Force -ErrorAction Ignore
-dotnet build --configuration $Configuration "$PSScriptRoot\tests\Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$PSScriptRoot\temp\Bshox.Tests"
+dotnet build --configuration $Configuration "$PSScriptRoot\tests\Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$PSScriptRoot\temp\Bshox.Tests" -p:DebugSymbols=false
 
 # Run AOT tests using MTP
 if ($IsWindows) {
@@ -27,3 +27,5 @@ if ($IsWindows) {
 else {
   dotnet test --no-ansi --no-progress --disable-logo --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests"
 }
+
+Remove-Item -Path "$PSScriptRoot\temp" -Recurse -Force -ErrorAction Ignore
