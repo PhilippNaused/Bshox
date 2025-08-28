@@ -106,29 +106,23 @@ public static class Validation
             return FileStatus.Unmodified;
         }
         Debug.Assert(status.Length >= 2, "status.Length >= 2");
-        //char x = status[0];
-        char y = status[1];
-
         // https://git-scm.com/docs/git-status#_output
-        if (y == ' ')
-            return FileStatus.Unmodified;
-        if (y == '?')
-            return FileStatus.Untracked;
-        if (y == 'D') // deleted
-            return FileStatus.Missing;
-        if (y == 'M')
-            return FileStatus.Modified;
-        Debug.Fail($"Unexpected git status:\n{status}");
-        return FileStatus.Unknown;
+        //var x = (FileStatus)status[0]; // index status
+        var y = (FileStatus)status[1]; // working tree status
+#if NETCOREAPP
+        Debug.Assert(Enum.IsDefined(y));
+#else
+        Debug.Assert(Enum.IsDefined(typeof(FileStatus), y));
+#endif
+        return y;
     }
 
-    private enum FileStatus
+    private enum FileStatus : ushort
     {
-        Unknown,
-        Missing,
-        Modified,
-        Untracked,
-        Unmodified
+        Missing = 'D',
+        Modified = 'M',
+        Untracked = '?',
+        Unmodified = ' '
     }
 
     private const int MaxProcessCount = 2;
