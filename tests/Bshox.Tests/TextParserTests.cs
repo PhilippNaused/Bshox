@@ -4,6 +4,8 @@ using Bshox.Utils;
 
 namespace Bshox.Tests;
 
+// cspell:ignore AABB AABBCC
+
 public class TextParserTests
 {
     [Test]

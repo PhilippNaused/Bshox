@@ -113,9 +113,9 @@ internal sealed class SerializerInfo : IGeneratorContext
     private void ParseDefaultContracts()
     {
         // TODO: move parsing to utility class and support the attribute on other members
-        var attributeDatas = ClassSymbol.GetAttributes().Where(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, KnownSymbols.BshoxDefaultContractAttribute)).ToList();
+        var attributeDataList = ClassSymbol.GetAttributes().Where(a => SymbolEqualityComparer.Default.Equals(a.AttributeClass, KnownSymbols.BshoxDefaultContractAttribute)).ToList();
 
-        foreach (var attributeData in attributeDatas)
+        foreach (var attributeData in attributeDataList)
         {
             Debug.Assert(attributeData.ConstructorArguments.Length == 2, "attributeData.ConstructorArguments.Length == 2");
             ITypeSymbol containingType = (ITypeSymbol)attributeData.ConstructorArguments[0].Value!;

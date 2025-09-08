@@ -49,6 +49,7 @@ public enum BshoxCode : byte
     /// Protobuf also doesn't encode the wire type of the elements and only supports primitive numeric types encoded as <c>VARINT</c>, <c>I32</c>, or <c>I64</c>.
     /// </remarks>
     Array = 4,
+    // cspell:ignore submessage submessages
     /// <summary>
     /// A <c>0</c>-terminated list of fields.<br/>
     /// Each field is a pair of a <i>varint</i> encoded tag and a value.<br/>
@@ -58,7 +59,7 @@ public enum BshoxCode : byte
     /// </summary>
     /// <remarks>
     /// This format is similar to the <i>submessage</i> encoding in Protobuf.<br/>
-    /// The main difference is that Protobuf's submessages use the <c>LEN</c> encoding, while Bshox's subobjects have a dedicated encoding that is <c>0</c>-terminated.
+    /// The main difference is that Protobuf's submessages use the <c>LEN</c> encoding, while Bshox's SubObjects have a dedicated encoding that is <c>0</c>-terminated.
     /// </remarks>
     SubObject = 5,
     // Unused = 6,

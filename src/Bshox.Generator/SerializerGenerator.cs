@@ -161,7 +161,7 @@ internal static class SerializerGenerator
                         """);
             code.WriteLine();
 
-            // cctor
+            // static constructor
             code.WriteLine($"static {className}()");
             code.OpenScope();
             {
@@ -170,7 +170,7 @@ internal static class SerializerGenerator
                     code.WriteLine($"{contract.VariableName} = {contract.GetDefinition(serializer.ContractResolver)};");
                 }
             }
-            code.CloseScope(); // cctor
+            code.CloseScope(); // static constructor
             code.WriteLine();
 
             // IBshoxContract GetContractInternal(Type type)

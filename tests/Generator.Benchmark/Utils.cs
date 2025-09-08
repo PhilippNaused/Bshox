@@ -12,6 +12,7 @@ public static class Utils
     [
         "b8d4030011dbd70c", // TUnit
         "5c492ec4f3eccde3", // ReSharper
+        // cspell:ignore testcentric
         "6fe0a02d2036aa1d", // testcentric
         "50cebf1cceb9d05e", // Mono
     ];

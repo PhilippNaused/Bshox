@@ -1,0 +1,47 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "language": "en-US",
+  "useGitignore": true,
+  "words": [],
+  "flagWords": [],
+  "ignorePaths": [
+    "tests/**/Snapshots/**",
+    "*.svg",
+    "*.DotSettings",
+    ".config/cspell.json"
+  ],
+  "dictionaries": [
+    "project-words",
+    "dotnet-ext"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "project-words",
+      "path": "./dicts/project-words.txt",
+      "addWords": true
+    },
+    {
+      "name": "dotnet-ext",
+      "path": "./dicts/dotnet-ext.txt",
+      "addWords": true
+    }
+  ],
+  "overrides": [
+    {
+      "filename": "src/GeneratedContracts.json",
+      "dictionaries": [
+        "csharp"
+      ]
+    },
+    {
+      "filename": "*.tt",
+      "words": [
+        "hostspecific"
+      ],
+      "dictionaries": [
+        "csharp"
+      ]
+    }
+  ]
+}

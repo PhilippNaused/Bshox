@@ -11,6 +11,7 @@ internal static class ExampleData
 
     public static IEnumerable<string> Strings()
     {
+        // cspell:disable
         yield return "";
         yield return "\0";
         yield return "\xFF";
@@ -20,6 +21,7 @@ internal static class ExampleData
         yield return "こんにちは、世界！";
         yield return "안녕하세요, 세계!";
         yield return "مرحبا بالعالم!";
+        // cspell:enable
 
         var rand = Randomizer;
         for (int i = 0; i < TestCount; i++)

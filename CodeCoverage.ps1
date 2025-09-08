@@ -28,6 +28,7 @@ dotnet test --no-ansi --no-progress --disable-logo --solution '.\tests\UnitTests
 dotnet tool restore
 dotnet ReportGenerator -Reports:"$CoverageDir/*" -TargetDir:"$ReportDir" -ReportTypes:'HtmlInline;MarkdownSummaryGithub;Badges'
 Copy-Item (Join-Path $ReportDir 'SummaryGithub.md') -Destination $DocsDir -Force
+# cspell:ignore linecoverage
 Copy-Item (Join-Path $ReportDir 'badge_linecoverage.svg') -Destination $DocsDir -Force
 
 if ($Open) {

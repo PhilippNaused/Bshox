@@ -8,14 +8,14 @@ namespace Benchmark;
 [MemoryDiagnoser]
 [Config(typeof(BaseConfig))]
 //[DisassemblyDiagnoser(printSource: true)]
-public class Xperimental
+public class Experimental
 {
     private const int Count = 1_000;
 
     private readonly uint[] array = new uint[Count];
     private readonly PooledByteBufferWriter buffer = new();
 
-    public Xperimental()
+    public Experimental()
     {
         var random = new Random();
         for (int i = 0; i < Count; i++)

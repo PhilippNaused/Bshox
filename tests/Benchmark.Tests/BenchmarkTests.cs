@@ -55,7 +55,7 @@ internal class BenchmarkTests
     [Arguments(10_000)]
     public void Experimental(int times)
     {
-        var b = new Xperimental();
+        var b = new Experimental();
         for (int i = 0; i < times; i++)
         {
             b.Test1();

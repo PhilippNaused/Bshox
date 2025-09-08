@@ -142,6 +142,7 @@ public static class Validation
                 EnvironmentVariables =
                 {
                     ["GIT_OPTIONAL_LOCKS"] = "0", // avoid hanging due to lock contention
+                    // cspell:ignore PATHSPECS
                     ["GIT_LITERAL_PATHSPECS"] = "0" // no globing
                 }
             };

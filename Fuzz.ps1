@@ -46,6 +46,7 @@ if (Test-Path $findingsDir) {
 
 dotnet publish $project -c Debug -f $tfm -o $outputDir
 
+# cspell:ignore dnlib
 $exclusions = @(
   'dnlib.dll',
   'SharpFuzz.dll',
@@ -70,6 +71,7 @@ foreach ($fuzzingTarget in $fuzzingTargets) {
   }
 }
 
+# cspell:ignore I_DONT_CARE
 $env:AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES = 1 # Required for WSL
 $env:AFL_SKIP_BIN_CHECK = 1 # https://github.com/Metalnem/sharpfuzz/issues/22
 $env:AFL_NO_UI = $null
