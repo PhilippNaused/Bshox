@@ -31,3 +31,7 @@
 
 # JSON files
 *.json eol=lf
+
+# YAML files
+*.yml eol=lf
+*.yaml eol=lf
