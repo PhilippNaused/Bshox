@@ -179,9 +179,8 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         _segLength += _index;
 
         _buffer = ArrayPool<byte>.Shared.Rent(sizeHint);
-
-        Debug.Assert(_buffer.Length >= _index, "_buffer.Length >= _index");
-        Debug.Assert(_buffer.Length >= sizeHint, "_buffer.Length >= sizeHint");
         _index = 0;
+
+        Debug.Assert(_buffer.Length >= sizeHint, "_buffer.Length >= sizeHint");
     }
 }
