@@ -10,6 +10,7 @@
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
 [assembly: System.Reflection.AssemblyDescription("High performance binary serialization for C#")]
+[assembly: System.Reflection.AssemblyMetadata("IsAotCompatible", "True")]
 [assembly: System.Reflection.AssemblyMetadata("IsTrimmable", "True")]
 [assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/PhilippNaused/Bshox")]
 [assembly: System.Reflection.AssemblyProduct("Bshox")]
