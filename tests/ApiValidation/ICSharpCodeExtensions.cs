@@ -89,12 +89,12 @@ public static class ICSharpCodeExtensions
             .AppendLine($"// Platform: {GetPlatformDisplayName(peFile)}")
             .AppendLine($"// Runtime: {meta.Metadata.MetadataVersion}");
 
-        foreach (var reference in meta.AssemblyReferences)
+        foreach (var reference in meta.AssemblyReferences.OrderBy(r => r.FullName, StringComparer.OrdinalIgnoreCase))
         {
             sb = sb.AppendLine($"// Reference: {reference.FullName}");
         }
 
-        foreach (var reference in meta.ModuleReferences)
+        foreach (var reference in meta.ModuleReferences.OrderBy(r => r.Name, StringComparer.OrdinalIgnoreCase))
         {
             sb = sb.AppendLine($"// Reference: {reference.Name}");
         }
@@ -115,7 +115,9 @@ public static class ICSharpCodeExtensions
         public override void VisitSyntaxTree(SyntaxTree syntaxTree)
         {
             // sort namespaces by name
-            var members = syntaxTree.Members.OrderBy(m => m is NamespaceDeclaration e ? e.Name : "");
+            var members = syntaxTree.Members
+                .OrderBy(m => m is AttributeSection s ? s.ToString() : "zzz")
+                .ThenBy(m => m is NamespaceDeclaration e ? e.Name : "");
             syntaxTree.Members.ReplaceWith(members);
             base.VisitSyntaxTree(syntaxTree);
         }

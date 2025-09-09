@@ -1,30 +1,30 @@
 // Bshox, PublicKeyToken=71dcaf280189db03
 // Platform: AnyCPU (64-bit preferred)
 // Runtime: v4.0.30319
-// Reference: System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-// Reference: System.Memory, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 // Reference: System.Collections, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Collections.Concurrent, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-// Reference: System.Text.Encoding.Extensions, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Linq, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-[assembly: System.Runtime.CompilerServices.CompilationRelaxations(8)]
-[assembly: System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows = true)]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName = ".NET 10.0")]
-[assembly: System.Reflection.AssemblyMetadata("IsTrimmable", "True")]
-[assembly: System.Reflection.AssemblyMetadata("IsAotCompatible", "True")]
+// Reference: System.Memory, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
+// Reference: System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+// Reference: System.Text.Encoding.Extensions, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
 [assembly: System.Reflection.AssemblyDescription("High performance binary serialization for C#")]
+[assembly: System.Reflection.AssemblyMetadata("IsAotCompatible", "True")]
+[assembly: System.Reflection.AssemblyMetadata("IsTrimmable", "True")]
+[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/PhilippNaused/Bshox")]
 [assembly: System.Reflection.AssemblyProduct("Bshox")]
 [assembly: System.Reflection.AssemblyTitle("Bshox")]
-[assembly: System.Reflection.AssemblyMetadata("RepositoryUrl", "https://github.com/PhilippNaused/Bshox")]
 [assembly: System.Resources.NeutralResourcesLanguage("en-US")]
+[assembly: System.Runtime.CompilerServices.CompilationRelaxations(8)]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Benchmark, PublicKey=0024000004800000940000000602000000240000525341310004000001000100dd5aaf9dfcf30dc5f78e30f2ccbd27f7dc88c9a8db26eda6ed229b883fd34edbdcffce799b053db93a3c4d288e976266f67acb9cd2fa5d24c3642e5b8191d53aebe1954a64512f7d9e992eeb779d011e2c25b4b76d8cacde8f0c675c8093a2f4b8eaafbf6ff24e271d502b023c5f5f2afced11ed447be096d332d3f8c4f70fcd")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Bshox.Tests, PublicKey=0024000004800000940000000602000000240000525341310004000001000100dd5aaf9dfcf30dc5f78e30f2ccbd27f7dc88c9a8db26eda6ed229b883fd34edbdcffce799b053db93a3c4d288e976266f67acb9cd2fa5d24c3642e5b8191d53aebe1954a64512f7d9e992eeb779d011e2c25b4b76d8cacde8f0c675c8093a2f4b8eaafbf6ff24e271d502b023c5f5f2afced11ed447be096d332d3f8c4f70fcd")]
 [assembly: System.Runtime.CompilerServices.InternalsVisibleTo("Bshox.Utils, PublicKey=0024000004800000940000000602000000240000525341310004000001000100dd5aaf9dfcf30dc5f78e30f2ccbd27f7dc88c9a8db26eda6ed229b883fd34edbdcffce799b053db93a3c4d288e976266f67acb9cd2fa5d24c3642e5b8191d53aebe1954a64512f7d9e992eeb779d011e2c25b4b76d8cacde8f0c675c8093a2f4b8eaafbf6ff24e271d502b023c5f5f2afced11ed447be096d332d3f8c4f70fcd")]
+[assembly: System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows = true)]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETCoreApp,Version=v10.0", FrameworkDisplayName = ".NET 10.0")]
 [assembly: System.Security.Permissions.SecurityPermission(System.Security.Permissions.SecurityAction.RequestMinimum, SkipVerification = true)]
-[module: System.Security.UnverifiableCode]
 [module: System.Runtime.CompilerServices.RefSafetyRules(11)]
+[module: System.Security.UnverifiableCode]
 namespace Bshox
 {
     public enum BshoxCode : byte
