@@ -10,7 +10,7 @@ Job=Dry  IterationCount=1  LaunchCount=25
 RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 
 ```
-| Method | Count |      Mean |     Error |  Allocated |
-|--------|-------|----------:|----------:|-----------:|
-| Bshox  | 1     |  4.630 ms | 0.1132 ms |    3.05 KB |
-| Bshox  | 1000  | 11.374 ms | 0.1369 ms | 2953.61 KB |
+| Method | Segmented |     Mean |     Error | Allocated |
+|--------|-----------|---------:|----------:|----------:|
+| Bshox  | False     | 2.008 ms | 0.1138 ms |   4.16 KB |
+| Bshox  | True      | 2.356 ms | 0.1228 ms |   4.21 KB |
