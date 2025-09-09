@@ -3,16 +3,16 @@
 
 |                      |                                                                          |
 |:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 26 Aug 2025 - 23:15:30                                                   |
+| Generated on:        | 9 Sept 2025 - 19:49:13                                                   |
 | Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
 | Assemblies:          | 3                                                                        |
 | Classes:             | 54                                                                       |
 | Files:               | 63                                                                       |
-| **Line coverage:**   | 90.7% (3621 of 3992)                                                     |
-| Covered lines:       | 3621                                                                     |
+| **Line coverage:**   | 90.7% (3620 of 3991)                                                     |
+| Covered lines:       | 3620                                                                     |
 | Uncovered lines:     | 371                                                                      |
-| Coverable lines:     | 3992                                                                     |
-| Total lines:         | 7498                                                                     |
+| Coverable lines:     | 3991                                                                     |
+| Total lines:         | 7497                                                                     |
 | **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
 
 </details>
@@ -37,7 +37,7 @@
 | Bshox.Internals.DepthLockScope                   |     100% |
 | Bshox.Internals.EncodingHelper                   |    72.7% |
 | Bshox.Internals.EndiannessHelper                 |     100% |
-| Bshox.Internals.PooledByteBufferWriter           |    81.8% |
+| Bshox.Internals.PooledByteBufferWriter           |    81.7% |
 | Bshox.Internals.StreamSequence                   |    92.8% |
 
 </details>
