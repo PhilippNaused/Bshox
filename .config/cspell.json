@@ -36,9 +36,6 @@
     },
     {
       "filename": "*.tt",
-      "words": [
-        "hostspecific"
-      ],
       "dictionaries": [
         "csharp"
       ]
