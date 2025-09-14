@@ -19,7 +19,7 @@ Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-if (-Not $IsLinux) {
+if (-not $IsLinux) {
   throw 'OS not supported. Use Linux instead.'
 }
 

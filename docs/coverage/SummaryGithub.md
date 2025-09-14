@@ -1,19 +1,17 @@
 # Summary
 <details open><summary>Summary</summary>
 
-|                      |                                                                          |
-|:---------------------|:-------------------------------------------------------------------------|
-| Generated on:        | 9 Sept 2025 - 19:49:13                                                   |
-| Parser:              | MultiReport (9x DynamicCodeCoverage)                                     |
-| Assemblies:          | 3                                                                        |
-| Classes:             | 54                                                                       |
-| Files:               | 63                                                                       |
-| **Line coverage:**   | 90.7% (3620 of 3991)                                                     |
-| Covered lines:       | 3620                                                                     |
-| Uncovered lines:     | 371                                                                      |
-| Coverable lines:     | 3991                                                                     |
-| Total lines:         | 7497                                                                     |
-| **Method coverage:** | [Feature is only available for sponsors](https://reportgenerator.io/pro) |
+|                    |                                      |
+|:-------------------|:-------------------------------------|
+| Parser:            | MultiReport (9x DynamicCodeCoverage) |
+| Assemblies:        | 3                                    |
+| Classes:           | 54                                   |
+| Files:             | 63                                   |
+| **Line coverage:** | 90.7% (3620 of 3991)                 |
+| Covered lines:     | 3620                                 |
+| Uncovered lines:   | 371                                  |
+| Coverable lines:   | 3991                                 |
+| Total lines:       | 7497                                 |
 
 </details>
 

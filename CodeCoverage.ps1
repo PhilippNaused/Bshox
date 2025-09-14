@@ -27,7 +27,7 @@ dotnet test --no-ansi --no-progress --disable-logo --solution '.\tests\UnitTests
 # create the report
 dotnet tool restore
 dotnet ReportGenerator -Reports:"$CoverageDir/*" -TargetDir:"$ReportDir" -ReportTypes:'HtmlInline;MarkdownSummaryGithub;Badges'
-Copy-Item (Join-Path $ReportDir 'SummaryGithub.md') -Destination $DocsDir -Force
+Get-Content (Join-Path $ReportDir 'SummaryGithub.md') | Select-String -NotMatch 'Feature is only available for sponsors|Generated on' | Set-Content (Join-Path $DocsDir 'SummaryGithub.md')
 # cspell:ignore linecoverage
 Copy-Item (Join-Path $ReportDir 'badge_linecoverage.svg') -Destination $DocsDir -Force
 
