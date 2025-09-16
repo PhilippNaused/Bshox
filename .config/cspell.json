@@ -9,7 +9,9 @@
     "tests/**/Snapshots/**",
     "*.svg",
     "*.DotSettings",
-    ".config/cspell.json"
+    ".config/cspell.json",
+    ".config/dotnet-tools.json",
+    ".config/dicts/**"
   ],
   "dictionaries": [
     "project-words",
