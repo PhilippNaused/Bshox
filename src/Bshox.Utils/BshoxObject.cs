@@ -7,7 +7,7 @@ namespace Bshox.Utils;
 
 #pragma warning disable CA1710 // Identifiers should have correct suffix
 public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection<KeyValuePair<uint, BshoxValue>>
-#pragma warning restore CA1710
+#pragma warning restore CA1710 // Identifiers should have correct suffix
 {
     private readonly List<KeyValuePair<uint, BshoxValue>> _values = [];
 

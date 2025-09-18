@@ -1,8 +1,6 @@
 using Bshox.Attributes;
 using Bshox.TestUtils;
 
-#pragma warning disable CA2000 // Dispose objects before losing scope
-
 namespace Bshox.Tests;
 
 [BshoxSerializer(typeof(int[]))]
@@ -50,7 +48,7 @@ internal class ApiTests
     public async Task SerializeToNonSeekingStream()
     {
         var ms = new MemoryStream();
-        var stream = new NonSeekableStream(ms);
+        using var stream = new NonSeekableStream(ms);
         TestSerializer.Int32Array.Serialize(stream, s_Array);
         await Assert.That(ms.ToArray()).IsEquivalentTo(s_Expected);
     }
@@ -67,7 +65,7 @@ internal class ApiTests
     public async Task SerializeToBufferedStream()
     {
         var ms = new MemoryStream();
-        var stream = new BufferedStream(ms, 1);
+        using var stream = new BufferedStream(ms, 1);
         TestSerializer.Int32Array.Serialize(stream, s_Array);
         await stream.FlushAsync();
         await Assert.That(ms.ToArray()).IsEquivalentTo(s_Expected);
@@ -77,7 +75,7 @@ internal class ApiTests
     public async Task SerializeToBufferedStream2()
     {
         var ms = new MemoryStream();
-        var stream = new BufferedStream(ms, 1);
+        using var stream = new BufferedStream(ms, 1);
         TestSerializer.Instance.Serialize(stream, s_Array, typeof(int[]));
         await stream.FlushAsync();
         await Assert.That(ms.ToArray()).IsEquivalentTo(s_Expected);
@@ -127,7 +125,7 @@ internal class ApiTests
     public async Task DeserializeFromNonSeekingStream()
     {
         var ms = new MemoryStream(s_Expected);
-        var stream = new NonSeekableStream(ms);
+        using var stream = new NonSeekableStream(ms);
         int[] result = TestSerializer.Int32Array.Deserialize(stream);
         await Assert.That(result).IsEquivalentTo(s_Array);
     }
@@ -178,7 +176,7 @@ internal class ApiTests
     public async Task DeserializeFromBufferedStream()
     {
         var stream = new MemoryStream(s_Expected);
-        var buffered = new BufferedStream(stream, 1);
+        using var buffered = new BufferedStream(stream, 1);
         int[] result = TestSerializer.Int32Array.Deserialize(buffered);
         await Assert.That(result).IsEquivalentTo(s_Array);
     }
@@ -187,7 +185,7 @@ internal class ApiTests
     public async Task DeserializeFromBufferedStream2()
     {
         var stream = new MemoryStream(s_Expected);
-        var buffered = new BufferedStream(stream, 1);
+        using var buffered = new BufferedStream(stream, 1);
 #pragma warning disable CA1849 // Call async methods when in an async method
         var result = TestSerializer.Instance.Deserialize(buffered, typeof(int[]));
 #pragma warning restore CA1849 // Call async methods when in an async method
@@ -198,7 +196,7 @@ internal class ApiTests
     public async Task DeserializeFromBufferedStreamAsync()
     {
         var stream = new MemoryStream(s_Expected);
-        var buffered = new BufferedStream(stream, 1);
+        using var buffered = new BufferedStream(stream, 1);
         int[] result = await TestSerializer.Int32Array.DeserializeAsync(buffered);
         await Assert.That(result).IsEquivalentTo(s_Array);
     }
@@ -207,7 +205,7 @@ internal class ApiTests
     public async Task DeserializeFromBufferedStreamAsync2()
     {
         var stream = new MemoryStream(s_Expected);
-        var buffered = new BufferedStream(stream, 1);
+        using var buffered = new BufferedStream(stream, 1);
         var result = await TestSerializer.Instance.DeserializeAsync(buffered, typeof(int[]));
         await Assert.That(result).IsEquivalentTo(s_Array);
     }

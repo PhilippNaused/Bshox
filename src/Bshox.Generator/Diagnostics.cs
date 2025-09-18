@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 
 namespace Bshox.Generator;
 
-#pragma warning disable CA1724
+#pragma warning disable CA1724 // Type names should not match namespaces
 
 public static class Diagnostics
 {

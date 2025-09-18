@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                    |
 | Classes:           | 54                                   |
 | Files:             | 63                                   |
-| **Line coverage:** | 90.7% (3620 of 3991)                 |
-| Covered lines:     | 3620                                 |
-| Uncovered lines:   | 371                                  |
-| Coverable lines:   | 3991                                 |
-| Total lines:       | 7497                                 |
+| **Line coverage:** | 90.8% (3622 of 3987)                 |
+| Covered lines:     | 3622                                 |
+| Uncovered lines:   | 365                                  |
+| Coverable lines:   | 3987                                 |
+| Total lines:       | 7483                                 |
 
 </details>
 
@@ -73,13 +73,13 @@
 | Bshox.Generator.UseDepthLockCorrectly              |     88.5% |
 
 </details>
-<details><summary>Bshox.Utils.dll - 87.5%</summary>
+<details><summary>Bshox.Utils.dll - 88.2%</summary>
 
 | **Name**                         |  **Line** |
 |:---------------------------------|----------:|
-| **Bshox.Utils.dll**              | **87.5%** |
+| **Bshox.Utils.dll**              | **88.2%** |
 | Bshox.Utils.BshoxArray           |     75.6% |
-| Bshox.Utils.BshoxBlob            |     85.7% |
+| Bshox.Utils.BshoxBlob            |      100% |
 | Bshox.Utils.BshoxObject          |     74.6% |
 | Bshox.Utils.BshoxParserException |       80% |
 | Bshox.Utils.BshoxTextParser      |     89.6% |
