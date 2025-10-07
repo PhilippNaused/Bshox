@@ -50,9 +50,28 @@ internal sealed class BshoxEncodingTests
         await Assert.That(x).IsEqualTo(l);
     }
 
+    private static readonly uint[] exampleKeys = [1u, 2u, 15u, byte.MaxValue, BshoxConstants.MaxKey];
+    private static readonly BshoxCode[] exampleCodes =
+#if NETCOREAPP
+        Enum.GetValues<BshoxCode>();
+#else
+        (BshoxCode[])Enum.GetValues(typeof(BshoxCode));
+#endif
+
+    public static IEnumerable<(uint key, BshoxCode type)> TagExamples()
+    {
+        foreach (var key in exampleKeys)
+        {
+            foreach (var type in exampleCodes)
+            {
+                yield return (key, type);
+            }
+        }
+    }
+
     [Test]
-    [MatrixDataSource]
-    public async Task TagRoundTrip([Matrix(1u, 2u, 15u, byte.MaxValue, BshoxConstants.MaxKey)] uint key, [Matrix] BshoxCode type)
+    [MethodDataSource(nameof(TagExamples))]
+    public async Task TagRoundTrip(uint key, BshoxCode type)
     {
         using var stream = new PooledByteBufferWriter();
         var writer = new BshoxWriter(stream);
