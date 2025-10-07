@@ -6,7 +6,6 @@
     <TargetFrameworks Condition="$(IsWindows)">$(TargetFrameworks);net472</TargetFrameworks>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <IsPackable>false</IsPackable>
-    <NoWarn>$(NoWarn);CA1000;CA1001;CA1002;CA1515;CA1822;CA2007;CS7022</NoWarn>
     <GenerateProgramFile>false</GenerateProgramFile>
     <RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
   </PropertyGroup>

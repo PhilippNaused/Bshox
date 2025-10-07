@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <TargetFrameworks Condition="$(IsWindows)">$(TargetFrameworks);net48</TargetFrameworks>
-    <NoWarn>$(NoWarn);CA1000;CA1002;CA1515;CA1819</NoWarn>
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
