@@ -3,8 +3,9 @@ namespace Bshox.Generator.Tests;
 internal class SurrogatesTests
 {
     [Test]
-    [MatrixDataSource]
-    public async Task DateTimeOffsetSerializer([Matrix] bool generic)
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task DateTimeOffsetSerializer(bool generic)
     {
         string attribute = generic
             ? "[BshoxSurrogate<DateTimeOffset>]"

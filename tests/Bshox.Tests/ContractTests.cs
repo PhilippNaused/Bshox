@@ -5,8 +5,9 @@ namespace Bshox.Tests;
 internal class ContractTests
 {
     [Test]
-    [MatrixDataSource]
-    public async Task Booleans([Matrix] bool i)
+    [Arguments(true)]
+    [Arguments(false)]
+    public async Task Booleans(bool i)
     {
         await DefaultContracts.Boolean.TestSerialization(i);
     }
