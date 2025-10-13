@@ -54,8 +54,6 @@ public class EdgeCaseTests
         ms.Position = 0;
         var list2 = Serializer2.ListListTestType2ArrayArray.Deserialize(ms);
 
-        await Assert.That(list2).IsEquivalentTo(list);
-
         // TUnit cannot compare nested lists, so we'll just have to do it manually ;(
         await Assert.That(list2).HasCount(list.Count);
         for (int i = 0; i < list.Count; i++)

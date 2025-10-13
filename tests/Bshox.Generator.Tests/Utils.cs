@@ -105,7 +105,7 @@ public static class Utils
         string GetMessage() => $"\nExpected {expected.Id}: {expected.Description}\nBut got: {actual.Id}: {actual.Descriptor.Description} {actual.GetMessage()}";
     }
 
-    public static async Task ValidateOutput(List<string>? generatedOutput, int expectedCount)
+    public static async Task ValidateOutput(List<string> generatedOutput, int expectedCount)
     {
         await Assert.That(generatedOutput).IsNotNull().And.IsNotEmpty();
         await Assert.That(generatedOutput).HasCount(expectedCount);
@@ -113,7 +113,7 @@ public static class Utils
         {
             for (int i = 0; i < expectedCount; i++)
             {
-                string actualCode = generatedOutput![i];
+                string actualCode = generatedOutput[i];
                 await Validation.Validate(actualCode, "cs", $"{i}");
             }
         }

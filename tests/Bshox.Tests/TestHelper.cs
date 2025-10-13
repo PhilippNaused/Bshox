@@ -61,7 +61,7 @@ public static class TestHelper
         string text = metaValue.ToString();
         Debug.WriteLine(text);
         var meta2 = BshoxTextParser.Parse(text);
-        await Assert.That(meta2).IsTypeOf(metaValue.GetType());
+        await Assert.That(meta2).IsOfType(metaValue.GetType());
         string text2 = meta2.ToString();
         await Assert.That(text2).IsEqualTo(text);
     }
@@ -101,7 +101,8 @@ public static class TestHelper
     {
         if (comparer is not null)
         {
-            await Assert.That(actual).IsEqualTo(expected, comparer);
+            // TODO: replace with Assert.That(actual).IsEqualTo(expected, comparer) when available
+            await new TUnit.Assertions.Conditions.EqualsAssertion<T>(Assert.That(actual).Context, expected, comparer);
         }
         else
         {
