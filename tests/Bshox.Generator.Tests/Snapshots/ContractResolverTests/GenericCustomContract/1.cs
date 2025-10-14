@@ -10,14 +10,14 @@ namespace TestModels;
 
 /// <summary>
 /// A source generated Bshox serializer that can serialize the following types:
-/// <para><see cref="global::TestModels.Type1{}" /> (<c>T</c> is <see cref="int" />)</para>
+/// <para><see cref="global::TestModels.Type1{T}" /> (<c>T</c> is <see cref="int" />)</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
 sealed partial class Serializer1 : bsx::BshoxSerializer
 {
     private static readonly bsx::BshoxContract<global::TestModels.Type1<int>> c_Type1Int32;
     /// <summary>
-    /// A source generated Bshox contract for <see cref="global::TestModels.Type1{}" /> (<c>T</c> is <see cref="int" />)
+    /// A source generated Bshox contract for <see cref="global::TestModels.Type1{T}" /> (<c>T</c> is <see cref="int" />)
     /// </summary>
     /// <remarks>
     /// Bshox member layout:

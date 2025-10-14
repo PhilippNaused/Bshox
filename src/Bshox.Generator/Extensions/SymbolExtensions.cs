@@ -67,7 +67,9 @@ internal static class SymbolExtensions
             }
             else
             {
-                string displayString = namedTypeSymbol.ConstructUnboundGenericType().ToDisplayString(NullableFlowState.None, FullyQualifiedFormat);
+                // Constructed generics are not supported in XML doc comments, so we need to use the unbound generic type
+                // See: https://github.com/dotnet/csharplang/discussions/8986
+                string displayString = namedTypeSymbol.ConstructedFrom.ToDisplayString(NullableFlowState.None, FullyQualifiedFormat);
                 displayString = displayString.Replace('<', '{').Replace('>', '}');
                 var typeParameters = namedTypeSymbol.TypeParameters.Select(x => x.Name).ToImmutableArray();
                 var typeArguments = namedTypeSymbol.TypeArguments.Select(ToXmlCommentString).ToImmutableArray();

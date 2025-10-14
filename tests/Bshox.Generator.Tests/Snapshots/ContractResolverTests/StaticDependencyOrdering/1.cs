@@ -11,9 +11,9 @@ namespace TestModels;
 /// <summary>
 /// A source generated Bshox serializer that can serialize the following types:
 /// <para><see cref="global::TestModels.TestType2" /></para>
-/// <para><see cref="global::System.Collections.Generic.List{}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />)</para>
+/// <para><see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />)</para>
 /// <para><see cref="global::TestModels.TestType2" />[]</para>
-/// <para><see cref="global::System.Collections.Generic.List{}" /> (<c>T</c> is <see cref="global::System.Collections.Generic.List{}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />[])[])</para>
+/// <para><see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />[])[])</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
 sealed partial class Serializer2 : bsx::BshoxSerializer
@@ -30,7 +30,7 @@ sealed partial class Serializer2 : bsx::BshoxSerializer
     public static bsx::BshoxContract<global::TestModels.TestType2> TestType2 => c_TestType2;
     private static readonly bsx::BshoxContract<global::System.Collections.Generic.List<global::TestModels.TestType2>> c_ListTestType2;
     /// <summary>
-    /// A Bshox contract for <see cref="global::System.Collections.Generic.List{}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />)
+    /// A Bshox contract for <see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />)
     /// </summary>
     public static bsx::BshoxContract<global::System.Collections.Generic.List<global::TestModels.TestType2>> ListTestType2 => c_ListTestType2;
     private static readonly bsx::BshoxContract<string?> c_String;
@@ -44,7 +44,7 @@ sealed partial class Serializer2 : bsx::BshoxSerializer
     private static readonly bsx::BshoxContract<global::System.Collections.Generic.List<global::TestModels.TestType2[]>[]> c_ListTestType2ArrayArray;
     private static readonly bsx::BshoxContract<global::System.Collections.Generic.List<global::System.Collections.Generic.List<global::TestModels.TestType2[]>[]>> c_ListListTestType2ArrayArray;
     /// <summary>
-    /// A Bshox contract for <see cref="global::System.Collections.Generic.List{}" /> (<c>T</c> is <see cref="global::System.Collections.Generic.List{}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />[])[])
+    /// A Bshox contract for <see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />[])[])
     /// </summary>
     public static bsx::BshoxContract<global::System.Collections.Generic.List<global::System.Collections.Generic.List<global::TestModels.TestType2[]>[]>> ListListTestType2ArrayArray => c_ListListTestType2ArrayArray;
 
