@@ -16,6 +16,11 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableTUnitPolyfills>false</EnableTUnitPolyfills>
+    <!--
+    Workaround for https://github.com/dotnet/sdk/issues/51265
+    TODO: remove when issue is resolved
+    -->
+    <RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
   </PropertyGroup>
 
   <!-- Code Analysis -->

@@ -21,5 +21,5 @@ else {
   $Path = '.\tests\Benchmark'
 }
 
-dotnet test --no-ansi --no-progress --disable-logo --project '.\tests\Benchmark.Tests\Benchmark.Tests.csproj' --configuration Release
+dotnet test --no-ansi --no-progress --disable-logo --project '.\tests\Benchmark.Tests\' --configuration Release
 dotnet run --project $Path --configuration Release --framework $tfm
