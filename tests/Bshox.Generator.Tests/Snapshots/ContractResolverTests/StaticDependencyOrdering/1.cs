@@ -25,7 +25,7 @@ sealed partial class Serializer2 : bsx::BshoxSerializer
     /// <remarks>
     /// Bshox member layout:
     /// <para><c>1</c>: <see cref="int" /> Value1</para>
-    /// <para><c>2</c>: <see cref="string" /> Value2</para>
+    /// <para><c>2</c>: <see cref="string" /> Value2 (implicit default)</para>
     /// </remarks>
     public static bsx::BshoxContract<global::TestModels.TestType2> TestType2 => c_TestType2;
     private static readonly bsx::BshoxContract<global::System.Collections.Generic.List<global::TestModels.TestType2>> c_ListTestType2;

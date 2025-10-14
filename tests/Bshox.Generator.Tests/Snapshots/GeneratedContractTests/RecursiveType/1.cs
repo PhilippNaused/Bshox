@@ -21,7 +21,7 @@ sealed partial class RecursiveTestTypeSerializer : bsx::BshoxSerializer
     /// </summary>
     /// <remarks>
     /// Bshox member layout:
-    /// <para><c>1</c>: <see cref="global::TestModels.RecursiveTestType" /> Value1</para>
+    /// <para><c>1</c>: <see cref="global::TestModels.RecursiveTestType" /> Value1 (implicit default)</para>
     /// </remarks>
     public static bsx::BshoxContract<global::TestModels.RecursiveTestType> RecursiveTestType => c_RecursiveTestType;
 

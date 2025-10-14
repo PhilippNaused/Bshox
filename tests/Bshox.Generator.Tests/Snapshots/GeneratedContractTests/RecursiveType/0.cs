@@ -21,12 +21,10 @@ partial class RecursiveTestTypeSerializer
         {
             using var _ = writer.DepthLock();
             var __Value1 = value.Value1;
+            if (__Value1 != null)
             {
-                if (__Value1 is not null)
-                {
-                    writer.WriteTag(1, _gen_bshox_t.c_RecursiveTestType.Encoding);
-                    _gen_bshox_t.c_RecursiveTestType.Serialize(ref writer, in __Value1);
-                }
+                writer.WriteTag(1, _gen_bshox_t.c_RecursiveTestType.Encoding);
+                _gen_bshox_t.c_RecursiveTestType.Serialize(ref writer, in __Value1);
             }
             writer.WriteByte(0);
         }

@@ -26,12 +26,10 @@ partial class Serializer2
                 writer.WriteVarInt32(unchecked((uint)__Value1));
             }
             var __Value2 = value.Value2;
+            if (__Value2 != null)
             {
-                if (__Value2 is not null)
-                {
-                    writer.WriteByte(19);
-                    writer.WriteString(__Value2);
-                }
+                writer.WriteByte(19);
+                writer.WriteString(__Value2);
             }
             writer.WriteByte(0);
         }

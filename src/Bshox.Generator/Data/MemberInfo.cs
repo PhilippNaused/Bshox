@@ -30,7 +30,7 @@ internal sealed class MemberInfo
         {
             DefaultValue = value;
         }
-        else if (parameters.ImplicitDefaultValues)
+        else if (parameters.ImplicitDefaultValues || IsReferenceType)
         {
             ImplicitDefault = true; // only set this if no explicit default value is set
         }
