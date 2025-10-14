@@ -73,4 +73,16 @@ public class EdgeCaseTests
             }
         }
     }
+
+    [Test]
+    public async Task NullArray()
+    {
+        await Assert.ThrowsAsync<NullReferenceException>(async () => await DefaultContracts.Array(DefaultContracts.String).TestSerialization(null!));
+    }
+
+    [Test]
+    public async Task NullList()
+    {
+        await Assert.ThrowsAsync<NullReferenceException>(async () => await DefaultContracts.List(DefaultContracts.String).TestSerialization(null!));
+    }
 }

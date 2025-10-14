@@ -18,6 +18,7 @@ namespace TestModels;
 /// <para>(<see cref="int" />, <see cref="int" />, <see cref="int" />, <see cref="int" />, <see cref="int" />)</para>
 /// <para>(<see cref="int" />, <see cref="int" />, <see cref="int" />, <see cref="int" />)</para>
 /// <para>(<see cref="uint" />, <see cref="string" />, <see cref="byte" />)</para>
+/// <para>(<see cref="string" />, <see cref="string" />)</para>
 /// <para>(<see cref="int" />, <see cref="long" />)</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
@@ -68,6 +69,11 @@ sealed partial class ValueTupleSerializer : bsx::BshoxSerializer
     /// A Bshox contract for (<see cref="uint" />, <see cref="string" />, <see cref="byte" />)
     /// </summary>
     public static bsx::BshoxContract<global::System.ValueTuple<uint, string, byte>> ValueTupleUInt32StringByte => c_ValueTupleUInt32StringByte;
+    private static readonly bsx::BshoxContract<global::System.ValueTuple<string, string?>> c_ValueTupleStringString;
+    /// <summary>
+    /// A Bshox contract for (<see cref="string" />, <see cref="string" />)
+    /// </summary>
+    public static bsx::BshoxContract<global::System.ValueTuple<string, string?>> ValueTupleStringString => c_ValueTupleStringString;
     private static readonly bsx::BshoxContract<long> c_Int64;
     private static readonly bsx::BshoxContract<global::System.ValueTuple<int, long>> c_ValueTupleInt32Int64;
     /// <summary>
@@ -95,6 +101,7 @@ sealed partial class ValueTupleSerializer : bsx::BshoxSerializer
         c_String = bsx::DefaultContracts.String;
         c_UInt32 = bsx::DefaultContracts.UInt32;
         c_ValueTupleUInt32StringByte = bsx::DefaultContracts.ValueTuple<uint, string, byte>(c_UInt32, c_String, c_Byte);
+        c_ValueTupleStringString = bsx::DefaultContracts.ValueTuple<string, string?>(c_String, c_String);
         c_Int64 = bsx::DefaultContracts.Int64;
         c_ValueTupleInt32Int64 = bsx::DefaultContracts.ValueTuple<int, long>(c_Int32, c_Int64);
     }
@@ -127,6 +134,8 @@ sealed partial class ValueTupleSerializer : bsx::BshoxSerializer
             return c_UInt32;
         if (type == typeof(global::System.ValueTuple<uint, string, byte>))
             return c_ValueTupleUInt32StringByte;
+        if (type == typeof(global::System.ValueTuple<string, string>))
+            return c_ValueTupleStringString;
         if (type == typeof(long))
             return c_Int64;
         if (type == typeof(global::System.ValueTuple<int, long>))

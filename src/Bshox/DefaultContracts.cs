@@ -21,7 +21,7 @@ public static partial class DefaultContracts
     /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.List{T}"/>.
     /// </summary>
-    public static BshoxContract<List<T>> List<T>(BshoxContract<T> contract)
+    public static BshoxContract<List<T>> List<T>(BshoxContract<T> contract) where T : notnull
     {
         return new ListContract<T>(contract);
     }
@@ -29,7 +29,7 @@ public static partial class DefaultContracts
     /// <summary>
     /// A Bshox contract for an array of <typeparamref name="T"/>.
     /// </summary>
-    public static BshoxContract<T[]> Array<T>(BshoxContract<T> contract)
+    public static BshoxContract<T[]> Array<T>(BshoxContract<T> contract) where T : notnull
     {
         return new ArrayContract<T>(contract);
     }

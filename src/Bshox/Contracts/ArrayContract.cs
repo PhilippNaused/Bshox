@@ -3,7 +3,7 @@ namespace Bshox.Contracts;
 /// <summary>
 /// A Bshox contract for an array of <typeparamref name="T"/>.
 /// </summary>
-internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContract<T[]>(BshoxCode.Array)
+internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContract<T[]>(BshoxCode.Array) where T : notnull
 {
     /// <inheritdoc />
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly T[] value)

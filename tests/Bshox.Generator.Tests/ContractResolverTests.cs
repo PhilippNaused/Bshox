@@ -119,6 +119,7 @@ public class ContractResolverTests
     [
         "System.ValueTuple<int>",
         "(int, long)",
+        "(string, string?)",
         "(uint, string, byte)",
         "(int, int, int, int)",
         "(int, int, int, int, int)",

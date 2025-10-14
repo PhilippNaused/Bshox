@@ -3,7 +3,7 @@ namespace Bshox.Contracts;
 /// <summary>
 /// A Bshox contract for a <see cref="List{T}"/>.
 /// </summary>
-internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract<List<T>>(BshoxCode.Array)
+internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract<List<T>>(BshoxCode.Array) where T : notnull
 {
     /// <inheritdoc />
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly List<T> value)
