@@ -114,7 +114,14 @@ public static class Utils
             for (int i = 0; i < expectedCount; i++)
             {
                 string actualCode = generatedOutput[i];
-                await Validation.Validate(actualCode, "cs", $"{i}");
+                try
+                {
+                    await Validation.Validate(actualCode, "cs", $"{i}");
+                }
+                catch (ValidationFailedException e)
+                {
+                    Assert.Fail(e.Message);
+                }
             }
         }
     }
