@@ -122,7 +122,7 @@ internal static class SerializerGenerator
         {
             foreach (var contract in contracts)
             {
-                code.WriteLine($"private static readonly bsx::BshoxContract<{contract.Type.FullyQualifiedToString()}> {contract.VariableName};");
+                code.WriteLine($"private static readonly bsx::BshoxContract<{contract.Type.FullyQualifiedToStringWithNull()}> {contract.VariableName};");
                 if (contract.Explicit)
                 {
                     if (contract.Generator is { } generator)
@@ -146,7 +146,7 @@ internal static class SerializerGenerator
                                         """);
                     }
 
-                    code.WriteLine($"public static bsx::BshoxContract<{contract.Type.FullyQualifiedToString()}> {contract.PropertyName} => {contract.VariableName};");
+                    code.WriteLine($"public static bsx::BshoxContract<{contract.Type.FullyQualifiedToStringWithNull()}> {contract.PropertyName} => {contract.VariableName};");
                 }
             }
 

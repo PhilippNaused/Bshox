@@ -185,7 +185,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         foreach (var member in members)
         {
             string defaultValue = member.DefaultValueString ?? "default";
-            code.WriteLine($"{member.MemberType.FullyQualifiedToString()} {member.LocalVariableName} = {defaultValue};");
+            code.WriteLine($"{member.MemberType.FullyQualifiedToStringWithNull()} {member.LocalVariableName} = {defaultValue};");
         }
 
         // TODO: check if this contract can cause infinite recursion. If not, skip the DepthLock.

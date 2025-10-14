@@ -37,7 +37,7 @@ public class ContractResolverTests
                                   [BshoxContract(ImplicitMembers = true)]
                                   public record Type1<T>
                                   {
-                                      public T Value { get; set; }
+                                      public T? Value { get; set; }
                                   }
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -231,7 +231,7 @@ public class ContractResolverTests
                                   public record TestType2
                                   {
                                       public int Value1 { get; set; }
-                                      public string Value2 { get; set; }
+                                      public string? Value2 { get; set; }
                                   }
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);

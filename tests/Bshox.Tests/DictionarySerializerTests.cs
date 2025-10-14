@@ -50,7 +50,7 @@ public class DictionarySerializerTests
         DictionarySerializer1.DictionaryStringTestType7.Serialize(ms, value);
         ms.Position = 0;
 
-        var value2 = DictionarySerializer2.ListValueTupleStringTestType7.Deserialize<List<(string Key, TestType7 Value)>>(ms);
+        var value2 = DictionarySerializer2.ListValueTupleStringTestType7.Deserialize<List<(string Key, TestType7? Value)>>(ms);
 
         await TestHelper.AssertEqual(value2.Count, 4);
 
@@ -70,7 +70,7 @@ public class DictionarySerializerTests
     [Test]
     public async Task Test2()
     {
-        List<(string Key, TestType7 Value)> value =
+        List<(string Key, TestType7? Value)> value =
         [
             ("a", new TestType7(1, "a")),
             ("a", new TestType7(2, "b")), // duplicate key

@@ -39,7 +39,7 @@ public class GeneratedContractTests
                                   [BshoxContract(ImplicitMembers = true)]
                                   public class RecursiveTestType
                                   {
-                                      public RecursiveTestType Value1 { get; set; }
+                                      public RecursiveTestType? Value1 { get; set; }
                                   }
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);

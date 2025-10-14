@@ -285,7 +285,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         {
             Dependencies = [ContractDemand.DefaultForType(elementType)],
             StaticDependencies = true,
-            InitializeStatementFormat = $"bsx::DefaultContracts.Array<{elementType.FullyQualifiedToString()}>($0)"
+            InitializeStatementFormat = $"bsx::DefaultContracts.Array<{elementType.FullyQualifiedToStringWithNull()}>($0)"
         };
     }
 
@@ -296,7 +296,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         Debug.Assert(!type.IsUnboundGenericType, "!type.IsUnboundGenericType");
         ImmutableArray<ITypeSymbol> parameters = type.TypeArguments;
         Debug.Assert(!parameters.IsDefaultOrEmpty, "!parameters.IsDefaultOrEmpty");
-        var genericParameterList = string.Join(", ", parameters.Select(x => x.FullyQualifiedToString()));
+        var genericParameterList = string.Join(", ", parameters.Select(x => x.FullyQualifiedToStringWithNull()));
         return new ContractInfo(type, GetUniqueName(type))
         {
             Dependencies = [.. parameters.Select(ContractDemand.DefaultForType)],

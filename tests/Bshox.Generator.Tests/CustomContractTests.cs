@@ -30,7 +30,7 @@ public class CustomContractTests
 
                                   internal class Test1
                                   {
-                                      public static BshoxContract<int> Contract1 => null;
+                                      public static BshoxContract<int> Contract1 => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -53,7 +53,7 @@ public class CustomContractTests
 
                                   internal class Test1
                                   {
-                                      public static BshoxContract<int> Contract1() => null;
+                                      public static BshoxContract<int> Contract1() => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -76,7 +76,7 @@ public class CustomContractTests
 
                                   internal class Test1
                                   {
-                                      public static BshoxContract<int> Contract1(BshoxContract<long> longContract) => null;
+                                      public static BshoxContract<int> Contract1(BshoxContract<long> longContract) => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -99,7 +99,7 @@ public class CustomContractTests
 
                                   internal class Test1<T>
                                   {
-                                      public static BshoxContract<T> Contract1() => null;
+                                      public static BshoxContract<T> Contract1() => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -122,7 +122,7 @@ public class CustomContractTests
 
                                   internal class Test1<T>
                                   {
-                                      public static BshoxContract<T> Contract1(BshoxContract<long> longContract) => null;
+                                      public static BshoxContract<T> Contract1(BshoxContract<long> longContract) => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -145,7 +145,7 @@ public class CustomContractTests
 
                                   internal class Test1<T>
                                   {
-                                      public static BshoxContract<T> Contract1(BshoxContract<T> tContract) => null;
+                                      public static BshoxContract<T> Contract1(BshoxContract<T> tContract) => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -170,7 +170,7 @@ public class CustomContractTests
 
                                   internal class Test1
                                   {
-                                      public static BshoxContract<T> Contract1<T>() => null;
+                                      public static BshoxContract<T> Contract1<T>() => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -194,7 +194,7 @@ public class CustomContractTests
 
                                   internal class Test1<T>
                                   {
-                                      public static BshoxContract<List<T>> Contract1 => null;
+                                      public static BshoxContract<List<T>> Contract1 => null!;
                                   }
 
                                   [BshoxSerializer(typeof(List<int>))]
@@ -219,7 +219,7 @@ public class CustomContractTests
 
                                   internal class Test1<T>
                                   {
-                                      public static BshoxContract<List<T>> Contract1 => null;
+                                      public static BshoxContract<List<T>> Contract1 => null!;
                                   }
 
                                   [BshoxSerializer(typeof(List<int>))]
@@ -242,7 +242,7 @@ public class CustomContractTests
 
                                   internal class Test1
                                   {
-                                      public static BshoxContract<int> Contract1 = null;
+                                      public static BshoxContract<int> Contract1 = null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]
@@ -265,7 +265,7 @@ public class CustomContractTests
 
                                   internal class Test1
                                   {
-                                      public BshoxContract<int> Contract1 => null;
+                                      public BshoxContract<int> Contract1 => null!;
                                   }
 
                                   [BshoxSerializer(typeof(int))]

@@ -12,7 +12,7 @@ public sealed record GenTestType1<T, T2>
 }
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(CustomGenericType<TestType2>), typeof(TestType2))]
+[BshoxSerializer(typeof(CustomGenericType<TestType2?>), typeof(TestType2))]
 public partial class CustomGenericTypeSerializer;
 
 [ExcludeFromCodeCoverage]

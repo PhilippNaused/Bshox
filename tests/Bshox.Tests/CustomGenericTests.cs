@@ -7,7 +7,7 @@ public class CustomGenericTests
     [Test]
     public async Task Test1()
     {
-        var value = new CustomGenericType<TestType2>
+        var value = new CustomGenericType<TestType2?>
         {
             Value = new TestType2
             {

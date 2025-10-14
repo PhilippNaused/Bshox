@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                    |
 | Classes:           | 54                                   |
 | Files:             | 63                                   |
-| **Line coverage:** | 90.9% (3625 of 3987)                 |
-| Covered lines:     | 3625                                 |
+| **Line coverage:** | 90.9% (3629 of 3991)                 |
+| Covered lines:     | 3629                                 |
 | Uncovered lines:   | 362                                  |
-| Coverable lines:   | 3987                                 |
-| Total lines:       | 7483                                 |
+| Coverable lines:   | 3991                                 |
+| Total lines:       | 7490                                 |
 
 </details>
 
@@ -63,7 +63,7 @@
 | Bshox.Generator.Diagnostics                        |      100% |
 | Bshox.Generator.Extensions.EnumerableExtensions    |     83.8% |
 | Bshox.Generator.Extensions.SourceWriterExtension   |      100% |
-| Bshox.Generator.Extensions.SymbolExtensions        |     86.9% |
+| Bshox.Generator.Extensions.SymbolExtensions        |     87.1% |
 | Bshox.Generator.Extensions.SyntaxExtensions        |      100% |
 | Bshox.Generator.Extensions.TypedConstantExtensions |      100% |
 | Bshox.Generator.Helpers.SourceWriter               |     89.4% |

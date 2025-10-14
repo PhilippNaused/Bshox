@@ -11,6 +11,7 @@ internal static class SymbolExtensions
 {
     public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = SymbolDisplayFormat.FullyQualifiedFormat.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
     public static readonly SymbolDisplayFormat FullyQualifiedFormat = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple);
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple | SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
 
     public static bool ContainsAttributeImpl(this ISymbol symbol, INamedTypeSymbol attribute)
     {
@@ -288,6 +289,11 @@ internal static class SymbolExtensions
     public static string FullyQualifiedToString(this ISymbol symbol)
     {
         return symbol.ToDisplayString(FullyQualifiedFormat);
+    }
+
+    public static string FullyQualifiedToStringWithNull(this ISymbol symbol)
+    {
+        return symbol.ToDisplayString(FullyQualifiedFormatWithNull);
     }
 
     public static string FullyQualifiedToStringNG(this ISymbol symbol)

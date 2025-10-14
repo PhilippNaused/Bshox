@@ -31,10 +31,14 @@ public static class Utils
 
         //TestContext.WriteLine($"Assemblies:\n{string.Join(",\n", s_References.Select(r => r.Display).OrderBy(n => n))}");
 
+        var nullable = NullableContextOptions.Enable;
+        if (options2?.LanguageVersion < LanguageVersion.CSharp8)
+            nullable = NullableContextOptions.Disable;
+
         var compilation = CSharpCompilation.Create("SourceGeneratorTests",
             [syntaxTree],
             s_References,
-            options ?? new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            options ?? new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, nullableContextOptions: nullable));
 
         return compilation;
     }
