@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                    |
 | Classes:           | 54                                   |
 | Files:             | 63                                   |
-| **Line coverage:** | 90.9% (3629 of 3991)                 |
-| Covered lines:     | 3629                                 |
+| **Line coverage:** | 90.9% (3631 of 3993)                 |
+| Covered lines:     | 3631                                 |
 | Uncovered lines:   | 362                                  |
-| Coverable lines:   | 3991                                 |
-| Total lines:       | 7491                                 |
+| Coverable lines:   | 3993                                 |
+| Total lines:       | 7493                                 |
 
 </details>
 
@@ -48,7 +48,7 @@
 | Bshox.Generator.Constants                          |      100% |
 | Bshox.Generator.ContractResolver                   |       88% |
 | Bshox.Generator.Contracts.ContractDemand           |     90.9% |
-| Bshox.Generator.Contracts.ContractGenerator        |       92% |
+| Bshox.Generator.Contracts.ContractGenerator        |     92.1% |
 | Bshox.Generator.Contracts.ContractHelper           |       95% |
 | Bshox.Generator.Contracts.ContractInfo             |     74.2% |
 | Bshox.Generator.Contracts.GeneratedContract        |     94.1% |

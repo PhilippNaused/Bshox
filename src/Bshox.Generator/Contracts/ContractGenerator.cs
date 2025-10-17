@@ -14,9 +14,10 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
     public void WriteXmlDocRemarks(SourceWriter code, IContractResolver resolver)
     {
         code.WriteLine("/// Bshox member layout:");
+        var sb = new StringBuilder();
         foreach (var member in members)
         {
-            var sb = new StringBuilder().AppendFormat("/// <para><c>{0}</c>: ", member.Key);
+            _ = sb.AppendFormat("/// <para><c>{0}</c>: ", member.Key);
             if (member.MemberType.TypeKind is TypeKind.TypeParameter)
             {
                 string displayString = member.MemberType.ToDisplayString(NullableFlowState.NotNull, SymbolDisplayFormat.MinimallyQualifiedFormat);
@@ -25,9 +26,9 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             else
             {
                 string displayString = member.MemberType.ToXmlCommentString();
-                _ = sb.Append(displayString);
-                _ = sb.Append(' ');
-                _ = sb.Append(member.Name);
+                _ = sb.Append(displayString)
+                    .Append(' ')
+                    .Append(member.Name);
             }
             if (member.DefaultValue is not null)
             {
@@ -39,6 +40,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             }
             _ = sb.Append("</para>");
             code.WriteLine(sb.ToString());
+            _ = sb.Clear();
         }
     }
 
