@@ -9,3 +9,15 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      TUnit:
+        patterns:
+          - "TUnit*"
+      Microsoft:
+        patterns:
+          - "Microsoft.*"
+          - "System.*"
+    ignore:
+      - dependency-name: "*" # Ignore all major version updates
+        update-types:
+          - "version-update:semver-major"
