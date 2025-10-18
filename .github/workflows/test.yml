@@ -11,7 +11,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # - windows-latest
+          - windows-latest
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -30,13 +30,13 @@ jobs:
       run: dotnet restore
 
     - name: 🔨 Build
-      run: dotnet build -p:PublishAot=false --configuration Release
+      run: dotnet build
 
     - name: 🧪 Test
-      run: dotnet test --no-ansi --no-progress --disable-logo --no-build --configuration Release
+      run: dotnet test --disable-logo --no-build
 
     - name: 🔨 Build AOT tests
-      run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$GITHUB_WORKSPACE/temp/Bshox.Tests" --configuration Release -p:DebugSymbols=false
+      run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$GITHUB_WORKSPACE/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
-      run: dotnet test --no-ansi --no-progress --disable-logo --test-modules "temp/**/Bshox.Tests"
+      run: dotnet test --disable-logo --test-modules "temp/**/Bshox.Tests"
