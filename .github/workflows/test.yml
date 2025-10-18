@@ -36,7 +36,7 @@ jobs:
       run: dotnet test --no-progress --disable-logo --no-build
 
     - name: 🔨 Build AOT tests
-      run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$GITHUB_WORKSPACE/temp/Bshox.Tests" -p:DebugSymbols=false
+      run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
-      run: dotnet test --no-progress --disable-logo --root-directory "$GITHUB_WORKSPACE" --test-modules "temp/**/Bshox.Tests${{ matrix.os == 'windows-latest' && '.exe' || '' }}"
+      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}" --test-modules "temp/**/Bshox.Tests${{ matrix.os == 'windows-latest' && '.exe' || '' }}"
