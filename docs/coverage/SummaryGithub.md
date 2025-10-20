@@ -1,17 +1,17 @@
 # Summary
 <details open><summary>Summary</summary>
 
-|                    |                                      |
-|:-------------------|:-------------------------------------|
-| Parser:            | MultiReport (9x DynamicCodeCoverage) |
-| Assemblies:        | 3                                    |
-| Classes:           | 54                                   |
-| Files:             | 63                                   |
-| **Line coverage:** | 90.9% (3631 of 3993)                 |
-| Covered lines:     | 3631                                 |
-| Uncovered lines:   | 362                                  |
-| Coverable lines:   | 3993                                 |
-| Total lines:       | 7493                                 |
+|                    |                                       |
+|:-------------------|:--------------------------------------|
+| Parser:            | MultiReport (10x DynamicCodeCoverage) |
+| Assemblies:        | 3                                     |
+| Classes:           | 54                                    |
+| Files:             | 63                                    |
+| **Line coverage:** | 90.8% (3629 of 3993)                  |
+| Covered lines:     | 3629                                  |
+| Uncovered lines:   | 364                                   |
+| Coverable lines:   | 3993                                  |
+| Total lines:       | 7493                                  |
 
 </details>
 
@@ -73,14 +73,14 @@
 | Bshox.Generator.UseDepthLockCorrectly              |     88.5% |
 
 </details>
-<details><summary>Bshox.Utils.dll - 88.3%</summary>
+<details><summary>Bshox.Utils.dll - 88.1%</summary>
 
 | **Name**                         |  **Line** |
 |:---------------------------------|----------:|
-| **Bshox.Utils.dll**              | **88.3%** |
-| Bshox.Utils.BshoxArray           |     76.9% |
+| **Bshox.Utils.dll**              | **88.1%** |
+| Bshox.Utils.BshoxArray           |     75.6% |
 | Bshox.Utils.BshoxBlob            |      100% |
-| Bshox.Utils.BshoxObject          |     74.6% |
+| Bshox.Utils.BshoxObject          |     73.4% |
 | Bshox.Utils.BshoxParserException |       80% |
 | Bshox.Utils.BshoxTextParser      |     89.6% |
 | Bshox.Utils.BshoxValue           |      100% |
