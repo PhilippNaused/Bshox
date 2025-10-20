@@ -101,8 +101,7 @@ public static class TestHelper
     {
         if (comparer is not null)
         {
-            // TODO: replace with Assert.That(actual).IsEqualTo(expected, comparer) when available (https://github.com/thomhurst/TUnit/issues/3432)
-            await new TUnit.Assertions.Conditions.EqualsAssertion<T>(Assert.That(actual).Context, expected, comparer);
+            await Assert.That(actual).IsEqualTo(expected, comparer);
         }
         else
         {
