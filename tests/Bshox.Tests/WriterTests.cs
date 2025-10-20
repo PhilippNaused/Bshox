@@ -60,7 +60,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadVarInt32();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]
@@ -106,7 +106,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadZigZagVarInt32();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]
@@ -152,7 +152,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadVarInt64();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]
@@ -199,7 +199,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadZigZagVarInt64();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]
@@ -249,7 +249,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadDouble();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]
@@ -295,7 +295,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadSingle();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]
@@ -345,7 +345,7 @@ internal sealed class WriterTests : IDisposable
         {
             array2[i] = reader.ReadString();
         }
-        await Assert.That(array2).IsEquivalentTo(array);
+        await Assert.That(array2).IsSequenceEqualTo(array);
     }
 
     [Test]

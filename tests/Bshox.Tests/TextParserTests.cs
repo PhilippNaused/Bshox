@@ -49,7 +49,7 @@ public class TextParserTests
     public async Task SplitTokens(string text, string[] expected)
     {
         var actual = BshoxTextParser.SplitTokens(text).Select(t => t.ToString()).ToArray();
-        await Assert.That(actual).IsEquivalentTo(expected);
+        await Assert.That(actual).IsSequenceEqualTo(expected);
     }
 
     [Test]
@@ -118,7 +118,7 @@ public class TextParserTests
     public async Task ParseObject(string text, uint[] keys)
     {
         var actual = await GetValue<BshoxObject>(text);
-        await Assert.That(actual.Select(kv => kv.Key)).IsEquivalentTo(keys);
+        await Assert.That(actual.Select(kv => kv.Key)).IsSequenceEqualTo(keys);
     }
 
     [Test]
@@ -181,7 +181,7 @@ public class TextParserTests
                             }
                             """;
         var actual = await GetValue<BshoxObject>(text);
-        await Assert.That(actual.Select(kv => kv.Key)).IsEquivalentTo(new uint[] { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
+        await Assert.That(actual.Select(kv => kv.Key)).IsSequenceEqualTo(new uint[] { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
         await Assert.That(actual[1]).IsTypeOf<Fixed4, BshoxValue>();
     }
 
@@ -229,7 +229,7 @@ public class TextParserTests
     {
         string text = DefaultContracts.ByteArray.ToBshoxString(value);
         var actual = BshoxTextParser.ParseBlob(GetToken(text));
-        await Assert.That(actual).IsEquivalentTo(value);
+        await Assert.That(actual).IsSequenceEqualTo(value);
     }
 
     [Test]

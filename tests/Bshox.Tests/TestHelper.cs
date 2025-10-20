@@ -1,27 +1,54 @@
 using System.Diagnostics;
-#if NETCOREAPP
-using System.Diagnostics.CodeAnalysis;
-#endif
 using System.Text;
 using Bshox.Internals;
 using Bshox.Utils;
 using Bshox.TestUtils;
+using System.Runtime.CompilerServices;
 
 namespace Bshox.Tests;
 
 public static class TestHelper
 {
-#if NETCOREAPP
-    private const DynamicallyAccessedMemberTypes DynamicallyAccessedMembers =
-        DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.NonPublicFields |
-        DynamicallyAccessedMemberTypes.PublicProperties | DynamicallyAccessedMemberTypes.NonPublicProperties;
-#endif
+    [OverloadResolutionPriority(1)]
+    public static async Task TestSerialization<T>(this BshoxContract<T[]> contract, T[] value, string? hex = null)
+    {
+        (byte[] bytes, BshoxValue metaValue, T[] actual) = await PreTest(contract, value);
 
-    public static async Task TestSerialization<
-#if NETCOREAPP
-        [DynamicallyAccessedMembers(DynamicallyAccessedMembers)]
-#endif
-    T>(this BshoxContract<T> contract, T value, string? hex = null)
+        await Assert.That(actual).IsSequenceEqualTo(value);
+
+        await PostTest(hex, bytes, metaValue);
+    }
+
+    [OverloadResolutionPriority(1)]
+    public static async Task TestSerialization<T>(this BshoxContract<List<T>> contract, List<T> value, string? hex = null)
+    {
+        (byte[] bytes, BshoxValue metaValue, List<T> actual) = await PreTest(contract, value);
+
+        await Assert.That(actual).IsSequenceEqualTo(value);
+
+        await PostTest(hex, bytes, metaValue);
+    }
+
+    [OverloadResolutionPriority(1)]
+    public static async Task TestSerialization<T, T2>(this BshoxContract<Dictionary<T, T2>> contract, Dictionary<T, T2> value, string? hex = null) where T : notnull
+    {
+        (byte[] bytes, BshoxValue metaValue, Dictionary<T, T2> actual) = await PreTest(contract, value);
+
+        await Assert.That<IEnumerable<KeyValuePair<T, T2>>>(actual).IsSequenceEqualTo(value);
+
+        await PostTest(hex, bytes, metaValue);
+    }
+
+    public static async Task TestSerialization<T>(this BshoxContract<T> contract, T value, string? hex = null)
+    {
+        (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value);
+
+        await Assert.That(actual).IsEqualTo(value);
+
+        await PostTest(hex, bytes, metaValue);
+    }
+
+    private static async Task<(byte[] bytes, BshoxValue metaValue, T actual)> PreTest<T>(BshoxContract<T> contract, T value)
     {
         var bytes = contract.Serialize(in value);
         Debug.WriteLine(bytes.ToHex());
@@ -43,9 +70,11 @@ public static class TestHelper
         (r, c) = (reader.Remaining, reader.Consumed);
         await Assert.That(r).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
+        return (bytes, metaValue, actual);
+    }
 
-        await AssertEqual(actual, value);
-
+    private static async Task PostTest(string? hex, byte[] bytes, BshoxValue metaValue)
+    {
         if (hex != null)
         {
             string actualHex = bytes.ToHex();
@@ -56,7 +85,7 @@ public static class TestHelper
         var writer = new BshoxWriter(buffer);
         metaValue.Write(ref writer);
         writer.Flush();
-        await AssertEqual(buffer.ToArray(), bytes);
+        await Assert.That(buffer.ToArray()).IsSequenceEqualTo(bytes);
 
         string text = metaValue.ToString();
         Debug.WriteLine(text);
@@ -93,11 +122,7 @@ public static class TestHelper
         // TestContext.Current?.OutputWriter.WriteLine(text);
     }
 
-    public static async Task AssertEqual<
-#if NETCOREAPP
-        [DynamicallyAccessedMembers(DynamicallyAccessedMembers)]
-#endif
-    T>(T actual, T expected, IEqualityComparer<T>? comparer = null)
+    public static async Task AssertEqual<T>(T actual, T expected, IEqualityComparer<T>? comparer = null)
     {
         if (comparer is not null)
         {
@@ -105,7 +130,7 @@ public static class TestHelper
         }
         else
         {
-            await Assert.That(actual).IsEquivalentTo(expected);
+            await Assert.That(actual).IsEqualTo(expected);
         }
     }
 
