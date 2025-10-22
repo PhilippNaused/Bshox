@@ -6,25 +6,28 @@ namespace Bshox.Tests;
 
 public static class SequenceEqualAssertions
 {
-    public static CollectionComparerBasedAssertion<TItem> IsSequenceEqualTo<TItem>(this IAssertionSource<IEnumerable<TItem>> source, IEnumerable<TItem> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpression = null)
+    public static CollectionComparerBasedAssertion<TCollection, TItem> IsSequenceEqualTo<TCollection, TItem>(this IAssertionSource<TCollection> source, IEnumerable<TItem> expected, [CallerArgumentExpression(nameof(expected))] string? expectedExpression = null)
+        where TCollection : IEnumerable<TItem>
     {
         source.Context.ExpressionBuilder.Append(".IsSequenceEqualTo("
             + string.Join(", ", new[] { expectedExpression }.Where(e => e != null)) + ")");
-        return new SequenceEqualToAssertion<TItem>(source.Context, expected, null);
+        return new SequenceEqualToAssertion<TCollection, TItem>(source.Context, expected, null);
     }
 
-    public static CollectionComparerBasedAssertion<TItem> IsSequenceEqualTo<TItem>(this IAssertionSource<IEnumerable<TItem>> source, IEnumerable<TItem> expected, IEqualityComparer<TItem> comparer, [CallerArgumentExpression(nameof(expected))] string? expectedExpression = null, [CallerArgumentExpression(nameof(comparer))] string? comparerExpression = null)
+    public static CollectionComparerBasedAssertion<TCollection, TItem> IsSequenceEqualTo<TCollection, TItem>(this IAssertionSource<TCollection> source, IEnumerable<TItem> expected, IEqualityComparer<TItem> comparer, [CallerArgumentExpression(nameof(expected))] string? expectedExpression = null, [CallerArgumentExpression(nameof(comparer))] string? comparerExpression = null)
+        where TCollection : IEnumerable<TItem>
     {
         source.Context.ExpressionBuilder.Append(".IsSequenceEqualTo("
             + string.Join(", ", new[] { expectedExpression, comparerExpression }.Where(e => e != null)) + ")");
-        return new SequenceEqualToAssertion<TItem>(source.Context, expected, comparer);
+        return new SequenceEqualToAssertion<TCollection, TItem>(source.Context, expected, comparer);
     }
 
-    private sealed class SequenceEqualToAssertion<TItem> : CollectionComparerBasedAssertion<TItem>
+    private sealed class SequenceEqualToAssertion<TCollection, TItem> : CollectionComparerBasedAssertion<TCollection, TItem>
+        where TCollection : IEnumerable<TItem>
     {
         private readonly IEnumerable<TItem> expected;
 
-        public SequenceEqualToAssertion(AssertionContext<IEnumerable<TItem>> context,
+        public SequenceEqualToAssertion(AssertionContext<TCollection> context,
             IEnumerable<TItem> expected,
             IEqualityComparer<TItem>? comparer) : base(context)
         {
@@ -33,7 +36,7 @@ public static class SequenceEqualAssertions
                 SetComparer(comparer);
         }
 
-        private AssertionResult Check(EvaluationMetadata<IEnumerable<TItem>> metadata)
+        private AssertionResult Check(EvaluationMetadata<TCollection> metadata)
         {
             var actual = metadata.Value;
             var exception = metadata.Exception;
@@ -77,7 +80,7 @@ public static class SequenceEqualAssertions
             return AssertionResult.Passed;
         }
 
-        protected override Task<AssertionResult> CheckAsync(EvaluationMetadata<IEnumerable<TItem>> metadata)
+        protected override Task<AssertionResult> CheckAsync(EvaluationMetadata<TCollection> metadata)
         {
             return Task.FromResult(Check(metadata));
         }
