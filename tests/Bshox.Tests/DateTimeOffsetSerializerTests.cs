@@ -19,17 +19,17 @@ public class DateTimeOffsetSerializerTests
     {
         DateTimeOffset value = new(631524443600111719, TimeSpan.FromHours(5));
         var meta = DateTimeOffsetSerializer.DateTimeOffset.ToBshoxValue(value);
-        await Assert.That(meta).IsTypeOf<BshoxObject, BshoxValue>();
+        await Assert.That(meta).IsTypeOf<BshoxObject>();
         var obj = (BshoxObject)meta;
         await Assert.That(obj).HasCount(2);
 
         var obj1 = obj[1];
-        await Assert.That(obj1).IsTypeOf<VarInt, BshoxValue>();
+        await Assert.That(obj1).IsTypeOf<VarInt>();
         var ticks = ((VarInt)obj1).Value;
         await Assert.That(ticks).IsEqualTo((ulong)value.UtcTicks);
 
         var obj2 = obj[2];
-        await Assert.That(obj2).IsTypeOf<VarInt, BshoxValue>();
+        await Assert.That(obj2).IsTypeOf<VarInt>();
         var offset = ((VarInt)obj2).Value;
         await Assert.That(offset).IsEqualTo((ulong)value.Offset.TotalMinutes);
     }
@@ -106,11 +106,11 @@ public class DateTimeOffsetSerializerTests
         var value = DateTimeOffset.UtcNow;
         await DateTimeOffsetSerializer.DateTimeOffset.TestSerialization(value);
         var meta = DateTimeOffsetSerializer.DateTimeOffset.ToBshoxValue(value);
-        await Assert.That(meta).IsTypeOf<BshoxObject, BshoxValue>();
+        await Assert.That(meta).IsTypeOf<BshoxObject>();
         var obj = (BshoxObject)meta;
         await Assert.That(obj).HasCount(1);
         var obj1 = obj[1];
-        await Assert.That(obj1).IsTypeOf<VarInt, BshoxValue>();
+        await Assert.That(obj1).IsTypeOf<VarInt>();
         var ticks = ((VarInt)obj1).Value;
         await Assert.That(ticks).IsEqualTo((ulong)value.UtcTicks);
     }

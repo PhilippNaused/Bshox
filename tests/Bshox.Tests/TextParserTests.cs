@@ -182,7 +182,7 @@ public class TextParserTests
                             """;
         var actual = await GetValue<BshoxObject>(text);
         await Assert.That(actual.Select(kv => kv.Key)).IsSequenceEqualTo(new uint[] { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 });
-        await Assert.That(actual[1]).IsTypeOf<Fixed4, BshoxValue>();
+        await Assert.That(actual[1]).IsTypeOf<Fixed4>();
     }
 
     private static async Task<T> GetValue<T>(string text) where T : BshoxValue
@@ -192,7 +192,7 @@ public class TextParserTests
         var obj = parser.ParseNextValue();
         await Assert.That(parser.IsEmpty).IsTrue();
         await Assert.That(obj).IsNotNull();
-        await Assert.That(obj).IsTypeOf<T, BshoxValue>();
+        await Assert.That(obj).IsTypeOf<T>();
         var actual = (T)obj;
         return actual;
     }
