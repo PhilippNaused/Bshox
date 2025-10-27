@@ -480,6 +480,12 @@ dotnet_diagnostic.CA1822.severity = none # Member 'A' does not access instance d
 dotnet_diagnostic.CA2007.severity = none # Do not directly await a Task
 dotnet_diagnostic.IDE0058.severity = none # Expression value is never used
 
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none
+
 [samples/*.cs]
 dotnet_diagnostic.IDE0040.severity = none
 dotnet_diagnostic.IDE0058.severity = none
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = none

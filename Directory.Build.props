@@ -21,8 +21,6 @@
   <!-- Code Analysis -->
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <!-- TODO: fix -->
-    <NoWarn>CS1591</NoWarn>
     <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
     <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
     <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
