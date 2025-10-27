@@ -23,10 +23,10 @@ jobs:
 
     steps:
     - name: ⤵️ Checkout Source
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: 🛠️ Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
         dotnet-version: |
@@ -45,7 +45,7 @@ jobs:
     - name: 📦 Pack
       run: dotnet pack src/Packages.slnf --no-build --property:Version=${{ inputs.version }} --output ./publish --configuration Release
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v5
       name: 🚀 Upload
       with:
         name: nuget
