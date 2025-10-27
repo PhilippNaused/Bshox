@@ -1,9 +1,9 @@
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Text;
 using Bshox.Internals;
-using Bshox.Utils;
 using Bshox.TestUtils;
-using System.Runtime.CompilerServices;
+using Bshox.Utils;
 
 namespace Bshox.Tests;
 
