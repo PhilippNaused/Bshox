@@ -25,7 +25,7 @@ public static class Validation
     {
         var ctx = TestContext.Current ?? throw new InvalidOperationException("TestContext.Current is null");
         char sep = Path.DirectorySeparatorChar;
-        var fileName = FileNameEscape(ctx.GetDisplayName());
+        var fileName = FileNameEscape(ctx.Metadata.DisplayName);
         fileName = $"{ctx.GetClassTypeName()}{sep}{fileName}";
         if (targetName is not null)
         {
@@ -131,7 +131,7 @@ public static class Validation
 
     private static async Task<string> RunGitCommandAsync(string filePath, string arguments)
     {
-        var token = TestContext.Current?.CancellationToken ?? CancellationToken.None;
+        var token = TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None;
         await semaphore.WaitAsync(token);
         try
         {

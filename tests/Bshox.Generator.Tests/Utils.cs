@@ -27,7 +27,7 @@ public static class Utils
 
     public static CSharpCompilation GetCompilation(string sourceCode, CSharpCompilationOptions? options = null, CSharpParseOptions? options2 = null)
     {
-        var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode, options2, cancellationToken: TestContext.Current?.CancellationToken ?? CancellationToken.None);
+        var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode, options2, cancellationToken: TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None);
 
         //TestContext.WriteLine($"Assemblies:\n{string.Join(",\n", s_References.Select(r => r.Display).OrderBy(n => n))}");
 
@@ -80,8 +80,8 @@ public static class Utils
         _ = CSharpGeneratorDriver.Create([generator.AsSourceGenerator()], null, options2)
             .RunGeneratorsAndUpdateCompilation(compilation,
                 out var outputCompilation,
-                out diagnostics, TestContext.Current?.CancellationToken ?? CancellationToken.None);
-        diagnostics = [.. diagnostics, .. outputCompilation.GetDiagnostics(TestContext.Current?.CancellationToken ?? CancellationToken.None), .. x.GetAllDiagnosticsAsync().Result];
+                out diagnostics, TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None);
+        diagnostics = [.. diagnostics, .. outputCompilation.GetDiagnostics(TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None), .. x.GetAllDiagnosticsAsync().Result];
 
         diagnostics = [.. diagnostics.Distinct()];
 
