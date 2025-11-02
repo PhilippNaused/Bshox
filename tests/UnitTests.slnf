@@ -1,6 +1,6 @@
 {
   "solution": {
-    "path": "..\\Bshox.slnx",
+    "path": "../Bshox.slnx",
     "projects": [
       "tests\\Bshox.Generator.Tests\\Bshox.Generator.Tests.csproj",
       "tests\\Bshox.Tests\\Bshox.Tests.csproj"

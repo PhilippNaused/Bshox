@@ -15,11 +15,11 @@ $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
 if ($Generator) {
-  $Path = '.\tests\Generator.Benchmark'
+  $Path = 'tests/Generator.Benchmark'
 }
 else {
-  $Path = '.\tests\Benchmark'
+  $Path = 'tests/Benchmark'
 }
 
-dotnet test --disable-logo --project '.\tests\Benchmark.Tests\' --configuration Release
+dotnet test --disable-logo --project 'tests/Benchmark.Tests' --configuration Release
 dotnet run --project $Path --configuration Release --framework $tfm

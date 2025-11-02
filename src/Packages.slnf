@@ -1,6 +1,6 @@
 {
   "solution": {
-    "path": "..\\Bshox.slnx",
+    "path": "../Bshox.slnx",
     "projects": [
       "src\\Bshox.Generator\\Bshox.Generator.csproj",
       "src\\Bshox.Utils\\Bshox.Utils.csproj",
