@@ -4,9 +4,6 @@
   "xml.format.splitAttributes": "alignWithFirstAttr",
   "markdown.extension.tableFormatter.delimiterRowNoPadding": true,
   "dotnet.automaticallyCreateSolutionInWorkspace": false,
-  "files.associations": {
-    "dotnet.config": "ini",
-  },
   "msbuildProjectTools.nuget.disablePreFetch": true,
   "msbuildProjectTools.nuget.includePreRelease": true,
   "dotnet.testWindow.useTestingPlatformProtocol": true
