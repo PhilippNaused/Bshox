@@ -23,5 +23,5 @@ Remove-Item -Path $PublishDir -Recurse -Force -ErrorAction Ignore
 dotnet build --configuration $Configuration $ProjectDir -t:PublishAll --no-dependencies -p:PublishDir=$PublishDir -p:DebugSymbols=false
 
 # Run AOT tests using MTP
-$Glob = $IsWindows ? '*/Bshox.Tests.exe' : '*/Bshox.Tests'
-dotnet test --disable-logo --root-directory $PublishDir --test-modules $Glob
+$Glob = $IsWindows ? '*\Bshox.Tests.exe' : '*/Bshox.Tests'
+dotnet test --disable-logo --root-directory $PublishDir --test-modules "$Glob"
