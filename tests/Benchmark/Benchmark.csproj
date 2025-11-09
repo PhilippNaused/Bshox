@@ -8,7 +8,7 @@
     <IsTestProject>false</IsTestProject>
     <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
     <!-- <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles> -->
-    <!-- <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath> -->
+    <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath>
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
 

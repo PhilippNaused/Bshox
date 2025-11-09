@@ -11,7 +11,7 @@
     <IsPackable>false</IsPackable>
     <OutputType>Exe</OutputType>
     <!-- <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles> -->
-    <!-- <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath> -->
+    <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath>
     <TrimmerSingleWarn>false</TrimmerSingleWarn>
     <!--
     Bug? in Polyfill https://github.com/SimonCropp/Polyfill/issues/408
