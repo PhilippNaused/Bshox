@@ -217,7 +217,7 @@ internal class SurrogatesTests
 
         await Assert.That(diagnostics).HasSingleItem();
         var diagnostic = diagnostics.Single();
-        await Assert.That(diagnostic.Id).IsEqualTo("BSHOX999");
+        await Assert.That(diagnostic.Id).IsEqualTo("Bshox999");
         await Assert.That(generatedOutput).IsEmpty();
     }
 }

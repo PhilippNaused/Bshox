@@ -6,7 +6,7 @@ namespace Bshox.Generator;
 
 public static class Diagnostics
 {
-    private const string Prefix = "BSHOX";
+    private const string Prefix = "Bshox";
     private const string Category = "Bshox";
 
     // TODO: fix these

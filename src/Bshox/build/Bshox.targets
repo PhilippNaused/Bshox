@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <Error Condition="'$(CurrentRoslynVersionTooOld)' == 'true'"
-           Code="BSHOX014"
+           Code="Bshox014"
            Text="The Bshox source generator has been disabled because the current compiler version ($(CurrentRoslynVersion)) is too low. Bshox requires at least Roslyn $(BshoxMinRoslynVersion)." />
   </Target>
 
