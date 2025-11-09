@@ -1,8 +1,5 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace VeriGit;
 
-[ExcludeFromCodeCoverage]
 public sealed class ValidationFailedException(string message, string filePath, string? actualText, string? diffText) : Exception(message)
 {
     /// <summary>

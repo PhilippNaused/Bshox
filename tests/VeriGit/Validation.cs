@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -7,30 +6,28 @@ using TUnit.Core.Extensions;
 
 namespace VeriGit;
 
-#pragma warning disable CA2007 // Consider calling ConfigureAwait on the awaited task
-
-[ExcludeFromCodeCoverage]
 public static class Validation
 {
     public static Task Validate(string actual, string extension = "txt", string? targetName = null, [CallerFilePath] string callerFilePath = "")
     {
         string sourceDir = Path.GetDirectoryName(callerFilePath) ?? throw new InvalidOperationException("Caller file path directory is null");
-        string fileName = GetFilename(targetName);
+        string fileName = GetFilename();
+        if (targetName is not null)
+        {
+            char sep = Path.DirectorySeparatorChar;
+            fileName = $"{fileName}{sep}{targetName}";
+        }
         fileName = $"{fileName}.{extension}";
         var filePath = Path.Combine(sourceDir, "Snapshots", fileName);
         return DiffFile(actual, filePath);
     }
 
-    private static string GetFilename(string? targetName)
+    private static string GetFilename()
     {
         var ctx = TestContext.Current ?? throw new InvalidOperationException("TestContext.Current is null");
-        char sep = Path.DirectorySeparatorChar;
         var fileName = FileNameEscape(ctx.Metadata.DisplayName);
+        char sep = Path.DirectorySeparatorChar;
         fileName = $"{ctx.GetClassTypeName()}{sep}{fileName}";
-        if (targetName is not null)
-        {
-            fileName = $"{fileName}{sep}{targetName}";
-        }
         return fileName;
     }
 

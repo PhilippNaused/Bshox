@@ -30,17 +30,23 @@ internal class ApiValidation
         return Validate(assembly);
     }
 
+    [Test]
+    public Task VeriGit()
+    {
+        var assembly = typeof(Validation).Assembly;
+        return Validate(assembly);
+    }
+
     private static Task Validate(Assembly assembly)
     {
         var API = assembly.Decompile();
-        return Validate(GetFramework(assembly), API);
+        return Validate(GetFramework(assembly) ?? "unknown", API);
     }
 
-    private static string GetFramework(Assembly assembly)
+    private static string? GetFramework(Assembly assembly)
     {
-#pragma warning disable CA2263 // Prefer generic overload when type is known
-        return ((TargetFrameworkAttribute)assembly.GetCustomAttribute(typeof(TargetFrameworkAttribute))!).FrameworkDisplayName!;
-#pragma warning restore CA2263 // Prefer generic overload when type is known
+        TargetFrameworkAttribute? attribute = assembly.GetCustomAttribute<TargetFrameworkAttribute>();
+        return attribute?.FrameworkDisplayName;
     }
 
     private static Task Validate(string frameworkName, string publicApi)
