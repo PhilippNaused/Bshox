@@ -12,7 +12,9 @@ public partial class DateTimeOffsetSerializer;
 #if NETCOREAPP
 [BshoxSurrogate<DateTimeOffset>]
 #else
-[BshoxSurrogate(typeof(DateTimeOffset))] // The mono runtime will crash if you add a generic attribute to a struct.
+// The mono runtime will crash if you add a generic attribute to a struct.
+// See: https://github.com/mono/mono/issues/21852 and https://gitlab.winehq.org/mono/mono/-/issues/25
+[BshoxSurrogate(typeof(DateTimeOffset))]
 #endif
 internal struct DateTimeOffsetSurrogate
 {
