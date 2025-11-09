@@ -17,15 +17,11 @@ cspell lint $PSScriptRoot
 dotnet test --disable-logo --configuration $Configuration
 
 # Publish AOT tests
-Remove-Item -Path "$PSScriptRoot\temp\*" -Recurse -Force -ErrorAction Ignore
-dotnet build --configuration $Configuration "$PSScriptRoot\tests\Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="$PSScriptRoot\temp\Bshox.Tests" -p:DebugSymbols=false
+$ProjectDir = Join-Path $PSScriptRoot 'tests\Bshox.Tests'
+$PublishDir = Join-Path $ProjectDir 'bin' $Configuration 'publish-aot'
+Remove-Item -Path $PublishDir -Recurse -Force -ErrorAction Ignore
+dotnet build --configuration $Configuration $ProjectDir -t:PublishAll --no-dependencies -p:PublishDir=$PublishDir -p:DebugSymbols=false
 
 # Run AOT tests using MTP
-if ($IsWindows) {
-  dotnet test --disable-logo --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests.exe"
-}
-else {
-  dotnet test --disable-logo --root-directory $PSScriptRoot --test-modules "temp\**\Bshox.Tests"
-}
-
-Remove-Item -Path "$PSScriptRoot\temp" -Recurse -Force -ErrorAction Ignore
+$Glob = $IsWindows ? '*/Bshox.Tests.exe' : '*/Bshox.Tests'
+dotnet test --disable-logo --root-directory $PublishDir --test-modules $Glob
