@@ -58,6 +58,6 @@
     <ProjectReference Include="..\TestModels\TestModels.csproj" />
   </ItemGroup>
 
-  <Import Project="..\..\src\Bshox\Bshox.targets" />
+  <Import Project="..\..\src\Bshox\build\Bshox.targets" />
 
 </Project>

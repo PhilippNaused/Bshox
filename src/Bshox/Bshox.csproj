@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Bshox.targets"
+    <None Include="build\Bshox.targets"
           Pack="true"
           PackagePath="build/;buildTransitive/" />
     <None Include="$(MSBuildThisFileDirectory)..\..\README.md"
