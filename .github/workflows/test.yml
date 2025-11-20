@@ -28,12 +28,11 @@ jobs:
           8.0.x
           9.0.x
 
-    # cspell:ignore devel
     - name: 🛠️ Install mono
       if: startsWith(matrix.os, 'ubuntu')
       run: |
         sudo apt-get update
-        sudo apt-get install -y mono-devel
+        sudo apt-get install -y mono-runtime
 
     - name: 🛠️ Restore dependencies
       run: dotnet restore
