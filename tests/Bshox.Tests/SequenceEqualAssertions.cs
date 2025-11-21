@@ -51,7 +51,7 @@ public static class SequenceEqualAssertions
                 return AssertionResult.Failed("collection was null");
             }
 
-            var comparer = HasCustomComparer() ? GetComparer() : EqualityComparer<TItem>.Default;
+            var comparer = GetComparer();
 
             var actualList = actual.ToList();
             var expectedList = expected.ToList();
