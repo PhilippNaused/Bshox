@@ -91,6 +91,6 @@ Here is what Bshox cannot do:
 
 - Reentrancy
 - Async serialization/deserialization\
-  The async overload of the Deserialize method simplify buffers the stream asynchronously. The deserialization itself is pure CPU-bound work.
+  The async overload of the Deserialize method simply buffers the stream asynchronously. The deserialization itself is pure CPU-bound work.
 - Polymorphism (coming soon™)
 - By-ref serialization (maybe in the future)
