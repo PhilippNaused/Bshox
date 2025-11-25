@@ -112,7 +112,7 @@ public ref partial struct BshoxReader
     public uint ReadUInt32()
     {
         uint value = ReadUnsafe<uint>();
-        if (BitConverter.IsLittleEndian)
+        if (Options.ReverseEndianness)
             value = BinaryPrimitives.ReverseEndianness(value);
         return value;
     }
@@ -123,7 +123,7 @@ public ref partial struct BshoxReader
     public ulong ReadUInt64()
     {
         ulong value = ReadUnsafe<ulong>();
-        if (BitConverter.IsLittleEndian)
+        if (Options.ReverseEndianness)
             value = BinaryPrimitives.ReverseEndianness(value);
         return value;
     }

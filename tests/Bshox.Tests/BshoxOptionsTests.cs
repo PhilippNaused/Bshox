@@ -6,7 +6,7 @@ public class BshoxOptionsTests
     public async Task DefaultValue()
     {
         await Assert.That(BshoxOptions.Default.MaxDepth).IsEqualTo(BshoxOptions.DefaultMaxDepth);
-        await Assert.That(BshoxOptions.Default.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 64 }");
+        await Assert.That(BshoxOptions.Default.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 64, LittleEndian = False }");
     }
 
     [Test]
@@ -23,6 +23,6 @@ public class BshoxOptionsTests
             MaxDepth = 1
         };
         await Assert.That(options.MaxDepth).IsEqualTo(1);
-        await Assert.That(options.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 1 }");
+        await Assert.That(options.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 1, LittleEndian = False }");
     }
 }

@@ -106,7 +106,7 @@ public static partial class DefaultContracts
         public partial void Deserialize(ref BshoxReader reader, Span<float> destination)
         {
             reader.CopyTo(MemoryMarshal.AsBytes(destination));
-            if (BitConverter.IsLittleEndian)
+            if (reader.Options.ReverseEndianness)
             {
                 var span = MemoryMarshal.Cast<float, int>(destination);
                 EndiannessHelper.Reverse(span, span);
@@ -118,7 +118,7 @@ public static partial class DefaultContracts
             int size = values.Length * sizeof(float);
             var source = MemoryMarshal.Cast<float, int>(values);
             var dest = MemoryMarshal.Cast<byte, int>(writer.GetSpan(size).Slice(0, size));
-            if (BitConverter.IsLittleEndian)
+            if (writer.Options.ReverseEndianness)
             {
                 EndiannessHelper.Reverse(source, dest);
             }
@@ -135,7 +135,7 @@ public static partial class DefaultContracts
         public partial void Deserialize(ref BshoxReader reader, Span<double> destination)
         {
             reader.CopyTo(MemoryMarshal.AsBytes(destination));
-            if (BitConverter.IsLittleEndian)
+            if (reader.Options.ReverseEndianness)
             {
                 var span = MemoryMarshal.Cast<double, long>(destination);
                 EndiannessHelper.Reverse(span, span);
@@ -147,7 +147,7 @@ public static partial class DefaultContracts
             int size = values.Length * sizeof(double);
             var source = MemoryMarshal.Cast<double, long>(values);
             var dest = MemoryMarshal.Cast<byte, long>(writer.GetSpan(size).Slice(0, size));
-            if (BitConverter.IsLittleEndian)
+            if (writer.Options.ReverseEndianness)
             {
                 EndiannessHelper.Reverse(source, dest);
             }

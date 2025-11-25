@@ -5,14 +5,22 @@ using Bshox.TestUtils;
 
 namespace Bshox.Tests;
 
+[Arguments(true)]
+[Arguments(false)]
 internal sealed class WriterTests : IDisposable
 {
     #region Boilerplate
 
+    public WriterTests(bool littleEndian)
+    {
+        options = new() { LittleEndian = littleEndian };
+    }
+
     private readonly Random rng = new(42);
     private readonly PooledByteBufferWriter buffer = new();
+    private readonly BshoxOptions options;
 
-    private BshoxWriter GetWriter() => new(buffer);
+    private BshoxWriter GetWriter() => new(buffer, options);
 
     public void Dispose() => Reset();
 
@@ -29,10 +37,10 @@ internal sealed class WriterTests : IDisposable
         var seq = SequenceSegmenter.MakeSegmentedSequence(buffer.ToArray(), SegmentSize);
         Debug.Assert(seq.Length == buffer.Length, "seq.Length == buffer.WrittenMemory.Length");
         Debug.Assert(seq.IsSingleSegment == (buffer.Length <= SegmentSize), "seq.IsSingleSegment == (buffer.WrittenMemory.Length <= SegmentSize)");
-        return new BshoxReader(seq);
+        return new BshoxReader(seq, options);
     }
 
-    private static string Hex(byte[] bytes) => BitConverter.ToString(bytes);
+    private string Hex(byte[] bytes) => BitConverter.ToString(bytes);
 
     #endregion Boilerplate
 
@@ -266,7 +274,12 @@ internal sealed class WriterTests : IDisposable
         writer.Flush();
 
         var array = GetOutput();
+        if (options.LittleEndian)
+        {
+            Array.Reverse(array);
+        }
         await Assert.That(Hex(array)).IsEqualTo(expected);
+
         var decoded = GetReader().ReadDouble();
         await Assert.That(decoded).IsEqualTo(value);
     }
@@ -312,7 +325,12 @@ internal sealed class WriterTests : IDisposable
         writer.Flush();
 
         var array = GetOutput();
+        if (options.LittleEndian)
+        {
+            Array.Reverse(array);
+        }
         await Assert.That(Hex(array)).IsEqualTo(expected);
+
         var decoded = GetReader().ReadSingle();
         await Assert.That(decoded).IsEqualTo(value);
     }
@@ -423,17 +441,16 @@ internal sealed class WriterTests : IDisposable
     [Test]
     [Arguments(byte.MaxValue, "FF")]
     [Arguments(uint.MinValue, "00-00-00-00")]
-    //[Arguments(TimeSpan.Zero, "00-00-00-00-00-00-00-00")]
-#pragma warning disable TUnit0300 // Generic type or method may not be AOT-compatible
-    public async Task WriteUnsafe_Hex<T>(T value, string expected) where T : unmanaged
-#pragma warning restore TUnit0300 // Generic type or method may not be AOT-compatible
+    public async Task WriteUnsafe_Hex(object value, string expected)
     {
         var writer = GetWriter();
-        writer.WriteUnsafe(in value);
+        if (value is byte b)
+            writer.WriteUnsafe(in b);
+        if (value is uint u)
+            writer.WriteUnsafe(in u);
         writer.Flush();
 
         var array = GetOutput();
-        await Assert.That(array).HasCount(Unsafe.SizeOf<T>());
         await Assert.That(Hex(array)).IsEqualTo(expected);
     }
 

@@ -26,4 +26,8 @@ public sealed record BshoxOptions
             field = value;
         }
     } = DefaultMaxDepth;
+
+    public bool LittleEndian { get; init; }
+
+    internal bool ReverseEndianness => LittleEndian != BitConverter.IsLittleEndian;
 }

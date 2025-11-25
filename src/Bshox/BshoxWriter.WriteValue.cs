@@ -78,7 +78,7 @@ public ref partial struct BshoxWriter
 
     public void WriteUInt64(ulong value)
     {
-        if (BitConverter.IsLittleEndian)
+        if (Options.ReverseEndianness)
         {
             value = BinaryPrimitives.ReverseEndianness(value);
         }
@@ -90,7 +90,7 @@ public ref partial struct BshoxWriter
 
     public void WriteUInt32(uint value)
     {
-        if (BitConverter.IsLittleEndian)
+        if (Options.ReverseEndianness)
         {
             value = BinaryPrimitives.ReverseEndianness(value);
         }
