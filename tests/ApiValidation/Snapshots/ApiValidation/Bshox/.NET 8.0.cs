@@ -70,15 +70,17 @@ namespace Bshox
         [System.Diagnostics.StackTraceHidden]
         public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
     }
-    public readonly record struct BshoxOptions
+    public sealed record BshoxOptions
     {
+        public BshoxOptions();
         public const int DefaultMaxDepth = 64;
+        public static readonly Bshox.BshoxOptions Default;
         public int MaxDepth { get; init; }
     }
     public ref struct BshoxReader
     {
-        public BshoxReader(System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions options = default(Bshox.BshoxOptions));
-        public BshoxReader(System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions options = default(Bshox.BshoxOptions));
+        public BshoxReader(System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions? options = null);
+        public BshoxReader(System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);
         public long Consumed { readonly get; }
         public readonly int CurrentDepth { get; }
         public readonly long Length { get; }
@@ -116,7 +118,7 @@ namespace Bshox
     }
     public ref struct BshoxWriter
     {
-        public BshoxWriter(System.Buffers.IBufferWriter<byte> buffer, Bshox.BshoxOptions options = default(Bshox.BshoxOptions));
+        public BshoxWriter(System.Buffers.IBufferWriter<byte> buffer, Bshox.BshoxOptions? options = null);
         public readonly int CurrentDepth { get; }
         public void Advance(int count);
         public Bshox.Internals.DepthLockScope DepthLock();

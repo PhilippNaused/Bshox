@@ -1,19 +1,19 @@
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace Bshox;
 
-public readonly record struct BshoxOptions
+public sealed record BshoxOptions
 {
     public const int DefaultMaxDepth = 64; // same as System.Text.Json.JsonReaderOptions.DefaultMaxDepth
 
-    public readonly int MaxDepth
+    public static readonly BshoxOptions Default = new();
+
+    public int MaxDepth
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
             Debug.Assert(field >= 0, "field >= 0");
-            return field is 0 ? DefaultMaxDepth : field;
+            return field;
         }
         init
         {
@@ -25,5 +25,5 @@ public readonly record struct BshoxOptions
 #endif
             field = value;
         }
-    }
+    } = DefaultMaxDepth;
 }

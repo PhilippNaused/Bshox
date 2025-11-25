@@ -5,7 +5,7 @@ using Bshox.Internals;
 
 namespace Bshox;
 
-public ref partial struct BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions options = default)
+public ref partial struct BshoxWriter
 {
     private const int MinBufferSize = 256;
 
@@ -18,7 +18,15 @@ public ref partial struct BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions o
     private Span<byte> _span;
 #endif
 
+    private readonly IBufferWriter<byte> _buffer;
+    private readonly BshoxOptions _options;
     private int _depth;
+
+    public BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions? options = null)
+    {
+        _buffer = buffer;
+        _options = options ?? BshoxOptions.Default;
+    }
 
     public readonly int CurrentDepth => _depth;
 
@@ -41,7 +49,7 @@ public ref partial struct BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions o
             Flush();
         }
         Debug.Assert(_index == 0, "_index == 0");
-        _span = buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        _span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
         return _span;
 #endif
     }
@@ -61,7 +69,7 @@ public ref partial struct BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions o
             Flush();
         }
         Debug.Assert(_unflushed == 0, "_unflushed == 0");
-        var span = buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        var span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
         _ref = ref span[0];
         _length = span.Length;
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");
@@ -78,7 +86,7 @@ public ref partial struct BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions o
             Flush();
         }
         Debug.Assert(_index == 0, "_index == 0");
-        _span = buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        _span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
         Debug.Assert(_span.Length >= sizeHint, "_span.Length >= sizeHint");
         return ref _span[0];
 #endif
@@ -105,17 +113,17 @@ public ref partial struct BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions o
 #if NET8_0_OR_GREATER
         Debug.Assert(!Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
         Debug.Assert(_unflushed >= 0, "_unflushed >= 0");
-        buffer.Advance(_unflushed);
+        _buffer.Advance(_unflushed);
         _unflushed = 0;
 #else
         Debug.Assert(_index <= _span.Length, "_index <= _span.Length");
-        buffer.Advance(_index);
+        _buffer.Advance(_index);
         _index = 0;
         _span = default;
 #endif
     }
 
 #pragma warning disable CS0618 // Type or member is obsolete
-    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, options.MaxDepth);
+    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, _options.MaxDepth);
 #pragma warning restore CS0618 // Type or member is obsolete
 }

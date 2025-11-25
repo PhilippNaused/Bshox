@@ -30,7 +30,7 @@ public class RecursiveTypeTests
         var root = new RecursiveTestType();
 
         var current = root;
-        for (int i = 1; i < default(BshoxOptions).MaxDepth - 2; i++)
+        for (int i = 1; i < BshoxOptions.DefaultMaxDepth - 2; i++)
         {
             current.Value1 = new RecursiveTestType();
             current = current.Value1;

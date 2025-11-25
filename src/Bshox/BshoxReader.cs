@@ -36,12 +36,12 @@ public ref partial struct BshoxReader
 
     public readonly int CurrentDepth => _depth;
 
-    private BshoxReader(BshoxOptions options)
+    private BshoxReader(BshoxOptions? options)
     {
-        _options = options;
+        _options = options ?? BshoxOptions.Default;
     }
 
-    public BshoxReader(ReadOnlySequence<byte> sequence, BshoxOptions options = default) : this(options)
+    public BshoxReader(ReadOnlySequence<byte> sequence, BshoxOptions? options = null) : this(options)
     {
         Consumed = 0;
         if (sequence.IsSingleSegment)
@@ -61,7 +61,7 @@ public ref partial struct BshoxReader
         Debug.Assert(_moreData != _span.IsEmpty, "_moreData != _span.IsEmpty");
     }
 
-    public BshoxReader(ReadOnlyMemory<byte> memory, BshoxOptions options = default) : this(options)
+    public BshoxReader(ReadOnlyMemory<byte> memory, BshoxOptions? options = null) : this(options)
     {
         Consumed = 0;
         _usingSequence = false;
