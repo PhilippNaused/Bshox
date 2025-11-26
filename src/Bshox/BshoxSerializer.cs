@@ -22,26 +22,26 @@ public abstract class BshoxSerializer
 
     #region Deserialize
 
-    public object Deserialize(in ReadOnlySequence<byte> sequence, Type returnType)
+    public object Deserialize(in ReadOnlySequence<byte> sequence, Type returnType, BshoxOptions? options = null)
     {
         var contract = GetContract(returnType);
-        var reader = new BshoxReader(sequence);
+        var reader = new BshoxReader(sequence, options);
         contract.Deserialize(ref reader, out var value);
         return value;
     }
 
-    public object Deserialize(ReadOnlyMemory<byte> memory, Type returnType)
+    public object Deserialize(ReadOnlyMemory<byte> memory, Type returnType, BshoxOptions? options = null)
     {
         var contract = GetContract(returnType);
-        var reader = new BshoxReader(memory);
+        var reader = new BshoxReader(memory, options);
         contract.Deserialize(ref reader, out var value);
         return value;
     }
 
-    public object Deserialize(Stream stream, Type returnType)
+    public object Deserialize(Stream stream, Type returnType, BshoxOptions? options = null)
     {
         var contract = GetContract(returnType);
-        if (stream is MemoryStream memoryStream && TryDeserialize(contract, memoryStream, out object? value))
+        if (stream is MemoryStream memoryStream && TryDeserialize(contract, memoryStream, out object? value, options))
         {
             return value;
         }
@@ -54,7 +54,7 @@ public abstract class BshoxSerializer
         using var sequence = new StreamSequence(stream);
         sequence.ReadAll(); // this always reads everything from the stream
 
-        var reader = new BshoxReader(sequence.Sequence);
+        var reader = new BshoxReader(sequence.Sequence, options);
         contract.Deserialize(ref reader, out value);
         if (stream.CanSeek)
         {
@@ -64,10 +64,10 @@ public abstract class BshoxSerializer
         return value;
     }
 
-    public async Task<object> DeserializeAsync(Stream stream, Type returnType, CancellationToken cancellationToken = default)
+    public async Task<object> DeserializeAsync(Stream stream, Type returnType, BshoxOptions? options = null, CancellationToken cancellationToken = default)
     {
         var contract = GetContract(returnType);
-        if (stream is MemoryStream memoryStream && TryDeserialize(contract, memoryStream, out object? value))
+        if (stream is MemoryStream memoryStream && TryDeserialize(contract, memoryStream, out object? value, options))
         {
             return value;
         }
@@ -80,7 +80,7 @@ public abstract class BshoxSerializer
         using var sequence = new StreamSequence(stream);
         await sequence.ReadAllAsync(cancellationToken).ConfigureAwait(false); // this always reads everything from the stream
 
-        var reader = new BshoxReader(sequence.Sequence);
+        var reader = new BshoxReader(sequence.Sequence, options);
         contract.Deserialize(ref reader, out value);
         if (stream.CanSeek)
         {
@@ -90,11 +90,11 @@ public abstract class BshoxSerializer
         return value;
     }
 
-    private static bool TryDeserialize(IBshoxContract contract, MemoryStream memoryStream, [NotNullWhen(true)] out object? value)
+    private static bool TryDeserialize(IBshoxContract contract, MemoryStream memoryStream, [NotNullWhen(true)] out object? value, BshoxOptions? options = null)
     {
         if (BshoxContractExtensions.TryGetBuffer(memoryStream, out var memory))
         {
-            var reader = new BshoxReader(memory);
+            var reader = new BshoxReader(memory, options);
             contract.Deserialize(ref reader, out value);
             memoryStream.Position += reader.Consumed;
             return true;
@@ -108,25 +108,25 @@ public abstract class BshoxSerializer
 
     #region Serialize
 
-    public void Serialize(IBufferWriter<byte> buffer, object value, Type inputType)
+    public void Serialize(IBufferWriter<byte> buffer, object value, Type inputType, BshoxOptions? options = null)
     {
         var contract = GetContract(inputType);
-        var writer = new BshoxWriter(buffer);
+        var writer = new BshoxWriter(buffer, options);
         contract.Serialize(ref writer, value);
         writer.Flush();
     }
 
-    public void Serialize(Stream stream, object value, Type inputType)
+    public void Serialize(Stream stream, object value, Type inputType, BshoxOptions? options = null)
     {
         using var buffer = new PooledByteBufferWriter();
-        Serialize(buffer, value, inputType);
+        Serialize(buffer, value, inputType, options);
         buffer.WriteToStream(stream);
     }
 
-    public byte[] Serialize(object value, Type inputType)
+    public byte[] Serialize(object value, Type inputType, BshoxOptions? options = null)
     {
         using var buffer = new PooledByteBufferWriter();
-        Serialize(buffer, value, inputType);
+        Serialize(buffer, value, inputType, options);
         return buffer.ToArray();
     }
 

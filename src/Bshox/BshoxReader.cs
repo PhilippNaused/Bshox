@@ -21,8 +21,6 @@ public ref partial struct BshoxReader
 
     private bool _moreData;
 
-    private readonly BshoxOptions _options;
-
     private int _depth;
 
     /// <summary>
@@ -36,9 +34,11 @@ public ref partial struct BshoxReader
 
     public readonly int CurrentDepth => _depth;
 
+    public BshoxOptions Options { get; }
+
     private BshoxReader(BshoxOptions? options)
     {
-        _options = options ?? BshoxOptions.Default;
+        Options = options ?? BshoxOptions.Default;
     }
 
     public BshoxReader(ReadOnlySequence<byte> sequence, BshoxOptions? options = null) : this(options)
@@ -362,6 +362,6 @@ public ref partial struct BshoxReader
     }
 
 #pragma warning disable CS0618 // Type or member is obsolete
-    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, _options.MaxDepth);
+    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
 #pragma warning restore CS0618 // Type or member is obsolete
 }

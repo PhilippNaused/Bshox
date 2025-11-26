@@ -10,25 +10,25 @@ public static class BshoxContractExtensions
 {
     #region Serialize
 
-    public static void Serialize<T>(this BshoxContract<T> contract, IBufferWriter<byte> buffer, scoped in T value)
+    public static void Serialize<T>(this BshoxContract<T> contract, IBufferWriter<byte> buffer, scoped in T value, BshoxOptions? options = null)
     {
-        var writer = new BshoxWriter(buffer);
+        var writer = new BshoxWriter(buffer, options);
         contract.Serialize(ref writer, in value);
         writer.Flush();
     }
 
-    public static void Serialize<T>(this BshoxContract<T> contract, Stream stream, scoped in T value)
+    public static void Serialize<T>(this BshoxContract<T> contract, Stream stream, scoped in T value, BshoxOptions? options = null)
     {
         // TODO: add optimization for MemoryStream
         using var buffer = new PooledByteBufferWriter();
-        contract.Serialize(buffer, in value);
+        contract.Serialize(buffer, in value, options);
         buffer.WriteToStream(stream);
     }
 
-    public static byte[] Serialize<T>(this BshoxContract<T> contract, scoped in T value)
+    public static byte[] Serialize<T>(this BshoxContract<T> contract, scoped in T value, BshoxOptions? options = null)
     {
         using var buffer = new PooledByteBufferWriter();
-        contract.Serialize(buffer, in value);
+        contract.Serialize(buffer, in value, options);
         return buffer.ToArray();
     }
 
@@ -38,23 +38,23 @@ public static class BshoxContractExtensions
 
     #region Deserialize
 
-    public static T Deserialize<T>(this BshoxContract<T> contract, in ReadOnlySequence<byte> sequence)
+    public static T Deserialize<T>(this BshoxContract<T> contract, in ReadOnlySequence<byte> sequence, BshoxOptions? options = null)
     {
-        var reader = new BshoxReader(sequence);
+        var reader = new BshoxReader(sequence, options);
         contract.Deserialize(ref reader, out T value);
         return value;
     }
 
-    public static T Deserialize<T>(this BshoxContract<T> contract, ReadOnlyMemory<byte> memory)
+    public static T Deserialize<T>(this BshoxContract<T> contract, ReadOnlyMemory<byte> memory, BshoxOptions? options = null)
     {
-        var reader = new BshoxReader(memory);
+        var reader = new BshoxReader(memory, options);
         contract.Deserialize(ref reader, out T value);
         return value;
     }
 
-    public static T Deserialize<T>(this BshoxContract<T> contract, Stream stream)
+    public static T Deserialize<T>(this BshoxContract<T> contract, Stream stream, BshoxOptions? options = null)
     {
-        if (stream is MemoryStream memoryStream && contract.TryDeserialize(memoryStream, out T? value))
+        if (stream is MemoryStream memoryStream && contract.TryDeserialize(memoryStream, out T? value, options))
         {
             return value;
         }
@@ -67,7 +67,7 @@ public static class BshoxContractExtensions
         using var sequence = new StreamSequence(stream);
         sequence.ReadAll(); // this always reads everything from the stream
 
-        var reader = new BshoxReader(sequence.Sequence);
+        var reader = new BshoxReader(sequence.Sequence, options);
         contract.Deserialize(ref reader, out value);
         if (stream.CanSeek)
         {
@@ -77,9 +77,9 @@ public static class BshoxContractExtensions
         return value;
     }
 
-    public static async Task<T> DeserializeAsync<T>(this BshoxContract<T> contract, Stream stream, CancellationToken cancellationToken = default)
+    public static async Task<T> DeserializeAsync<T>(this BshoxContract<T> contract, Stream stream, BshoxOptions? options = null, CancellationToken cancellationToken = default)
     {
-        if (stream is MemoryStream memoryStream && contract.TryDeserialize(memoryStream, out T? value))
+        if (stream is MemoryStream memoryStream && contract.TryDeserialize(memoryStream, out T? value, options))
         {
             return value;
         }
@@ -92,7 +92,7 @@ public static class BshoxContractExtensions
         using var sequence = new StreamSequence(stream);
         await sequence.ReadAllAsync(cancellationToken).ConfigureAwait(false); // this always reads everything from the stream
 
-        var reader = new BshoxReader(sequence.Sequence);
+        var reader = new BshoxReader(sequence.Sequence, options);
         contract.Deserialize(ref reader, out value);
         if (stream.CanSeek)
         {
@@ -138,12 +138,12 @@ public static class BshoxContractExtensions
         return false;
     }
 
-    private static bool TryDeserialize<T>(this BshoxContract<T> contract, MemoryStream memoryStream, [NotNullWhen(true)] out T? value)
+    private static bool TryDeserialize<T>(this BshoxContract<T> contract, MemoryStream memoryStream, [NotNullWhen(true)] out T? value, BshoxOptions? options = null)
     {
         if (TryGetBuffer(memoryStream, out var buffer))
         {
             var memory = buffer.AsMemory((int)memoryStream.Position);
-            var reader = new BshoxReader(memory);
+            var reader = new BshoxReader(memory, options);
             contract.Deserialize(ref reader, out value!);
             memoryStream.Position += reader.Consumed;
             return true;

@@ -19,16 +19,17 @@ public ref partial struct BshoxWriter
 #endif
 
     private readonly IBufferWriter<byte> _buffer;
-    private readonly BshoxOptions _options;
     private int _depth;
+
+    public BshoxOptions Options { get; }
+
+    public readonly int CurrentDepth => _depth;
 
     public BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions? options = null)
     {
         _buffer = buffer;
-        _options = options ?? BshoxOptions.Default;
+        Options = options ?? BshoxOptions.Default;
     }
-
-    public readonly int CurrentDepth => _depth;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span<byte> GetSpan(int sizeHint)
@@ -124,6 +125,6 @@ public ref partial struct BshoxWriter
     }
 
 #pragma warning disable CS0618 // Type or member is obsolete
-    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, _options.MaxDepth);
+    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
 #pragma warning restore CS0618 // Type or member is obsolete
 }

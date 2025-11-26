@@ -46,13 +46,13 @@ namespace Bshox
     }
     public static class BshoxContractExtensions
     {
-        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, in System.Buffers.ReadOnlySequence<byte> sequence);
-        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, System.ReadOnlyMemory<byte> memory);
-        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream);
-        public static async System.Threading.Tasks.Task<T> DeserializeAsync<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        public static void Serialize<T>(this Bshox.BshoxContract<T> contract, System.Buffers.IBufferWriter<byte> buffer, scoped in T value);
-        public static void Serialize<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, scoped in T value);
-        public static byte[] Serialize<T>(this Bshox.BshoxContract<T> contract, scoped in T value);
+        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, in System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions? options = null);
+        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);
+        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, Bshox.BshoxOptions? options = null);
+        public static async System.Threading.Tasks.Task<T> DeserializeAsync<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, Bshox.BshoxOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public static void Serialize<T>(this Bshox.BshoxContract<T> contract, System.Buffers.IBufferWriter<byte> buffer, scoped in T value, Bshox.BshoxOptions? options = null);
+        public static void Serialize<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, scoped in T value, Bshox.BshoxOptions? options = null);
+        public static byte[] Serialize<T>(this Bshox.BshoxContract<T> contract, scoped in T value, Bshox.BshoxOptions? options = null);
     }
     [System.Serializable]
     public class BshoxException : System.Exception
@@ -77,6 +77,7 @@ namespace Bshox
         public long Consumed { readonly get; }
         public readonly int CurrentDepth { get; }
         public readonly long Length { get; }
+        public readonly Bshox.BshoxOptions Options { get; }
         public readonly long Remaining { get; }
         public void Advance(int count);
         public void CopyTo(System.Span<byte> destination);
@@ -99,20 +100,21 @@ namespace Bshox
     public abstract class BshoxSerializer
     {
         protected BshoxSerializer();
-        public object Deserialize(in System.Buffers.ReadOnlySequence<byte> sequence, System.Type returnType);
-        public object Deserialize(System.ReadOnlyMemory<byte> memory, System.Type returnType);
-        public object Deserialize(System.IO.Stream stream, System.Type returnType);
-        public async System.Threading.Tasks.Task<object> DeserializeAsync(System.IO.Stream stream, System.Type returnType, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        public object Deserialize(in System.Buffers.ReadOnlySequence<byte> sequence, System.Type returnType, Bshox.BshoxOptions? options = null);
+        public object Deserialize(System.ReadOnlyMemory<byte> memory, System.Type returnType, Bshox.BshoxOptions? options = null);
+        public object Deserialize(System.IO.Stream stream, System.Type returnType, Bshox.BshoxOptions? options = null);
+        public async System.Threading.Tasks.Task<object> DeserializeAsync(System.IO.Stream stream, System.Type returnType, Bshox.BshoxOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         public Bshox.BshoxContract<T> GetContract<T>();
-        public void Serialize(System.Buffers.IBufferWriter<byte> buffer, object value, System.Type inputType);
-        public void Serialize(System.IO.Stream stream, object value, System.Type inputType);
-        public byte[] Serialize(object value, System.Type inputType);
+        public void Serialize(System.Buffers.IBufferWriter<byte> buffer, object value, System.Type inputType, Bshox.BshoxOptions? options = null);
+        public void Serialize(System.IO.Stream stream, object value, System.Type inputType, Bshox.BshoxOptions? options = null);
+        public byte[] Serialize(object value, System.Type inputType, Bshox.BshoxOptions? options = null);
         protected abstract Bshox.IBshoxContract? GetContractInternal(System.Type type);
     }
     public ref struct BshoxWriter
     {
         public BshoxWriter(System.Buffers.IBufferWriter<byte> buffer, Bshox.BshoxOptions? options = null);
         public readonly int CurrentDepth { get; }
+        public readonly Bshox.BshoxOptions Options { get; }
         public void Advance(int count);
         public Bshox.Internals.DepthLockScope DepthLock();
         public void Flush();
