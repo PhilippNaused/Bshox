@@ -19,6 +19,7 @@
     <Project Path="src/Bshox/Bshox.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <File Path="tests/Directory.Build.props" />
     <Project Path="tests/ApiValidation/ApiValidation.csproj" />
     <Project Path="tests/Benchmark.Tests/Benchmark.Tests.csproj" />
     <Project Path="tests/Benchmark/Benchmark.csproj" />

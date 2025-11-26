@@ -72,6 +72,15 @@ public abstract class BshoxContract<T>(BshoxCode encoding) : IBshoxContract
     public abstract void Deserialize(ref BshoxReader reader, out T value);
 }
 
+/// <summary>
+/// Interface for <see cref="BshoxContract{T}"/>s that support serializing and deserializing spans of values.
+/// </summary>
+/// <typeparam name="T">The type of elements contained in the span to be serialized or deserialized.</typeparam>
+/// <remarks>
+/// Contracts that serialize/deserialize spans of values using the <see cref="BshoxCode.Array"/> encoding can use
+/// this interface to provide optimized implementations for span operations if the contract for the element type
+/// <typeparamref name="T"/> implements this interface.
+/// </remarks>
 public interface ISpanContract<T>
 {
     /// <summary>

@@ -57,6 +57,11 @@ public ref partial struct BshoxReader
         return (x >>> 1) ^ -(x & 1);
     }
 
+    /// <summary>
+    /// Reads a varint encoded tag and extracts the field key and encoding.
+    /// </summary>
+    /// <param name="encoding">The encoding of the field</param>
+    /// <returns>The key of the field</returns>
     public uint ReadTag(out BshoxCode encoding)
     {
         uint tag = ReadVarInt32();
@@ -64,6 +69,15 @@ public ref partial struct BshoxReader
         return tag >>> 3;
     }
 
+    /// <summary>
+    /// Reads the header of an array, returning the number of elements and the encoding of each element.
+    /// </summary>
+    /// <param name="encoding">The encoding type of the array elements</param>
+    /// <returns>The length of the array</returns>
+    /// <remarks>
+    /// This method will throw an exception if the array is too large to be read safely.
+    /// </remarks>
+    /// <exception cref="BshoxException">Thrown when the array is too large to be read safely.</exception>
     public int ReadArrayHeader(out BshoxCode encoding)
     {
         uint tag = ReadVarInt32();

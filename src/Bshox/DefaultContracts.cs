@@ -161,6 +161,14 @@ public static partial class DefaultContracts
 
 #pragma warning restore CA1822 // Mark members as static
 
+    /// <summary>
+    /// A Bshox contract for an enum of type <typeparamref name="T"/>, using the specified underlying type contract.
+    /// </summary>
+    /// <typeparam name="T">The enum type</typeparam>
+    /// <param name="contract">The contract for the underlying type of <typeparamref name="T"/>.</param>
+    /// <returns>A Bshox contract for <typeparamref name="T"/></returns>
+    /// <exception cref="ArgumentException"><typeparamref name="T"/> has an unsupported underlying type.</exception>
+    /// <exception cref="InvalidCastException"><paramref name="contract"/> is not a <see cref="BshoxContract{T}"/> for the underlying type of <typeparamref name="T"/>.</exception>
     public static BshoxContract<T> Enum<T>(IBshoxContract contract) where T : unmanaged, Enum
     {
 #pragma warning disable IDE0072 // Add missing cases

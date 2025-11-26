@@ -28,12 +28,25 @@ public ref partial struct BshoxReader
     /// </summary>
     public long Consumed { get; private set; }
 
+    /// <summary>
+    /// Gets the number of bytes remaining to be read.
+    /// </summary>
     public readonly long Remaining => Length - Consumed;
 
+    /// <summary>
+    /// The total length of the data being read.
+    /// </summary>
     public long Length { get; }
 
+    /// <summary>
+    /// The current depth of nested objects and arrays.<br/>
+    /// If this value exceeds <see cref="BshoxOptions.MaxDepth"/>, a <see cref="BshoxException"/> will be thrown.
+    /// </summary>
     public readonly int CurrentDepth => _depth;
 
+    /// <summary>
+    /// The options used by this reader.
+    /// </summary>
     public BshoxOptions Options { get; }
 
     private BshoxReader(BshoxOptions? options)
@@ -41,6 +54,11 @@ public ref partial struct BshoxReader
         Options = options ?? BshoxOptions.Default;
     }
 
+    /// <summary>
+    /// Creates a new reader that reads from the specified <paramref name="sequence"/>.
+    /// </summary>
+    /// <param name="sequence">The sequence of bytes to read from.</param>
+    /// <param name="options">Options to customize the deserialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
     public BshoxReader(ReadOnlySequence<byte> sequence, BshoxOptions? options = null) : this(options)
     {
         Consumed = 0;
@@ -61,6 +79,11 @@ public ref partial struct BshoxReader
         Debug.Assert(_moreData != _span.IsEmpty, "_moreData != _span.IsEmpty");
     }
 
+    /// <summary>
+    /// Creates a new reader that reads from the specified <paramref name="memory"/>.
+    /// </summary>
+    /// <param name="memory">The memory to read from.</param>
+    /// <param name="options">Options to customize the deserialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
     public BshoxReader(ReadOnlyMemory<byte> memory, BshoxOptions? options = null) : this(options)
     {
         Consumed = 0;
@@ -104,6 +127,10 @@ public ref partial struct BshoxReader
         return ReadStringSlow(byteLength);
     }
 
+    /// <summary>
+    /// Throws an <see cref="BshoxException"/> if there are not enough bytes remaining in the buffer.
+    /// </summary>
+    /// <exception cref="BshoxException">Thrown when there are not enough bytes remaining in the buffer.</exception>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private readonly void CheckBufferSize(long byteLength)
     {
@@ -295,6 +322,9 @@ public ref partial struct BshoxReader
         }
     }
 
+    /// <summary>
+    /// Copies bytes from the reader into the specified <paramref name="destination"/> span and advances the reader by the number of bytes copied.
+    /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void CopyTo(Span<byte> destination)
     {
@@ -361,6 +391,19 @@ public ref partial struct BshoxReader
         return new(inner.Message, inner);
     }
 
+    /// <summary>
+    /// Creates a scope to track depth of nested objects and arrays.<br/>
+    /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
+    /// This method must be used in a <c>using</c> statement to ensure proper depth tracking.
+    /// </summary>
+    /// <example>
+    /// <code lang="csharp">
+    /// using (reader.DepthLock())
+    /// {
+    ///   // Read nested object or array here.
+    /// }
+    /// </code>
+    /// </example>
 #pragma warning disable CS0618 // Type or member is obsolete
     public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
 #pragma warning restore CS0618 // Type or member is obsolete

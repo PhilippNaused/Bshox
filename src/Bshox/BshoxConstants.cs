@@ -1,5 +1,8 @@
 namespace Bshox;
 
+/// <summary>
+/// Compile-time constants for Bshox.
+/// </summary>
 public static class BshoxConstants
 {
     /// <summary>

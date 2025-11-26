@@ -3,6 +3,9 @@ using System.Runtime.CompilerServices;
 
 namespace Bshox.Internals;
 
+/// <summary>
+/// Do not reference this type directly. Use <see cref="BshoxReader.DepthLock()"/> or <see cref="BshoxWriter.DepthLock()"/> instead.
+/// </summary>
 [Obsolete("This type should only be referenced implicitly")]
 public readonly ref struct DepthLockScope
 {
@@ -35,6 +38,9 @@ public readonly ref struct DepthLockScope
 #endif
     }
 
+    /// <summary>
+    /// Decreases the depth by <c>1</c>.
+    /// </summary>
     public void Dispose()
     {
 #if NETCOREAPP
