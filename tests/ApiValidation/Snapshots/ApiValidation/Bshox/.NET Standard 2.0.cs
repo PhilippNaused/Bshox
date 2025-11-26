@@ -68,7 +68,10 @@ namespace Bshox
         public BshoxOptions();
         public const int DefaultMaxDepth = 64;
         public static readonly Bshox.BshoxOptions Default;
+        public bool LittleEndian { get; init; }
         public int MaxDepth { get; init; }
+        public bool Equals(Bshox.BshoxOptions? other);
+        public override int GetHashCode();
     }
     public ref struct BshoxReader
     {
