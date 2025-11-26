@@ -161,13 +161,6 @@ public static partial class DefaultContracts
 
 #pragma warning restore CA1822 // Mark members as static
 
-    /// <summary>
-    /// TODO
-    /// </summary>
-    /// <typeparam name="T">The enum type</typeparam>
-    /// <param name="contract">TODO</param>
-    /// <returns>TODO</returns>
-    /// <exception cref="ArgumentException">TODO</exception>
     public static BshoxContract<T> Enum<T>(IBshoxContract contract) where T : unmanaged, Enum
     {
 #pragma warning disable IDE0072 // Add missing cases
