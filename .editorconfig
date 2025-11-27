@@ -471,6 +471,7 @@ dotnet_diagnostic.CA2002.severity = error
 dotnet_diagnostic.CA2241.severity = error
 dotnet_diagnostic.CA2248.severity = error
 dotnet_diagnostic.CA2249.severity = warning
+dotnet_diagnostic.CS1591.severity = warning # Missing XML comment for publicly visible type or member
 
 [tests/**/*.cs]
 dotnet_diagnostic.CA1001.severity = none # Type 'A' owns disposable field(s) 'B' but is not disposable
@@ -479,6 +480,7 @@ dotnet_diagnostic.CA1515.severity = none # Type can be made internal
 dotnet_diagnostic.CA1819.severity = none # Properties should not return arrays
 dotnet_diagnostic.CA1822.severity = none # Member 'A' does not access instance data and can be marked as static
 dotnet_diagnostic.CA2007.severity = none # Do not directly await a Task
+dotnet_diagnostic.CS1591.severity = none # Missing XML comment for publicly visible type or member
 dotnet_diagnostic.IDE0058.severity = none # Expression value is never used
 
 [samples/*.cs]
