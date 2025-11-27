@@ -6,28 +6,28 @@
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
 | Classes:           | 54                                    |
-| Files:             | 63                                    |
-| **Line coverage:** | 90.9% (3636 of 3996)                  |
-| Covered lines:     | 3636                                  |
-| Uncovered lines:   | 360                                   |
-| Coverable lines:   | 3996                                  |
-| Total lines:       | 7825                                  |
+| Files:             | 64                                    |
+| **Line coverage:** | 91% (3703 of 4065)                    |
+| Covered lines:     | 3703                                  |
+| Uncovered lines:   | 362                                   |
+| Coverable lines:   | 4065                                  |
+| Total lines:       | 7949                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 92.3%</summary>
+<details><summary>Bshox.dll - 92.5%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **92.3%** |
+| **Bshox.dll**                          | **92.5%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     90.1% |
 | Bshox.BshoxException                   |      100% |
 | Bshox.BshoxOptions                     |     93.3% |
 | Bshox.BshoxReader                      |       92% |
 | Bshox.BshoxSerializer                  |     96.3% |
-| Bshox.BshoxWriter                      |     99.3% |
+| Bshox.BshoxWriter                      |     98.6% |
 | Bshox.Contracts.ArrayContract          |      100% |
 | Bshox.Contracts.DictionaryContract     |     95.6% |
 | Bshox.Contracts.ListContract           |      100% |

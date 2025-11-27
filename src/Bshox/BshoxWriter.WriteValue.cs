@@ -1,3 +1,5 @@
+#pragma warning disable CS0282 // False positive
+
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -5,7 +7,6 @@ using Bshox.Internals;
 
 namespace Bshox;
 
-#pragma warning disable CS0282 // False positive
 public ref partial struct BshoxWriter
 {
     /// <summary>
@@ -13,6 +14,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     public void WriteByte(byte value)
     {
+        Check();
         GetRef(1) = value;
         Advance(1);
     }
@@ -22,6 +24,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     public void WriteVarInt32(uint value)
     {
+        Check();
         ref byte bytes = ref GetRef(5);
         int index = 0;
         while (value > 0x7Fu)
@@ -39,6 +42,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     public void WriteVarInt64(ulong value)
     {
+        Check();
         ref byte bytes = ref GetRef(10);
         int index = 0;
         while (value > 0x7Fu)
@@ -94,6 +98,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     public void WriteUInt64(ulong value)
     {
+        Check();
         if (Options.ReverseEndianness)
         {
             value = BinaryPrimitives.ReverseEndianness(value);
@@ -112,6 +117,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     public void WriteUInt32(uint value)
     {
+        Check();
         if (Options.ReverseEndianness)
         {
             value = BinaryPrimitives.ReverseEndianness(value);
@@ -131,6 +137,7 @@ public ref partial struct BshoxWriter
             return;
         }
 
+        Check();
         if (value.Length <= 127 / 3)
         {
             // Max expansion: each char -> 3 bytes, so 127 bytes max of data, +1 for length prefix
@@ -156,10 +163,15 @@ public ref partial struct BshoxWriter
     /// </summary>
     public void WriteByteArray(byte[] value)
     {
+        Check();
         int length = value.Length;
-        WriteVarInt32((uint)length);
-        if (length > 0)
+        if (length <= 0)
         {
+            WriteByte(0);
+        }
+        else
+        {
+            WriteVarInt32((uint)length);
             Unsafe.CopyBlock(ref GetRef(length), ref value[0], (uint)length);
             Advance(length);
         }
@@ -170,6 +182,7 @@ public ref partial struct BshoxWriter
         , allows ref struct
 #endif
     {
+        Check();
         int size = sizeof(T);
         Unsafe.WriteUnaligned(ref GetRef(size), value);
         Advance(size);

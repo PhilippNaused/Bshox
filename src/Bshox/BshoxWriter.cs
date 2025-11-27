@@ -2,6 +2,10 @@
 #define USE_REF
 #endif
 
+#if DEBUG
+#pragma warning disable CS0282 // Don't care
+#endif
+
 using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -48,6 +52,7 @@ public ref partial struct BshoxWriter
     {
         _buffer = buffer;
         Options = options ?? BshoxOptions.Default;
+        Check();
     }
 
     /// <summary>
@@ -60,15 +65,19 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span<byte> GetSpan(int sizeHint)
     {
+        Check();
+        CheckWaitingForAdvance(false);
 #if USE_REF
         ref byte r = ref GetRef(sizeHint);
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");
+        WaitingForAdvance(true);
         return System.Runtime.InteropServices.MemoryMarshal.CreateSpan(ref r, _length);
 #else
         Debug.Assert(_index <= _span.Length, "_index <= _span.Length");
         if (_span.Length - _index >= sizeHint)
         {
             Debug.Assert(_span.Length - _index >= sizeHint, "_span.Length - _index >= sizeHint");
+            WaitingForAdvance(true);
             return _span.Slice(_index); // hot path
         }
         if (_index > 0)
@@ -78,6 +87,7 @@ public ref partial struct BshoxWriter
         Debug.Assert(_index == 0, "_index == 0");
         _span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
         Debug.Assert(_span.Length >= sizeHint, "_span.Length >= sizeHint");
+        WaitingForAdvance(true);
         return _span;
 #endif
     }
@@ -91,11 +101,14 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal ref byte GetRef(int sizeHint)
     {
+        Check();
+        CheckWaitingForAdvance(false);
         Debug.Assert(sizeHint > 0, "sizeHint > 0");
 #if USE_REF
         Debug.Assert(_length >= 0, "length >= 0");
         if (_length >= sizeHint)
         {
+            WaitingForAdvance(true);
             return ref _ref; // hot path
         }
         if (_unflushed > 0)
@@ -107,9 +120,12 @@ public ref partial struct BshoxWriter
         _ref = ref span[0];
         _length = span.Length;
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");
+        WaitingForAdvance(true);
         return ref _ref;
 #else
-        return ref GetSpan(sizeHint)[0];
+        var span = GetSpan(sizeHint);
+        WaitingForAdvance(true);
+        return ref span[0];
 #endif
     }
 
@@ -120,6 +136,16 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Advance(int count)
     {
+        Check();
+        CheckWaitingForAdvance(true);
+#if NETCOREAPP
+        ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+#else
+        if (count < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count), "count < 0");
+        }
+#endif
 #if USE_REF
         _ref = ref Unsafe.Add(ref _ref, count);
         _length -= count;
@@ -130,6 +156,7 @@ public ref partial struct BshoxWriter
         Debug.Assert(_index + count <= _span.Length);
         _index += count;
 #endif
+        WaitingForAdvance(false);
     }
 
     /// <summary>
@@ -138,10 +165,14 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Flush()
     {
+        Check();
+        CheckWaitingForAdvance(false);
 #if USE_REF
         Debug.Assert(!Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
         Debug.Assert(_unflushed >= 0, "_unflushed >= 0");
         _buffer.Advance(_unflushed);
+        _ref = ref Unsafe.NullRef<byte>();
+        _length = 0;
         _unflushed = 0;
 #else
         Debug.Assert(_index <= _span.Length, "_index <= _span.Length");
