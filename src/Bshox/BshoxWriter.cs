@@ -1,3 +1,7 @@
+#if NET8_0_OR_GREATER
+#define USE_REF
+#endif
+
 using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -12,7 +16,7 @@ public ref partial struct BshoxWriter
 {
     private const int MinBufferSize = 256;
 
-#if NET8_0_OR_GREATER
+#if USE_REF
     private ref byte _ref; // reference to the underlying buffer
     private int _length; // remaining space in the buffer
     private int _unflushed; // unflushed bytes
@@ -56,7 +60,7 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Span<byte> GetSpan(int sizeHint)
     {
-#if NET8_0_OR_GREATER
+#if USE_REF
         ref byte r = ref GetRef(sizeHint);
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");
         return System.Runtime.InteropServices.MemoryMarshal.CreateSpan(ref r, _length);
@@ -88,7 +92,7 @@ public ref partial struct BshoxWriter
     internal ref byte GetRef(int sizeHint)
     {
         Debug.Assert(sizeHint > 0, "sizeHint > 0");
-#if NET8_0_OR_GREATER
+#if USE_REF
         Debug.Assert(_length >= 0, "length >= 0");
         if (_length >= sizeHint)
         {
@@ -116,7 +120,7 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Advance(int count)
     {
-#if NET8_0_OR_GREATER
+#if USE_REF
         _ref = ref Unsafe.Add(ref _ref, count);
         _length -= count;
         _unflushed += count;
@@ -134,7 +138,7 @@ public ref partial struct BshoxWriter
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Flush()
     {
-#if NET8_0_OR_GREATER
+#if USE_REF
         Debug.Assert(!Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
         Debug.Assert(_unflushed >= 0, "_unflushed >= 0");
         _buffer.Advance(_unflushed);
