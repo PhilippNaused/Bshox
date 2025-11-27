@@ -5,8 +5,6 @@ using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Jobs;
 using BenchmarkDotNet.Order;
-using BenchmarkDotNet.Reports;
-using BenchmarkDotNet.Running;
 
 namespace Benchmark;
 
@@ -58,73 +56,6 @@ public class MediumConfig : BaseConfig
 {
     public MediumConfig()
     {
-        _ = AddJob(Job.MediumRun);
+        _ = AddJob(Job.MediumRun.WithMaxRelativeError(0.01));
     }
-}
-
-public class Medium2Config : BaseConfig
-{
-    public Medium2Config()
-    {
-        var job = Job.MediumRun.WithMaxRelativeError(0.01);
-        _ = AddJob(job.WithEnvironmentVariable("DOTNET_TieredCompilation", "0"));
-        _ = AddJob(job.WithEnvironmentVariable("DOTNET_TieredCompilation", "1"));
-        _ = AddColumn(new TieredCompilationColumn());
-        _ = HideColumns(Column.EnvironmentVariables);
-    }
-}
-
-internal class TieredCompilationColumn : IColumn
-{
-    private const string EnvName = "DOTNET_TieredCompilation";
-
-    /// <inheritdoc />
-    public string GetValue(Summary summary, BenchmarkCase benchmarkCase)
-    {
-        return benchmarkCase.Job.Environment.EnvironmentVariables.FirstOrDefault(e =>
-            string.Equals(e.Key, EnvName, StringComparison.OrdinalIgnoreCase))?.Value ?? "";
-    }
-
-    /// <inheritdoc />
-    public string GetValue(Summary summary, BenchmarkCase benchmarkCase, SummaryStyle style)
-    {
-        return GetValue(summary, benchmarkCase);
-    }
-
-    /// <inheritdoc />
-    public bool IsDefault(Summary summary, BenchmarkCase benchmarkCase)
-    {
-        string value = GetValue(summary, benchmarkCase);
-        return string.IsNullOrEmpty(value) || string.Equals(value, "1");
-    }
-
-    /// <inheritdoc />
-    public bool IsAvailable(Summary summary)
-    {
-        return summary.BenchmarksCases.Any(b => !IsDefault(summary, b));
-    }
-
-    /// <inheritdoc />
-    public string Id => "TieredCompilation";
-
-    /// <inheritdoc />
-    public string ColumnName => "TieredCompilation";
-
-    /// <inheritdoc />
-    public bool AlwaysShow => false;
-
-    /// <inheritdoc />
-    public ColumnCategory Category => ColumnCategory.Job;
-
-    /// <inheritdoc />
-    public int PriorityInCategory { get; }
-
-    /// <inheritdoc />
-    public bool IsNumeric => false;
-
-    /// <inheritdoc />
-    public UnitType UnitType => UnitType.Dimensionless;
-
-    /// <inheritdoc />
-    public string Legend => "TieredCompilation";
 }

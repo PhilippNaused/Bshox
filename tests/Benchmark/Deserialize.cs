@@ -10,7 +10,7 @@ namespace Benchmark;
 public class DeserializeCold : Deserialize;
 
 [MemoryDiagnoser]
-[Config(typeof(Medium2Config))]
+[Config(typeof(MediumConfig))]
 public class Deserialize
 {
     internal ReadOnlySequence<byte> _bshoxData;

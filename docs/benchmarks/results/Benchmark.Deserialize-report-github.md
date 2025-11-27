@@ -10,9 +10,7 @@ Job=MediumRun  MaxRelativeError=0.01  IterationCount=15
 LaunchCount=2  WarmupCount=10
 
 ```
-| Method | TieredCompilation | Segmented |       Mean |    Error | Allocated |
-|--------|-------------------|-----------|-----------:|---------:|----------:|
-| Bshox  | 0                 | False     | 1,377.9 ns |  9.77 ns |   4.16 KB |
-| Bshox  | 1                 | False     |   917.1 ns | 27.77 ns |   4.16 KB |
-| Bshox  | 0                 | True      | 1,650.9 ns | 40.81 ns |   4.21 KB |
-| Bshox  | 1                 | True      | 1,085.7 ns | 27.14 ns |   4.21 KB |
+| Method | Segmented |       Mean |   Error | Allocated |
+|--------|-----------|-----------:|--------:|----------:|
+| Bshox  | False     |   903.0 ns | 6.30 ns |   4.16 KB |
+| Bshox  | True      | 1,041.3 ns | 4.30 ns |   4.21 KB |

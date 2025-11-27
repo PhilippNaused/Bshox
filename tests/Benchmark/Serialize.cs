@@ -8,7 +8,7 @@ namespace Benchmark;
 public class SerializeCold : Serialize;
 
 [MemoryDiagnoser]
-[Config(typeof(Medium2Config))]
+[Config(typeof(MediumConfig))]
 public class Serialize
 {
     private Forecast[] data = null!;
