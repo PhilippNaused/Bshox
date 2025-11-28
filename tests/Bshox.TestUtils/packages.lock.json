@@ -61,7 +61,9 @@
         "contentHash": "2hBr6zdbIBTDE3EhK7NSVNdX58uTK6iHW/P/Axmm9sl1xoGSLqDvMtpecn226TNwHByFokYwJmt/aQQNlO5CRw=="
       }
     },
+    ".NETStandard,Version=v2.0/linux-x64": {},
     ".NETStandard,Version=v2.0/win-x64": {},
+    ".NETStandard,Version=v2.0/win-x86": {},
     "net8.0": {
       "IsExternalInit": {
         "type": "Direct",
@@ -88,6 +90,8 @@
         "contentHash": "Mk4ZVDfAORTjvckQprCSehi1XgOAAlk5ez06Va/acRYEloN9t6d6zpzJRn5MEq7+RnagyFIq9r+kbWzLGd+6QA=="
       }
     },
-    "net8.0/win-x64": {}
+    "net8.0/linux-x64": {},
+    "net8.0/win-x64": {},
+    "net8.0/win-x86": {}
   }
 }

@@ -132,6 +132,9 @@
         }
       }
     },
+    ".NETFramework,Version=v4.6.2/linux-x64": {},
+    ".NETFramework,Version=v4.6.2/win-x64": {},
+    ".NETFramework,Version=v4.6.2/win-x86": {},
     ".NETStandard,Version=v2.0": {
       "Microsoft.CodeAnalysis.CSharp.CodeStyle": {
         "type": "Direct",
@@ -257,6 +260,9 @@
         }
       }
     },
+    ".NETStandard,Version=v2.0/linux-x64": {},
+    ".NETStandard,Version=v2.0/win-x64": {},
+    ".NETStandard,Version=v2.0/win-x86": {},
     "net8.0": {
       "Microsoft.CodeAnalysis.CSharp.CodeStyle": {
         "type": "Direct",
@@ -276,6 +282,9 @@
         "resolved": "1.2.0",
         "contentHash": "yrFwDzEdS3/IpFsOzPk1J2kUwtdlZm8TuWuBfBgt85cTXyKq/86DH6+CJdf7RffXunlNxV91L0IehzXClEXH3w=="
       }
-    }
+    },
+    "net8.0/linux-x64": {},
+    "net8.0/win-x64": {},
+    "net8.0/win-x86": {}
   }
 }

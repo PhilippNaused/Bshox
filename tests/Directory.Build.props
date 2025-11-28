@@ -3,6 +3,7 @@
   <PropertyGroup>
     <UseCurrentRuntimeIdentifier Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</UseCurrentRuntimeIdentifier>
     <ContinuousIntegrationBuild>false</ContinuousIntegrationBuild>
+    <RuntimeIdentifiers>win-x86;win-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <Import Project="../Directory.Build.props" />
