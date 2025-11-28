@@ -261,7 +261,7 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
           "System.Memory": "[4.6.3, )"
         }
       },
@@ -481,7 +481,7 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )"
+          "Bshox": "[0.0.0-Dev.Debug, )"
         }
       },
       "verigit": {
@@ -677,7 +677,7 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )"
+          "Bshox": "[0.0.0-Dev.Debug, )"
         }
       },
       "verigit": {
@@ -850,7 +850,7 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )"
+          "Bshox": "[0.0.0-Dev.Debug, )"
         }
       },
       "verigit": {

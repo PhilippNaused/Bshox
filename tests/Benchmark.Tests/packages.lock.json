@@ -449,9 +449,9 @@
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.TestUtils": "[0.0.0-Dev-Debug, )",
-          "Bshox.Utils": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.TestUtils": "[0.0.0-Dev.Debug, )",
+          "Bshox.Utils": "[0.0.0-Dev.Debug, )",
           "Google.Protobuf": "[3.33.1, )",
           "MessagePack": "[3.1.4, )",
           "System.Text.Json": "[10.0.0, )",
@@ -479,7 +479,7 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
           "System.Memory": "[4.6.3, )"
         }
       },
@@ -487,8 +487,8 @@
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.Generator": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.Generator": "[0.0.0-Dev.Debug, )",
           "Microsoft.CodeAnalysis.CSharp": "[5.0.0, )",
           "System.Text.Json": "[10.0.0, )"
         }
@@ -961,9 +961,9 @@
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.TestUtils": "[0.0.0-Dev-Debug, )",
-          "Bshox.Utils": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.TestUtils": "[0.0.0-Dev.Debug, )",
+          "Bshox.Utils": "[0.0.0-Dev.Debug, )",
           "Google.Protobuf": "[3.33.1, )",
           "MessagePack": "[3.1.4, )",
           "protobuf-net": "[3.2.56, )"
@@ -981,15 +981,15 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )"
+          "Bshox": "[0.0.0-Dev.Debug, )"
         }
       },
       "generator.benchmark": {
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.Generator": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.Generator": "[0.0.0-Dev.Debug, )",
           "Microsoft.CodeAnalysis.CSharp": "[5.0.0, )"
         }
       },
@@ -1391,9 +1391,9 @@
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.TestUtils": "[0.0.0-Dev-Debug, )",
-          "Bshox.Utils": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.TestUtils": "[0.0.0-Dev.Debug, )",
+          "Bshox.Utils": "[0.0.0-Dev.Debug, )",
           "Google.Protobuf": "[3.33.1, )",
           "MessagePack": "[3.1.4, )",
           "System.Text.Json": "[10.0.0, )",
@@ -1412,15 +1412,15 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )"
+          "Bshox": "[0.0.0-Dev.Debug, )"
         }
       },
       "generator.benchmark": {
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.Generator": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.Generator": "[0.0.0-Dev.Debug, )",
           "Microsoft.CodeAnalysis.CSharp": "[5.0.0, )",
           "System.Text.Json": "[10.0.0, )"
         }
@@ -1824,9 +1824,9 @@
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.TestUtils": "[0.0.0-Dev-Debug, )",
-          "Bshox.Utils": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.TestUtils": "[0.0.0-Dev.Debug, )",
+          "Bshox.Utils": "[0.0.0-Dev.Debug, )",
           "Google.Protobuf": "[3.33.1, )",
           "MessagePack": "[3.1.4, )",
           "System.Text.Json": "[10.0.0, )",
@@ -1845,15 +1845,15 @@
       "bshox.utils": {
         "type": "Project",
         "dependencies": {
-          "Bshox": "[0.0.0-Dev-Debug, )"
+          "Bshox": "[0.0.0-Dev.Debug, )"
         }
       },
       "generator.benchmark": {
         "type": "Project",
         "dependencies": {
           "BenchmarkDotNet": "[0.15.6, )",
-          "Bshox": "[0.0.0-Dev-Debug, )",
-          "Bshox.Generator": "[0.0.0-Dev-Debug, )",
+          "Bshox": "[0.0.0-Dev.Debug, )",
+          "Bshox.Generator": "[0.0.0-Dev.Debug, )",
           "Microsoft.CodeAnalysis.CSharp": "[5.0.0, )",
           "System.Text.Json": "[10.0.0, )"
         }

@@ -22,4 +22,4 @@ $GlobalNuGetCache = dotnet nuget locals -l global-packages | ForEach-Object {
 }
 
 # Remove all dev builds from the global NuGet cache
-Join-Path $GlobalNuGetCache 'bshox' | Get-ChildItem -Filter '*-dev-*' | Remove-Item -Recurse
+Join-Path $GlobalNuGetCache 'bshox' | Get-ChildItem -Filter '*-dev*' -ErrorAction Ignore | Remove-Item -Recurse
