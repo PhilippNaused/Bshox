@@ -33,11 +33,15 @@ jobs:
           8.0.x
           9.0.x
 
-    - name: 🛠️ Restore dependencies
-      run: dotnet restore src/Packages.slnf
+    - uses: actions/cache@v4
+      id: cache
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
 
-    - name: 🔨 Build Generator
-      run: dotnet build  src/Bshox.Generator/ --no-restore --property:Version=${{ inputs.version }} --configuration Release
+    - name: 🛠️ Restore dependencies
+      if: steps.cache.outputs.cache-hit != 'true'
+      run: dotnet restore src/Packages.slnf
 
     - name: 🔨 Build
       run: dotnet build src/Packages.slnf --no-restore --property:Version=${{ inputs.version }} --configuration Release
