@@ -17,6 +17,8 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableTUnitPolyfills>false</EnableTUnitPolyfills>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- Workaround for https://github.com/NuGet/Home/issues/10456 -->
+    <AutomaticallyUseReferenceAssemblyPackages>false</AutomaticallyUseReferenceAssemblyPackages>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
