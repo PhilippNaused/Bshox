@@ -154,7 +154,7 @@ public class CustomContractTests
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).HasCount(1);
+        await Assert.That(diagnostics).Count().IsEqualTo(1);
         await Assert.That(diagnostics.Single().GetMessage()).IsEqualTo("Internal Error: The static type dependencies are cyclical: int");
         await Assert.That(generatedOutput).IsEmpty();
     }

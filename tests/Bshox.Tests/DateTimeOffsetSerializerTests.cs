@@ -21,7 +21,7 @@ public class DateTimeOffsetSerializerTests
         var meta = DateTimeOffsetSerializer.DateTimeOffset.ToBshoxValue(value);
         await Assert.That(meta).IsTypeOf<BshoxObject>();
         var obj = (BshoxObject)meta;
-        await Assert.That(obj).HasCount(2);
+        await Assert.That(obj).Count().IsEqualTo(2);
 
         var obj1 = obj[1];
         await Assert.That(obj1).IsTypeOf<VarInt>();
@@ -108,7 +108,7 @@ public class DateTimeOffsetSerializerTests
         var meta = DateTimeOffsetSerializer.DateTimeOffset.ToBshoxValue(value);
         await Assert.That(meta).IsTypeOf<BshoxObject>();
         var obj = (BshoxObject)meta;
-        await Assert.That(obj).HasCount(1);
+        await Assert.That(obj).Count().IsEqualTo(1);
         var obj1 = obj[1];
         await Assert.That(obj1).IsTypeOf<VarInt>();
         var ticks = ((VarInt)obj1).Value;

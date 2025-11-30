@@ -3,7 +3,7 @@
 // Runtime: v4.0.30319
 // Reference: mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
 // Reference: System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-// Reference: TUnit.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b8d4030011dbd70c
+// Reference: TUnit.Core, Version=1.3.0.0, Culture=neutral, PublicKeyToken=b8d4030011dbd70c
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
 [assembly: System.Reflection.AssemblyDescription("High performance binary serialization for C#")]

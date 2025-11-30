@@ -475,7 +475,7 @@ internal sealed class WriterTests : IDisposable
         writer.Flush();
 
         var array = GetOutput();
-        await Assert.That(array).HasCount(TestBufferSize);
+        await Assert.That(array).Count().IsEqualTo(TestBufferSize);
         await Assert.That(array[0]).IsEqualTo((byte)0xFF);
         await Assert.That(array.Skip(1)).ContainsOnly(b => b == 0);
     }
@@ -498,7 +498,7 @@ internal sealed class WriterTests : IDisposable
         writer.Flush();
 
         var array = GetOutput();
-        await Assert.That(array).HasCount(TestBufferSize);
+        await Assert.That(array).Count().IsEqualTo(TestBufferSize);
         await Assert.That(array[0]).IsEqualTo((byte)0xFF);
         await Assert.That(array.Skip(1)).ContainsOnly(b => b == 0);
     }

@@ -134,7 +134,7 @@ public class TextParserTests
     {
         var actual = await GetValue<BshoxArray>(text);
         await Assert.That(actual).IsNotNull();
-        await Assert.That(actual).HasCount(count);
+        await Assert.That(actual).Count().IsEqualTo(count);
         await Assert.That(actual.ElementEncoding).IsEqualTo(encoding);
     }
 

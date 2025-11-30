@@ -144,7 +144,7 @@ public class ContractResolverTests
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
         await Assert.That(diagnostics).IsEmpty();
-        await Assert.That(generatedOutput).HasCount(1);
+        await Assert.That(generatedOutput).Count().IsEqualTo(1);
     }
 
     [Test]
