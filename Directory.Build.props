@@ -36,7 +36,8 @@
 
   <!-- Package properties -->
   <PropertyGroup>
-    <Version Condition="'$(Version)' == ''">0.0.0.0-Dev-$(Configuration)</Version>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Version Condition="'$(Version)' == ''">0.0.0.0-Dev.$(Configuration)</Version>
     <Product>Bshox</Product>
     <Description>High performance binary serialization for C#</Description>
     <Author>Philipp Naused</Author>
