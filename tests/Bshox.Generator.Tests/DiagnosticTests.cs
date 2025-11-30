@@ -242,7 +242,7 @@ public class DiagnosticTests
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).HasCount().EqualTo(2);
+        await Assert.That(diagnostics).Count().EqualTo(2);
         diagnostics = diagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToImmutableArray();
         for (int i = 0; i < diagnostics.Length; i++)
         {

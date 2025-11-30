@@ -112,7 +112,7 @@ public static class Utils
     public static async Task ValidateOutput(List<string> generatedOutput, int expectedCount)
     {
         await Assert.That(generatedOutput).IsNotNull().And.IsNotEmpty();
-        await Assert.That(generatedOutput).HasCount(expectedCount);
+        await Assert.That(generatedOutput).Count().IsEqualTo(expectedCount);
         using (Assert.Multiple())
         {
             for (int i = 0; i < expectedCount; i++)

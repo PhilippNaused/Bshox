@@ -19,15 +19,15 @@ public sealed class SerializeCompareTests : SerializeCompare
         using (Assert.Multiple())
         {
 #if NETCOREAPP // netfx uses less compact json
-            await Assert.That(json).HasCount(941402);
+            await Assert.That(json).Count().IsEqualTo(941402);
 #else
-            await Assert.That(json).HasCount(986354);
+            await Assert.That(json).Count().IsEqualTo(986354);
 #endif
-            await Assert.That(bshox).HasCount(300988);
-            await Assert.That(messagePack).HasCount(446625);
-            await Assert.That(proto).HasCount(426556);
-            await Assert.That(google).HasCount(426874);
-            await Assert.That(proto).HasCount(426556);
+            await Assert.That(bshox).Count().IsEqualTo(300988);
+            await Assert.That(messagePack).Count().IsEqualTo(446625);
+            await Assert.That(proto).Count().IsEqualTo(426556);
+            await Assert.That(google).Count().IsEqualTo(426874);
+            await Assert.That(proto).Count().IsEqualTo(426556);
 
 #if NET9_0_OR_GREATER
             // size after when using gzip compression.

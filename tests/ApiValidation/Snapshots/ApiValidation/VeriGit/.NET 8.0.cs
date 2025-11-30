@@ -7,7 +7,7 @@
 // Reference: System.Text.Encoding.Extensions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Text.RegularExpressions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Threading, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-// Reference: TUnit.Core, Version=1.2.0.0, Culture=neutral, PublicKeyToken=b8d4030011dbd70c
+// Reference: TUnit.Core, Version=1.3.0.0, Culture=neutral, PublicKeyToken=b8d4030011dbd70c
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
 [assembly: System.Reflection.AssemblyDescription("High performance binary serialization for C#")]
