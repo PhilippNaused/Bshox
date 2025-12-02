@@ -32,9 +32,9 @@ public class FrameworksConfig : BaseConfig
     public FrameworksConfig()
     {
         var job = Job.Default.WithPlatform(Platform.X64);
-        _ = AddJob(job.WithRuntime(CoreRuntime.Core10_0).WithId("net10.0-x64"));
+        _ = AddJob(job.WithRuntime(CoreRuntime.Core10_0).WithId("net10.0-x64").AsBaseline());
         _ = AddJob(job.WithRuntime(CoreRuntime.Core90).WithId("net9.0-x64"));
-        _ = AddJob(job.WithRuntime(CoreRuntime.Core80).WithId("net8.0-x64").AsBaseline());
+        _ = AddJob(job.WithRuntime(CoreRuntime.Core80).WithId("net8.0-x64"));
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
         {
             _ = AddJob(job.WithRuntime(ClrRuntime.Net48).WithId("net48-x64"));
