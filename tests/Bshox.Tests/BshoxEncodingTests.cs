@@ -117,4 +117,92 @@ internal sealed class BshoxEncodingTests
         string x = reader.ReadString();
         await Assert.That(x).IsEqualTo(s);
     }
+
+    public static IEnumerable<(string, uint?)> VarInts32()
+    {
+        yield return ("00", 0);
+        yield return ("0000000000000000000000", 0);
+        yield return ("00", 0);
+        yield return ("01", 1);
+        yield return ("7F", 127);
+        yield return ("8001", 128);
+        yield return ("FF01", 255);
+        yield return ("FFFF7F", 2097151);
+        yield return ("FFFF7FFFFFFFFFFFFF", 2097151);
+        yield return ("808001", 16384);
+        yield return ("FFFFFFFF0F", uint.MaxValue);
+        yield return ("FFFFFFFF7F", uint.MaxValue); // This varint has 35 bits, to the result is cut off.
+        yield return ("808080808001", null); // overflow
+        yield return ("FFFFFFFFFFFF", null); // overflow
+    }
+
+    public static IEnumerable<(string, ulong?)> VarInts64()
+    {
+        yield return ("00", 0);
+        yield return ("00000000000000000000000000000000000000000000", 0);
+        yield return ("00", 0);
+        yield return ("01", 1);
+        yield return ("7F", 127);
+        yield return ("8001", 128);
+        yield return ("FF01", 255);
+        yield return ("FFFF7F", 2097151);
+        yield return ("FFFF7FFFFFFFFFFFFF", 2097151);
+        yield return ("808001", 16384);
+        yield return ("FFFFFFFF0F", uint.MaxValue);
+        yield return ("FFFFFFFF7F", 34359738367ul);
+        yield return ("8080808080808080808001", null); // overflow
+        yield return ("FFFFFFFFFFFFFFFFFFFFFF", null); // overflow
+    }
+
+    [Test]
+    [MethodDataSource(nameof(VarInts32))]
+    public async Task VarInt32DecodingTests(string hex, uint? expected)
+    {
+        var reader = new BshoxReader(hex.FromHex());
+        if (expected.HasValue)
+        {
+            uint value = reader.ReadVarInt32();
+            var size = DefaultContracts.UInt32.Serialize(in value).Length;
+            await Assert.That(reader.Consumed).IsEqualTo(size); // Reader must consume only as many bytes as needed
+            await Assert.That(value).IsEqualTo(expected.Value);
+        }
+        else
+        {
+            try
+            {
+                reader.ReadVarInt32();
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (BshoxException)
+            {
+                // passed
+            }
+        }
+    }
+
+    [Test]
+    [MethodDataSource(nameof(VarInts64))]
+    public async Task VarInt64DecodingTests(string hex, ulong? expected)
+    {
+        var reader = new BshoxReader(hex.FromHex());
+        if (expected.HasValue)
+        {
+            ulong value = reader.ReadVarInt64();
+            var size = DefaultContracts.UInt64.Serialize(in value).Length;
+            await Assert.That(reader.Consumed).IsEqualTo(size); // Reader must consume only as many bytes as needed
+            await Assert.That(value).IsEqualTo(expected.Value);
+        }
+        else
+        {
+            try
+            {
+                reader.ReadVarInt64();
+                Assert.Fail("Expected exception was not thrown");
+            }
+            catch (BshoxException)
+            {
+                // passed
+            }
+        }
+    }
 }

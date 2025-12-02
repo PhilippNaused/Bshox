@@ -19,6 +19,8 @@ public ref partial struct BshoxReader
             b = ReadByte();
             value |= (ulong)(b & 0x7F) << shift;
             shift += 7;
+            if (shift > 10 * 7)
+                throw BshoxException.VarIntTooLong();
         } while ((b & 0x80) != 0);
         return value;
     }
@@ -36,6 +38,8 @@ public ref partial struct BshoxReader
             b = ReadByte();
             value |= (uint)(b & 0x7F) << shift;
             shift += 7;
+            if (shift > 5 * 7)
+                throw BshoxException.VarIntTooLong();
         } while ((b & 0x80) != 0);
         return value;
     }

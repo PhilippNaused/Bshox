@@ -64,4 +64,6 @@ public class BshoxException : Exception
     /// </summary>
     /// <param name="encoding">The encoding value that caused the error.</param>
     public static BshoxException InvalidEncoding(BshoxCode encoding) => new($"Invalid encoding: {encoding}");
+
+    internal static BshoxException VarIntTooLong() => new("VarInt is too long.");
 }
