@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace Bshox.Internals;
@@ -102,8 +103,10 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         _index += count;
     }
 
-    public Memory<byte> GetMemory(int sizeHint = MinimumBufferSize)
+    [ExcludeFromCodeCoverage]
+    Memory<byte> IBufferWriter<byte>.GetMemory(int sizeHint)
     {
+        Debug.Fail("Dead code!");
         CheckAndResizeBuffer(sizeHint);
         return _buffer.AsMemory(_index);
     }

@@ -58,12 +58,12 @@ public ref partial struct BshoxWriter
     /// <summary>
     /// Writes a signed integer using variable-length zigzag encoding.
     /// </summary>
-    public void WriteZigZagVarInt32(int value) => WriteVarInt32((uint)((value << 1) ^ (value >> 31)));
+    public void WriteZigZagVarInt32(int value) => WriteVarInt32(EncodingHelper.ZigZag32(value));
 
     /// <summary>
     /// Writes a signed integer using variable-length zigzag encoding.
     /// </summary>
-    public void WriteZigZagVarInt64(long value) => WriteVarInt64((ulong)((value << 1) ^ (value >> 63)));
+    public void WriteZigZagVarInt64(long value) => WriteVarInt64(EncodingHelper.ZigZag64(value));
 
     /// <summary>
     /// Writes a tag consisting of a key and encoding type.

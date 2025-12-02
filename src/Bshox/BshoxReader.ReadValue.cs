@@ -1,5 +1,6 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
+using Bshox.Internals;
 
 namespace Bshox;
 
@@ -44,8 +45,7 @@ public ref partial struct BshoxReader
     /// </summary>
     public long ReadZigZagVarInt64()
     {
-        long x = (long)ReadVarInt64();
-        return (x >>> 1) ^ -(x & 1);
+        return EncodingHelper.UnZigZag64(ReadVarInt64());
     }
 
     /// <summary>
@@ -53,8 +53,7 @@ public ref partial struct BshoxReader
     /// </summary>
     public int ReadZigZagVarInt32()
     {
-        int x = (int)ReadVarInt32();
-        return (x >>> 1) ^ -(x & 1);
+        return EncodingHelper.UnZigZag32(ReadVarInt32());
     }
 
     /// <summary>

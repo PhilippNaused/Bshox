@@ -7,25 +7,25 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 54                                    |
 | Files:             | 64                                    |
-| **Line coverage:** | 91% (3703 of 4065)                    |
-| Covered lines:     | 3703                                  |
-| Uncovered lines:   | 362                                   |
-| Coverable lines:   | 4065                                  |
-| Total lines:       | 7949                                  |
+| **Line coverage:** | 91.4% (3710 of 4059)                  |
+| Covered lines:     | 3710                                  |
+| Uncovered lines:   | 349                                   |
+| Coverable lines:   | 4059                                  |
+| Total lines:       | 7951                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 92.5%</summary>
+<details><summary>Bshox.dll - 93.4%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **92.5%** |
+| **Bshox.dll**                          | **93.4%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     90.1% |
 | Bshox.BshoxException                   |      100% |
 | Bshox.BshoxOptions                     |     93.3% |
-| Bshox.BshoxReader                      |       92% |
+| Bshox.BshoxReader                      |     91.9% |
 | Bshox.BshoxSerializer                  |     96.3% |
 | Bshox.BshoxWriter                      |     98.6% |
 | Bshox.Contracts.ArrayContract          |      100% |
@@ -33,9 +33,9 @@
 | Bshox.Contracts.ListContract           |      100% |
 | Bshox.DefaultContracts                 |     90.8% |
 | Bshox.Internals.DepthLockScope         |      100% |
-| Bshox.Internals.EncodingHelper         |     72.7% |
+| Bshox.Internals.EncodingHelper         |      100% |
 | Bshox.Internals.EndiannessHelper       |      100% |
-| Bshox.Internals.PooledByteBufferWriter |     81.7% |
+| Bshox.Internals.PooledByteBufferWriter |     84.6% |
 | Bshox.Internals.StreamSequence         |     92.8% |
 
 </details>
