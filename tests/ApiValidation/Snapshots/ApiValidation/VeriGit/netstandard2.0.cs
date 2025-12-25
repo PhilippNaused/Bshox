@@ -1,8 +1,7 @@
 // VeriGit, PublicKeyToken=71dcaf280189db03
 // Platform: AnyCPU (64-bit preferred)
 // Runtime: v4.0.30319
-// Reference: mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-// Reference: System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
+// Reference: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 // Reference: TUnit.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=b8d4030011dbd70c
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
@@ -13,7 +12,7 @@
 [assembly: System.Resources.NeutralResourcesLanguage("en-US")]
 [assembly: System.Runtime.CompilerServices.CompilationRelaxations(8)]
 [assembly: System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows = true)]
-[assembly: System.Runtime.Versioning.TargetFramework(".NETFramework,Version=v4.6.2", FrameworkDisplayName = ".NET Framework 4.6.2")]
+[assembly: System.Runtime.Versioning.TargetFramework(".NETStandard,Version=v2.0", FrameworkDisplayName = ".NET Standard 2.0")]
 [module: System.Runtime.CompilerServices.RefSafetyRules(11)]
 namespace VeriGit
 {
