@@ -82,11 +82,14 @@ $Jobs = @()
 try {
 
   for ($i = 1; $i -lt $Processors; $i++) {
-
-    $Jobs += Start-Job -ScriptBlock {
-      param($inDir, $findingsDir, $timeout, $target, $Name)
-      afl-fuzz -i $inDir -o $findingsDir -t $timeout -S $Name $target -m 50 -t 500
-    } -ArgumentList $inDir, $findingsDir, $timeout, $target, "Sub$i" -Name "Fuzzer-Sub$i"
+    $p = [System.Diagnostics.Process]::new()
+    $p.StartInfo.FileName = "afl-fuzz"
+    $p.StartInfo.Arguments = "-i $inDir -o $findingsDir -t $timeout -S Sub$i $target -m 50 -t 500"
+    $p.StartInfo.UseShellExecute = $false
+    $p.StartInfo.RedirectStandardOutput = $true
+    $p.StartInfo.RedirectStandardError = $true
+    $p.Start() | Out-Null
+    $Jobs += $p
   }
 
   $arg = $null
@@ -97,8 +100,11 @@ try {
   afl-fuzz -i $inDir -o $findingsDir -t $timeout $arg $target -m 50 -t 500
 }
 finally {
-  $Jobs | Stop-Job -Verbose
-  $Jobs | Remove-Job
+  foreach ($job in $Jobs) {
+    if (-not $job.HasExited) {
+      $job.Kill()
+    }
+  }
 
   # Sanitize filenames
   # : is not allowed in filenames on Windows and causes issues since WSL will replace it with  (0xF03A)
