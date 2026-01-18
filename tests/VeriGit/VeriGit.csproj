@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="TUnit.Core"
-                      VersionOverride="1.11.0" />
+                      VersionOverride="1.12.0" />
   </ItemGroup>
 
   <!-- Workaround for https://github.com/dotnet/sdk/issues/1212 -->
