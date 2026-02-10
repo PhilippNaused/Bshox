@@ -53,6 +53,12 @@
     <!-- https://stackoverflow.com/questions/43947599/how-to-publish-for-all-target-frameworks -->
     <ItemGroup>
       <_PublishFramework Include="$(TargetFrameworks)" />
+      <!--
+      Remove net9.0 if we're running on MacOS.
+      For some reason, the AOT tests always fail with "Zero tests ran" when net9.0 is running on MacOS.
+      TODO:: investigate
+      -->
+      <_PublishFramework Remove="net9.0" Condition="$([System.OperatingSystem]::IsMacOS())" />
     </ItemGroup>
     <ItemGroup>
       <_Project Include="$(MSBuildProjectFile)"
