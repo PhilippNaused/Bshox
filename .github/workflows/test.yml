@@ -15,6 +15,7 @@ jobs:
           - ubuntu-latest
           - ubuntu-24.04-arm
           - windows-latest
+          - macos-latest
           # - windows-11-arm
     runs-on: ${{ matrix.os }}
 
@@ -31,11 +32,17 @@ jobs:
           9.0.x
 
     # cspell:ignore devel
-    - name: 🛠️ Install mono
-      if: startsWith(matrix.os, 'ubuntu')
+    - name: 🛠️ Install mono (🐧)
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update
         sudo apt-get install -y mono-devel
+
+    - name: 🛠️ Install mono (🍎)
+      if: runner.os == 'macOS'
+      run: |
+        brew update
+        brew install mono
 
     - name: 🛠️ Restore dependencies
       run: dotnet restore
@@ -50,4 +57,4 @@ jobs:
       run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
-      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}" --test-modules "temp/**/Bshox.Tests${{ matrix.os == 'windows-latest' && '.exe' || '' }}"
+      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}"
