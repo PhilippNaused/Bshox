@@ -19,23 +19,23 @@ public sealed class SerializeCompareTests : SerializeCompare
         using (Assert.Multiple())
         {
 #if NETCOREAPP // netfx uses less compact json
-            await Assert.That(json).Count().IsEqualTo(941402);
+            await Assert.That(json).Count().IsEqualTo(941_402);
 #else
-            await Assert.That(json).Count().IsEqualTo(986354);
+            await Assert.That(json).Count().IsEqualTo(986_354);
 #endif
-            await Assert.That(bshox).Count().IsEqualTo(300988);
-            await Assert.That(messagePack).Count().IsEqualTo(446625);
-            await Assert.That(proto).Count().IsEqualTo(426556);
-            await Assert.That(google).Count().IsEqualTo(426874);
-            await Assert.That(proto).Count().IsEqualTo(426556);
+            await Assert.That(bshox).Count().IsEqualTo(300_988);
+            await Assert.That(messagePack).Count().IsEqualTo(446_625);
+            await Assert.That(proto).Count().IsEqualTo(426_556);
+            await Assert.That(google).Count().IsEqualTo(426_874);
+            await Assert.That(proto).Count().IsEqualTo(426_556);
 
-#if NET9_0_OR_GREATER
-            // size after when using gzip compression.
-            await Assert.That(CompressedSize(json)).IsEqualTo(420399);
-            await Assert.That(CompressedSize(bshox)).IsEqualTo(285102);
-            await Assert.That(CompressedSize(messagePack)).IsEqualTo(359522);
-            await Assert.That(CompressedSize(proto)).IsEqualTo(356002);
-            await Assert.That(CompressedSize(google)).IsEqualTo(355984);
+#if NET9_0_OR_GREATER // older frameworks give different compression ratios
+            // Compression ratio after GZip compression (bigger is better)
+            await Assert.That(CompressionRatio(json)).IsEqualTo(44.7);
+            await Assert.That(CompressionRatio(bshox)).IsEqualTo(94.7);
+            await Assert.That(CompressionRatio(messagePack)).IsEqualTo(80.5);
+            await Assert.That(CompressionRatio(proto)).IsEqualTo(83.5);
+            await Assert.That(CompressionRatio(google)).IsEqualTo(83.4);
 #endif
         }
     }
@@ -48,14 +48,14 @@ public sealed class SerializeCompareTests : SerializeCompare
     }
 
 #if NET9_0_OR_GREATER
-    private static int CompressedSize(byte[] data)
+    private static double CompressionRatio(byte[] data)
     {
         var ms = new MemoryStream();
         using (var gzip = new System.IO.Compression.GZipStream(ms, System.IO.Compression.CompressionLevel.Optimal, true))
         {
             gzip.Write(data);
         }
-        return (int)ms.Length;
+        return Math.Round((double)ms.Length / data.Length * 100, 1);
     }
 #endif
 }
