@@ -22,7 +22,7 @@ Remove-Item $ReportDir -Recurse -ErrorAction Ignore
 New-Item -Type Directory $CoverageDir -ErrorAction Ignore
 
 # Use solution filter to only test projects
-dotnet test --disable-logo --solution 'tests/UnitTests.slnf' --coverage --coverage-output-format 'xml' --results-directory $CoverageDir --coverage-settings 'CodeCoverage.xml' -p:PublishAot=false
+dotnet test --disable-logo 'tests/UnitTests.slnf' --coverage --coverage-output-format 'xml' --results-directory $CoverageDir --coverage-settings 'CodeCoverage.xml' -p:PublishAot=false
 
 # create the report
 dotnet tool restore
