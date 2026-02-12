@@ -142,6 +142,7 @@ dotnet_diagnostic.IDE0052.severity = warning
 dotnet_diagnostic.IDE0076.severity = error
 dotnet_diagnostic.IDE0077.severity = error
 dotnet_diagnostic.IDE0043.severity = error
+dotnet_diagnostic.IDE0370.severity = none # Remove unnecessary suppression (very buggy)
 
 # yaml files
 [*.{yml,yaml}]

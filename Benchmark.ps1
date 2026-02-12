@@ -2,9 +2,9 @@
 
 [CmdletBinding()]
 param (
-  [ValidateSet('net8.0', 'net9.0', 'net10.0', 'net48')]
+  [ValidateSet('net8.0', 'net9.0', 'net10.0', 'net11.0', 'net48')]
   [Parameter()]
-  [string]$tfm = 'net10.0',
+  [string]$tfm = 'net11.0',
 
   [Parameter()]
   [switch]$Generator
