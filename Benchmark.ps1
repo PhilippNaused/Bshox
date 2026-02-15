@@ -2,7 +2,7 @@
 
 [CmdletBinding()]
 param (
-  [ValidateSet('net8.0', 'net9.0', 'net10.0', 'net48')]
+  [ValidateSet('net8.0', 'net9.0', 'net10.0', 'net11.0', 'net48')]
   [Parameter()]
   [string]$tfm = 'net10.0',
 
@@ -21,5 +21,5 @@ else {
   $Path = 'tests/Benchmark'
 }
 
-dotnet test --disable-logo --project 'tests/Benchmark.Tests' --configuration Release
+dotnet test 'tests/Benchmark.Tests/Benchmark.Tests.csproj' --disable-logo --configuration Release
 dotnet run --project $Path --configuration Release --framework $tfm
