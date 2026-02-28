@@ -5,13 +5,13 @@
 |:-------------------|:--------------------------------------|
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
-| Classes:           | 54                                    |
-| Files:             | 64                                    |
-| **Line coverage:** | 91.4% (3715 of 4062)                  |
-| Covered lines:     | 3715                                  |
-| Uncovered lines:   | 347                                   |
-| Coverable lines:   | 4062                                  |
-| Total lines:       | 7957                                  |
+| Classes:           | 53                                    |
+| Files:             | 63                                    |
+| **Line coverage:** | 91.4% (3679 of 4025)                  |
+| Covered lines:     | 3679                                  |
+| Uncovered lines:   | 346                                   |
+| Coverable lines:   | 4025                                  |
+| Total lines:       | 7954                                  |
 
 </details>
 
@@ -39,26 +39,25 @@
 | Bshox.Internals.StreamSequence         |     92.8% |
 
 </details>
-<details><summary>Bshox.Generator.dll - 91.3%</summary>
+<details><summary>Bshox.Generator.dll - 91.2%</summary>
 
 | **Name**                                           |  **Line** |
 |:---------------------------------------------------|----------:|
-| **Bshox.Generator.dll**                            | **91.3%** |
+| **Bshox.Generator.dll**                            | **91.2%** |
 | Bshox.Generator.BshoxGenerator                     |       90% |
 | Bshox.Generator.Constants                          |      100% |
 | Bshox.Generator.ContractResolver                   |       88% |
-| Bshox.Generator.Contracts.ContractDemand           |     90.9% |
+| Bshox.Generator.Contracts.ContractDemand           |       90% |
 | Bshox.Generator.Contracts.ContractGenerator        |     92.1% |
 | Bshox.Generator.Contracts.ContractHelper           |       95% |
-| Bshox.Generator.Contracts.ContractInfo             |     76.4% |
+| Bshox.Generator.Contracts.ContractInfo             |       68% |
 | Bshox.Generator.Contracts.GeneratedContract        |     94.1% |
 | Bshox.Generator.Contracts.InlineContractData       |      100% |
-| Bshox.Generator.Contracts.KnownTypeInfo            |     95.3% |
+| Bshox.Generator.Contracts.KnownTypeInfo            |     95.2% |
 | Bshox.Generator.Contracts.SurrogateContract        |      100% |
 | Bshox.Generator.Contracts.SurrogateGenerator       |     96.8% |
-| Bshox.Generator.Data.ContractParameters            |      100% |
 | Bshox.Generator.Data.KnownTypeSymbols              |      100% |
-| Bshox.Generator.Data.MemberInfo                    |       90% |
+| Bshox.Generator.Data.MemberInfo                    |     89.4% |
 | Bshox.Generator.DiagnosticException                |        0% |
 | Bshox.Generator.Diagnostics                        |      100% |
 | Bshox.Generator.Extensions.EnumerableExtensions    |     83.8% |
@@ -66,10 +65,10 @@
 | Bshox.Generator.Extensions.SymbolExtensions        |     87.1% |
 | Bshox.Generator.Extensions.SyntaxExtensions        |      100% |
 | Bshox.Generator.Extensions.TypedConstantExtensions |      100% |
-| Bshox.Generator.Helpers.SourceWriter               |     89.4% |
+| Bshox.Generator.Helpers.SourceWriter               |     89.2% |
 | Bshox.Generator.ProviderExtensions                 |      100% |
 | Bshox.Generator.SerializerGenerator                |     92.6% |
-| Bshox.Generator.SerializerInfo                     |     95.6% |
+| Bshox.Generator.SerializerInfo                     |     95.4% |
 | Bshox.Generator.UseDepthLockCorrectly              |     88.5% |
 
 </details>
@@ -78,7 +77,7 @@
 | **Name**                         |  **Line** |
 |:---------------------------------|----------:|
 | **Bshox.Utils.dll**              | **88.1%** |
-| Bshox.Utils.BshoxArray           |     75.6% |
+| Bshox.Utils.BshoxArray           |     75.3% |
 | Bshox.Utils.BshoxBlob            |      100% |
 | Bshox.Utils.BshoxObject          |     73.4% |
 | Bshox.Utils.BshoxParserException |       80% |
