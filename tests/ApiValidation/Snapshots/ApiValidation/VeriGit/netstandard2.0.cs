@@ -2,7 +2,6 @@
 // Platform: AnyCPU (64-bit preferred)
 // Runtime: v4.0.30319
 // Reference: netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
-// Reference: TUnit.Core, Version=1.12.0.0, Culture=neutral, PublicKeyToken=b8d4030011dbd70c
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
 [assembly: System.Reflection.AssemblyDescription("High performance binary serialization for C#")]

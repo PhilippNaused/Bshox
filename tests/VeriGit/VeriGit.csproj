@@ -9,8 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="TUnit.Core"
-                      VersionOverride="1.12.0" />
+    <PackageReference Include="TUnit.Core" />
   </ItemGroup>
 
   <!-- Workaround for https://github.com/dotnet/sdk/issues/1212 -->
