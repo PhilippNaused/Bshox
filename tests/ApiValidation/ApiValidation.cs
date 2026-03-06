@@ -41,7 +41,8 @@ internal class ApiValidation
     private static Task Validate(Assembly assembly)
     {
         var API = assembly.Decompile();
-        return Validate(GetFramework(assembly) ?? "unknown", API);
+        var lines = API.Split(['\n'], StringSplitOptions.None).Where(line => !line.Contains("Reference: TUnit.Core")).ToArray();
+        return Validate(GetFramework(assembly) ?? "unknown", string.Join("\n", lines));
     }
 
     private static string? GetFramework(Assembly assembly)
