@@ -1,30 +1,38 @@
 namespace Bshox.Generator.Extensions;
 
+#pragma warning disable IDE0051 // Remove unused private members (false positive for extension methods)
+
 internal static class EnumerableExtensions
 {
-    public static string NewLine(this IEnumerable<string> source)
+    extension(IEnumerable<string> source)
     {
-        return string.Join("\n", source);
-    }
-
-    public static bool HasDuplicate<T>(this IEnumerable<T> source)
-    {
-        var set = new HashSet<T>();
-        foreach (var item in source)
+        public string NewLine()
         {
-            if (!set.Add(item))
-            {
-                return true;
-            }
+            return string.Join("\n", source);
         }
-        return false;
     }
 
-    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) => source.DistinctBy(keySelector, null);
-
-    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
+    extension<TSource>(IEnumerable<TSource> source)
     {
-        return DistinctByIterator(source, keySelector, comparer);
+        public bool HasDuplicate()
+        {
+            var set = new HashSet<TSource>();
+            foreach (var item in source)
+            {
+                if (!set.Add(item))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public IEnumerable<TSource> DistinctBy<TKey>(Func<TSource, TKey> keySelector) => source.DistinctBy(keySelector, null);
+
+        public IEnumerable<TSource> DistinctBy<TKey>(Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
+        {
+            return DistinctByIterator(source, keySelector, comparer);
+        }
     }
 
     private static IEnumerable<TSource> DistinctByIterator<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)

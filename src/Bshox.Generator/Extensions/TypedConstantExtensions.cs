@@ -5,29 +5,32 @@ namespace Bshox.Generator.Extensions;
 
 internal static class TypedConstantExtensions
 {
-    public static bool TryGetAs<T>(this ImmutableArray<KeyValuePair<string, TypedConstant>> keyValuePairs, string key, out T value)
+    extension(ImmutableArray<KeyValuePair<string, TypedConstant>> keyValuePairs)
     {
-        if (keyValuePairs.TryGet(key, out TypedConstant constant))
+        public bool TryGetAs<T>(string key, out T value)
         {
-            value = (T)constant.Value!;
-            return true;
-        }
-        value = default!;
-        return false;
-    }
-
-    public static bool TryGet(this ImmutableArray<KeyValuePair<string, TypedConstant>> keyValuePairs, string key, out TypedConstant value)
-    {
-        for (int i = 0; i < keyValuePairs.Length; i++)
-        {
-            KeyValuePair<string, TypedConstant> item = keyValuePairs[i];
-            if (item.Key == key)
+            if (keyValuePairs.TryGet(key, out TypedConstant constant))
             {
-                value = item.Value;
+                value = (T)constant.Value!;
                 return true;
             }
+            value = default!;
+            return false;
         }
-        value = default;
-        return false;
+
+        public bool TryGet(string key, out TypedConstant value)
+        {
+            for (int i = 0; i < keyValuePairs.Length; i++)
+            {
+                KeyValuePair<string, TypedConstant> item = keyValuePairs[i];
+                if (item.Key == key)
+                {
+                    value = item.Value;
+                    return true;
+                }
+            }
+            value = default;
+            return false;
+        }
     }
 }

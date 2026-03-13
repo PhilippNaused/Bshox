@@ -158,25 +158,28 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
-    internal static void InternalError(this IDiagnosticOutput diagnostics, Location? location, string arg0, object? arg1 = null)
+    extension(IDiagnosticOutput diagnostics)
     {
-        diagnostics.ReportDiagnostic(_internalError, location, arg0, arg1);
-    }
+        internal void InternalError(Location? location, string arg0, object? arg1 = null)
+        {
+            diagnostics.ReportDiagnostic(_internalError, location, arg0, arg1);
+        }
 
-    internal static void InternalError(this IDiagnosticOutput diagnostics, ISymbol symbol, string arg0, object? arg1 = null)
-    {
-        Location? location = symbol.Locations.FirstOrDefault();
-        diagnostics.ReportDiagnostic(_internalError, location, arg0, arg1);
-    }
+        internal void InternalError(ISymbol symbol, string arg0, object? arg1 = null)
+        {
+            Location? location = symbol.Locations.FirstOrDefault();
+            diagnostics.ReportDiagnostic(_internalError, location, arg0, arg1);
+        }
 
-    internal static void ReportDiagnostic(this IDiagnosticOutput diagnostics, DiagnosticDescriptor descriptor, SyntaxToken token, params object?[] messageArgs)
-    {
-        diagnostics.ReportDiagnostic(descriptor, token.GetLocation(), messageArgs);
-    }
+        internal void ReportDiagnostic(DiagnosticDescriptor descriptor, SyntaxToken token, params object?[] messageArgs)
+        {
+            diagnostics.ReportDiagnostic(descriptor, token.GetLocation(), messageArgs);
+        }
 
-    internal static void ReportDiagnostic(this IDiagnosticOutput diagnostics, DiagnosticDescriptor descriptor, ISymbol symbol, params object?[] messageArgs)
-    {
-        Location? location = symbol.Locations.FirstOrDefault();
-        diagnostics.ReportDiagnostic(descriptor, location, messageArgs);
+        internal void ReportDiagnostic(DiagnosticDescriptor descriptor, ISymbol symbol, params object?[] messageArgs)
+        {
+            Location? location = symbol.Locations.FirstOrDefault();
+            diagnostics.ReportDiagnostic(descriptor, location, messageArgs);
+        }
     }
 }
