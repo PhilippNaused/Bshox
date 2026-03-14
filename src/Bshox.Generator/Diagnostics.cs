@@ -158,6 +158,8 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
+#pragma warning disable CA1034 // Nested types should not be visible (false positive for extension blocks)
+
     extension(IDiagnosticOutput diagnostics)
     {
         internal void InternalError(Location? location, string arg0, object? arg1 = null)
