@@ -2,18 +2,23 @@ using Bshox.Internals;
 
 namespace Bshox.Utils;
 
+#pragma warning disable CA1034 // Nested types should not be visible (false positive for extension blocks)
+
 public static class Extensions
 {
-    public static BshoxValue ToBshoxValue<T>(this BshoxContract<T> contract, scoped in T value)
+    extension<T>(BshoxContract<T> contract)
     {
-        using var buffer = new PooledByteBufferWriter();
-        contract.Serialize(buffer, value);
-        var reader = new BshoxReader(buffer.GetReadOnlySequence());
-        return BshoxValue.Read(ref reader, contract.Encoding);
-    }
+        public BshoxValue ToBshoxValue(scoped in T value)
+        {
+            using var buffer = new PooledByteBufferWriter();
+            contract.Serialize(buffer, value);
+            var reader = new BshoxReader(buffer.GetReadOnlySequence());
+            return BshoxValue.Read(ref reader, contract.Encoding);
+        }
 
-    public static string ToBshoxString<T>(this BshoxContract<T> contract, scoped in T value)
-    {
-        return contract.ToBshoxValue(value).ToString();
+        public string ToBshoxString(scoped in T value)
+        {
+            return contract.ToBshoxValue(value).ToString();
+        }
     }
 }

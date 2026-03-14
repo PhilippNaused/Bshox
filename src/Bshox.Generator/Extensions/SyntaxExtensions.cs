@@ -11,11 +11,6 @@ internal static class SyntaxExtensions
         return typeDeclaration.Modifiers.Any(m => m.IsKind(SyntaxKind.PartialKeyword));
     }
 
-    public static bool IsNested(this ITypeSymbol typeDeclaration)
-    {
-        return typeDeclaration.ContainingType is not null;
-    }
-
     public static Location GetLocation(this SyntaxReference reference)
     {
         return reference.GetSyntax().GetLocation();

@@ -32,6 +32,7 @@ public static class ICSharpCodeExtensions
             LoadInMemory = true, // faster than loading from disk
             FileScopedNamespaces = false,
             SortCustomAttributes = true, // sort attributes by name
+            ExtensionMembers = true,
         };
         var format = settings.CSharpFormattingOptions;
         format.IndentationString = "    "; // 4 spaces is the de facto standard for C#
@@ -138,9 +139,10 @@ public static class ICSharpCodeExtensions
             }
             else
             {
+                // BUG: ExtensionDeclaration.SymbolKind throws NotSupportedException because is's not a real symbol.
                 members = members
-                    .OrderBy(m => m.SymbolKind is not SymbolKind.Constructor) // constructors first
-                    .ThenBy(m => m.SymbolKind) // then sort by kind (fields, properties, methods, etc.)
+                    .OrderBy(m => m is ExtensionDeclaration || m.SymbolKind is not SymbolKind.Constructor) // constructors first
+                    .ThenBy(m => m is ExtensionDeclaration ? SymbolKind.None : m.SymbolKind) // then sort by kind (fields, properties, methods, etc.)
                     .ThenByDescending(m => m.GetSymbol() as IEntity is { } e ? e.Accessibility : Accessibility.None) // then sort by accessibility (public first)
                     .ThenBy(m => m.Name); // then sort by name
             }
@@ -261,6 +263,12 @@ public static class ICSharpCodeExtensions
             Process(declaration);
         }
 
+        public override void VisitExtensionDeclaration(ExtensionDeclaration declaration)
+        {
+            base.VisitExtensionDeclaration(declaration);
+            Process(declaration);
+        }
+
         private static void Process(EntityDeclaration declaration)
         {
             // remove all members that are not visible from the outside
@@ -269,6 +277,13 @@ public static class ICSharpCodeExtensions
                 if (symbol.EffectiveAccessibility() is not Accessibility.Public and not Accessibility.Protected and not Accessibility.ProtectedOrInternal)
                 {
                     declaration.Remove();
+                }
+            }
+            if (declaration is ExtensionDeclaration extensionDeclaration)
+            {
+                if (extensionDeclaration.Members.Count == 0)
+                {
+                    extensionDeclaration.Remove();
                 }
             }
         }
