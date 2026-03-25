@@ -38,7 +38,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="System.Memory"
-                      VersionOverride="4.5.5" />
+                      VersionOverride="4.6.3" />
   </ItemGroup>
 
   <ItemGroup>
