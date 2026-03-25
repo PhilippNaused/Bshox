@@ -3,10 +3,12 @@
   "extends": [
     "config:recommended"
   ],
-  "ignorePaths": [
+  "nuget": {
     // Ignore all .csproj files, as they only contain version overrides that must not be updated by Renovate.
-    "**/*.csproj"
-  ],
+    "ignorePaths": [
+      "**/*.csproj"
+    ]
+  },
   "packageRules": [
     {
       "matchPackageNames": ["TUnit*"],
