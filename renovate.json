@@ -6,5 +6,11 @@
   "ignorePaths": [
     // Ignore all .csproj files, as they only contain version overrides that must not be updated by Renovate.
     "**/*.csproj"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["TUnit*"],
+      "groupName": "TUnit packages"
+    }
   ]
 }
