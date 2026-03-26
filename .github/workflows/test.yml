@@ -29,6 +29,8 @@ jobs:
       with:
         path: ~/.nuget/packages
         key: ${{ runner.os }}-nuget-${{ hashFiles('Directory.Packages.props', 'global.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget
 
     - name: 🛠️ Setup .NET
       uses: actions/setup-dotnet@v5
