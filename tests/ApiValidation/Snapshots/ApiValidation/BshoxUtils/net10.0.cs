@@ -88,8 +88,11 @@ namespace Bshox.Utils
     }
     public static class Extensions
     {
-        public static string ToBshoxString<T>(this Bshox.BshoxContract<T> contract, scoped in T value);
-        public static Bshox.Utils.BshoxValue ToBshoxValue<T>(this Bshox.BshoxContract<T> contract, scoped in T value);
+        extension<T>(Bshox.BshoxContract<T> contract)
+        {
+            public Bshox.Utils.BshoxValue ToBshoxValue(scoped in T value);
+            public string ToBshoxString(scoped in T value);
+        }
     }
     public sealed class Fixed4 : Bshox.Utils.BshoxValue
     {
