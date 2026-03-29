@@ -50,13 +50,16 @@ namespace Bshox
     }
     public static class BshoxContractExtensions
     {
-        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, in System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions? options = null);
-        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);
-        public static T Deserialize<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, Bshox.BshoxOptions? options = null);
-        public static System.Threading.Tasks.Task<T> DeserializeAsync<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, Bshox.BshoxOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        public static void Serialize<T>(this Bshox.BshoxContract<T> contract, System.Buffers.IBufferWriter<byte> buffer, scoped in T value, Bshox.BshoxOptions? options = null);
-        public static void Serialize<T>(this Bshox.BshoxContract<T> contract, System.IO.Stream stream, scoped in T value, Bshox.BshoxOptions? options = null);
-        public static byte[] Serialize<T>(this Bshox.BshoxContract<T> contract, scoped in T value, Bshox.BshoxOptions? options = null);
+        extension<T>(Bshox.BshoxContract<T> contract)
+        {
+            public void Serialize(System.Buffers.IBufferWriter<byte> buffer, scoped in T value, Bshox.BshoxOptions? options = null);
+            public void Serialize(System.IO.Stream stream, scoped in T value, Bshox.BshoxOptions? options = null);
+            public byte[] Serialize(scoped in T value, Bshox.BshoxOptions? options = null);
+            public T Deserialize(in System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions? options = null);
+            public T Deserialize(System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);
+            public T Deserialize(System.IO.Stream stream, Bshox.BshoxOptions? options = null);
+            public System.Threading.Tasks.Task<T> DeserializeAsync(System.IO.Stream stream, Bshox.BshoxOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        }
     }
     [System.Serializable]
     public class BshoxException : System.Exception
