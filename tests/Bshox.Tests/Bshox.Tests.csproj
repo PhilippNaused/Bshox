@@ -39,6 +39,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Polyfill.cs"
+             Link="Polyfill.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
     <PackageReference Include="PolySharp">
       <PrivateAssets>all</PrivateAssets>
