@@ -11,7 +11,8 @@
     "*.DotSettings",
     ".config/cspell.json",
     ".config/dotnet-tools.json",
-    ".config/dicts/**"
+    ".config/dicts/**",
+    ".git*"
   ],
   "dictionaries": [
     "project-words",
