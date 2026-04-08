@@ -22,9 +22,6 @@ public static class BshoxContractExtensions
         /// <param name="buffer">The buffer writer to which the serialized data will be written.</param>
         /// <param name="value">The value to serialize.</param>
         /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
-        /// <remarks>
-        /// The buffer is flushed after serialization is complete.
-        /// </remarks>
         public void Serialize(IBufferWriter<byte> buffer, scoped in T value, BshoxOptions? options = null)
         {
             var writer = new BshoxWriter(buffer, options);

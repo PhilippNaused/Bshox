@@ -166,9 +166,6 @@ public abstract class BshoxSerializer
     /// <param name="value">The value to serialize.</param>
     /// <param name="inputType">The type of the value to serialize.</param>
     /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
-    /// <remarks>
-    /// The buffer is flushed after serialization is complete.
-    /// </remarks>
     public void Serialize(IBufferWriter<byte> buffer, object value, Type inputType, BshoxOptions? options = null)
     {
         var contract = GetContract(inputType);
