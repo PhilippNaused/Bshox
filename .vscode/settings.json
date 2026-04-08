@@ -3,8 +3,6 @@
   "xml.format.maxLineWidth": 0,
   "xml.format.splitAttributes": "alignWithFirstAttr",
   "markdown.extension.tableFormatter.delimiterRowNoPadding": true,
-  "dotnet.automaticallyCreateSolutionInWorkspace": false,
   "msbuildProjectTools.nuget.disablePreFetch": true,
-  "msbuildProjectTools.nuget.includePreRelease": true,
-  "dotnet.testWindow.useTestingPlatformProtocol": true
+  "msbuildProjectTools.nuget.includePreRelease": true
 }
