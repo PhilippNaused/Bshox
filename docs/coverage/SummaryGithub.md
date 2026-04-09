@@ -7,20 +7,20 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 53                                    |
 | Files:             | 63                                    |
-| **Line coverage:** | 91.3% (3652 of 3997)                  |
-| Covered lines:     | 3652                                  |
-| Uncovered lines:   | 345                                   |
-| Coverable lines:   | 3997                                  |
-| Total lines:       | 7970                                  |
+| **Line coverage:** | 91.3% (3656 of 4004)                  |
+| Covered lines:     | 3656                                  |
+| Uncovered lines:   | 348                                   |
+| Coverable lines:   | 4004                                  |
+| Total lines:       | 7973                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 93.5%</summary>
+<details><summary>Bshox.dll - 93.3%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **93.5%** |
+| **Bshox.dll**                          | **93.3%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     89.6% |
 | Bshox.BshoxException                   |      100% |
@@ -35,7 +35,7 @@
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |      100% |
 | Bshox.Internals.EndiannessHelper       |      100% |
-| Bshox.Internals.PooledByteBufferWriter |     84.6% |
+| Bshox.Internals.PooledByteBufferWriter |       83% |
 | Bshox.Internals.StreamSequence         |     92.8% |
 
 </details>

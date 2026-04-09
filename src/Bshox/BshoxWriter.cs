@@ -103,7 +103,7 @@ public ref partial struct BshoxWriter
     {
         Check();
         CheckWaitingForAdvance(false);
-        Debug.Assert(sizeHint > 0, "sizeHint > 0");
+        Debug.Assert(sizeHint >= 0, "sizeHint >= 0");
 #if USE_REF
         Debug.Assert(_length >= 0, "length >= 0");
         if (_length >= sizeHint)

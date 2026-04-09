@@ -90,6 +90,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 
         foreach (var segment in _segments)
         {
+            Debug.Assert(segment.Length > 0, "segment.Length > 0");
             ArrayPool<byte>.Shared.Return(segment.Buffer, true);
         }
         _segments.Clear();
@@ -165,21 +166,29 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     {
         sizeHint = Math.Max(sizeHint, DefaultBufferSize);
 
-        var segment = new Segment(_segLength, _buffer, _index);
-        if (_segments.Count > 0)
+        if (_index > 0)
         {
-            var last = _segments[^1];
-            Debug.Assert(last is not null, "last is not null");
-            last!.SetNext(segment);
+            var segment = new Segment(_segLength, _buffer, _index);
+            if (_segments.Count > 0)
+            {
+                var last = _segments[^1];
+                Debug.Assert(last is not null, "last is not null");
+                last!.SetNext(segment);
+            }
+            else
+            {
+                Debug.Assert(_segments.Count == 0, "_segments.Count == 0");
+                Debug.Assert(_segLength == 0, "_segLength == 0");
+            }
+
+            _segments.Add(segment);
+            _segLength += _index;
         }
         else
         {
-            Debug.Assert(_segments.Count == 0, "_segments.Count == 0");
-            Debug.Assert(_segLength == 0, "_segLength == 0");
+            // No need to add an empty segment if we haven't written anything to the current buffer.
+            ArrayPool<byte>.Shared.Return(_buffer, clearArray: false);
         }
-
-        _segments.Add(segment);
-        _segLength += _index;
 
         _buffer = ArrayPool<byte>.Shared.Rent(sizeHint);
         _index = 0;
