@@ -31,21 +31,28 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     }
 
     private readonly List<Segment> _segments = [];
+    private readonly int _initialCapacity;
     private byte[] _buffer;
     private int _index;
+    /// <summary>
+    /// total length of all completed segments in _segments. Does not include the current buffer.
+    /// </summary>
     private long _segLength;
 
     private const int MinimumBufferSize = 0;
-    private const int DefaultBufferSize = 16 * 1024;
-
     // Value copied from Array.MaxLength in System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Array.cs.
     public const int MaximumBufferSize = 0X7FFFFFC7;
 
-    public PooledByteBufferWriter(int initialCapacity = DefaultBufferSize)
+    public PooledByteBufferWriter(int initialCapacity = BshoxOptions.DefaultBufferSize)
     {
+        _initialCapacity = initialCapacity;
         Debug.Assert(initialCapacity > 0, "initialCapacity > 0");
 
         _buffer = ArrayPool<byte>.Shared.Rent(initialCapacity);
+    }
+
+    public PooledByteBufferWriter(BshoxOptions? options) : this((options ?? BshoxOptions.Default).BufferSize)
+    {
     }
 
     public ReadOnlySequence<byte> GetReadOnlySequence()
@@ -84,8 +91,12 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     /// </summary>
     public void Dispose()
     {
+        Reset(0);
+    }
+
+    public void Reset(int bufferSize = -1)
+    {
         ArrayPool<byte>.Shared.Return(_buffer, true);
-        _buffer = [];
         _index = 0;
 
         foreach (var segment in _segments)
@@ -95,6 +106,18 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         }
         _segments.Clear();
         _segLength = 0;
+        if (bufferSize == -1)
+        {
+            bufferSize = _initialCapacity;
+        }
+        if (bufferSize == 0)
+        {
+            _buffer = [];
+        }
+        else
+        {
+            _buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
+        }
     }
 
     public void Advance(int count)
@@ -134,7 +157,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         {
             await destination.WriteAsync(segment.Memory, cancellationToken).ConfigureAwait(false);
         }
-        await destination.WriteAsync(_buffer.AsMemory(_index), cancellationToken).ConfigureAwait(false);
+        await destination.WriteAsync(_buffer.AsMemory(0, _index), cancellationToken).ConfigureAwait(false);
     }
 #else
     internal async Task WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
@@ -164,7 +187,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     [MethodImpl(MethodImplOptions.NoInlining)] // cold path
     private void ResizeBuffer(int sizeHint)
     {
-        sizeHint = Math.Max(sizeHint, DefaultBufferSize);
+        sizeHint = Math.Max(sizeHint, _initialCapacity);
 
         if (_index > 0)
         {
