@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Bshox.Internals;
@@ -433,6 +434,38 @@ internal sealed class WriterTests : IDisposable
     }
 
     #endregion Guid
+
+    #region ByteArray
+
+    [Test]
+    public async Task WriteLargeArray()
+    {
+        var array = ArrayPool<byte>.Shared.Rent(4 * 1024 * 1024); // 4 MiB
+        await Assert.That(array.Length).IsGreaterThan(options.BufferSize);
+        ExampleData.Randomizer.NextBytes(array);
+        var writer = GetWriter();
+        DefaultContracts.ByteArray.Serialize(ref writer, in array);
+        writer.Flush();
+
+        var seq = buffer.GetReadOnlySequence();
+        // we can't guarantee that the segments have a certain size since ArrayPool<byte>.Shared doesn't return buffers of a fixed size.
+        await Assert.That(seq.IsSingleSegment).IsFalse();
+        List<ReadOnlyMemory<byte>> segments = [.. seq];
+        // all segments except possibly the last one should be of size options.BufferSize or larger.
+        for (int i = 0; i < segments.Count - 1; i++)
+        {
+            await Assert.That(segments[i].Length).IsGreaterThanOrEqualTo(options.BufferSize);
+        }
+        // the last segment should be at most options.BufferSize large.
+        await Assert.That(segments[^1].Length).IsLessThanOrEqualTo(options.BufferSize);
+
+        var reader = GetReader();
+        DefaultContracts.ByteArray.Deserialize(ref reader, out var decoded);
+        await Assert.That(decoded).IsSequenceEqualTo(array);
+        ArrayPool<byte>.Shared.Return(array);
+    }
+
+    #endregion ByteArray
 
     #endregion Other
 

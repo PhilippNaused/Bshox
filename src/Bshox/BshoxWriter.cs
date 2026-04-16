@@ -18,8 +18,6 @@ namespace Bshox;
 /// </summary>
 public ref partial struct BshoxWriter
 {
-    private const int MinBufferSize = 256;
-
 #if USE_REF
     private ref byte _ref; // reference to the underlying buffer
     private int _length; // remaining space in the buffer
@@ -85,7 +83,7 @@ public ref partial struct BshoxWriter
             Flush();
         }
         Debug.Assert(_index == 0, "_index == 0");
-        _span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        _span = _buffer.GetSpan(Math.Max(sizeHint, Options.BufferSize));
         Debug.Assert(_span.Length >= sizeHint, "_span.Length >= sizeHint");
         WaitingForAdvance(true);
         return _span;
@@ -116,7 +114,7 @@ public ref partial struct BshoxWriter
             Flush();
         }
         Debug.Assert(_unflushed == 0, "_unflushed == 0");
-        var span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        var span = _buffer.GetSpan(Math.Max(sizeHint, Options.BufferSize));
         _ref = ref span[0];
         _length = span.Length;
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");

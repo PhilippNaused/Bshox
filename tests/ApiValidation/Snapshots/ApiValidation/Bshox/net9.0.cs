@@ -138,6 +138,7 @@ namespace Bshox
         public void WriteArrayHeader(int count, Bshox.BshoxCode elementEncoding);
         public void WriteByte(byte value);
         public void WriteByteArray(byte[] value);
+        public void WriteBytes(System.ReadOnlySpan<byte> source);
         public void WriteDouble(double value);
         public void WriteSingle(float value);
         public void WriteString(string value);
