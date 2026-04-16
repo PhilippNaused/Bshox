@@ -79,6 +79,8 @@ namespace Bshox
         public BshoxOptions();
         public const int DefaultMaxDepth = 64;
         public static readonly Bshox.BshoxOptions Default;
+        public const int DefaultBufferSize = 16384;
+        public int BufferSize { get; init; }
         public bool LittleEndian { get; init; }
         public int MaxDepth { get; init; }
         public bool Equals(Bshox.BshoxOptions? other);
