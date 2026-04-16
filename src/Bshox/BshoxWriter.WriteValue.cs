@@ -182,22 +182,17 @@ public ref partial struct BshoxWriter
     public void WriteBytes(ReadOnlySpan<byte> source)
     {
         Check();
-        int length = source.Length;
-        if (length == 0)
+        if (source.Length == 0)
             return;
         // copy as much as possible into the current buffer, then flush and get a new buffer if needed, repeat until all data is copied.
         var dest = GetSpan(0);
-        while (length > 0)
-        {
-            int toCopy = Math.Min(dest.Length, length);
-            source.Slice(0, toCopy).CopyTo(dest);
-            Advance(toCopy);
-            source = source.Slice(toCopy);
-            length -= toCopy;
-            if (length != 0)
-                dest = GetSpan(Options.BufferSize);
-        }
-        Debug.Assert(source.IsEmpty, "source.IsEmpty");
+        int toCopy = Math.Min(dest.Length, source.Length);
+        source.Slice(0, toCopy).CopyTo(dest);
+        Advance(toCopy);
+        source = source.Slice(toCopy);
+        dest = GetSpan(source.Length);
+        source.CopyTo(dest);
+        Advance(source.Length);
     }
 
     internal unsafe void WriteUnsafe<T>(ref readonly T value) where T : unmanaged
