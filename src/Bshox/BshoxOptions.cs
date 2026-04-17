@@ -14,7 +14,7 @@ public sealed record BshoxOptions
     /// <remarks>
     /// This is the same value as <c>System.Text.Json.JsonReaderOptions.DefaultMaxDepth</c>
     /// </remarks>
-    public const int DefaultMaxDepth = 64;
+    internal const int DefaultMaxDepth = 64;
 
     /// <summary>
     /// The default value for <see cref="BshoxOptions"/>
@@ -25,6 +25,9 @@ public sealed record BshoxOptions
     /// The maximum depth of nested objects and arrays allowed during serialization and deserialization.<br/>
     /// If this value is exceeded, a <see cref="BshoxException"/> will be thrown.<br/>
     /// </summary>
+    /// <remarks>
+    /// The default is 64.
+    /// </remarks>
     public int MaxDepth
     {
         get
@@ -61,8 +64,9 @@ public sealed record BshoxOptions
     /// </summary>
     /// <remarks>
     /// Async implementations will also try to flush the buffer when it reaches this size.<br/>
+    /// The default is 16 KiB.
     /// </remarks>
-    public int BufferSize
+    public int DefaultBufferSize
     {
         get
         {
@@ -80,13 +84,13 @@ public sealed record BshoxOptions
 #endif
             field = value;
         }
-    } = DefaultBufferSize;
+    } = BufferSizeDefault;
 
     /// <summary>
-    /// The default value for <see cref="BufferSize"/>.<br/>
+    /// The default value for <see cref="DefaultBufferSize"/>.<br/>
     /// </summary>
     /// <remarks>
     /// 16 KiB
     /// </remarks>
-    public const int DefaultBufferSize = 16 * 1024; // Same as the default used by System.Text.Json
+    internal const int BufferSizeDefault = 16 * 1024; // Same as the default used by System.Text.Json
 }

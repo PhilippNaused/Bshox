@@ -172,7 +172,7 @@ public ref partial struct BshoxReader
         }
 
         string value = new(charArray, 0, initializedChars);
-        ArrayPool<char>.Shared.Return(charArray);
+        ArrayPool<char>.Shared.Return(charArray); // TODO: use try-catch
         return value;
     }
 

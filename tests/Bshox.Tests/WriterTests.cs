@@ -441,7 +441,7 @@ internal sealed class WriterTests : IDisposable
     public async Task WriteLargeArray()
     {
         var array = ArrayPool<byte>.Shared.Rent(4 * 1024 * 1024); // 4 MiB
-        await Assert.That(array.Length).IsGreaterThan(options.BufferSize);
+        await Assert.That(array.Length).IsGreaterThan(options.DefaultBufferSize);
         ExampleData.Randomizer.NextBytes(array);
         var writer = GetWriter();
         DefaultContracts.ByteArray.Serialize(ref writer, in array);

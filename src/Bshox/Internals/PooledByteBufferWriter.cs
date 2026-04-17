@@ -31,7 +31,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     }
 
     private readonly List<Segment> _segments = [];
-    private readonly int _initialCapacity;
+    private readonly int _defaultCapacity;
     private byte[] _buffer;
     private int _index;
     /// <summary>
@@ -43,15 +43,15 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     // Value copied from Array.MaxLength in System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Array.cs.
     public const int MaximumBufferSize = 0X7FFFFFC7;
 
-    public PooledByteBufferWriter(int initialCapacity = BshoxOptions.DefaultBufferSize)
+    public PooledByteBufferWriter(int defaultCapacity = BshoxOptions.BufferSizeDefault)
     {
-        _initialCapacity = initialCapacity;
-        Debug.Assert(initialCapacity > 0, "initialCapacity > 0");
+        _defaultCapacity = defaultCapacity;
+        Debug.Assert(defaultCapacity > 0, "defaultCapacity > 0");
 
-        _buffer = ArrayPool<byte>.Shared.Rent(initialCapacity);
+        _buffer = ArrayPool<byte>.Shared.Rent(defaultCapacity);
     }
 
-    public PooledByteBufferWriter(BshoxOptions? options) : this((options ?? BshoxOptions.Default).BufferSize)
+    public PooledByteBufferWriter(BshoxOptions? options) : this((options ?? BshoxOptions.Default).DefaultBufferSize)
     {
     }
 
@@ -108,7 +108,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         _segLength = 0;
         if (bufferSize == -1)
         {
-            bufferSize = _initialCapacity;
+            bufferSize = _defaultCapacity;
         }
         if (bufferSize == 0)
         {
@@ -153,6 +153,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 #if NETCOREAPP
     internal async ValueTask WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
+        // TODO: optimize for single segment case to avoid the async state machine and extra allocations.
         foreach (var segment in _segments)
         {
             await destination.WriteAsync(segment.Memory, cancellationToken).ConfigureAwait(false);
@@ -187,9 +188,9 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     [MethodImpl(MethodImplOptions.NoInlining)] // cold path
     private void ResizeBuffer(int sizeHint)
     {
-        sizeHint = Math.Max(sizeHint, _initialCapacity);
+        sizeHint = Math.Max(sizeHint, _defaultCapacity);
 
-        if (_index > 0)
+        if (_index != 0)
         {
             var segment = new Segment(_segLength, _buffer, _index);
             if (_segments.Count > 0)
