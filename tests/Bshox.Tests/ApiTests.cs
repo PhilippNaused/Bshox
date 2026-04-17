@@ -159,7 +159,7 @@ internal class ApiTests
     [Test]
     public async Task DeserializeFromStreamAsync()
     {
-        var stream = new MemoryStream(s_Expected);
+        await using var stream = new MemoryStream(s_Expected).AsAsyncStream();
         var result = await TestSerializer.Int32Array.DeserializeAsync(stream);
         await Assert.That(result).IsSequenceEqualTo(s_Array);
     }
@@ -167,7 +167,7 @@ internal class ApiTests
     [Test]
     public async Task DeserializeFromStreamAsync2()
     {
-        var stream = new MemoryStream(s_Expected);
+        await using var stream = new MemoryStream(s_Expected).AsAsyncStream();
         var result = (int[])await TestSerializer.Instance.DeserializeAsync(stream, typeof(int[]));
         await Assert.That(result).IsSequenceEqualTo(s_Array);
     }
@@ -192,11 +192,12 @@ internal class ApiTests
         await Assert.That(result).IsSequenceEqualTo(s_Array);
     }
 
+#pragma warning disable CA2000 // Dispose objects before losing scope
     [Test]
     public async Task DeserializeFromBufferedStreamAsync()
     {
         var stream = new MemoryStream(s_Expected);
-        using var buffered = new BufferedStream(stream, 1);
+        await using var buffered = new BufferedStream(stream, 1).AsAsyncStream();
         int[] result = await TestSerializer.Int32Array.DeserializeAsync(buffered);
         await Assert.That(result).IsSequenceEqualTo(s_Array);
     }
@@ -205,10 +206,11 @@ internal class ApiTests
     public async Task DeserializeFromBufferedStreamAsync2()
     {
         var stream = new MemoryStream(s_Expected);
-        using var buffered = new BufferedStream(stream, 1);
+        await using var buffered = new BufferedStream(stream, 1).AsAsyncStream();
         var result = (int[])await TestSerializer.Instance.DeserializeAsync(buffered, typeof(int[]));
         await Assert.That(result).IsSequenceEqualTo(s_Array);
     }
+#pragma warning restore CA2000 // Dispose objects before losing scope
 
     [Test]
     public async Task DeserializeFromReadOnlySequence()
