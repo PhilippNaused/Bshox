@@ -1,5 +1,5 @@
 #if NET8_0_OR_GREATER
-#define USE_REF
+#define USE_REF // runtime supports ref fields.
 #endif
 
 #if DEBUG
@@ -146,14 +146,7 @@ public ref partial struct BshoxWriter
     {
         Check();
         CheckWaitingForAdvance(true);
-#if NETCOREAPP
         ArgumentOutOfRangeException.ThrowIfNegative(count);
-#else
-        if (count < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count), "count < 0");
-        }
-#endif
 #if USE_REF
         _ref = ref Unsafe.Add(ref _ref, count);
         _length -= count;
