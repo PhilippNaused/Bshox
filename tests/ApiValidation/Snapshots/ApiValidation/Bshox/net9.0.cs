@@ -71,7 +71,6 @@ namespace Bshox
         [System.Obsolete("This API supports obsolete formatter-based serialization. It should not be called or extended by application code.", DiagnosticId = "SYSLIB0051", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         public static Bshox.BshoxException InvalidEncoding(Bshox.BshoxCode encoding);
-        [System.Diagnostics.StackTraceHidden]
         public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
     }
     public sealed record BshoxOptions

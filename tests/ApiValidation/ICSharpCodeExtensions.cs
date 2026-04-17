@@ -189,6 +189,7 @@ public static class ICSharpCodeExtensions
             "System.Runtime.CompilerServices.CompilerGeneratedAttribute", // don't care. Also ruins the formatting.
             "System.Runtime.CompilerServices.MethodImplAttribute", // doesn't affect the API
             "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute", // doesn't affect the API
+            "System.Diagnostics.StackTraceHiddenAttribute", // doesn't affect the API
             "System.Reflection.AssemblyFileVersionAttribute",
             "System.Reflection.AssemblyVersionAttribute"
         ];
