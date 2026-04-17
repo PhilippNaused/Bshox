@@ -70,8 +70,8 @@ namespace Bshox
     public sealed record BshoxOptions
     {
         public BshoxOptions();
-        public const int DefaultMaxDepth = 64;
         public static readonly Bshox.BshoxOptions Default;
+        public int DefaultBufferSize { get; init; }
         public bool LittleEndian { get; init; }
         public int MaxDepth { get; init; }
         public bool Equals(Bshox.BshoxOptions? other);
@@ -129,6 +129,7 @@ namespace Bshox
         public void WriteArrayHeader(int count, Bshox.BshoxCode elementEncoding);
         public void WriteByte(byte value);
         public void WriteByteArray(byte[] value);
+        public void WriteBytes(System.ReadOnlySpan<byte> source);
         public void WriteDouble(double value);
         public void WriteSingle(float value);
         public void WriteString(string value);

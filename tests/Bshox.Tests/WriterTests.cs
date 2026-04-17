@@ -1,3 +1,4 @@
+using System.Buffers;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Bshox.Internals;
@@ -433,6 +434,29 @@ internal sealed class WriterTests : IDisposable
     }
 
     #endregion Guid
+
+    #region ByteArray
+
+    [Test]
+    public async Task WriteLargeArray()
+    {
+        var array = ArrayPool<byte>.Shared.Rent(4 * 1024 * 1024); // 4 MiB
+        await Assert.That(array.Length).IsGreaterThan(options.DefaultBufferSize);
+        ExampleData.Randomizer.NextBytes(array);
+        var writer = GetWriter();
+        DefaultContracts.ByteArray.Serialize(ref writer, in array);
+        writer.Flush();
+
+        var seq = buffer.GetReadOnlySequence();
+        await Assert.That(seq.IsSingleSegment).IsFalse();
+
+        var reader = GetReader();
+        DefaultContracts.ByteArray.Deserialize(ref reader, out var decoded);
+        await Assert.That(decoded).IsSequenceEqualTo(array);
+        ArrayPool<byte>.Shared.Return(array);
+    }
+
+    #endregion ByteArray
 
     #endregion Other
 

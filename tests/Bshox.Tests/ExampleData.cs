@@ -7,7 +7,7 @@ internal static class ExampleData
     private const int TestCount = 20;
     private const int Seed = 42;
 
-    private static Random Randomizer => new(Seed);
+    internal static Random Randomizer => new(Seed);
 
     public static IEnumerable<string> Strings()
     {

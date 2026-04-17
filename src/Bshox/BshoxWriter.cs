@@ -18,8 +18,6 @@ namespace Bshox;
 /// </summary>
 public ref partial struct BshoxWriter
 {
-    private const int MinBufferSize = 256;
-
 #if USE_REF
     private ref byte _ref; // reference to the underlying buffer
     private int _length; // remaining space in the buffer
@@ -43,11 +41,21 @@ public ref partial struct BshoxWriter
     /// </summary>
     public readonly int CurrentDepth => _depth;
 
+    internal readonly int UnflushedBytes =>
+#if USE_REF
+        _unflushed;
+#else
+        _index;
+#endif
+
     /// <summary>
     /// Creates a new writer that writes to the specified <paramref name="buffer"/>.
     /// </summary>
     /// <param name="buffer">The buffer to write to</param>
     /// <param name="options">The options to use. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <remarks>
+    /// The caller must call <see cref="Flush"/> before this writer goes out of scope.
+    /// </remarks>
     public BshoxWriter(IBufferWriter<byte> buffer, BshoxOptions? options = null)
     {
         _buffer = buffer;
@@ -85,7 +93,7 @@ public ref partial struct BshoxWriter
             Flush();
         }
         Debug.Assert(_index == 0, "_index == 0");
-        _span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        _span = _buffer.GetSpan(Math.Max(sizeHint, Options.DefaultBufferSize));
         Debug.Assert(_span.Length >= sizeHint, "_span.Length >= sizeHint");
         WaitingForAdvance(true);
         return _span;
@@ -116,7 +124,7 @@ public ref partial struct BshoxWriter
             Flush();
         }
         Debug.Assert(_unflushed == 0, "_unflushed == 0");
-        var span = _buffer.GetSpan(Math.Max(sizeHint, MinBufferSize));
+        var span = _buffer.GetSpan(Math.Max(sizeHint, Options.DefaultBufferSize));
         _ref = ref span[0];
         _length = span.Length;
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");
@@ -139,7 +147,7 @@ public ref partial struct BshoxWriter
         Check();
         CheckWaitingForAdvance(true);
 #if NETCOREAPP
-        ArgumentOutOfRangeException.ThrowIfNegative(count, nameof(count));
+        ArgumentOutOfRangeException.ThrowIfNegative(count);
 #else
         if (count < 0)
         {
@@ -167,6 +175,8 @@ public ref partial struct BshoxWriter
     {
         Check();
         CheckWaitingForAdvance(false);
+        if (UnflushedBytes == 0)
+            return;
 #if USE_REF
         Debug.Assert(!Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
         Debug.Assert(_unflushed >= 0, "_unflushed >= 0");

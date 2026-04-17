@@ -38,7 +38,7 @@ public static class BshoxContractExtensions
         public void Serialize(Stream stream, scoped in T value, BshoxOptions? options = null)
         {
             // TODO: add optimization for MemoryStream
-            using var buffer = new PooledByteBufferWriter();
+            using var buffer = new PooledByteBufferWriter(options);
             contract.Serialize(buffer, in value, options);
             buffer.WriteToStream(stream);
         }
@@ -51,7 +51,7 @@ public static class BshoxContractExtensions
         /// <returns>A <see cref="byte"/> array containing the serialized data.</returns>
         public byte[] Serialize(scoped in T value, BshoxOptions? options = null)
         {
-            using var buffer = new PooledByteBufferWriter();
+            using var buffer = new PooledByteBufferWriter(options);
             contract.Serialize(buffer, in value, options);
             return buffer.ToArray();
         }

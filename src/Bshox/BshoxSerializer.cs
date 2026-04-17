@@ -183,7 +183,7 @@ public abstract class BshoxSerializer
     /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
     public void Serialize(Stream stream, object value, Type inputType, BshoxOptions? options = null)
     {
-        using var buffer = new PooledByteBufferWriter();
+        using var buffer = new PooledByteBufferWriter(options);
         Serialize(buffer, value, inputType, options);
         buffer.WriteToStream(stream);
     }
@@ -196,7 +196,7 @@ public abstract class BshoxSerializer
     /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
     public byte[] Serialize(object value, Type inputType, BshoxOptions? options = null)
     {
-        using var buffer = new PooledByteBufferWriter();
+        using var buffer = new PooledByteBufferWriter(options);
         Serialize(buffer, value, inputType, options);
         return buffer.ToArray();
     }
