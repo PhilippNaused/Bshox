@@ -37,12 +37,7 @@ public sealed record BshoxOptions
         }
         init
         {
-#if NETCOREAPP
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value);
-#else
-            if (value <= 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-#endif
             field = value;
         }
     } = DefaultMaxDepth;
@@ -76,12 +71,7 @@ public sealed record BshoxOptions
         init
         {
             // TODO: enforce a min value (e.g. 1 KiB)
-#if NETCOREAPP
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value);
-#else
-            if (value <= 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-#endif
             field = value;
         }
     } = BufferSizeDefault;

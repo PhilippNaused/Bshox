@@ -208,12 +208,7 @@ public partial class BshoxTextParser
 
     internal static BshoxTextParser Create(string text)
     {
-#if NETCOREAPP
         ArgumentNullException.ThrowIfNull(text);
-#else
-        if (text is null)
-            throw new ArgumentNullException(nameof(text));
-#endif
         return new BshoxTextParser(text);
     }
 

@@ -12,12 +12,7 @@ public partial class BshoxTextParser
 
         public Token(string text, int offset, int length)
         {
-#if NETCOREAPP
             ArgumentNullException.ThrowIfNull(text);
-#else
-            if (text is null)
-                throw new ArgumentNullException(nameof(text));
-#endif
             Text = text;
             Offset = offset;
             Length = length;
