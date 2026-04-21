@@ -9,7 +9,7 @@ public class ContractResolverTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract(ImplicitMembers = true)]
@@ -31,7 +31,7 @@ public class ContractResolverTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1<int>))]
+                                  [BshoxSerializable<Type1<int>>]
                                   public partial class Serializer1;
 
                                   [BshoxContract(ImplicitMembers = true)]
@@ -63,7 +63,7 @@ public class ContractResolverTests
                                 {
                                     public enum MyEnum;
 
-                                    [BshoxSerializer(typeof(Type1))]
+                                    [BshoxSerializable<Type1>]
                                     public partial class Serializer1;
 
                                     [BshoxContract(ImplicitMembers = true)]
@@ -100,7 +100,7 @@ public class ContractResolverTests
                                       One = 1,
                                   }
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract(ImplicitMembers = true)]
@@ -138,7 +138,7 @@ public class ContractResolverTests
 
                               namespace TestModels;
 
-                              [BshoxSerializer(typeof({type}))]
+                              [BshoxSerializable(typeof({type}))]
                               public partial class ValueTupleSerializer;
                               """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -150,13 +150,13 @@ public class ContractResolverTests
     [Test]
     public async Task ValueTuples()
     {
-        string types = string.Join(", ", GetTupleTypes().Select(x => $"typeof({x})"));
+        string types = string.Join(", ", GetTupleTypes().Select(type => $"BshoxSerializable(typeof({type}))"));
         string sourceCode = $"""
                               using Bshox.Attributes;
 
                               namespace TestModels;
 
-                              [BshoxSerializer({types})]
+                              [{types}]
                               public partial class ValueTupleSerializer;
                               """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -173,7 +173,7 @@ public class ContractResolverTests
                                   using System.Collections.Generic;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(List<int>))]
+                                  [BshoxSerializable<List<int>>]
                                   public partial class Serializer1;
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -190,7 +190,7 @@ public class ContractResolverTests
                                   using System.Collections.Generic;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Dictionary<int, string>))]
+                                  [BshoxSerializable<Dictionary<int, string>>]
                                   public partial class Serializer1;
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -207,7 +207,7 @@ public class ContractResolverTests
                                   using System.Collections.Generic;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Dictionary<string, string>))]
+                                  [BshoxSerializable<Dictionary<string, string>>]
                                   public partial class Serializer1;
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -225,7 +225,10 @@ public class ContractResolverTests
 
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(TestType2), typeof(List<List<TestType2[]>[]>), typeof(TestType2[]), typeof(List<TestType2>))]
+                                  [BshoxSerializable<TestType2>]
+                                  [BshoxSerializable<List<List<TestType2[]>[]>>]
+                                  [BshoxSerializable<TestType2[]>]
+                                  [BshoxSerializable<List<TestType2>>]
                                   public partial class Serializer2;
 
                                   [BshoxContract(ImplicitMembers = true)]

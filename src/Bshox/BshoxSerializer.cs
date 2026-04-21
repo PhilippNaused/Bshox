@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
+using Bshox.Attributes;
 using Bshox.Internals;
 
 namespace Bshox;
@@ -8,14 +9,13 @@ namespace Bshox;
 /// The base class for all Bshox serializers.
 /// </summary>
 /// <remarks>
-/// The code generator will generate the implementation of a derived partial type if you add the <see cref="Bshox.Attributes.BshoxSerializerAttribute"/> to it.
-/// </remarks>
-/// <example>
+/// The code generator will generate the implementation of a derived partial type if you add the <see cref="BshoxSerializableAttribute{T}"/> to it.<br/>
+/// e.g.:
 /// <code lang="csharp">
-/// [BshoxSerializer(typeof(int), typeof(string))]
+/// [BshoxSerializable&lt;int&gt;]
 /// partial class Example1;
 /// </code>
-/// </example>
+/// </remarks>
 public abstract class BshoxSerializer
 {
     #region Contracts

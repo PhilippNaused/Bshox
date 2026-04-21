@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Bshox.Attributes;
 using Bshox.Generator.Data;
 using Microsoft.CodeAnalysis;
@@ -22,10 +23,20 @@ public class BshoxGenerator : IIncrementalGenerator
                 return (Symbols: tuple.Right, LangVersion: langVersion);
             });
 
-        var bshoxSerializerClasses = context.SyntaxProvider.ForAttributeWithMetadataName(
-            typeof(BshoxSerializerAttribute).FullName!,
+        var decl1 = context.SyntaxProvider.ForAttributeWithMetadataName(
+            typeof(BshoxSerializableAttribute).FullName!,
             static (node, _) => node is ClassDeclarationSyntax,
-            static (context, _) => (ClassDeclarationSyntax)context.TargetNode)
+            static (context, _) => (ClassDeclarationSyntax)context.TargetNode).Collect();
+
+        var decl2 = context.SyntaxProvider.ForAttributeWithMetadataName(
+            typeof(BshoxSerializableAttribute<>).FullName!,
+            static (node, _) => node is ClassDeclarationSyntax,
+            static (context, _) => (ClassDeclarationSyntax)context.TargetNode).Collect();
+
+        // this is not efficient, but there is no other way to concat two IncrementalValuesProvider (I think)
+        var decl3 = decl1.Combine(decl2).SelectMany((tuple, _) => tuple.Left.AddRange(tuple.Right).Distinct().ToImmutableArray());
+
+        var bshoxSerializerClasses = decl3
             .SelectWithSymbol(context.CompilationProvider)
             .Combine(symbolsAndSettings);
 

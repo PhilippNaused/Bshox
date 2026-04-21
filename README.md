@@ -36,10 +36,10 @@ class MyType
 
 ### 2. Create a serializer type
 
-A partial type marked `BshoxSerializer(params types)` will contain the logic required to serialize/deserialize the types you specified. Since the Bshox code generator will write that code for you, there is normally no need to add a body.
+A partial type marked `[BshoxSerializable<T>]` will contain the logic required to serialize/deserialize the types you specified. Since the Bshox code generator will write that code for you, there is normally no need to add a body.
 
 ```cs
-[BshoxSerializer(typeof(MyType))]
+[BshoxSerializable<MyType>]
 partial class MySerializer;
 ```
 

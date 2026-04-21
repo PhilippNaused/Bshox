@@ -4,7 +4,7 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(TestType3))]
+[BshoxSerializable<TestType3>]
 public partial class Serializer3;
 
 [ExcludeFromCodeCoverage]

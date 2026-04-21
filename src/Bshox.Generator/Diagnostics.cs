@@ -142,16 +142,8 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Warning,
         isEnabledByDefault: true);
 
-    public static readonly DiagnosticDescriptor SurrogateTypeMustHaveAttribute = new(
-        id: $"{Prefix}016",
-        title: "Surrogate types must have the [BshoxSurrogate<T>] attribute",
-        messageFormat: "The surrogate type '{0}' must have the [BshoxSurrogate<T>] attribute",
-        category: Category,
-        defaultSeverity: DiagnosticSeverity.Error,
-        isEnabledByDefault: true);
-
     public static readonly DiagnosticDescriptor ContractSymbolNotUnique = new(
-        id: $"{Prefix}017",
+        id: $"{Prefix}016",
         title: "The specified symbol for the contract is not unique",
         messageFormat: "Type '{0}' must have exactly one static member called '{1}'",
         category: Category,

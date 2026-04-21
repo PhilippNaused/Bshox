@@ -5,12 +5,12 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(int))]
+[BshoxSerializable<int>]
 [BshoxDefaultContract(typeof(CustomIntContract), nameof(CustomIntContract.Instance))]
 public partial class CustomContracts1;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(int))]
+[BshoxSerializable<int>]
 [BshoxDefaultContract(typeof(DefaultContracts), nameof(DefaultContracts.Int32Z))]
 public partial class CustomContracts2;
 

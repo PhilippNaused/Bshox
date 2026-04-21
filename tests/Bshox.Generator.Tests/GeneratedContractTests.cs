@@ -11,7 +11,7 @@ public class GeneratedContractTests
                             using Bshox.Attributes;
                             namespace TestModels;
 
-                            [BshoxSerializer(typeof(Type1))]
+                            [BshoxSerializable<Type1>]
                             public partial class Serializer1;
 
                             [BshoxContract(ImplicitMembers = {{implicitMembers.ToString().ToLower()}})]
@@ -33,7 +33,7 @@ public class GeneratedContractTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(RecursiveTestType))]
+                                  [BshoxSerializable<RecursiveTestType>]
                                   public partial class RecursiveTestTypeSerializer;
 
                                   [BshoxContract(ImplicitMembers = true)]
@@ -61,7 +61,7 @@ public class GeneratedContractTests
                             using Bshox.Attributes;
                             namespace TestModels;
 
-                            [BshoxSerializer(typeof(Type1))]
+                            [BshoxSerializable<Type1>]
                             public partial class Serializer1;
 
                             [BshoxContract(ImplicitMembers = false)]

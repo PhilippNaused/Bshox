@@ -11,9 +11,9 @@ namespace Bshox.Generator.Extensions;
 
 internal static class SymbolExtensions
 {
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = SymbolDisplayFormat.FullyQualifiedFormat.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormat = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple | SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+    public static readonly SymbolDisplayFormat FullyQualifiedFormat = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple).AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType);
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormat.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
 
     extension(ISymbol symbol)
     {
@@ -41,11 +41,23 @@ internal static class SymbolExtensions
             return symbol.GetAttributes().FirstOrDefault(x => SymbolEqualityComparer.Default.Equals(x.AttributeClass, attribute));
         }
 
+        public ImmutableArray<AttributeData> GetAttributes(INamedTypeSymbol attribute)
+        {
+            return [.. symbol.GetAttributes().Where(x => SymbolEqualityComparer.Default.Equals(x.AttributeClass, attribute))];
+        }
+
         public AttributeData? GetGenericAttribute(INamedTypeSymbol attribute)
         {
             Debug.Assert(attribute.IsGenericType, "attribute.IsGenericType");
             Debug.Assert(attribute.IsUnboundGenericType, "attribute.IsUnboundGenericType");
             return symbol.GetAttributes().FirstOrDefault(x => x.AttributeClass?.EqualsUnboundGenericType(attribute) ?? false);
+        }
+
+        public ImmutableArray<AttributeData> GetGenericAttributes(INamedTypeSymbol attribute)
+        {
+            Debug.Assert(attribute.IsGenericType, "attribute.IsGenericType");
+            Debug.Assert(attribute.IsUnboundGenericType, "attribute.IsUnboundGenericType");
+            return [.. symbol.GetAttributes().Where(x => x.AttributeClass?.EqualsUnboundGenericType(attribute) ?? false)];
         }
 
         public bool TryParseBshoxMemberAttribute(KnownTypeSymbols knownSymbols, out uint key)
@@ -75,46 +87,6 @@ internal static class SymbolExtensions
             }
             parameters = ParseContractParameters(data);
             return true;
-        }
-
-        public bool TryParseBshoxSurrogateAttribute(IGeneratorContext context, out ContractParameters parameters, [NotNullWhen(true)] out ITypeSymbol? typeSymbol)
-        {
-            parameters = default;
-
-            var genericAttribute = symbol.GetGenericAttribute(context.KnownSymbols.BshoxSurrogateAttribute1);
-            if (genericAttribute is null)
-            {
-                // try to parse the non-generic attribute
-                if (symbol.TryParseBshoxSurrogateAttribute2(context, out typeSymbol))
-                {
-                    return true;
-                }
-
-                context.ReportDiagnostic(Diagnostics.SurrogateTypeMustHaveAttribute, symbol, symbol);
-                return false;
-            }
-            // the type argument is the first argument of the generic attribute
-            typeSymbol = genericAttribute.AttributeClass?.TypeArguments[0];
-            if (typeSymbol is null)
-            {
-                context.InternalError(genericAttribute.ApplicationSyntaxReference?.GetLocation(), "Invalid argument type");
-                return false;
-            }
-            parameters = ParseContractParameters(genericAttribute);
-            return true;
-        }
-
-        private bool TryParseBshoxSurrogateAttribute2(IGeneratorContext context, [NotNullWhen(true)] out ITypeSymbol? typeSymbol)
-        {
-            typeSymbol = null;
-            var data = symbol.GetAttribute(context.KnownSymbols.BshoxSurrogateAttribute);
-            if (data is null || data.ConstructorArguments.Length != 1)
-            {
-                return false;
-            }
-            var value = data.ConstructorArguments[0];
-            typeSymbol = value.Value as ITypeSymbol;
-            return typeSymbol is not null;
         }
 
         public bool TryParseDefaultValueAttribute(IGeneratorContext context, [NotNullWhen(true)] out TypedConstant? value)

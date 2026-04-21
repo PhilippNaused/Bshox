@@ -14,13 +14,13 @@ internal static class SerializerGenerator
     {
         if (!classDeclaration.IsPartial())
         {
-            serializer.ReportDiagnostic(Diagnostics.TypeMustBePartial, classDeclaration.Identifier, serializer.ClassSymbol.Name, nameof(BshoxSerializerAttribute));
+            serializer.ReportDiagnostic(Diagnostics.TypeMustBePartial, classDeclaration.Identifier, serializer.ClassSymbol.Name, nameof(BshoxSerializableAttribute));
             return;
         }
 
         if (serializer.ClassSymbol.IsNested())
         {
-            serializer.ReportDiagnostic(Diagnostics.TypeMustNotBeNested, classDeclaration.Identifier, serializer.ClassSymbol.Name, nameof(BshoxSerializerAttribute));
+            serializer.ReportDiagnostic(Diagnostics.TypeMustNotBeNested, classDeclaration.Identifier, serializer.ClassSymbol.Name, nameof(BshoxSerializableAttribute));
             return;
         }
 

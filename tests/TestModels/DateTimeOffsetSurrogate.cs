@@ -5,17 +5,11 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
+[BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSurrogate))]
 public partial class DateTimeOffsetSerializer;
 
 [ExcludeFromCodeCoverage]
-#if NETCOREAPP
-[BshoxSurrogate<DateTimeOffset>]
-#else
-// The mono runtime will crash if you add a generic attribute to a struct.
-// See: https://github.com/mono/mono/issues/21852 and https://gitlab.winehq.org/mono/mono/-/issues/25
-[BshoxSurrogate(typeof(DateTimeOffset))]
-#endif
+[BshoxContract]
 internal struct DateTimeOffsetSurrogate
 {
     public DateTimeOffsetSurrogate(DateTimeOffset value)

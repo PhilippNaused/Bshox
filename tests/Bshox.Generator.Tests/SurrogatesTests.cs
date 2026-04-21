@@ -8,8 +8,8 @@ internal class SurrogatesTests
     public async Task DateTimeOffsetSerializer(bool generic)
     {
         string attribute = generic
-            ? "[BshoxSurrogate<DateTimeOffset>]"
-            : "[BshoxSurrogate(typeof(DateTimeOffset))]";
+            ? "[BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSurrogate))]"
+            : "[BshoxSerializable(typeof(DateTimeOffset), Surrogate = typeof(DateTimeOffsetSurrogate))]";
         string sourceCode = $$"""
                             using System;
                             using System.ComponentModel;
@@ -17,10 +17,10 @@ internal class SurrogatesTests
 
                             namespace TestModels;
 
-                            [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
+                            {{attribute}}
                             partial class DateTimeOffsetSerializer;
 
-                            {{attribute}}
+                            [BshoxContract]
                             struct DateTimeOffsetSurrogate
                             {
                                 public DateTimeOffsetSurrogate(DateTimeOffset value)
@@ -59,10 +59,10 @@ internal class SurrogatesTests
 
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSubstitute)])]
+                                  [BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSubstitute))]
                                   public partial class DateTimeOffsetSerializer;
 
-                                  [BshoxSurrogate<DateTimeOffset>(ImplicitMembers = true)]
+                                  [BshoxContract(ImplicitMembers = true)]
                                   public record struct DateTimeOffsetSubstitute
                                   {
                                       public DateTimeOffsetSubstitute(DateTimeOffset value)
@@ -96,7 +96,7 @@ internal class SurrogatesTests
 
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
+                                  [BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSurrogate))]
                                   public partial class DateTimeOffsetSerializer;
 
                                   // no attribute
@@ -119,7 +119,7 @@ internal class SurrogatesTests
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
         await Assert.That(diagnostics).HasSingleItem();
-        await diagnostics[0].AssertEqual(Diagnostics.SurrogateTypeMustHaveAttribute, "The surrogate type 'TestModels.DateTimeOffsetSurrogate' must have the [BshoxSurrogate<T>] attribute");
+        await diagnostics[0].AssertEqual(Diagnostics.TypeNotSerializable, "Type 'TestModels.DateTimeOffsetSurrogate' is not serializable");
         await Assert.That(generatedOutput).IsEmpty();
     }
 
@@ -138,10 +138,10 @@ internal class SurrogatesTests
 
                               namespace TestModels;
 
-                              [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
+                              [BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSurrogate))]
                               public partial class DateTimeOffsetSerializer;
 
-                              [BshoxSurrogate<DateTimeOffset>(ImplicitMembers = true)]
+                              [BshoxContract(ImplicitMembers = true)]
                               public record struct DateTimeOffsetSurrogate
                               {
                                   public DateTimeOffsetSurrogate(DateTimeOffset value)
@@ -179,10 +179,10 @@ internal class SurrogatesTests
 
                               namespace TestModels;
 
-                              [BshoxSerializer(typeof(DateTimeOffset), Surrogates = [typeof(DateTimeOffsetSurrogate)])]
+                              [BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSurrogate))]
                               public partial class DateTimeOffsetSerializer;
 
-                              [BshoxSurrogate<DateTimeOffset>(ImplicitMembers = true)]
+                              [BshoxContract(ImplicitMembers = true)]
                               public record struct DateTimeOffsetSurrogate
                               {
                                   {{constructor}}
@@ -209,7 +209,7 @@ internal class SurrogatesTests
 
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(int), Surrogates = [typeof(int[])])]
+                                  [BshoxSerializable<int>(Surrogate = typeof(int[]))]
                                   public partial class Serializer1;
 
                                   """;

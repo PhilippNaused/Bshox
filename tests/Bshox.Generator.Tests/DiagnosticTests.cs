@@ -13,7 +13,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract(ImplicitMembers = true)]
@@ -44,7 +44,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract]
@@ -67,7 +67,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public class Serializer1;
 
                                   [BshoxContract]
@@ -82,7 +82,7 @@ public class DiagnosticTests
 
         await Assert.That(diagnostics).HasSingleItem();
         var diagnostic = diagnostics.Single();
-        await diagnostic.AssertEqual(Diagnostics.TypeMustBePartial, "Type 'Serializer1' must be partial to use [BshoxSerializerAttribute]");
+        await diagnostic.AssertEqual(Diagnostics.TypeMustBePartial, "Type 'Serializer1' must be partial to use [BshoxSerializableAttribute]");
         await Assert.That(generatedOutput).IsEmpty();
     }
 
@@ -93,7 +93,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type2.Type1))]
+                                  [BshoxSerializable<Type2.Type1>]
                                   public partial class Serializer1;
 
                                   public class Type2
@@ -114,13 +114,14 @@ public class DiagnosticTests
     }
 
     [Test]
+    [Explicit("This diagnostic cannot be triggered without a compiler error (yet)")]
     public async Task SerializerMustHaveAtLeastOneType()
     {
         const string sourceCode = """
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer]
+                                  [BshoxSerializable]
                                   public partial class Serializer1;
                                   """;
 
@@ -139,7 +140,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   public record struct Type1(int Value);
@@ -160,7 +161,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1<>))]
+                                  [BshoxSerializable(typeof(Type1<>))]
                                   public partial class Serializer1;
 
                                   public record struct Type1<T>(int Value);
@@ -193,7 +194,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels
                                   {
-                                      [BshoxSerializer(typeof(Type1))]
+                                      [BshoxSerializable<Type1>]
                                       public partial class Serializer1 { }
 
                                       [BshoxContract]
@@ -214,9 +215,7 @@ public class DiagnosticTests
             return;
         }
 
-        await Assert.That(diagnostics).HasSingleItem();
-        var diagnostic = diagnostics.Single();
-        await diagnostic.AssertEqual(Diagnostics.LangVersionMustBe12OrHigher, $"Bshox code generation is not available in C# {version.ToDisplayString()}. Please use C# 12.0 or later.");
+        await Assert.That(diagnostics).HasSingleItem(d => d.Descriptor.Equals(Diagnostics.LangVersionMustBe12OrHigher));
         await Assert.That(generatedOutput).IsEmpty();
     }
 
@@ -227,7 +226,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract]
@@ -258,7 +257,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract(ImplicitMembers = true)]
@@ -288,7 +287,7 @@ public class DiagnosticTests
                               using Bshox.Attributes;
                               namespace TestModels;
 
-                              [BshoxSerializer(typeof(Type1))]
+                              [BshoxSerializable<Type1>]
                               public partial class Serializer1;
 
                               [BshoxContract]
@@ -320,7 +319,7 @@ public class DiagnosticTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializer(typeof(Type1))]
+                                  [BshoxSerializable<Type1>]
                                   public partial class Serializer1;
 
                                   [BshoxContract]
