@@ -213,22 +213,16 @@ namespace Bshox.Attributes
         public BshoxMemberAttribute([System.Diagnostics.CodeAnalysis.ConstantExpected(Min = 1u, Max = 536870911u)] uint key);
         public uint Key { get; }
     }
-    [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public sealed class BshoxSerializerAttribute : System.Attribute
+    [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+    public sealed class BshoxSerializableAttribute<T> : Bshox.Attributes.BshoxSerializableAttribute
     {
-        public BshoxSerializerAttribute(params System.Type[] types);
-        public System.Type[] Surrogates { get; set; }
-        public System.Type[] Types { get; }
+        public BshoxSerializableAttribute();
     }
-    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
-    public sealed class BshoxSurrogateAttribute<T> : Bshox.Attributes.BshoxSurrogateAttribute
+    [System.AttributeUsage(System.AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+    public class BshoxSerializableAttribute : System.Attribute
     {
-        public BshoxSurrogateAttribute();
-    }
-    [System.AttributeUsage(System.AttributeTargets.Class | System.AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
-    public class BshoxSurrogateAttribute : Bshox.Attributes.BshoxContractAttribute
-    {
-        public BshoxSurrogateAttribute(System.Type type);
+        public BshoxSerializableAttribute(System.Type type);
+        public System.Type? Surrogate { get; set; }
         public System.Type Type { get; }
     }
 }

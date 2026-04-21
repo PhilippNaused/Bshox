@@ -4,7 +4,8 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(TestType8), typeof(TestType8B))]
+[BshoxSerializable<TestType8>]
+[BshoxSerializable<TestType8B>]
 public partial class Serializer8;
 
 [ExcludeFromCodeCoverage]

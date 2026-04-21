@@ -22,17 +22,6 @@ public class BshoxContractAttribute : Attribute
     public bool ImplicitMembers { get; set; }
 }
 
-[ExcludeFromCodeCoverage]
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
-public sealed class BshoxSurrogateAttribute<T>() : BshoxSurrogateAttribute(typeof(T));
-
-[ExcludeFromCodeCoverage]
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
-public class BshoxSurrogateAttribute(Type type) : BshoxContractAttribute
-{
-    public Type Type { get; } = type;
-}
-
 /// <summary>
 /// Indicates that the property or field is a member of a Bshox contract.
 /// </summary>
@@ -48,16 +37,19 @@ public sealed class BshoxMemberAttribute([ConstantExpected(Min = BshoxConstants.
 }
 
 [ExcludeFromCodeCoverage]
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-public sealed class BshoxSerializerAttribute(params Type[] types) : Attribute
-{
-    public Type[] Types { get; } = types;
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+public sealed class BshoxSerializableAttribute<T>() : BshoxSerializableAttribute(typeof(T));
 
-    public Type[] Surrogates { get; set; } = [];
+[ExcludeFromCodeCoverage]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+public class BshoxSerializableAttribute(Type type) : Attribute
+{
+    public Type Type { get; } = type;
+    public Type? Surrogate { get; set; }
 }
 
 /// <summary>
-/// When used on a type with the <see cref="BshoxSerializerAttribute"/>, indicates that the specified symbol should be used to get the default contract for the specified type.
+/// When used on a type with the <see cref="BshoxSerializableAttribute{T}"/>, indicates that the specified symbol should be used to get the default contract for the specified type.
 /// </summary>
 /// <param name="containingType">The type that declares the symbol which returns the contract.</param>
 /// <param name="symbolName">The name of the symbol that returns the contract.</param>
@@ -65,6 +57,7 @@ public sealed class BshoxSerializerAttribute(params Type[] types) : Attribute
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class BshoxDefaultContractAttribute(Type containingType, string symbolName) : Attribute
 {
+    // TODO: remove
     public Type ContainingType { get; } = containingType;
     public string SymbolName { get; } = symbolName;
 }

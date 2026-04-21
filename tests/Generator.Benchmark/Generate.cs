@@ -31,7 +31,7 @@ public class Generate
                                        using System.Collections.Generic;
                                        {{BaseCode}}
 
-                                       [BshoxSerializer(typeof(List<TestType2>))]
+                                       [BshoxSerializable<List<TestType2>>]
                                        public partial class MyBshoxSerializer;
                                        """;
 

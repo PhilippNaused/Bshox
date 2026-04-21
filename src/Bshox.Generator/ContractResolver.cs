@@ -98,7 +98,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
     /// <summary>
     /// Tries to get type T from BshoxContract{T}
     /// </summary>
-    private bool TryGetContractType(ITypeSymbol contractType, Location? location, [NotNullWhen(true)] out ITypeSymbol? serializedType)
+    internal bool TryGetContractType(ITypeSymbol contractType, Location? location, [NotNullWhen(true)] out ITypeSymbol? serializedType)
     {
         // TODO: try to check the base type(s)
         if (contractType is not INamedTypeSymbol namedType || !namedType.EqualsUnboundGenericType(context.KnownSymbols.BshoxContract))

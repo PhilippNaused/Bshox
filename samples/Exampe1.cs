@@ -3,7 +3,17 @@ using Bshox.Attributes;
 
 namespace Samples;
 
-[BshoxSerializer(typeof(int), typeof(string))]
+[BshoxContract]
+record Type1
+{
+    [BshoxMember(1)]
+    public int Value1 { get; set; }
+
+    [BshoxMember(2)]
+    public string? Value2 { get; set; }
+}
+
+[BshoxSerializable<Type1>]
 partial class Example1;
 
 class Tests
@@ -11,10 +21,9 @@ class Tests
     [Test]
     public async Task Example1Test()
     {
-        byte[] data = Example1.Int32.Serialize(42);
-        await Assert.That(data).IsEquivalentTo(new byte[] { 42 });
-
-        data = Example1.String.Serialize("Hello, World!");
-        await Assert.That(data).IsEquivalentTo("\rHello, World!"u8.ToArray());
+        var value = new Type1 { Value1 = 42, Value2 = "Hello" };
+        byte[] data = Example1.Type1.Serialize(value);
+        var result = Example1.Type1.Deserialize(data);
+        await Assert.That(result).IsEqualTo(value);
     }
 }

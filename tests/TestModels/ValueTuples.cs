@@ -4,15 +4,13 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(
-    typeof(ValueTuple<int>), // 1
-    typeof((int, long)), // 2
-    typeof((uint, string?, byte)), // 3
-    typeof((int, int, int, int)), // 4
-    typeof((int, int, int, int, int)), // 5
-    typeof((int, int, int, int, int, int)), // 6
-    typeof((int, int, int, int, int, int, int)), // 7
-    typeof((int, int, int, int, int, int, int, int)), // 8
-    typeof((int, int, int, int, int, int, int, int, int)) // 9
-    )]
+[BshoxSerializable<ValueTuple<int>>] // 1
+[BshoxSerializable<(int, long)>] // 2
+[BshoxSerializable(typeof((uint, string?, byte)))] // 3
+[BshoxSerializable<(int, int, int, int)>] // 4
+[BshoxSerializable<(int, int, int, int, int)>] // 5
+[BshoxSerializable<(int, int, int, int, int, int)>] // 6
+[BshoxSerializable<(int, int, int, int, int, int, int)>] // 7
+[BshoxSerializable<(int, int, int, int, int, int, int, int)>] // 8
+[BshoxSerializable<(int, int, int, int, int, int, int, int, int)>] // 9
 public partial class ValueTupleSerializer;

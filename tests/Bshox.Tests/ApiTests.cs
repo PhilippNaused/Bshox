@@ -3,7 +3,7 @@ using Bshox.TestUtils;
 
 namespace Bshox.Tests;
 
-[BshoxSerializer(typeof(int[]))]
+[BshoxSerializable<int[]>]
 internal partial class TestSerializer;
 
 internal class ApiTests

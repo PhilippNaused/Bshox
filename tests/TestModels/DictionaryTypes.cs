@@ -4,11 +4,11 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(Dictionary<string, TestType7?>))]
+[BshoxSerializable(typeof(Dictionary<string, TestType7?>))]
 public partial class DictionarySerializer1;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(List<(string, TestType7?)>))]
+[BshoxSerializable(typeof(List<(string, TestType7?)>))]
 public partial class DictionarySerializer2;
 
 [ExcludeFromCodeCoverage]

@@ -5,7 +5,9 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(DefaultValueType1), typeof(DefaultValueType2), typeof(DefaultValueType3))]
+[BshoxSerializable<DefaultValueType1>]
+[BshoxSerializable<DefaultValueType2>]
+[BshoxSerializable<DefaultValueType3>]
 public partial class DefaultValueTypeSerializer;
 
 [ExcludeFromCodeCoverage]
