@@ -4,7 +4,7 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(RecursiveTestType))]
+[BshoxSerializable<RecursiveTestType>]
 public partial class RecursiveTestTypeSerializer;
 
 [ExcludeFromCodeCoverage]

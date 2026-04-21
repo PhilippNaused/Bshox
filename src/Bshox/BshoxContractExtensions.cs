@@ -22,9 +22,6 @@ public static class BshoxContractExtensions
         /// <param name="buffer">The buffer writer to which the serialized data will be written.</param>
         /// <param name="value">The value to serialize.</param>
         /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
-        /// <remarks>
-        /// The buffer is flushed after serialization is complete.
-        /// </remarks>
         public void Serialize(IBufferWriter<byte> buffer, scoped in T value, BshoxOptions? options = null)
         {
             var writer = new BshoxWriter(buffer, options);
@@ -41,7 +38,7 @@ public static class BshoxContractExtensions
         public void Serialize(Stream stream, scoped in T value, BshoxOptions? options = null)
         {
             // TODO: add optimization for MemoryStream
-            using var buffer = new PooledByteBufferWriter();
+            using var buffer = new PooledByteBufferWriter(options);
             contract.Serialize(buffer, in value, options);
             buffer.WriteToStream(stream);
         }
@@ -54,7 +51,7 @@ public static class BshoxContractExtensions
         /// <returns>A <see cref="byte"/> array containing the serialized data.</returns>
         public byte[] Serialize(scoped in T value, BshoxOptions? options = null)
         {
-            using var buffer = new PooledByteBufferWriter();
+            using var buffer = new PooledByteBufferWriter(options);
             contract.Serialize(buffer, in value, options);
             return buffer.ToArray();
         }

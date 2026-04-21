@@ -14,7 +14,7 @@ public sealed record BshoxOptions
     /// <remarks>
     /// This is the same value as <c>System.Text.Json.JsonReaderOptions.DefaultMaxDepth</c>
     /// </remarks>
-    public const int DefaultMaxDepth = 64;
+    internal const int DefaultMaxDepth = 64;
 
     /// <summary>
     /// The default value for <see cref="BshoxOptions"/>
@@ -25,6 +25,9 @@ public sealed record BshoxOptions
     /// The maximum depth of nested objects and arrays allowed during serialization and deserialization.<br/>
     /// If this value is exceeded, a <see cref="BshoxException"/> will be thrown.<br/>
     /// </summary>
+    /// <remarks>
+    /// The default is 64.
+    /// </remarks>
     public int MaxDepth
     {
         get
@@ -34,12 +37,7 @@ public sealed record BshoxOptions
         }
         init
         {
-#if NETCOREAPP
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value);
-#else
-            if (value <= 0)
-                throw new ArgumentOutOfRangeException(nameof(value));
-#endif
             field = value;
         }
     } = DefaultMaxDepth;
@@ -54,4 +52,35 @@ public sealed record BshoxOptions
     /// <c>true</c> if the endianness of multi-byte numeric values should be reversed when reading or writing data.
     /// </summary>
     internal bool ReverseEndianness => LittleEndian != BitConverter.IsLittleEndian;
+
+    /// <summary>
+    /// The buffer size that <i>should</i> be used.<br/>
+    /// Methods will try to allocate buffers of this size, but may allocate larger buffers if necessary. This is only a hint and doesn't have to be respected by the implementation.<br/>
+    /// </summary>
+    /// <remarks>
+    /// Async implementations will also try to flush the buffer when it reaches this size.<br/>
+    /// The default is 16 KiB.
+    /// </remarks>
+    public int DefaultBufferSize
+    {
+        get
+        {
+            Debug.Assert(field >= 0, "field >= 0");
+            return field;
+        }
+        init
+        {
+            // TODO: enforce a min value (e.g. 1 KiB)
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value);
+            field = value;
+        }
+    } = BufferSizeDefault;
+
+    /// <summary>
+    /// The default value for <see cref="DefaultBufferSize"/>.<br/>
+    /// </summary>
+    /// <remarks>
+    /// 16 KiB
+    /// </remarks>
+    internal const int BufferSizeDefault = 16 * 1024; // Same as the default used by System.Text.Json
 }

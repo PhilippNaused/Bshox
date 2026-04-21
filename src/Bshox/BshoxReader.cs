@@ -172,7 +172,7 @@ public ref partial struct BshoxReader
         }
 
         string value = new(charArray, 0, initializedChars);
-        ArrayPool<char>.Shared.Return(charArray);
+        ArrayPool<char>.Shared.Return(charArray); // TODO: use try-catch
         return value;
     }
 
@@ -273,12 +273,7 @@ public ref partial struct BshoxReader
         }
         else
         {
-#if NET8_0_OR_GREATER
             ArgumentOutOfRangeException.ThrowIfNegative(count);
-#else
-            if (count < 0)
-                throw new ArgumentOutOfRangeException(nameof(count));
-#endif
             throw EndOfStream();
         }
     }
@@ -286,12 +281,7 @@ public ref partial struct BshoxReader
     private void AdvanceSlow(int count)
     {
         Debug.Assert(_usingSequence, nameof(_usingSequence));
-#if NET8_0_OR_GREATER
         ArgumentOutOfRangeException.ThrowIfNegative(count);
-#else
-        if (count < 0)
-            throw new ArgumentOutOfRangeException(nameof(count));
-#endif
 
         Consumed += count;
         while (_moreData)

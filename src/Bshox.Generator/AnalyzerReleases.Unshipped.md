@@ -17,7 +17,6 @@ Bshox012 | Bshox | Error | Surrogate types must have the required constructor
 Bshox013 | Bshox | Error | Surrogate types must have the required 'Convert' method
 Bshox014 | Bshox | Error | The current compiler version is too low
 Bshox015 | Bshox | Warning | Dispose the return value of the DepthLock() method correctly
-Bshox016 | Bshox | Error | Surrogate types must have the [BshoxSurrogate<T>] attribute
-Bshox017 | Bshox | Error | The specified symbol for the contract is not unique
+Bshox016 | Bshox | Error | The specified symbol for the contract is not unique
 
 Bshox999 | Bshox | Error | Internal Error

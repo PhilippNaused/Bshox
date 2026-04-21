@@ -1,5 +1,6 @@
 using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
+using Bshox.Attributes;
 using Bshox.Internals;
 
 namespace Bshox;
@@ -8,14 +9,13 @@ namespace Bshox;
 /// The base class for all Bshox serializers.
 /// </summary>
 /// <remarks>
-/// The code generator will generate the implementation of a derived partial type if you add the <see cref="Bshox.Attributes.BshoxSerializerAttribute"/> to it.
-/// </remarks>
-/// <example>
+/// The code generator will generate the implementation of a derived partial type if you add the <see cref="BshoxSerializableAttribute{T}"/> to it.<br/>
+/// e.g.:
 /// <code lang="csharp">
-/// [BshoxSerializer(typeof(int), typeof(string))]
+/// [BshoxSerializable&lt;int&gt;]
 /// partial class Example1;
 /// </code>
-/// </example>
+/// </remarks>
 public abstract class BshoxSerializer
 {
     #region Contracts
@@ -166,9 +166,6 @@ public abstract class BshoxSerializer
     /// <param name="value">The value to serialize.</param>
     /// <param name="inputType">The type of the value to serialize.</param>
     /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
-    /// <remarks>
-    /// The buffer is flushed after serialization is complete.
-    /// </remarks>
     public void Serialize(IBufferWriter<byte> buffer, object value, Type inputType, BshoxOptions? options = null)
     {
         var contract = GetContract(inputType);
@@ -186,7 +183,7 @@ public abstract class BshoxSerializer
     /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
     public void Serialize(Stream stream, object value, Type inputType, BshoxOptions? options = null)
     {
-        using var buffer = new PooledByteBufferWriter();
+        using var buffer = new PooledByteBufferWriter(options);
         Serialize(buffer, value, inputType, options);
         buffer.WriteToStream(stream);
     }
@@ -199,7 +196,7 @@ public abstract class BshoxSerializer
     /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
     public byte[] Serialize(object value, Type inputType, BshoxOptions? options = null)
     {
-        using var buffer = new PooledByteBufferWriter();
+        using var buffer = new PooledByteBufferWriter(options);
         Serialize(buffer, value, inputType, options);
         return buffer.ToArray();
     }

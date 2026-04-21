@@ -8,12 +8,12 @@ namespace Bshox.Generator.Data;
 
 internal sealed class KnownTypeSymbols(Compilation compilation)
 {
+    public Compilation Compilation { get; } = compilation;
     public INamedTypeSymbol BshoxContractAttribute { get; } = GetType(compilation, typeof(BshoxContractAttribute));
     public INamedTypeSymbol BshoxMemberAttribute { get; } = GetType(compilation, typeof(BshoxMemberAttribute));
-    public INamedTypeSymbol BshoxSerializerAttribute { get; } = GetType(compilation, typeof(BshoxSerializerAttribute));
+    public INamedTypeSymbol BshoxSerializableAttribute { get; } = GetType(compilation, typeof(BshoxSerializableAttribute));
+    public INamedTypeSymbol BshoxSerializableAttribute1 { get; } = GetType(compilation, typeof(BshoxSerializableAttribute<>));
     public INamedTypeSymbol BshoxDefaultContractAttribute { get; } = GetType(compilation, typeof(BshoxDefaultContractAttribute));
-    public INamedTypeSymbol BshoxSurrogateAttribute { get; } = GetType(compilation, typeof(BshoxSurrogateAttribute));
-    public INamedTypeSymbol BshoxSurrogateAttribute1 { get; } = GetType(compilation, typeof(BshoxSurrogateAttribute<>));
     public INamedTypeSymbol BshoxContract { get; } = GetTypeByMetadataName(compilation, "Bshox.BshoxContract`1").ConstructUnboundGenericType();
 
     public INamedTypeSymbol Guid { get; } = GetType(compilation, typeof(Guid));

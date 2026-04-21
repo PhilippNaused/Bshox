@@ -6,13 +6,14 @@ public class BshoxOptionsTests
     public async Task DefaultValue()
     {
         await Assert.That(BshoxOptions.Default.MaxDepth).IsEqualTo(BshoxOptions.DefaultMaxDepth);
-        await Assert.That(BshoxOptions.Default.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 64, LittleEndian = False }");
+        await Assert.That(BshoxOptions.Default.DefaultBufferSize).IsEqualTo(BshoxOptions.BufferSizeDefault);
+        await Assert.That(BshoxOptions.Default.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 64, LittleEndian = False, DefaultBufferSize = 16384 }");
     }
 
     [Test]
     public async Task NegativeDepth()
     {
-        await Assert.That(() => new BshoxOptions() { MaxDepth = -1 }).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new BshoxOptions { MaxDepth = -1 }).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
@@ -23,6 +24,6 @@ public class BshoxOptionsTests
             MaxDepth = 1
         };
         await Assert.That(options.MaxDepth).IsEqualTo(1);
-        await Assert.That(options.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 1, LittleEndian = False }");
+        await Assert.That(options.ToString()).IsEqualTo("BshoxOptions { MaxDepth = 1, LittleEndian = False, DefaultBufferSize = 16384 }");
     }
 }

@@ -5,7 +5,9 @@ using Bshox.Attributes;
 namespace TestModels;
 
 [ExcludeFromCodeCoverage]
-[BshoxSerializer(typeof(EnumType1), typeof(TestEnum1), typeof(List<TestEnum1>))]
+[BshoxSerializable<EnumType1>]
+[BshoxSerializable<TestEnum1>]
+[BshoxSerializable<List<TestEnum1>>]
 public partial class EnumSerializer1;
 
 public enum TestEnum1 : int

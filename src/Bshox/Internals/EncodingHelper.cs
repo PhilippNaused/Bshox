@@ -25,21 +25,6 @@ internal static class EncodingHelper
         }
     }
 
-#if !NETCOREAPP // Define the extension method only where an instance method does not already exist.
-    internal static unsafe string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
-    {
-        if (bytes.Length == 0)
-        {
-            return string.Empty;
-        }
-
-        fixed (byte* pBytes = bytes)
-        {
-            return encoding.GetString(pBytes, bytes.Length);
-        }
-    }
-#endif
-
     public static long UnZigZag64(ulong value)
     {
         return (long)(value >> 1) ^ -(long)(value & 1);

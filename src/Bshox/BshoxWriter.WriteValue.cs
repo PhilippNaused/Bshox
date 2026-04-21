@@ -165,16 +165,34 @@ public ref partial struct BshoxWriter
     {
         Check();
         int length = value.Length;
-        if (length <= 0)
+        if (length == 0)
         {
             WriteByte(0);
         }
         else
         {
             WriteVarInt32((uint)length);
-            Unsafe.CopyBlock(ref GetRef(length), ref value[0], (uint)length);
-            Advance(length);
+            WriteBytes(value);
         }
+    }
+
+    /// <summary>
+    /// Writes the bytes to the buffer without prefix.
+    /// </summary>
+    public void WriteBytes(ReadOnlySpan<byte> source)
+    {
+        Check();
+        if (source.Length == 0)
+            return;
+        // copy as much as possible into the current buffer, then flush and get a new buffer if needed, repeat until all data is copied.
+        var dest = GetSpan(0);
+        int toCopy = Math.Min(dest.Length, source.Length);
+        source.Slice(0, toCopy).CopyTo(dest);
+        Advance(toCopy);
+        source = source.Slice(toCopy);
+        dest = GetSpan(source.Length);
+        source.CopyTo(dest);
+        Advance(source.Length);
     }
 
     internal unsafe void WriteUnsafe<T>(ref readonly T value) where T : unmanaged

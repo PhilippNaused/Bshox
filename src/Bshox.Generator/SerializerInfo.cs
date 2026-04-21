@@ -30,6 +30,8 @@ internal interface IGeneratorContext : IDiagnosticOutput
     void AddSource(string hintName, SourceWriter source);
 }
 
+internal record struct SerializableTypeInfo(ITypeSymbol Type, ITypeSymbol? Surrogate);
+
 internal sealed class SerializerInfo : IGeneratorContext
 {
     private readonly SourceProductionContext context;
@@ -47,11 +49,12 @@ internal sealed class SerializerInfo : IGeneratorContext
         ClassSymbol = classSymbol;
         KnownSymbols = knownSymbols;
         this.context = context;
-        RequestedTypes = ParseBshoxSerializerAttribute(out var surrogates);
+        var typeInfos = ParseBshoxSerializableAttribute();
+        RequestedTypes = [.. typeInfos.Select(i => i.Type)];
         ContractResolver = new ContractResolver(this);
-        foreach (var type in surrogates)
+        foreach (var info in typeInfos.Where(i => i.Surrogate is not null))
         {
-            if (SurrogateContract.TryGetFromSurrogate(type, this, ContractResolver, out var surrogate))
+            if (SurrogateContract.TryGetFromSurrogate(info, this, ContractResolver, out var surrogate))
             {
                 ContractResolver.SetDefault(surrogate);
             }
@@ -77,7 +80,7 @@ internal sealed class SerializerInfo : IGeneratorContext
     public KnownTypeSymbols KnownSymbols { get; }
 
     /// <summary>
-    /// The types that were explicitly requested in the <see cref="BshoxSerializerAttribute"/> attribute.
+    /// The types that were explicitly requested in the <see cref="BshoxSerializableAttribute"/> attribute.
     /// </summary>
     public ImmutableArray<ITypeSymbol> RequestedTypes { get; }
 
@@ -141,30 +144,47 @@ internal sealed class SerializerInfo : IGeneratorContext
         }
     }
 
-    private ImmutableArray<ITypeSymbol> ParseBshoxSerializerAttribute(out ImmutableArray<ITypeSymbol> surrogateTypes)
+    private List<SerializableTypeInfo> ParseBshoxSerializableAttribute()
     {
-        var data = ClassSymbol.GetAttribute(KnownSymbols.BshoxSerializerAttribute) ?? throw new DiagnosticException($"Type '{ClassSymbol.ToDisplayString()}' is missing the '{KnownSymbols.BshoxSerializerAttribute.Name}' attribute.", ClassSymbol);
-
-        if (data.NamedArguments.TryGet(nameof(BshoxSerializerAttribute.Surrogates), out var surrogateTypesArg))
+        var dataList = ClassSymbol.GetAttributes(KnownSymbols.BshoxSerializableAttribute);
+        dataList = dataList.AddRange(ClassSymbol.GetGenericAttributes(KnownSymbols.BshoxSerializableAttribute1));
+        if (dataList.IsDefaultOrEmpty)
         {
-            surrogateTypes = surrogateTypesArg.Kind switch
+            throw new DiagnosticException($"Type '{ClassSymbol.ToDisplayString()}' is missing a '{KnownSymbols.BshoxSerializableAttribute.Name}' attribute.", ClassSymbol);
+        }
+
+        var list = new List<SerializableTypeInfo>();
+
+        foreach (var data in dataList)
+        {
+            ITypeSymbol? type = null;
+            if (data.AttributeClass!.EqualsUnboundGenericType(KnownSymbols.BshoxSerializableAttribute1))
             {
-                TypedConstantKind.Array => [.. surrogateTypesArg.Values.Select(x => (ITypeSymbol)x.Value!)],
-                TypedConstantKind.Type => [(ITypeSymbol)surrogateTypesArg.Value!],
-                _ => throw new DiagnosticException($"Invalid argument type '{surrogateTypesArg.Kind}' for '{nameof(BshoxSerializerAttribute.Surrogates)}' in '{KnownSymbols.BshoxSerializerAttribute.Name}' attribute.", data.ApplicationSyntaxReference?.GetLocation()),
-            };
-        }
-        else
-        {
-            surrogateTypes = [];
+                type = data.AttributeClass?.TypeArguments.Single();
+            }
+            else if (data.AttributeClass!.EqualsUnboundGenericType(KnownSymbols.BshoxSerializableAttribute))
+            {
+                type = data.ConstructorArguments.Single().Value as ITypeSymbol;
+            }
+            if (type is null)
+            {
+                throw new DiagnosticException($"Unable to determine the type argument for '{KnownSymbols.BshoxSerializableAttribute.Name}' attribute.", data.ApplicationSyntaxReference?.GetLocation());
+            }
+
+            var info = new SerializableTypeInfo(type, null);
+
+            if (data.NamedArguments.TryGet(nameof(BshoxSerializableAttribute.Surrogate), out var typedConstant))
+            {
+                info.Surrogate = typedConstant.Kind switch
+                {
+                    TypedConstantKind.Type => (ITypeSymbol)typedConstant.Value!,
+                    _ => throw new DiagnosticException($"Invalid argument type '{typedConstant.Kind}' for '{nameof(BshoxSerializableAttribute.Surrogate)}' in '{KnownSymbols.BshoxSerializableAttribute.Name}' attribute.", data.ApplicationSyntaxReference?.GetLocation()),
+                };
+            }
+
+            list.Add(info);
         }
 
-        var typesArg = data.ConstructorArguments[0];
-        return typesArg.Kind switch
-        {
-            TypedConstantKind.Array => [.. typesArg.Values.Select(x => (ITypeSymbol)x.Value!)],
-            TypedConstantKind.Type => [(ITypeSymbol)typesArg.Value!],
-            _ => throw new DiagnosticException($"Invalid argument type '{typesArg.Kind}' for '{KnownSymbols.BshoxSerializerAttribute.Name}' attribute.", data.ApplicationSyntaxReference?.GetLocation()),
-        };
+        return list;
     }
 }

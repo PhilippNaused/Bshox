@@ -12,12 +12,12 @@ namespace Benchmark.Models;
 #pragma warning disable CA2227 // Collection properties should be read only
 #pragma warning disable CA1819 // Properties should not return arrays
 
-[BshoxSerializer(typeof(Forecast), typeof(Forecast[]))]
+[BshoxSerializable<Forecast>]
+[BshoxSerializable<Forecast[]>]
 internal partial class ForecastSerializer;
 
 [JsonSerializable(typeof(Forecast))]
 [JsonSerializable(typeof(Forecast[]))]
-[JsonSourceGenerationOptions]
 internal sealed partial class ForecastJsonContext : JsonSerializerContext;
 
 [GeneratedMessagePackResolver]

@@ -1,23 +1,19 @@
 using System.Diagnostics.CodeAnalysis;
-using Bshox.Generator.Extensions;
 using Microsoft.CodeAnalysis;
 
 namespace Bshox.Generator.Contracts;
 
 internal static class SurrogateContract
 {
-    public static bool TryGetFromSurrogate(ITypeSymbol surrogateType, IGeneratorContext context, IContractResolver resolver, [NotNullWhen(true)] out ContractInfo? contract)
+    public static bool TryGetFromSurrogate(SerializableTypeInfo typeInfo, IGeneratorContext context, IContractResolver resolver, [NotNullWhen(true)] out ContractInfo? contract)
     {
         contract = null;
+        var surrogateType = typeInfo.Surrogate!;
+        var implementationType = typeInfo.Type;
         if (surrogateType is not INamedTypeSymbol namedSurrogateType)
         {
             //TODO: add a diagnostic
             context.InternalError(surrogateType, $"{surrogateType} is not a valid type for a surrogate");
-            return false;
-        }
-
-        if (!namedSurrogateType.TryParseBshoxSurrogateAttribute(context, out _, out var implementationType))
-        {
             return false;
         }
 

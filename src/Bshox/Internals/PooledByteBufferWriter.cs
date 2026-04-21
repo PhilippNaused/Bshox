@@ -31,21 +31,28 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     }
 
     private readonly List<Segment> _segments = [];
+    private readonly int _defaultCapacity;
     private byte[] _buffer;
     private int _index;
+    /// <summary>
+    /// total length of all completed segments in _segments. Does not include the current buffer.
+    /// </summary>
     private long _segLength;
 
     private const int MinimumBufferSize = 0;
-    private const int DefaultBufferSize = 16 * 1024;
-
     // Value copied from Array.MaxLength in System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Array.cs.
     public const int MaximumBufferSize = 0X7FFFFFC7;
 
-    public PooledByteBufferWriter(int initialCapacity = DefaultBufferSize)
+    public PooledByteBufferWriter(int defaultCapacity = BshoxOptions.BufferSizeDefault)
     {
-        Debug.Assert(initialCapacity > 0, "initialCapacity > 0");
+        _defaultCapacity = defaultCapacity;
+        Debug.Assert(defaultCapacity > 0, "defaultCapacity > 0");
 
-        _buffer = ArrayPool<byte>.Shared.Rent(initialCapacity);
+        _buffer = ArrayPool<byte>.Shared.Rent(defaultCapacity);
+    }
+
+    public PooledByteBufferWriter(BshoxOptions? options) : this((options ?? BshoxOptions.Default).DefaultBufferSize)
+    {
     }
 
     public ReadOnlySequence<byte> GetReadOnlySequence()
@@ -84,16 +91,33 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     /// </summary>
     public void Dispose()
     {
+        Reset(0);
+    }
+
+    public void Reset(int bufferSize = -1)
+    {
         ArrayPool<byte>.Shared.Return(_buffer, true);
-        _buffer = [];
         _index = 0;
 
         foreach (var segment in _segments)
         {
+            Debug.Assert(segment.Length > 0, "segment.Length > 0");
             ArrayPool<byte>.Shared.Return(segment.Buffer, true);
         }
         _segments.Clear();
         _segLength = 0;
+        if (bufferSize == -1)
+        {
+            bufferSize = _defaultCapacity;
+        }
+        if (bufferSize == 0)
+        {
+            _buffer = [];
+        }
+        else
+        {
+            _buffer = ArrayPool<byte>.Shared.Rent(bufferSize);
+        }
     }
 
     public void Advance(int count)
@@ -129,11 +153,12 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 #if NETCOREAPP
     internal async ValueTask WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
+        // TODO: optimize for single segment case to avoid the async state machine and extra allocations.
         foreach (var segment in _segments)
         {
             await destination.WriteAsync(segment.Memory, cancellationToken).ConfigureAwait(false);
         }
-        await destination.WriteAsync(_buffer.AsMemory(_index), cancellationToken).ConfigureAwait(false);
+        await destination.WriteAsync(_buffer.AsMemory(0, _index), cancellationToken).ConfigureAwait(false);
     }
 #else
     internal async Task WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
@@ -163,23 +188,31 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     [MethodImpl(MethodImplOptions.NoInlining)] // cold path
     private void ResizeBuffer(int sizeHint)
     {
-        sizeHint = Math.Max(sizeHint, DefaultBufferSize);
+        sizeHint = Math.Max(sizeHint, _defaultCapacity);
 
-        var segment = new Segment(_segLength, _buffer, _index);
-        if (_segments.Count > 0)
+        if (_index != 0)
         {
-            var last = _segments[^1];
-            Debug.Assert(last is not null, "last is not null");
-            last!.SetNext(segment);
+            var segment = new Segment(_segLength, _buffer, _index);
+            if (_segments.Count > 0)
+            {
+                var last = _segments[^1];
+                Debug.Assert(last is not null, "last is not null");
+                last!.SetNext(segment);
+            }
+            else
+            {
+                Debug.Assert(_segments.Count == 0, "_segments.Count == 0");
+                Debug.Assert(_segLength == 0, "_segLength == 0");
+            }
+
+            _segments.Add(segment);
+            _segLength += _index;
         }
         else
         {
-            Debug.Assert(_segments.Count == 0, "_segments.Count == 0");
-            Debug.Assert(_segLength == 0, "_segLength == 0");
+            // No need to add an empty segment if we haven't written anything to the current buffer.
+            ArrayPool<byte>.Shared.Return(_buffer, clearArray: false);
         }
-
-        _segments.Add(segment);
-        _segLength += _index;
 
         _buffer = ArrayPool<byte>.Shared.Rent(sizeHint);
         _index = 0;
