@@ -7,8 +7,11 @@ on:
   push:
     branches: main
 
+env:
+  TUNIT_DISABLE_HTML_REPORTER: true # https://tunit.dev/docs/guides/html-report
+
 jobs:
-  build:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -58,13 +61,38 @@ jobs:
       run: dotnet restore
 
     - name: 🔨 Build
-      run: dotnet build
+      run: dotnet build --no-restore
 
     - name: 🧪 Test
-      run: dotnet test --no-progress --disable-logo --no-build
+      run: dotnet test --no-progress --disable-logo --results-directory ./TestResults --no-build -- --report-trx
 
     - name: 🔨 Build AOT tests
       run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
       run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}"
+
+    - name: Upload test results
+      if: (!cancelled())
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-results-${{ matrix.os }}
+        path: ./TestResults/*.trx
+
+  publish-results:
+    name: Publish Test Results
+    needs: test
+    runs-on: ubuntu-latest
+    if: (!cancelled())
+
+    steps:
+    - name: Download all test results
+      uses: actions/download-artifact@v8
+      with:
+        pattern: test-results-*
+        path: ./TestResults
+
+    - name: Publish test results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        files: ./TestResults/**/*.trx
