@@ -34,8 +34,5 @@ jobs:
     - name: 🛠️ Restore
       run: dotnet restore
 
-    - name: 📦 Pack
-      run: dotnet pack --configuration Release src/Packages.slnf --output publish --no-restore
-
     - name: Component detection
       uses: advanced-security/component-detection-dependency-submission-action@v0.1.1
