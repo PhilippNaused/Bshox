@@ -22,6 +22,7 @@ jobs:
           - macos-latest
           # - windows-11-arm
     runs-on: ${{ matrix.os }}
+    name: Run Tests on ${{ matrix.os }}
 
     steps:
     - name: ⤵️ Checkout Source
@@ -72,7 +73,7 @@ jobs:
     - name: 🧪 Test AOT
       run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}" --results-directory ./TestResults -- --report-trx
 
-    - name: Upload test results
+    - name: 📁 Upload Test Results
       if: (!cancelled())
       uses: actions/upload-artifact@v7
       with:
@@ -90,13 +91,13 @@ jobs:
       pull-requests: write
 
     steps:
-    - name: Download all test results
+    - name: ⤵️ Download Test Results
       uses: actions/download-artifact@v8
       with:
         pattern: test-results-*
         path: ./TestResults
 
-    - name: Publish test results
+    - name: 📊 Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2
       with:
         files: ./TestResults/**/*.trx
