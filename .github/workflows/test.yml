@@ -85,6 +85,10 @@ jobs:
     runs-on: ubuntu-latest
     if: (!cancelled())
 
+    permissions:
+      checks: write
+      pull-requests: write
+
     steps:
     - name: Download all test results
       uses: actions/download-artifact@v8
