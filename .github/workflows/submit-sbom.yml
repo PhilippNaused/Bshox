@@ -28,10 +28,10 @@ jobs:
         global-json-file: global.json
 
     - name: 🛠️ Restore
-      run: dotnet build --configuration Release src/Packages.slnf
+      run: dotnet restore
 
     - name: 📦 Pack
-      run: dotnet pack --configuration Release src/Packages.slnf --output publish --no-build
+      run: dotnet pack --configuration Release src/Packages.slnf --output publish --no-restore
 
     - name: 🛠️ Restore Tool
       run: dotnet tool restore
