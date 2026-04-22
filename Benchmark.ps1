@@ -13,6 +13,7 @@ param (
 Set-StrictMode -Version 3.0
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
+$env:TUNIT_DISABLE_HTML_REPORTER = $true
 
 if ($Generator) {
   $Path = 'tests/Generator.Benchmark'
