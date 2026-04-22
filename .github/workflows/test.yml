@@ -70,7 +70,7 @@ jobs:
       run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
-      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}"
+      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}" --results-directory ./TestResults -- --report-trx
 
     - name: Upload test results
       if: (!cancelled())
