@@ -15,13 +15,6 @@
         "sharpfuzz"
       ],
       "rollForward": false
-    },
-    "microsoft.sbom.dotnettool": {
-      "version": "4.1.5",
-      "commands": [
-        "sbom-tool"
-      ],
-      "rollForward": false
     }
   }
 }

@@ -37,13 +37,5 @@ jobs:
     - name: 📦 Pack
       run: dotnet pack --configuration Release src/Packages.slnf --output publish --no-restore
 
-    - name: 🛠️ Restore Tool
-      run: dotnet tool restore
-
-    - name: 🛠️ Generate SBOM
-      run: dotnet sbom-tool generate -b publish -bc . -pn Bshox -pv 0.0.0 -ps 'Philipp Naused' -D true
-
-    - name: Upload SBOM
-      uses: advanced-security/spdx-dependency-submission-action@v0.2.0
-      with:
-        filePath: publish/_manifest/spdx_2.2/
+    - name: Component detection
+      uses: advanced-security/component-detection-dependency-submission-action@v0.1.1
