@@ -57,7 +57,7 @@ public class BshoxSerializableAttribute(Type type) : Attribute
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
 public sealed class BshoxDefaultContractAttribute(Type containingType, string symbolName) : Attribute
 {
-    // TODO: remove
+    // TODO: redesign
     public Type ContainingType { get; } = containingType;
     public string SymbolName { get; } = symbolName;
 }

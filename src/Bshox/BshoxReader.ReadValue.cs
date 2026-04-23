@@ -7,7 +7,7 @@ namespace Bshox;
 public ref partial struct BshoxReader
 {
     /// <summary>
-    /// Reads an unsigned integer using variable-length encoding.
+    /// Reads an unsigned 64-bit integer using variable-length encoding.
     /// </summary>
     public ulong ReadVarInt64()
     {
@@ -26,7 +26,7 @@ public ref partial struct BshoxReader
     }
 
     /// <summary>
-    /// Reads an unsigned integer using variable-length encoding.
+    /// Reads an unsigned 32-bit integer using variable-length encoding.
     /// </summary>
     public uint ReadVarInt32()
     {

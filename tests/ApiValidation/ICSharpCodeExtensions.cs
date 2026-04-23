@@ -139,7 +139,7 @@ public static class ICSharpCodeExtensions
             }
             else
             {
-                // BUG: ExtensionDeclaration.SymbolKind throws NotSupportedException because is's not a real symbol.
+                // BUG: ExtensionDeclaration.SymbolKind throws NotSupportedException because it's not a real symbol.
                 members = members
                     .OrderBy(m => m is ExtensionDeclaration || m.SymbolKind is not SymbolKind.Constructor) // constructors first
                     .ThenBy(m => m is ExtensionDeclaration ? SymbolKind.None : m.SymbolKind) // then sort by kind (fields, properties, methods, etc.)

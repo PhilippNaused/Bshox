@@ -177,7 +177,7 @@ public ref partial struct BshoxWriter
     }
 
     /// <summary>
-    /// Writes the bytes to the buffer without prefix.
+    /// Writes the bytes to the buffer without a prefix.
     /// </summary>
     public void WriteBytes(ReadOnlySpan<byte> source)
     {
