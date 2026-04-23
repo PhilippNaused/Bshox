@@ -10,7 +10,6 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 ```
 | Method   |      Mean |     Error | Ratio | Code Size |
 |----------|----------:|----------:|------:|----------:|
-| ReadByte | 0.5506 ns | 0.0012 ns |  1.00 |     358 B |
-| Read1    | 0.6947 ns | 0.0028 ns |  1.26 |     397 B |
-| Read2    | 1.2901 ns | 0.0046 ns |  2.34 |     395 B |
-| Read5    | 3.0970 ns | 0.0080 ns |  5.62 |     401 B |
+| ReadByte | 0.5481 ns | 0.0018 ns |  1.00 |     358 B |
+| Read1    | 0.6878 ns | 0.0025 ns |  1.25 |     397 B |
+| ReadAny  | 1.9047 ns | 0.0122 ns |  3.48 |     404 B |

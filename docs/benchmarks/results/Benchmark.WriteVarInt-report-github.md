@@ -10,8 +10,6 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 ```
 | Method    |      Mean |     Error | Ratio |
 |-----------|----------:|----------:|------:|
-| WriteByte | 0.3219 ns | 0.0008 ns |  1.00 |
-| Write1    | 0.4940 ns | 0.0013 ns |  1.53 |
-| Write2    | 0.7350 ns | 0.0014 ns |  2.28 |
-| Write5    | 1.6380 ns | 0.0039 ns |  5.09 |
-| WriteAny  | 1.1436 ns | 0.0028 ns |  3.55 |
+| WriteByte | 0.3231 ns | 0.0009 ns |  1.00 |
+| Write1    | 0.5013 ns | 0.0023 ns |  1.55 |
+| WriteAny  | 1.1309 ns | 0.0038 ns |  3.50 |

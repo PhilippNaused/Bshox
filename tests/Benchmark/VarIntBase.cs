@@ -23,6 +23,7 @@ public abstract class VarIntBase
         values4 = new uint[Count];
         values5 = new uint[Count];
         valuesX = new uint[Count];
+        uint[][] values = [values1, values2, values3, values4, values5];
         for (int i = 0; i < Count; i++)
         {
             const uint max1 = 1 << (1 * 7);
@@ -35,7 +36,7 @@ public abstract class VarIntBase
             values3[i] = (uint)random.NextULong(max2, max3);
             values4[i] = (uint)random.NextULong(max3, max4);
             values5[i] = (uint)random.NextULong(max4, max5);
-            valuesX[i] = random.NextScaledUInt();
+            valuesX[i] = values[i % 5][i];
         }
     }
 }

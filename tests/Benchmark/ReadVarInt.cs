@@ -5,6 +5,9 @@ using Bshox;
 
 namespace Benchmark;
 
+[Config(typeof(FrameworksConfig))]
+public class ReadVarIntFrameworks : ReadVarInt;
+
 /// <summary>
 /// Benchmarks for BshoxReader.ReadVarInt32
 /// </summary>
@@ -53,7 +56,7 @@ public class ReadVarInt : VarIntBase
         return r.Consumed;
     }
 
-    [Benchmark(OperationsPerInvoke = Count)]
+    // [Benchmark(OperationsPerInvoke = Count)]
     public long Read2()
     {
         var r = new BshoxReader(buffer2);
@@ -86,7 +89,7 @@ public class ReadVarInt : VarIntBase
         return r.Consumed;
     }
 
-    [Benchmark(OperationsPerInvoke = Count)]
+    // [Benchmark(OperationsPerInvoke = Count)]
     public long Read5()
     {
         var r = new BshoxReader(buffer5);
@@ -97,7 +100,7 @@ public class ReadVarInt : VarIntBase
         return r.Consumed;
     }
 
-    //[Benchmark(OperationsPerInvoke = Count)]
+    [Benchmark(OperationsPerInvoke = Count)]
     public long ReadAny()
     {
         var r = new BshoxReader(bufferX);
