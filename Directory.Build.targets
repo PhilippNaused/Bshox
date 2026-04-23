@@ -9,6 +9,12 @@
           Visible="false" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Banned API analyzer -->
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt"
+                     Visible="false" />
+  </ItemGroup>
+
   <!-- https://github.com/dotnet/runtime/blob/2daa4bc0e7d322d85466039b95f77cf40b5a85d9/eng/packaging.targets#L147 -->
   <Target Name="IncludeAnalyzersInPackage">
     <MSBuild Projects="@(ProjectReference->WithMetadataValue('PackAsAnalyzer', 'true'))"

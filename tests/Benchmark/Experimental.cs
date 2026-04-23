@@ -17,7 +17,7 @@ public class Experimental
 
     public Experimental()
     {
-        var random = new Random();
+        var random = new Random(42);
         for (int i = 0; i < Count; i++)
         {
             array[i] = random.NextScaledUInt();
