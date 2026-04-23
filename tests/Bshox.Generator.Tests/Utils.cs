@@ -55,6 +55,7 @@ public static class Utils
         var assemblies = types
             .Select(t => t.Assembly)
 #if NETCOREAPP
+            .Append(Assembly.Load("System.Collections.Concurrent, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"))
             .Append(Assembly.Load("System.Collections, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"))
             .Append(Assembly.Load("System.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"))
 #else

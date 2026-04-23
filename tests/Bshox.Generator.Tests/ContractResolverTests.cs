@@ -217,6 +217,25 @@ public class ContractResolverTests
     }
 
     [Test]
+    [Arguments("System.Collections.Generic.IDictionary<string, string>")]
+    [Arguments("System.Collections.Generic.IList<long>")]
+    [Arguments("System.Collections.Concurrent.ConcurrentDictionary<uint, byte>")]
+    public async Task Surrogate(string type)
+    {
+        string sourceCode = $"""
+                          using Bshox.Attributes;
+                          namespace TestModels;
+
+                          [BshoxSerializable<{type}>]
+                          public partial class Serializer1;
+                          """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Assert.That(generatedOutput).IsNotEmpty();
+    }
+
+    [Test]
     public async Task StaticDependencyOrdering()
     {
         const string sourceCode = """

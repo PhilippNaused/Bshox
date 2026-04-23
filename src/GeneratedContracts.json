@@ -1,30 +1,40 @@
 {
   "Surrogates": [
+    // Surrogates convert to/from another type that has an existing contract.
     {
       "Name": "IDictionary",
-      "Type": "System.Collections.Generic.IDictionary<TKey, TValue>",
+      "Type": "System.Collections.Generic.IDictionary<,>",
+      "Type2": "System.Collections.Generic.IDictionary<TKey, TValue>",
       "SurrogateType": "Dictionary<TKey, TValue>",
+      "SurrogateName": "Dictionary",
       "From": "surrogate",
       "To": "new Dictionary<TKey, TValue>(value)",
       "Where": "TKey : notnull"
     },
     {
       "Name": "IList",
-      "Type": "System.Collections.Generic.IList<T>",
+      "Type": "System.Collections.Generic.IList<>",
+      "Type2": "System.Collections.Generic.IList<T>",
       "SurrogateType": "List<T>",
+      "SurrogateName": "List",
       "From": "surrogate",
-      "To": "[.. value]"
+      "To": "[.. value]",
+      "Where": "T : notnull"
     },
     {
       "Name": "ConcurrentDictionary",
-      "Type": "System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>",
+      "Type": "System.Collections.Concurrent.ConcurrentDictionary<,>",
+      "Type2": "System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>",
       "SurrogateType": "Dictionary<TKey, TValue>",
+      "SurrogateName": "Dictionary",
       "From": "new System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>(surrogate)",
       "To": "new Dictionary<TKey, TValue>(value)",
       "Where": "TKey : notnull"
     }
   ],
   "Primitives": [
+    // non-generic types that are mostly generated from this template.
+    // These support inline data that the code generator can use to inline the read/write code for these types.
     {
       "Name": "SByte",
       "Type": "sbyte",
@@ -72,7 +82,8 @@
       "Type": "int",
       "Encoding": "VarInt",
       "Read": "reader.ReadZigZagVarInt32()",
-      "Write": "writer.WriteZigZagVarInt32({0})"
+      "Write": "writer.WriteZigZagVarInt32({0})",
+      "Default": false
     },
     {
       "Name": "UInt32",
@@ -100,7 +111,8 @@
       "Type": "long",
       "Encoding": "VarInt",
       "Read": "reader.ReadZigZagVarInt64()",
-      "Write": "writer.WriteZigZagVarInt64({0})"
+      "Write": "writer.WriteZigZagVarInt64({0})",
+      "Default": false
     },
     {
       "Name": "Single",
@@ -153,6 +165,17 @@
       "Name": "TimeSpan",
       "Type": "System.TimeSpan",
       "Encoding": "VarInt"
+    }
+  ],
+  "Other": [
+    // Other contracts that are manually implemented.
+    {
+      "Name": "Dictionary",
+      "Type": "System.Collections.Generic.Dictionary<,>"
+    },
+    {
+      "Name": "List",
+      "Type": "System.Collections.Generic.List<>"
     }
   ]
 }
