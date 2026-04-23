@@ -16,31 +16,55 @@ partial struct KnownTypeInfo
     // load GeneratedContracts.json
     string filePath = this.Host.ResolvePath("../../GeneratedContracts.json");
     string json = File.ReadAllText(filePath);
-    var contracts = JsonSerializer.Deserialize<Contracts>(json);
-    foreach (var type in contracts.Primitives.Where(p => p.Write is not null))
+    var contracts = JsonSerializer.Deserialize<Contracts>(json, new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip });
+    Contract[] allContract = [
+        .. contracts.Primitives,
+        .. contracts.Surrogates,
+        .. contracts.Other
+    ];
+    allContract = allContract.OrderBy(c => c.Type, StringComparer.Ordinal).ToArray();
+#>
+    private static Dictionary<string, KnownTypeInfo> GetDefaults()
     {
-#>
-    private static readonly KnownTypeInfo <#= type.Name #> = new("<#= type.Name #>", "<#= type.Write #>;", "<#= type.Read #>", BshoxCode.<#= type.Encoding #>);
+        var dict = new Dictionary<string, KnownTypeInfo>(StringComparer.Ordinal);
+        // don't use a collection initializer because it would silently ignore duplicate keys.
 <#
-    }
-    foreach (var type in contracts.Primitives.Where(p => p.Write is null))
+    foreach (var c in allContract)
     {
+        if (!c.Default)
+        {
+            continue;
+        }
+        if (c is Primitive p && p.Write is not null)
+        {
 #>
-    private static readonly KnownTypeInfo <#= type.Name #> = new("<#= type.Name #>");
+        dict["<#= p.Type #>"] = new("<#= p.Name #>", "<#= p.Write #>;", "<#= p.Read #>", BshoxCode.<#= p.Encoding #>);
 <#
+        }
+        else
+        {
+#>
+        dict["<#= c.Type #>"] = new("<#= c.Name #>");
+<#
+        }
     }
 #>
+        return dict;
+    }
 }
 <#+
     class Contracts
     {
+        public Contract[] Surrogates { get; set; }
         public Primitive[] Primitives { get; set; }
+        public Contract[] Other { get; set; }
     }
 
     class Contract
     {
         public string Name { get; set; }
         public string Type { get; set; }
+        public bool Default { get; set; } = true;
     }
 
     class Primitive : Contract

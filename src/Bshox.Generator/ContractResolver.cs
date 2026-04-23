@@ -2,7 +2,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Bshox.Generator.Contracts;
-using Bshox.Generator.Data;
 using Bshox.Generator.Extensions;
 using Microsoft.CodeAnalysis;
 
@@ -117,11 +116,13 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
     {
         if (_resolvedContracts.TryGetValue(demand, out contract))
         {
+            // already resolved
             return true;
         }
 
         if (demand.ContractSymbol is { } symbol)
         {
+            // explicit contract demand
             if (TryMakeContractFromSymbol(demand.Type, symbol, out contract))
             {
                 _resolvedContracts[demand] = contract;
@@ -130,6 +131,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             return false;
         }
 
+        // get default for type
         if (TryFindContractForTypeInternal(demand.Type, out contract))
         {
             _resolvedContracts[demand] = contract;
@@ -160,7 +162,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         {
             if (!method.TypeParameters.IsDefaultOrEmpty) // TODO: remove this limitation
             {
-                throw new NotImplementedException("Generic methods are not supported");
+                throw new NotImplementedException("Generic methods are not (yet) supported");
             }
             ContractDemand[] dependencies = method.Parameters.Length == 0 ? [] : new ContractDemand[method.Parameters.Length];
 
@@ -206,9 +208,17 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             context.ReportDiagnostic(Diagnostics.TypeNotSerializable, unboundSymbol, unboundSymbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat));
             return false;
         }
-        // built-in primitive
-        if (KnownTypeInfo.GetKnownTypeInfo(type, context.KnownSymbols) is { } knownTypeInfo)
+        // built-in types with predefined contracts
+        if (KnownTypeInfo.GetKnownTypeInfo(type) is { } knownTypeInfo)
         {
+            if (type is INamedTypeSymbol { IsGenericType: true } genericType)
+            {
+                // e.g., List<>, Dictionary<,>, ValueTuple<,>, etc.
+                Debug.Assert(knownTypeInfo.InlineData is null, "knownTypeInfo.InlineData is null");
+                contract = CreateKnownGenericContract(genericType, knownTypeInfo.Name);
+                return true;
+            }
+            // e.g., int, string, DateTime, byte[], etc.
             contract = CreatePrimitiveContract(type, knownTypeInfo);
             return true;
         }
@@ -216,7 +226,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         if (type is INamedTypeSymbol { EnumUnderlyingType: { } enumUnderlyingType } enumType)
         {
             // TODO: remove this check?
-            var enumTypeInfo = KnownTypeInfo.GetKnownTypeInfo(enumUnderlyingType, context.KnownSymbols);
+            var enumTypeInfo = KnownTypeInfo.GetKnownTypeInfo(enumUnderlyingType);
             if (enumTypeInfo is null)
             {
                 context.InternalError(enumType, $"Enum underlying type {enumUnderlyingType} is not a well known type.");
@@ -242,14 +252,6 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
                     return true;
                 }
                 context.InternalError(namedType, $"Failed to create contract for type '{namedType}'");
-            }
-            // TODO: surrogates
-
-            // built-in generic
-            if (TryCreateKnownGenericContract(namedType, context.KnownSymbols, out var contractInfo2))
-            {
-                contract = contractInfo2;
-                return true;
             }
         }
 
@@ -303,36 +305,6 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             StaticDependencies = true, // The only dependencies are the type arguments, so the dependencies are never circular and can be resolved statically
             InitializeStatementFormat = $"bsx::DefaultContracts.{contractNameBase}<{genericParameterList}>($0)"
         };
-    }
-
-    private bool TryCreateKnownGenericContract(INamedTypeSymbol namedType, KnownTypeSymbols knownSymbols, [NotNullWhen(true)] out ContractInfo? contractInfo)
-    {
-        contractInfo = null;
-        if (namedType is { IsGenericType: false })
-        {
-            return false;
-        }
-        if (namedType is { IsTupleType: true })
-        {
-            contractInfo = CreateKnownGenericContract(namedType, "ValueTuple");
-            return true;
-        }
-        var unbound = namedType.ConstructUnboundGenericType();
-        Debug.Assert(knownSymbols.List.IsUnboundGenericType, "knownSymbols.List.IsUnboundGenericType");
-        if (SymbolEqualityComparer.Default.Equals(unbound, knownSymbols.List))
-        {
-            Debug.Assert(namedType.TypeArguments.Length == 1, "namedType.TypeArguments.Length == 1");
-            contractInfo = CreateKnownGenericContract(namedType, "List");
-            return true;
-        }
-        if (SymbolEqualityComparer.Default.Equals(unbound, knownSymbols.Dictionary))
-        {
-            Debug.Assert(namedType.TypeArguments.Length == 2, "namedType.TypeArguments.Length == 2");
-            contractInfo = CreateKnownGenericContract(namedType, "Dictionary");
-            return true;
-        }
-        // TODO: add generated surrogates
-        return false;
     }
 
     public ContractInfo ResolveContract(ContractDemand demand)

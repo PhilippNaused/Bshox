@@ -16,15 +16,7 @@ internal sealed class KnownTypeSymbols(Compilation compilation)
     public INamedTypeSymbol BshoxDefaultContractAttribute { get; } = GetType(compilation, typeof(BshoxDefaultContractAttribute));
     public INamedTypeSymbol BshoxContract { get; } = GetTypeByMetadataName(compilation, "Bshox.BshoxContract`1").ConstructUnboundGenericType();
 
-    public INamedTypeSymbol Guid { get; } = GetType(compilation, typeof(Guid));
-    public INamedTypeSymbol DateTime { get; } = GetType(compilation, typeof(DateTime));
-    public INamedTypeSymbol TimeSpan { get; } = GetType(compilation, typeof(TimeSpan));
-
     public INamedTypeSymbol DefaultValueAttribute { get; } = GetType(compilation, typeof(DefaultValueAttribute));
-
-    public INamedTypeSymbol List { get; } = GetType(compilation, typeof(List<>));
-
-    public INamedTypeSymbol Dictionary { get; } = GetType(compilation, typeof(Dictionary<,>));
 
     private static INamedTypeSymbol GetTypeByMetadataName(Compilation compilation, string metadataName)
     {
