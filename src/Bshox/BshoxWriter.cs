@@ -7,7 +7,9 @@
 #endif
 
 using System.Buffers;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Bshox.Internals;
 
@@ -62,6 +64,14 @@ public ref partial struct BshoxWriter
         Options = options ?? BshoxOptions.Default;
         Check();
     }
+
+    /// <summary>
+    /// throws a <see cref="NotSupportedException"/> if called.
+    /// </summary>
+    [Obsolete("Do not use the parameterless constructor.", error: true)] // triggers a compile-time error if this constructor is called
+    [EditorBrowsable(EditorBrowsableState.Never)] // hides this constructor from IntelliSense
+    [ExcludeFromCodeCoverage]
+    public BshoxWriter() => throw new NotSupportedException("Parameterless constructor is not supported.");
 
     /// <summary>
     /// Returns a span of bytes to write to. <see cref="Advance(int)"/> must be called afterwards to notify the writer of the number of bytes written.

@@ -1,5 +1,7 @@
 using System.Buffers;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bshox.Internals;
@@ -92,6 +94,14 @@ public ref partial struct BshoxReader
         _span = memory.Span;
         _moreData = !memory.IsEmpty;
     }
+
+    /// <summary>
+    /// throws a <see cref="NotSupportedException"/> if called.
+    /// </summary>
+    [Obsolete("Do not use the parameterless constructor.", error: true)] // triggers a compile-time error if this constructor is called
+    [EditorBrowsable(EditorBrowsableState.Never)] // hides this constructor from IntelliSense
+    [ExcludeFromCodeCoverage]
+    public BshoxReader() => throw new NotSupportedException("Parameterless constructor is not supported.");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal unsafe T ReadUnsafe<T>() where T : unmanaged

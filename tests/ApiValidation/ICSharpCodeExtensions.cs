@@ -191,7 +191,9 @@ public static class ICSharpCodeExtensions
             "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute", // doesn't affect the API
             "System.Diagnostics.StackTraceHiddenAttribute", // doesn't affect the API
             "System.Reflection.AssemblyFileVersionAttribute",
-            "System.Reflection.AssemblyVersionAttribute"
+            "System.Reflection.AssemblyVersionAttribute",
+            "System.ComponentModel.EditorBrowsableAttribute",
+            "System.Runtime.CompilerServices.SkipLocalsInitAttribute"
         ];
 
         public override void VisitAttributeSection(AttributeSection attributeSection)
