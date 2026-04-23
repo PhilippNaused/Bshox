@@ -6,6 +6,11 @@ using Bshox.TestUtils;
 
 namespace Benchmark;
 
+[Config(typeof(FrameworksConfig))]
+public class WriteVarIntFrameworks : WriteVarInt
+{
+}
+
 /// <summary>
 /// Benchmarks for BshoxWriter.WriteVarInt32
 /// </summary>
@@ -93,7 +98,7 @@ public class WriteVarInt : VarIntBase
         return w.UnflushedBytes;
     }
 
-    // [Benchmark(OperationsPerInvoke = Count)]
+    [Benchmark(OperationsPerInvoke = Count)]
     public int WriteAny()
     {
         var w = new BshoxWriter(buffer);
