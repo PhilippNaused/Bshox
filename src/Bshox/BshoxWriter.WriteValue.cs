@@ -138,19 +138,28 @@ public ref partial struct BshoxWriter
         }
 
         Check();
-        if (value.Length <= 127 / 3)
+        const int maxHotPathSize = 127; // largest int that can be encoded in 1 byte.
+        const int maxCharExpansion = 3; // max bytes per char in UTF-8
+        const int maxHotPathLength = maxHotPathSize / maxCharExpansion; // max chars that can be encoded in 1 byte prefix, with worst case expansion (42).
+        if (value.Length <= maxHotPathLength)
         {
+            // hot path for short strings that can be encoded with a 1 byte prefix, with worst case expansion. This avoids the overhead of calculating the byte count.
+            // TODO: optimize for strings with best-case expansion (1 byte per char) by checking for ASCII chars and encoding them directly without calculating the byte count.
+            // e.g.: use Ascii.FromUtf16
+
             // Max expansion: each char -> 3 bytes, so 127 bytes max of data, +1 for length prefix
-            ref byte bytes = ref GetRef(128);
-            int actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref Unsafe.Add(ref bytes, 1), 127);
+            ref byte bytes = ref GetRef(maxHotPathSize + 1);
+            // write the payload first:
+            int actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref Unsafe.Add(ref bytes, 1), maxHotPathSize);
+            // then, write the length prefix:
             bytes = (byte)actualByteCount;
             Advance(actualByteCount + 1);
         }
         else
         {
+            // cold path
             int byteCount = EncodingHelper.Utf8NoBom.GetByteCount(value);
             WriteVarInt32((uint)byteCount);
-
             ref byte bytes = ref GetRef(byteCount);
             int actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref bytes, byteCount);
             Debug.Assert(actualByteCount == byteCount, "actualByteCount == byteCount");
