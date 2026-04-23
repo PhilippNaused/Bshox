@@ -4,6 +4,9 @@
     <Compile Remove="gen/**/*.cs" />
     <Compile Remove="Snapshots/**/*" />
     <None Include="Snapshots/**/*" />
+    <!-- Workaround for https://github.com/microsoft/vscode-dotnettools/issues/2952 -->
+    <None Update="*.lscache"
+          Visible="false" />
   </ItemGroup>
 
   <!-- https://github.com/dotnet/runtime/blob/2daa4bc0e7d322d85466039b95f77cf40b5a85d9/eng/packaging.targets#L147 -->
@@ -58,7 +61,8 @@
       For some reason, the AOT tests always fail with "Zero tests ran" when net9.0 is running on MacOS.
       TODO:: investigate
       -->
-      <_PublishFramework Remove="net9.0" Condition="$([System.OperatingSystem]::IsMacOS())" />
+      <_PublishFramework Remove="net9.0"
+                         Condition="$([System.OperatingSystem]::IsMacOS())" />
     </ItemGroup>
     <ItemGroup>
       <_Project Include="$(MSBuildProjectFile)"
