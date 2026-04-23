@@ -6,13 +6,14 @@
   "words": [],
   "flagWords": [],
   "ignorePaths": [
-    "tests/**/Snapshots/**",
-    "*.svg",
-    "*.DotSettings",
     ".config/cspell.json",
-    ".config/dotnet-tools.json",
     ".config/dicts/**",
-    ".git*"
+    ".config/dotnet-tools.json",
+    ".git*",
+    "*-asm.md",
+    "*.DotSettings",
+    "*.svg",
+    "tests/**/Snapshots/**"
   ],
   "dictionaries": [
     "project-words",

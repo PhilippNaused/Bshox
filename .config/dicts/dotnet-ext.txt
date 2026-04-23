@@ -5,14 +5,17 @@ Coverable
 datacollector
 Decompiler
 Diagnoser
+EditorBrowsable
 exposable
 Linq
+lscache
 msbuild
 nameof
 NETCOREAPP
 NETFRAMEWORK
 netstandard
 Obsoletions
+parameterless
 slnf
 slnx
 snupkg
