@@ -232,7 +232,6 @@ namespace Bshox.Attributes
 }
 namespace Bshox.Internals
 {
-    [System.Obsolete("This type should only be referenced implicitly")]
     public readonly ref struct DepthLockScope
     {
         public void Dispose();

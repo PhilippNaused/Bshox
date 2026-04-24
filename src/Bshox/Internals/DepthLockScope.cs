@@ -6,8 +6,10 @@ namespace Bshox.Internals;
 /// <summary>
 /// Do not reference this type directly. Use <see cref="BshoxReader.DepthLock()"/> or <see cref="BshoxWriter.DepthLock()"/> instead.
 /// </summary>
-[Obsolete("This type should only be referenced implicitly")]
-public readonly ref struct DepthLockScope
+#if !DEBUG
+[EditorBrowsable(EditorBrowsableState.Never)] // hide from intellisense
+#endif
+public readonly ref struct DepthLockScope //: IDisposable
 {
 #if NETCOREAPP
     private readonly ref int _depth;

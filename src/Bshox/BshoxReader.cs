@@ -396,15 +396,14 @@ public ref partial struct BshoxReader
     /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
     /// This method must be used in a <c>using</c> statement to ensure proper depth tracking.
     /// </summary>
-    /// <example>
+    /// <remarks>
+    /// e.g.:
     /// <code lang="csharp">
     /// using (reader.DepthLock())
     /// {
     ///   // Read nested object or array here.
     /// }
     /// </code>
-    /// </example>
-#pragma warning disable CS0618 // Type or member is obsolete
+    /// </remarks>
     public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
-#pragma warning restore CS0618 // Type or member is obsolete
 }
