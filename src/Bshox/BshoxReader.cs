@@ -13,7 +13,7 @@ namespace Bshox;
 /// </summary>
 public ref partial struct BshoxReader
 {
-    private ReadOnlySpan<byte> _span;
+    private ReadOnlySpan<byte> _span; // TODO: try inlining this field to bypass the redundant bounds checks.
 
     private readonly ReadOnlySequence<byte> _sequence;
 
@@ -70,6 +70,7 @@ public ref partial struct BshoxReader
             _span = sequence.First.Span;
             Length = _span.Length;
             _moreData = !_span.IsEmpty;
+            Check();
             return;
         }
         _usingSequence = true;
@@ -78,7 +79,7 @@ public ref partial struct BshoxReader
         Length = sequence.Length;
         _moreData = true;
         GetNextSpan();
-        Debug.Assert(_moreData != _span.IsEmpty, "_moreData != _span.IsEmpty");
+        Check();
     }
 
     /// <summary>
@@ -93,6 +94,7 @@ public ref partial struct BshoxReader
         Length = memory.Length;
         _span = memory.Span;
         _moreData = !memory.IsEmpty;
+        Check();
     }
 
     /// <summary>
@@ -131,6 +133,7 @@ public ref partial struct BshoxReader
             // Fast path: all bytes to decode appear in the same span.
             string value = EncodingHelper.Utf8NoBom.GetString(_span.Slice(0, byteLength));
             Advance(byteLength);
+            Check();
             return value;
         }
 
@@ -183,6 +186,7 @@ public ref partial struct BshoxReader
 
         string value = new(charArray, 0, initializedChars);
         ArrayPool<char>.Shared.Return(charArray); // TODO: use try-catch
+        Check();
         return value;
     }
 
@@ -227,22 +231,30 @@ public ref partial struct BshoxReader
             }
         }
 
+        Check();
         return value;
     }
 
+    /// <summary>
+    /// <see cref="ReadOnlySequence{T}.Enumerator.MoveNext"/>
+    /// </summary>
     private void GetNextSpan()
     {
         Debug.Assert(_moreData, nameof(_moreData));
         Debug.Assert(_usingSequence, nameof(_usingSequence));
-        while (TryMoveNext())
+        if (TryMoveNext())
         {
-            if (!_span.IsEmpty)
+            if (_span.IsEmpty)
             {
-                return;
+                Debug.Fail("Expected non-empty span");
+                throw new InvalidOperationException("Sequence returned an empty segment.");
             }
+            Check();
+            return;
         }
         _span = [];
         _moreData = false;
+        Check();
     }
 
     private bool TryMoveNext()
@@ -266,7 +278,7 @@ public ref partial struct BshoxReader
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Advance(int count)
     {
-        if (_span.Length > count && count >= 0)
+        if (_span.Length > count)
         {
             _span = _span.Slice(count);
             Consumed += count;
@@ -283,31 +295,37 @@ public ref partial struct BshoxReader
         }
         else
         {
-            ArgumentOutOfRangeException.ThrowIfNegative(count);
             throw EndOfStream();
         }
+        Check();
     }
 
     private void AdvanceSlow(int count)
     {
         Debug.Assert(_usingSequence, nameof(_usingSequence));
+        Debug.Assert(_span.Length <= count, "_span.Length <= count");
         ArgumentOutOfRangeException.ThrowIfNegative(count);
+        if (count > Remaining)
+        {
+            throw EndOfStream();
+        }
 
-        Consumed += count;
         while (_moreData)
         {
-            int remaining = _span.Length;
+            int spanLength = _span.Length;
 
-            if (remaining > count)
+            if (spanLength > count)
             {
                 _span = _span.Slice(count);
+                Consumed += count;
                 count = 0;
                 break;
             }
 
-            count -= remaining;
+            count -= spanLength;
             Debug.Assert(count >= 0, "count >= 0");
 
+            Consumed += spanLength;
             GetNextSpan();
 
             if (count == 0)
@@ -316,8 +334,11 @@ public ref partial struct BshoxReader
             }
         }
 
+        Check();
+
         if (count != 0)
         {
+            Debug.Fail("Ran into dead code");
             throw EndOfStream();
         }
     }
@@ -330,6 +351,7 @@ public ref partial struct BshoxReader
     {
         if (_span.Length >= destination.Length)
         {
+            // fast path: all bytes to copy appear in the current span
             _span.Slice(0, destination.Length).CopyTo(destination);
             _span = _span.Slice(destination.Length);
             Consumed += destination.Length;
@@ -340,11 +362,14 @@ public ref partial struct BshoxReader
                 else
                     _moreData = false;
             }
+            Check();
             return;
         }
         if (_usingSequence)
         {
+            // slow path: we need to copy bytes across multiple spans
             CopyToSlow(destination);
+            Check();
             return;
         }
         throw EndOfStream();
@@ -364,7 +389,7 @@ public ref partial struct BshoxReader
             GetNextSpan();
             if (!_moreData)
             {
-                Debug.Assert(copied < destination.Length, "copied < destination.Length");
+                Debug.Fail("Ran into dead code"); // CheckBufferSize should prevent this
                 throw EndOfStream();
             }
             int toCopy = Math.Min(_span.Length, destination.Length - copied);

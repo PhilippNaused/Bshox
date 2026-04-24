@@ -89,8 +89,7 @@ public ref partial struct BshoxReader
         // guard against malicious input by checking if the array is too large
         long minSize = GetMinLength(encoding) * count;
         // check for overflow
-        if (minSize < 0)
-            throw EndOfStream();
+        Debug.Assert(minSize >= 0, "minSize >= 0");
         CheckBufferSize(minSize);
         Debug.Assert(count <= BshoxConstants.MaxKey, "count <= BshoxConstants.MaxKey");
         Debug.Assert(count <= int.MaxValue, "count <= int.MaxValue");
@@ -100,7 +99,7 @@ public ref partial struct BshoxReader
     /// <summary>
     /// Gets the minimum length of a value encoded with the specified encoding.
     /// </summary>
-    private static int GetMinLength(BshoxCode encoding)
+    private static uint GetMinLength(BshoxCode encoding)
     {
         return encoding switch
         {
