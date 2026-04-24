@@ -1,20 +1,16 @@
-using System.Diagnostics.CodeAnalysis;
 using Bshox;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<int>]
 [BshoxDefaultContract(typeof(CustomIntContract), nameof(CustomIntContract.Instance))]
 public partial class CustomContracts1;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<int>]
 [BshoxDefaultContract(typeof(DefaultContracts), nameof(DefaultContracts.Int32Z))]
 public partial class CustomContracts2;
 
-[ExcludeFromCodeCoverage]
 public sealed class CustomIntContract() : BshoxContract<int>(BshoxCode.Fixed4)
 {
     /// <inheritdoc />

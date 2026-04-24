@@ -1,10 +1,8 @@
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<EnumType1>]
 [BshoxSerializable<TestEnum1>]
 [BshoxSerializable<List<TestEnum1>>]
@@ -29,7 +27,6 @@ public enum TestEnum2 : ulong
     ValueX = ulong.MaxValue
 }
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true)]
 public sealed record EnumType1
 {

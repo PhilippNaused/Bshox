@@ -1,10 +1,7 @@
 using System.Buffers;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Bshox.TestUtils;
 
-
-[ExcludeFromCodeCoverage]
 public static class SequenceSegmenter
 {
     public static ReadOnlySequence<byte> MakeSegmentedSequence(ReadOnlyMemory<byte> memory, int segmentSize)

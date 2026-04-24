@@ -1,11 +1,9 @@
 #if !NETCOREAPP
 using System.Diagnostics;
 #endif
-using System.Diagnostics.CodeAnalysis;
 
 namespace Bshox.TestUtils;
 
-[ExcludeFromCodeCoverage]
 public static class HexUtils
 {
     public static string ToHex(this byte[] bytes)

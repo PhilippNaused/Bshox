@@ -1,16 +1,13 @@
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<DefaultValueType1>]
 [BshoxSerializable<DefaultValueType2>]
 [BshoxSerializable<DefaultValueType3>]
 public partial class DefaultValueTypeSerializer;
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true)]
 public record DefaultValueType1
 {
@@ -29,7 +26,6 @@ public record DefaultValueType1
     public string? Value5 { get; set; }
 }
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true)]
 public record DefaultValueType2
 {
@@ -37,7 +33,6 @@ public record DefaultValueType2
     public string Value { get; set; } = "";
 }
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true)]
 public record DefaultValueType3
 {

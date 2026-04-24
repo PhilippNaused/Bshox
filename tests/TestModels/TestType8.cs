@@ -1,14 +1,11 @@
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<TestType8>]
 [BshoxSerializable<TestType8B>]
 public partial class Serializer8;
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true, ImplicitDefaultValues = true)]
 public record TestType8
 {
@@ -32,7 +29,6 @@ public record TestType8
 
 #pragma warning disable CS8851 // Record defines 'Equals' but not 'GetHashCode'.
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true, ImplicitDefaultValues = true)]
 public sealed record TestType8B
 {

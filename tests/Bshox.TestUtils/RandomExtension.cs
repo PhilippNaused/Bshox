@@ -1,11 +1,8 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace Bshox.TestUtils;
 
 #pragma warning disable IDE0051 // Remove unused private members (false positive for extension blocks)
 #pragma warning disable CA1034 // Nested types should not be visible (false positive for extension blocks)
 
-[ExcludeFromCodeCoverage]
 public static class RandomExtension
 {
     extension(Random rand)

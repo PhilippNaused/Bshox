@@ -1,9 +1,7 @@
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<ValueTuple<int>>] // 1
 [BshoxSerializable<(int, long)>] // 2
 [BshoxSerializable(typeof((uint, string?, byte)))] // 3
