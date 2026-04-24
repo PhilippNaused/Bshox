@@ -6,28 +6,28 @@
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
 | Classes:           | 54                                    |
-| Files:             | 64                                    |
-| **Line coverage:** | 90.6% (3636 of 4009)                  |
-| Covered lines:     | 3636                                  |
-| Uncovered lines:   | 373                                   |
-| Coverable lines:   | 4009                                  |
-| Total lines:       | 8056                                  |
+| Files:             | 65                                    |
+| **Line coverage:** | 91.1% (3696 of 4054)                  |
+| Covered lines:     | 3696                                  |
+| Uncovered lines:   | 358                                   |
+| Coverable lines:   | 4054                                  |
+| Total lines:       | 8132                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 92.5%</summary>
+<details><summary>Bshox.dll - 93.8%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **92.5%** |
+| **Bshox.dll**                          | **93.8%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     87.6% |
 | Bshox.BshoxException                   |      100% |
-| Bshox.BshoxOptions                     |       80% |
-| Bshox.BshoxReader                      |     93.9% |
+| Bshox.BshoxOptions                     |      100% |
+| Bshox.BshoxReader                      |     96.9% |
 | Bshox.BshoxSerializer                  |     93.9% |
-| Bshox.BshoxWriter                      |     98.7% |
+| Bshox.BshoxWriter                      |     99.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
 | Bshox.Contracts.DictionaryContract     |     95.6% |
 | Bshox.Contracts.ListContract           |      100% |
