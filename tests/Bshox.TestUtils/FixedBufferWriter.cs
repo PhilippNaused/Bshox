@@ -10,6 +10,9 @@ namespace Bshox.TestUtils;
 /// </remarks>
 public sealed class FixedBufferWriter(Memory<byte> memory) : IBufferWriter<byte>
 {
+    public FixedBufferWriter(int size) : this(new byte[size]) { }
+    public FixedBufferWriter() : this(16 * 1024) { }
+
     private Memory<byte> _memory = memory;
     private readonly Memory<byte> _originalMemory = memory;
 

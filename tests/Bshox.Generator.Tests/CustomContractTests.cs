@@ -120,6 +120,32 @@ public class CustomContractTests
     }
 
     [Test]
+    [Explicit] // not implemented yet
+    public async Task CustomGenericContractDerivedFromMethod()
+    {
+        const string sourceCode = """
+                                  using Bshox;
+                                  using Bshox.Attributes;
+                                  namespace TestModels;
+
+                                  public abstract class MyContract<T>() : BshoxContract<T>(BshoxCode.VarInt);
+                                  
+                                  internal class Test1<T>
+                                  {
+                                      public static MyContract<T> Contract1() => null!;
+                                  }
+
+                                  [BshoxSerializable<int>]
+                                  [BshoxDefaultContract(typeof(Test1<int>), "Contract1")]
+                                  public partial class CustomContracts1;
+                                  """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Utils.ValidateOutput(generatedOutput, 1);
+    }
+
+    [Test]
     public async Task CustomGenericContractFromMethodWithParameter()
     {
         const string sourceCode = """
