@@ -7,7 +7,7 @@ namespace Bshox.Internals;
 /// Do not reference this type directly. Use <see cref="BshoxReader.DepthLock()"/> or <see cref="BshoxWriter.DepthLock()"/> instead.
 /// </summary>
 #if !DEBUG
-[EditorBrowsable(EditorBrowsableState.Never)] // hide from intellisense
+[System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)] // hide from intellisense
 #endif
 public readonly ref struct DepthLockScope //: IDisposable
 {
