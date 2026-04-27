@@ -18,5 +18,6 @@ public class CustomContractTests1
         await CustomContracts2.Int32.TestSerialization(0, "00");
         await CustomContracts2.Int32.TestSerialization(-1, "01");
         await CustomContracts2.Int32.TestSerialization(1, "02");
+        await CustomContracts2.ListInt32.TestSerialization([0, -1, 1], "18000102");
     }
 }
