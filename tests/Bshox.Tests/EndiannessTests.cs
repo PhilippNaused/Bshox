@@ -10,7 +10,8 @@ public class EndiannessTests
     [Test]
     public async Task ReverseGuid1()
     {
-        Guid result = EndiannessHelper.Reverse(guid1);
+        Guid result = guid1;
+        EndiannessHelper.Reverse(ref result);
         await Assert.That(result).IsEqualTo(guid2);
     }
 }
