@@ -169,6 +169,7 @@ public ref partial struct BshoxReader
         }
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private string ReadStringSlow(int byteLength)
     {
         CheckBufferSize(byteLength);
@@ -225,8 +226,26 @@ public ref partial struct BshoxReader
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public byte ReadByte()
     {
+        if (_span.Length > 1) // hot path
+        {
+            // we have at least 2 bytes in the span, so we can read one without running out of data
+            byte value = _span[0];
+            _span = _span.Slice(1);
+            Consumed++;
+            Check();
+            return value;
+        }
+        Check();
+        return ReadByteSlow();
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+    private byte ReadByteSlow()
+    {
+        Debug.Assert(_span.Length < 2, "_span.Length < 2");
         if (!_moreData)
         {
+            Debug.Assert(_span.IsEmpty, "_span.IsEmpty");
             throw EndOfStream();
         }
 
@@ -273,6 +292,7 @@ public ref partial struct BshoxReader
         Check();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private bool TryMoveNext()
     {
         if (_next.GetObject() == null)
@@ -291,7 +311,6 @@ public ref partial struct BshoxReader
     /// <summary>
     /// Move the reader ahead by the specified number of bytes.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Advance(int count)
     {
         if (_span.Length > count)
@@ -316,6 +335,7 @@ public ref partial struct BshoxReader
         Check();
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private void AdvanceSlow(int count)
     {
         Debug.Assert(_usingSequence, nameof(_usingSequence));
@@ -363,21 +383,13 @@ public ref partial struct BshoxReader
     /// Copies bytes from the reader into the specified <paramref name="destination"/> span and advances the reader by the number of bytes copied.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void CopyTo(Span<byte> destination)
+    public void CopyTo(scoped Span<byte> destination)
     {
         if (_span.Length >= destination.Length)
         {
             // fast path: all bytes to copy appear in the current span
             _span.Slice(0, destination.Length).CopyTo(destination);
-            _span = _span.Slice(destination.Length);
-            Consumed += destination.Length;
-            if (_span.IsEmpty)
-            {
-                if (_usingSequence)
-                    GetNextSpan();
-                else
-                    _moreData = false;
-            }
+            Advance(destination.Length);
             Check();
             return;
         }
@@ -391,7 +403,8 @@ public ref partial struct BshoxReader
         throw EndOfStream();
     }
 
-    private void CopyToSlow(Span<byte> destination)
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private void CopyToSlow(scoped Span<byte> destination)
     {
         Debug.Assert(_usingSequence, nameof(_usingSequence));
         CheckBufferSize(destination.Length);
@@ -426,6 +439,7 @@ public ref partial struct BshoxReader
         throw EndOfStream();
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
     private static BshoxException EndOfStream()
     {
         var inner = new EndOfStreamException();

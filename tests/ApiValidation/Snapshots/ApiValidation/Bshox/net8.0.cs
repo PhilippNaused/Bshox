@@ -95,7 +95,7 @@ namespace Bshox
         public readonly Bshox.BshoxOptions Options { get; }
         public readonly long Remaining { get; }
         public void Advance(int count);
-        public void CopyTo(System.Span<byte> destination);
+        public void CopyTo(scoped System.Span<byte> destination);
         public Bshox.Internals.DepthLockScope DepthLock();
         public int ReadArrayHeader(out Bshox.BshoxCode encoding);
         public byte ReadByte();
