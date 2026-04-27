@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Runtime.CompilerServices;
 
 namespace Bshox.TestUtils;
 
@@ -25,12 +26,14 @@ public sealed class FixedBufferWriter(Memory<byte> memory) : IBufferWriter<byte>
     /// <inheritdoc />
     public Memory<byte> GetMemory(int sizeHint = 0)
     {
-        if (sizeHint > _memory.Length)
+        if (sizeHint <= _memory.Length)
         {
-            throw new InvalidOperationException($"Not enough space in the buffer. Required: {sizeHint}, Available: {_memory.Length}");
+            return _memory;
         }
 
-        return _memory;
+        throw Error(sizeHint, _memory.Length);
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static InvalidOperationException Error(int sizeHint, int available) => new($"Not enough space in the buffer. Required: {sizeHint}, Available: {available}");
     }
 
     /// <inheritdoc />

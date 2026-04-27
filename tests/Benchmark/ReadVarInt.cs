@@ -8,6 +8,9 @@ namespace Benchmark;
 [Config(typeof(FrameworksConfig))]
 public class ReadVarIntFrameworks : ReadVarInt;
 
+[Config(typeof(ColdConfig))]
+public class ReadVarIntCold : ReadVarInt;
+
 /// <summary>
 /// Benchmarks for BshoxReader.ReadVarInt32
 /// </summary>

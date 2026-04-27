@@ -10,5 +10,5 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 ```
 | Method      |     Mean |     Error | Code Size |
 |-------------|---------:|----------:|----------:|
-| Serialize   | 7.692 ns | 0.0257 ns |   1,435 B |
-| Deserialize | 7.864 ns | 0.0246 ns |   1,614 B |
+| Serialize   | 7.675 ns | 0.0997 ns |     597 B |
+| Deserialize | 8.038 ns | 0.0679 ns |   1,614 B |

@@ -1,7 +1,6 @@
 using BenchmarkDotNet.Attributes;
 using Bshox;
 using Bshox.Contracts;
-using Bshox.Internals;
 using Bshox.TestUtils;
 
 namespace Benchmark;
@@ -13,7 +12,7 @@ public class Experiment
     private static readonly BshoxContract<float[]> c1 = new ArrayContract<float>(DefaultContracts.Single);
     private float[] data = null!;
     private BshoxOptions options = null!;
-    private readonly PooledByteBufferWriter buffer = new();
+    private readonly FixedBufferWriter buffer = new();
 
     [Params(100, 10_000)]
     public int Size { get; set; }
@@ -32,6 +31,6 @@ public class Experiment
     public void Normal()
     {
         c1.Serialize(buffer, in data, options);
-        buffer.Dispose();
+        buffer.Reset();
     }
 }

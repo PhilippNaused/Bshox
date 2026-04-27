@@ -10,9 +10,9 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 ```
 | Method  | Length |       Mean |     Error | Code Size |
 |---------|--------|-----------:|----------:|----------:|
-| Unicode | 10     |   9.836 ns | 0.1941 ns |   3,719 B |
-| Ascii   | 10     |   3.523 ns | 0.0051 ns |   3,815 B |
-| Unicode | 100    |  89.793 ns | 0.6933 ns |   4,934 B |
-| Ascii   | 100    |  10.023 ns | 0.0260 ns |   4,893 B |
-| Unicode | 1000   | 915.770 ns | 2.2570 ns |   4,958 B |
-| Ascii   | 1000   |  63.715 ns | 0.5293 ns |   4,925 B |
+| Unicode | 10     |   9.762 ns | 0.1578 ns |   3,509 B |
+| Ascii   | 10     |   3.528 ns | 0.0195 ns |   3,485 B |
+| Unicode | 100    |  92.481 ns | 0.4549 ns |   4,668 B |
+| Ascii   | 100    |  10.161 ns | 0.0363 ns |   4,566 B |
+| Unicode | 1000   | 907.351 ns | 2.8238 ns |   4,631 B |
+| Ascii   | 1000   |  63.853 ns | 1.1552 ns |   4,652 B |

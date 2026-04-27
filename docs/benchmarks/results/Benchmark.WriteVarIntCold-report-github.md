@@ -10,11 +10,8 @@ Job=Dry  IterationCount=1  LaunchCount=25
 RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 
 ```
-| Method  | Length |     Mean |     Error |
-|---------|--------|---------:|----------:|
-| Unicode | 10     | 1.618 μs | 0.0466 μs |
-| Ascii   | 10     | 1.623 μs | 0.0514 μs |
-| Unicode | 100    | 1.818 μs | 0.0602 μs |
-| Ascii   | 100    | 1.752 μs | 0.0793 μs |
-| Unicode | 1000   | 2.983 μs | 0.0758 μs |
-| Ascii   | 1000   | 2.028 μs | 0.0895 μs |
+| Method    |     Mean |     Error | Ratio |
+|-----------|---------:|----------:|------:|
+| WriteByte | 1.475 μs | 0.0709 μs |  1.00 |
+| Write1    | 1.504 μs | 0.0776 μs |  1.02 |
+| WriteAny  | 1.512 μs | 0.0588 μs |  1.03 |

@@ -9,6 +9,9 @@ namespace Benchmark;
 [Config(typeof(FrameworksConfig))]
 public class WriteVarIntFrameworks : WriteVarInt;
 
+[Config(typeof(ColdConfig))]
+public class WriteVarIntCold : WriteVarInt;
+
 /// <summary>
 /// Benchmarks for BshoxWriter.WriteVarInt32
 /// </summary>
@@ -26,7 +29,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteByte((byte)values1[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }
@@ -39,7 +41,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteVarInt32(values1[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }
@@ -52,7 +53,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteVarInt32(values2[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }
@@ -65,7 +65,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteVarInt32(values3[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }
@@ -78,7 +77,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteVarInt32(values4[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }
@@ -91,7 +89,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteVarInt32(values5[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }
@@ -104,7 +101,6 @@ public class WriteVarInt : VarIntBase
         {
             w.WriteVarInt32(valuesX[i]);
         }
-        w.Flush();
         buffer.Reset();
         return w.UnflushedBytes;
     }

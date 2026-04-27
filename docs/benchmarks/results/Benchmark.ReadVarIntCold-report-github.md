@@ -10,11 +10,8 @@ Job=Dry  IterationCount=1  LaunchCount=25
 RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 
 ```
-| Method  | Length |     Mean |     Error |
-|---------|--------|---------:|----------:|
-| Unicode | 10     | 1.618 μs | 0.0466 μs |
-| Ascii   | 10     | 1.623 μs | 0.0514 μs |
-| Unicode | 100    | 1.818 μs | 0.0602 μs |
-| Ascii   | 100    | 1.752 μs | 0.0793 μs |
-| Unicode | 1000   | 2.983 μs | 0.0758 μs |
-| Ascii   | 1000   | 2.028 μs | 0.0895 μs |
+| Method   |     Mean |    Error | Ratio | Code Size |
+|----------|---------:|---------:|------:|----------:|
+| ReadByte | 629.6 ns | 27.42 ns |  1.00 |        NA |
+| Read1    | 672.0 ns | 18.78 ns |  1.07 |     581 B |
+| ReadAny  | 682.3 ns | 15.91 ns |  1.09 |     584 B |

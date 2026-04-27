@@ -12,5 +12,5 @@ RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 ```
 | Method      |     Mean |    Error |
 |-------------|---------:|---------:|
-| Serialize   | 952.2 μs | 40.50 μs |
-| Deserialize | 619.9 μs | 31.60 μs |
+| Serialize   | 942.2 μs | 33.92 μs |
+| Deserialize | 601.7 μs | 15.69 μs |
