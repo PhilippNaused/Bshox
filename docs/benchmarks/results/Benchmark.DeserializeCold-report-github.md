@@ -12,5 +12,5 @@ RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 ```
 | Method | Segmented |     Mean |     Error | Allocated |
 |--------|-----------|---------:|----------:|----------:|
-| Bshox  | False     | 2.379 ms | 0.0550 ms |   4.16 KB |
-| Bshox  | True      | 2.788 ms | 0.0547 ms |   4.21 KB |
+| Bshox  | False     | 2.333 ms | 0.0591 ms |   4.16 KB |
+| Bshox  | True      | 2.748 ms | 0.0566 ms |   4.21 KB |

@@ -12,8 +12,8 @@ LaunchCount=2  WarmupCount=10
 ```
 | Method           |        Mean |     Error | Ratio | Allocated | Alloc Ratio |
 |------------------|------------:|----------:|------:|----------:|------------:|
-| Bshox            |    832.7 ns |  13.96 ns |  1.00 |   4.16 KB |        1.00 |
-| System.Text.Json | 27,582.2 ns | 135.43 ns | 33.14 |  15.45 KB |        3.72 |
-| MessagePack      |  2,714.3 ns |  50.83 ns |  3.26 |   4.16 KB |        1.00 |
-| protobuf-net     |  7,873.9 ns |  55.70 ns |  9.46 |   4.29 KB |        1.03 |
-| Google.Protobuf  |  4,132.6 ns |  49.36 ns |  4.97 |   15.5 KB |        3.73 |
+| Bshox            |    787.4 ns |   3.88 ns |  1.00 |   4.16 KB |        1.00 |
+| System.Text.Json | 27,072.2 ns | 175.35 ns | 34.38 |  15.45 KB |        3.72 |
+| MessagePack      |  2,541.1 ns |  31.82 ns |  3.23 |   4.16 KB |        1.00 |
+| protobuf-net     |  7,749.4 ns |  53.62 ns |  9.84 |   4.29 KB |        1.03 |
+| Google.Protobuf  |  3,981.1 ns |  27.91 ns |  5.06 |   15.5 KB |        3.73 |

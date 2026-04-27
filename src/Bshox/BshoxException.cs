@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 #if NET8_0_OR_GREATER
 using Bshox.Internals;
@@ -49,12 +50,16 @@ public class BshoxException : Exception
     /// <param name="expected">The expected encoding to compare against.</param>
     /// <exception cref="BshoxException">Thrown if encoding does not equal expected.</exception>
     [StackTraceHidden]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void ThrowIfWrongEncoding(BshoxCode encoding, BshoxCode expected)
     {
         if (encoding != expected)
         {
-            throw new BshoxException($"Invalid encoding: {encoding}. Expected: {expected}");
+            throw Create(encoding, expected);
         }
+        return;
+        [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+        static BshoxException Create(BshoxCode encoding, BshoxCode expected) => new($"Invalid encoding: {encoding}. Expected: {expected}");
     }
 
     internal static BshoxException ContractNotFound(Type type) => new($"No serialization contract for \"{type}\" could be found.");
@@ -63,7 +68,9 @@ public class BshoxException : Exception
     /// Creates a new exception indicating that the specified encoding is invalid.
     /// </summary>
     /// <param name="encoding">The encoding value that caused the error.</param>
-    public static BshoxException InvalidEncoding(BshoxCode encoding) => new($"Invalid encoding: {encoding}");
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    internal static BshoxException InvalidEncoding(BshoxCode encoding) => new($"Invalid encoding: {encoding}");
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     internal static BshoxException VarIntTooLong() => new("VarInt is too long.");
 }
