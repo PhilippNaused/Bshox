@@ -120,7 +120,6 @@ public class CustomContractTests
     }
 
     [Test]
-    [Explicit] // not implemented yet
     public async Task CustomGenericContractDerivedFromMethod()
     {
         const string sourceCode = """
@@ -129,7 +128,7 @@ public class CustomContractTests
                                   namespace TestModels;
 
                                   public abstract class MyContract<T>() : BshoxContract<T>(BshoxCode.VarInt);
-                                  
+
                                   internal class Test1<T>
                                   {
                                       public static MyContract<T> Contract1() => null!;
@@ -141,8 +140,12 @@ public class CustomContractTests
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
-        await Utils.ValidateOutput(generatedOutput, 1);
+        await Assert.That(diagnostics).HasSingleItem();
+        await Assert.That(generatedOutput).IsEmpty();
+        await diagnostics.Single().AssertEqual(Diagnostics._notImplemented, "Not Implemented: Derived types of BshoxContract are not (yet) supported for custom contracts: TestModels.MyContract<int>");
+
+        // await Assert.That(diagnostics).IsEmpty();
+        // await Utils.ValidateOutput(generatedOutput, 1);
     }
 
     [Test]
@@ -193,7 +196,6 @@ public class CustomContractTests
     }
 
     [Test]
-    [Explicit] // not implemented yet
     public async Task CustomContractFromGenericMethod()
     {
         const string sourceCode = """
@@ -212,8 +214,12 @@ public class CustomContractTests
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
-        await Utils.ValidateOutput(generatedOutput, 1);
+        await Assert.That(diagnostics).HasSingleItem();
+        await Assert.That(generatedOutput).IsEmpty();
+        await diagnostics.Single().AssertEqual(Diagnostics._notImplemented, "Not Implemented: Types with unresolved generic parameters cannot be used in the default contract attribute.: TestModels.Test1.Contract1<T>()");
+
+        // await Assert.That(diagnostics).IsEmpty();
+        // await Utils.ValidateOutput(generatedOutput, 1);
     }
 
     [Test]
@@ -299,7 +305,6 @@ public class CustomContractTests
     }
 
     [Test]
-    [Explicit] // not implemented yet
     public async Task CustomContractUnboundGeneric()
     {
         const string sourceCode = """
@@ -319,8 +324,12 @@ public class CustomContractTests
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
-        await Assert.That(diagnostics).IsEmpty();
-        await Utils.ValidateOutput(generatedOutput, 1);
+        await Assert.That(diagnostics).HasSingleItem();
+        await Assert.That(generatedOutput).IsEmpty();
+        await diagnostics.Single().AssertEqual(Diagnostics._notImplemented, "Not Implemented: Unbound generic types are not supported for contract symbols: TestModels.Test1<>");
+
+        // await Assert.That(diagnostics).IsEmpty();
+        // await Utils.ValidateOutput(generatedOutput, 1);
     }
 
     [Test]

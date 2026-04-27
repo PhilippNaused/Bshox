@@ -51,7 +51,9 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         if (containingType is INamedTypeSymbol { IsUnboundGenericType: true })
         {
             // TODO: add support for unbound generics
-            throw new NotImplementedException("Unbound generics are not supported");
+            context.NotImplemented(location, "Unbound generic types are not supported for contract symbols", containingType);
+            demand = null;
+            return false;
         }
 
         // TODO: check visibility
@@ -103,7 +105,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         if (contractType is not INamedTypeSymbol namedType || !namedType.EqualsUnboundGenericType(context.KnownSymbols.BshoxContract))
         {
             // TODO: add a diagnostic
-            context.ReportDiagnostic(Diagnostics._internalError, location, contractType);
+            context.NotImplemented(location, "Derived types of BshoxContract are not (yet) supported for custom contracts", contractType);
             serializedType = null;
             return false;
         }
@@ -162,7 +164,8 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         {
             if (!method.TypeParameters.IsDefaultOrEmpty) // TODO: remove this limitation
             {
-                throw new NotImplementedException("Generic methods are not (yet) supported");
+                context.NotImplemented(method, "Generic methods are not (yet) supported");
+                return false;
             }
             ContractDemand[] dependencies = method.Parameters.Length == 0 ? [] : new ContractDemand[method.Parameters.Length];
 

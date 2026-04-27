@@ -22,6 +22,14 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
+    internal static readonly DiagnosticDescriptor _notImplemented = new(
+        id: $"{Prefix}998",
+        title: "Feature not implemented",
+        messageFormat: "Not Implemented: {0}: {1}",
+        category: Category,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public static readonly DiagnosticDescriptor TypeMustBePartial = new(
         id: $"{Prefix}001",
         title: "Type must be partial",
@@ -163,6 +171,17 @@ public static class Diagnostics
         {
             Location? location = symbol.Locations.FirstOrDefault();
             diagnostics.ReportDiagnostic(_internalError, location, arg0, arg1);
+        }
+
+        internal void NotImplemented(Location? location, string arg0, object? arg1 = null)
+        {
+            diagnostics.ReportDiagnostic(_notImplemented, location, arg0, arg1);
+        }
+
+        internal void NotImplemented(ISymbol symbol, string arg0, object? arg1 = null)
+        {
+            Location? location = symbol.Locations.FirstOrDefault();
+            diagnostics.ReportDiagnostic(_notImplemented, location, arg0, arg1);
         }
 
         internal void ReportDiagnostic(DiagnosticDescriptor descriptor, SyntaxToken token, params object?[] messageArgs)

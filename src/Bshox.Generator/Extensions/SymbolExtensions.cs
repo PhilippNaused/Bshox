@@ -194,6 +194,23 @@ internal static class SymbolExtensions
         {
             return symbol.ContainingType is not null;
         }
+
+        public bool IsUnresolvedGeneric()
+        {
+            if (symbol is INamedTypeSymbol named)
+            {
+                return named.TypeArguments.Any(IsUnresolvedGeneric);
+            }
+            if (symbol is ITypeParameterSymbol)
+            {
+                return true;
+            }
+            if (symbol is IArrayTypeSymbol array)
+            {
+                return array.ElementType.IsUnresolvedGeneric();
+            }
+            return false;
+        }
     }
 
     extension(INamedTypeSymbol symbol)
@@ -253,15 +270,16 @@ internal static class SymbolExtensions
         public IEnumerable<ISymbol> GetParentMembers()
         {
             // Iterate Parent -> Derived
-            if (symbol.BaseType != null)
+            if (symbol.BaseType is null)
             {
-                foreach (var item in symbol.BaseType.GetAllMembers())
+                yield break;
+            }
+            foreach (var item in symbol.BaseType.GetAllMembers())
+            {
+                // override item already iterated in parent type
+                if (!item.IsOverride)
                 {
-                    // override item already iterated in parent type
-                    if (!item.IsOverride)
-                    {
-                        yield return item;
-                    }
+                    yield return item;
                 }
             }
         }

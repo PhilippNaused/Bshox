@@ -126,6 +126,14 @@ internal sealed class SerializerInfo : IGeneratorContext
             var location = attributeData.ApplicationSyntaxReference?.GetLocation();
             if (ContractResolver.TryGetContractDemand(containingType, symbolName, location, out var demand))
             {
+                Debug.Assert(demand.Value.ContractSymbol is not null, "demand.Value.ContractSymbol is not null");
+                if (demand.Value.Type.IsUnresolvedGeneric())
+                {
+                    this.NotImplemented(location, "Types with unresolved generic parameters cannot be used in the default contract attribute.", demand.Value.ContractSymbol);
+                    HasErrors = true;
+                    continue;
+                }
+
                 if (ContractResolver.TryResolveContract(demand.Value, out var contract))
                 {
                     ContractResolver.SetDefault(contract);
