@@ -7,7 +7,7 @@ internal static class ExampleData
     private const int TestCount = 20;
     private const int Seed = 42;
 
-    internal static Random Randomizer => new(Seed);
+    internal static Random Randomizer => new(Seed); // return a new instance to ensure deterministic results even when tests are run in parallel
 
     public static IEnumerable<string> Strings()
     {
@@ -262,9 +262,7 @@ internal static class ExampleData
         var rand = Randomizer;
         for (int i = 0; i < TestCount; i++)
         {
-            byte[] bytes = new byte[16];
-            rand.NextBytes(bytes);
-            yield return new Guid();
+            yield return rand.NextGuid();
         }
     }
 

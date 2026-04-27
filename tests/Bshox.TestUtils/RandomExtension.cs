@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Bshox.TestUtils;
 
 #pragma warning disable IDE0051 // Remove unused private members (false positive for extension blocks)
@@ -45,19 +47,23 @@ public static class RandomExtension
             return list;
         }
 
-        public char[] NextChars(int count = 20)
-        {
-            var list = new char[count];
-            for (int i = 0; i < count; i++)
-            {
-                list[i] = (char)rand.Next(0, 256);
-            }
-            return list;
-        }
-
+        [SkipLocalsInit]
         public string NextString(int length = 20)
         {
-            var chars = NextChars(rand, length);
+#if NETCOREAPP
+            Span<char> chars = stackalloc char[length];
+#else
+            char[] chars = new char[length];
+#endif
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = (char)rand.Next(char.MinValue, char.MaxValue + 1);
+                if (char.IsSurrogate(chars[i]))
+                {
+                    i--; // Retry this position if a surrogate character is generated
+                }
+            }
+            // TODO: add chance to return string with a valid surrogate pair.
             return new string(chars);
         }
 
@@ -163,6 +169,19 @@ public static class RandomExtension
             var values = Enum.GetValues(typeof(T)).Cast<T>().ToArray();
 #endif
             return values[rand.Next(values.Length)];
+        }
+
+        [SkipLocalsInit]
+        public Guid NextGuid()
+        {
+#if NETCOREAPP
+            Span<byte> bytes = stackalloc byte[16];
+#else
+            byte[] bytes = new byte[16];
+#endif
+            rand.NextBytes(bytes);
+            // Guid.NewGuid(); NewGuid will only generate version 4 guids, but we want to test any possible 16 byte value.
+            return new Guid(bytes);
         }
     }
 }
