@@ -12,6 +12,6 @@ RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 ```
 | Method   |     Mean |    Error | Ratio | Code Size |
 |----------|---------:|---------:|------:|----------:|
-| ReadByte | 629.6 ns | 27.42 ns |  1.00 |        NA |
-| Read1    | 672.0 ns | 18.78 ns |  1.07 |     581 B |
-| ReadAny  | 682.3 ns | 15.91 ns |  1.09 |     584 B |
+| ReadByte | 651.2 ns | 13.58 ns |  1.00 |     574 B |
+| Read1    | 675.6 ns | 21.92 ns |  1.04 |     503 B |
+| ReadAny  | 737.7 ns | 21.34 ns |  1.13 |     506 B |

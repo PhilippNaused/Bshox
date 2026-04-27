@@ -1,5 +1,6 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Bshox.Internals;
 
 namespace Bshox;
@@ -12,16 +13,16 @@ public ref partial struct BshoxReader
     public ulong ReadVarInt64()
     {
         ulong value = 0;
-        int shift = 0;
+        int bitShift = 0;
         byte b;
         do
         {
             b = ReadByte();
-            value |= (ulong)(b & 0x7F) << shift;
-            shift += 7;
-            if (shift > 10 * 7)
+            value |= (b & 0x7Ful) << bitShift;
+            bitShift += 7;
+            if (bitShift > 10 * 7)
                 throw BshoxException.VarIntTooLong();
-        } while ((b & 0x80) != 0);
+        } while (b > 127);
         return value;
     }
 
@@ -30,17 +31,51 @@ public ref partial struct BshoxReader
     /// </summary>
     public uint ReadVarInt32()
     {
-        uint value = 0;
+        uint value = ReadByte();
+        if (value < 128u)
+            return value; // hot path
+        value &= 0x7Fu;
+        if (_span.Length >= 4)
+        {
+            return ReadVarInt32Fast(value); // lukewarm path
+        }
+        return ReadVarInt32Slow(value); // cold path
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] // lukewarm path
+    private uint ReadVarInt32Fast(uint value)
+    {
+        Debug.Assert(_span.Length >= 4, "_span.Length >= 4");
         int shift = 0;
         byte b;
         do
         {
-            b = ReadByte();
-            value |= (uint)(b & 0x7F) << shift;
-            shift += 7;
-            if (shift > 5 * 7)
+            b = _span[shift];
+            shift++;
+            value |= (b & 0x7Fu) << (shift * 7);
+            if (shift > 4)
                 throw BshoxException.VarIntTooLong();
-        } while ((b & 0x80) != 0);
+        } while (b > 127);
+
+        Advance(shift);
+
+        return value;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+    private uint ReadVarInt32Slow(uint value)
+    {
+        Debug.Assert(_span.Length < 4, "_span.Length < 4");
+        int bitShift = 0;
+        byte b;
+        do
+        {
+            b = ReadByte();
+            bitShift += 7;
+            value |= (b & 0x7Fu) << bitShift;
+            if (bitShift > 5 * 7)
+                throw BshoxException.VarIntTooLong();
+        } while (b > 127);
         return value;
     }
 
