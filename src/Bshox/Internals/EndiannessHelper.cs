@@ -4,14 +4,13 @@ using System.Runtime.InteropServices;
 
 namespace Bshox.Internals;
 
+[SkipLocalsInit]
 internal static class EndiannessHelper
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Guid Reverse(Guid value)
+    public static void Reverse(scoped ref Guid value)
     {
-        Guid2 guid2 = Unsafe.As<Guid, Guid2>(ref value);
-        guid2.Reverse();
-        return Unsafe.As<Guid2, Guid>(ref guid2);
+        Unsafe.As<Guid, Guid2>(ref value).Reverse();
     }
 
     [StructLayout(LayoutKind.Sequential, Size = 16)]

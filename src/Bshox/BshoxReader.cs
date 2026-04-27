@@ -113,12 +113,28 @@ public ref partial struct BshoxReader
     {
         if (_span.Length >= sizeof(T))
         {
-            T value = Unsafe.ReadUnaligned<T>(ref MemoryMarshal.GetReference(_span));
+            T value = Unsafe.As<byte, T>(ref MemoryMarshal.GetReference(_span));
             Advance(sizeof(T));
             return value;
         }
 
         return ReadUnsafeSlow<T>();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal unsafe void ReadUnsafe<T>(scoped out T value) where T : unmanaged
+#if NET9_0_OR_GREATER
+        , allows ref struct
+#endif
+    {
+        if (_span.Length >= sizeof(T))
+        {
+            value = Unsafe.As<byte, T>(ref MemoryMarshal.GetReference(_span));
+            Advance(sizeof(T));
+            return;
+        }
+
+        value = ReadUnsafeSlow<T>();
     }
 
     /// <summary>

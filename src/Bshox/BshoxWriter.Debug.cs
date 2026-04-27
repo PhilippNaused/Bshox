@@ -41,6 +41,8 @@ public ref partial struct BshoxWriter
 #if DEBUG
         Debug.Assert(_depth <= Options.MaxDepth, "_depth < Options.MaxDepth");
         Debug.Assert(_depth >= 0, "_depth >= 0");
+        Debug.Assert(_buffer is not null, "_buffer is not null");
+        Debug.Assert(Options is not null, "Options is not null");
 #if USE_REF
         Debug.Assert(_unflushed >= 0);
         Debug.Assert(_length >= 0);

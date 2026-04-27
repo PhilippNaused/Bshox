@@ -7,37 +7,37 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 54                                    |
 | Files:             | 65                                    |
-| **Line coverage:** | 91.1% (3696 of 4054)                  |
-| Covered lines:     | 3696                                  |
-| Uncovered lines:   | 358                                   |
-| Coverable lines:   | 4054                                  |
-| Total lines:       | 8132                                  |
+| **Line coverage:** | 91.2% (3706 of 4062)                  |
+| Covered lines:     | 3706                                  |
+| Uncovered lines:   | 356                                   |
+| Coverable lines:   | 4062                                  |
+| Total lines:       | 8151                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 93.8%</summary>
+<details><summary>Bshox.dll - 94%</summary>
 
-| **Name**                               |  **Line** |
-|:---------------------------------------|----------:|
-| **Bshox.dll**                          | **93.8%** |
-| Bshox.BshoxContract                    |      100% |
-| Bshox.BshoxContractExtensions          |     87.6% |
-| Bshox.BshoxException                   |      100% |
-| Bshox.BshoxOptions                     |      100% |
-| Bshox.BshoxReader                      |     96.9% |
-| Bshox.BshoxSerializer                  |     93.9% |
-| Bshox.BshoxWriter                      |     99.5% |
-| Bshox.Contracts.ArrayContract          |      100% |
-| Bshox.Contracts.DictionaryContract     |     95.6% |
-| Bshox.Contracts.ListContract           |      100% |
-| Bshox.DefaultContracts                 |     89.6% |
-| Bshox.Internals.DepthLockScope         |      100% |
-| Bshox.Internals.EncodingHelper         |      100% |
-| Bshox.Internals.EndiannessHelper       |      100% |
-| Bshox.Internals.PooledByteBufferWriter |     80.7% |
-| Bshox.Internals.StreamSequence         |     92.8% |
-| Bshox.PolyFills                        |     82.6% |
+| **Name**                               | **Line** |
+|:---------------------------------------|---------:|
+| **Bshox.dll**                          |  **94%** |
+| Bshox.BshoxContract                    |     100% |
+| Bshox.BshoxContractExtensions          |    87.6% |
+| Bshox.BshoxException                   |     100% |
+| Bshox.BshoxOptions                     |     100% |
+| Bshox.BshoxReader                      |    96.9% |
+| Bshox.BshoxSerializer                  |    93.9% |
+| Bshox.BshoxWriter                      |    99.5% |
+| Bshox.Contracts.ArrayContract          |     100% |
+| Bshox.Contracts.DictionaryContract     |    95.6% |
+| Bshox.Contracts.ListContract           |     100% |
+| Bshox.DefaultContracts                 |    90.5% |
+| Bshox.Internals.DepthLockScope         |     100% |
+| Bshox.Internals.EncodingHelper         |     100% |
+| Bshox.Internals.EndiannessHelper       |     100% |
+| Bshox.Internals.PooledByteBufferWriter |    80.7% |
+| Bshox.Internals.StreamSequence         |    92.8% |
+| Bshox.PolyFills                        |    82.6% |
 
 </details>
 <details><summary>Bshox.Generator.dll - 90.2%</summary>
