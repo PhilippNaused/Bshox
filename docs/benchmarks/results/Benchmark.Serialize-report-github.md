@@ -12,5 +12,5 @@ LaunchCount=2  WarmupCount=10
 ```
 | Method | Count |         Mean |       Error |  Allocated |
 |--------|-------|-------------:|------------:|-----------:|
-| Bshox  | 1     |     703.3 ns |     1.83 ns |    3.05 KB |
-| Bshox  | 1000  | 908,815.1 ns | 4,970.74 ns | 2953.84 KB |
+| Bshox  | 1     |     659.3 ns |     4.78 ns |    3.05 KB |
+| Bshox  | 1000  | 877,860.7 ns | 3,883.51 ns | 2953.83 KB |

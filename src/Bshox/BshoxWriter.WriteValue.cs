@@ -1,3 +1,7 @@
+#if NET8_0_OR_GREATER
+#define USE_REF // runtime supports ref fields.
+#endif
+
 #pragma warning disable CS0282 // False positive
 
 using System.Buffers.Binary;
@@ -15,43 +19,63 @@ public ref partial struct BshoxWriter
     public void WriteByte(byte value)
     {
         Check();
+#if USE_REF
         GetRef(1) = value;
+#else
+        GetSpan(1)[0] = value;
+#endif
         Advance(1);
     }
 
+    private const uint BitMask7 = 0b0111_1111u; // 127
+
     /// <summary>
-    /// Writes an unsigned integer using variable-length encoding.
+    /// Writes an unsigned 32-bit integer using variable-length encoding.
     /// </summary>
     public void WriteVarInt32(uint value)
     {
-        Check();
-        ref byte bytes = ref GetRef(5);
-        int index = 0;
-        while (value > 0x7Fu)
+        const int maxSize = 5; // max bytes needed to encode a 32-bit integer with variable-length encoding
+        ref byte bytes = ref GetRef(maxSize);
+        bytes = (byte)value;
+        if (value <= BitMask7)
         {
-            Unsafe.Add(ref bytes, index++) = (byte)(value | ~0x7Fu);
+            Advance(1);
+            return;
+        }
+        int index = 0;
+        do
+        {
+            Unsafe.Add(ref bytes, index++) = (byte)(value | ~BitMask7);
             value >>= 7;
         }
+        while (value > BitMask7);
         Unsafe.Add(ref bytes, index) = (byte)value;
-        Debug.Assert(index + 1 <= 5, "index + 1 <= 5");
+        Debug.Assert(index + 1 <= maxSize, "index + 1 <= maxSize");
         Advance(index + 1);
     }
 
     /// <summary>
-    /// Writes an unsigned integer using variable-length encoding.
+    /// Writes an unsigned 64-bit integer using variable-length encoding.
     /// </summary>
     public void WriteVarInt64(ulong value)
     {
-        Check();
-        ref byte bytes = ref GetRef(10);
-        int index = 0;
-        while (value > 0x7Fu)
+        if (value <= uint.MaxValue)
         {
-            Unsafe.Add(ref bytes, index++) = (byte)((uint)value | ~0x7Fu);
+            WriteVarInt32((uint)value);
+            return;
+        }
+        Check();
+        const int maxSize = 10; // max bytes needed to encode a 64-bit integer with variable-length encoding
+        ref byte bytes = ref GetRef(maxSize);
+        int index = 0;
+        while (value > BitMask7)
+        {
+            Unsafe.Add(ref bytes, index++) = (byte)((uint)value | ~BitMask7);
             value >>= 7;
         }
         Unsafe.Add(ref bytes, index) = (byte)value;
-        Debug.Assert(index + 1 <= 10, "index + 1 <= 10");
+        Debug.Assert(index + 1 <= maxSize, "index + 1 <= maxSize");
+        Debug.Assert(index + 1 >= 5, "index + 1 >= 5"); // if it was less than 5, it would have been handled by WriteVarInt32
         Advance(index + 1);
     }
 

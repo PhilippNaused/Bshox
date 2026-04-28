@@ -99,7 +99,7 @@ M00_L03:
        jne       short M01_L00
        mov       rcx,offset MT_Bshox.BshoxOptions
        call      qword ptr [7FFD70385728]; System.Runtime.CompilerServices.StaticsHelpers.GetGCStaticBase(System.Runtime.CompilerServices.MethodTable*)
-       mov       rax,254F8001218
+       mov       rax,1D7FE801218
        mov       rax,[rax]
        mov       [rbp-10],rax
 M01_L00:
@@ -181,12 +181,12 @@ M01_L00:
        mov       rdx,[rax+38]
        lea       rcx,[rbp-60]
        xor       r8d,r8d
-       call      qword ptr [7FFD706DDCE0]; Bshox.BshoxWriter..ctor(System.Buffers.IBufferWriter`1<Byte>, Bshox.BshoxOptions)
+       call      qword ptr [7FFD706EDCE0]; Bshox.BshoxWriter..ctor(System.Buffers.IBufferWriter`1<Byte>, Bshox.BshoxOptions)
        xor       eax,eax
        mov       [rbp-64],eax
        jmp       short M00_L01
 M00_L00:
-       mov       rcx,7FFD70723AF0
+       mov       rcx,7FFD70733AF0
        call      CORINFO_HELP_COUNTPROFILE32
        mov       rax,[rbp+10]
        mov       rax,[rax+8]
@@ -197,7 +197,7 @@ M00_L00:
        lea       rax,[rax+rdx*4+10]
        mov       edx,[rax]
        lea       rcx,[rbp-60]
-       call      qword ptr [7FFD706DDCF8]; Bshox.BshoxWriter.WriteVarInt32(UInt32)
+       call      qword ptr [7FFD706EDCF8]; Bshox.BshoxWriter.WriteVarInt32(UInt32)
        mov       eax,[rbp-64]
        inc       eax
        mov       [rbp-64],eax
@@ -213,14 +213,14 @@ M00_L01:
 M00_L02:
        cmp       dword ptr [rbp-64],3E8
        jl        short M00_L00
-       mov       rcx,7FFD70723AF4
+       mov       rcx,7FFD70733AF4
        call      CORINFO_HELP_COUNTPROFILE32
        mov       rax,[rbp+10]
        mov       rcx,[rax+38]
        cmp       [rcx],ecx
-       call      qword ptr [7FFD706DDD10]; Bshox.TestUtils.FixedBufferWriter.Reset()
+       call      qword ptr [7FFD706EDD10]; Bshox.TestUtils.FixedBufferWriter.Reset()
        lea       rcx,[rbp-60]
-       call      qword ptr [7FFD706DDD28]; Bshox.BshoxWriter.get_UnflushedBytes()
+       call      qword ptr [7FFD706EDD28]; Bshox.BshoxWriter.get_UnflushedBytes()
        nop
        add       rsp,90
        pop       rbp
@@ -263,8 +263,8 @@ M00_L03:
        cmp       qword ptr [rbp+20],0
        jne       short M01_L00
        mov       rcx,offset MT_Bshox.BshoxOptions
-       call      qword ptr [7FFD70375728]; System.Runtime.CompilerServices.StaticsHelpers.GetGCStaticBase(System.Runtime.CompilerServices.MethodTable*)
-       mov       rax,1F6F9001218
+       call      qword ptr [7FFD70385728]; System.Runtime.CompilerServices.StaticsHelpers.GetGCStaticBase(System.Runtime.CompilerServices.MethodTable*)
+       mov       rax,17924001218
        mov       rax,[rax]
        mov       [rbp-10],rax
 M01_L00:
@@ -289,27 +289,25 @@ M01_L00:
        mov       dword ptr [rbp-50],3E8
        mov       rcx,[rbp+10]
        mov       edx,5
-       call      qword ptr [7FFD706DDDD0]; Bshox.BshoxWriter.GetRef(Int32)
+       call      qword ptr [7FFD706EDDD0]; Bshox.BshoxWriter.GetRef(Int32)
        mov       [rbp-40],rax
+       mov       rax,[rbp-40]
+       mov       ecx,[rbp+18]
+       mov       [rax],cl
+       cmp       dword ptr [rbp+18],7F
+       ja        short M02_L00
+       mov       rcx,7FFD70733FE8
+       call      CORINFO_HELP_COUNTPROFILE32
+       mov       rcx,[rbp+10]
+       mov       edx,1
+       call      qword ptr [7FFD706EDDE8]; Bshox.BshoxWriter.Advance(Int32)
+       nop
+       add       rsp,70
+       pop       rbp
+       ret
+M02_L00:
        xor       eax,eax
        mov       [rbp-44],eax
-       jmp       short M02_L01
-M02_L00:
-       mov       rcx,7FFD70723FE8
-       call      CORINFO_HELP_COUNTPROFILE32
-       mov       eax,[rbp-44]
-       mov       [rbp-48],eax
-       mov       eax,[rbp-44]
-       inc       eax
-       mov       [rbp-44],eax
-       mov       eax,[rbp+18]
-       or        eax,0FFFFFF80
-       movsxd    rcx,dword ptr [rbp-48]
-       mov       rdx,[rbp-40]
-       mov       [rdx+rcx],al
-       mov       eax,[rbp+18]
-       shr       eax,7
-       mov       [rbp+18],eax
 M02_L01:
        mov       eax,[rbp-50]
        dec       eax
@@ -317,12 +315,25 @@ M02_L01:
        cmp       dword ptr [rbp-50],0
        jg        short M02_L02
        lea       rcx,[rbp-50]
-       mov       edx,22
+       mov       edx,1B
        call      CORINFO_HELP_PATCHPOINT
 M02_L02:
+       mov       eax,[rbp-44]
+       mov       [rbp-48],eax
+       mov       eax,[rbp-44]
+       inc       eax
+       mov       [rbp-44],eax
+       mov       eax,[rbp+18]
+       or        eax,80
+       movsxd    rcx,dword ptr [rbp-48]
+       mov       rdx,[rbp-40]
+       mov       [rdx+rcx],al
+       mov       eax,[rbp+18]
+       shr       eax,7
+       mov       [rbp+18],eax
        cmp       dword ptr [rbp+18],7F
-       ja        short M02_L00
-       mov       rcx,7FFD70723FEC
+       ja        short M02_L03
+       mov       rcx,7FFD70733FEC
        call      CORINFO_HELP_COUNTPROFILE32
        movsxd    rax,dword ptr [rbp-44]
        mov       rcx,[rbp-40]
@@ -331,12 +342,16 @@ M02_L02:
        mov       eax,[rbp-44]
        lea       edx,[rax+1]
        mov       rcx,[rbp+10]
-       call      qword ptr [7FFD706DDDE8]; Bshox.BshoxWriter.Advance(Int32)
+       call      qword ptr [7FFD706EDDE8]; Bshox.BshoxWriter.Advance(Int32)
        nop
        add       rsp,70
        pop       rbp
        ret
-; Total bytes of code 200
+M02_L03:
+       mov       rcx,7FFD70733FF0
+       call      CORINFO_HELP_COUNTPROFILE32
+       jmp       near ptr M02_L01
+; Total bytes of code 257
 ```
 ```asm
 ; Bshox.TestUtils.FixedBufferWriter.Reset()
@@ -387,12 +402,12 @@ M02_L02:
        mov       rdx,[rax+38]
        lea       rcx,[rbp-60]
        xor       r8d,r8d
-       call      qword ptr [7FFD7070DCE0]; Bshox.BshoxWriter..ctor(System.Buffers.IBufferWriter`1<Byte>, Bshox.BshoxOptions)
+       call      qword ptr [7FFD706FDCE0]; Bshox.BshoxWriter..ctor(System.Buffers.IBufferWriter`1<Byte>, Bshox.BshoxOptions)
        xor       eax,eax
        mov       [rbp-64],eax
        jmp       short M00_L01
 M00_L00:
-       mov       rcx,7FFD70753AF0
+       mov       rcx,7FFD70743AF0
        call      CORINFO_HELP_COUNTPROFILE32
        mov       rax,[rbp+10]
        mov       rax,[rax+30]
@@ -403,7 +418,7 @@ M00_L00:
        lea       rax,[rax+rdx*4+10]
        mov       edx,[rax]
        lea       rcx,[rbp-60]
-       call      qword ptr [7FFD7070DCF8]; Bshox.BshoxWriter.WriteVarInt32(UInt32)
+       call      qword ptr [7FFD706FDCF8]; Bshox.BshoxWriter.WriteVarInt32(UInt32)
        mov       eax,[rbp-64]
        inc       eax
        mov       [rbp-64],eax
@@ -419,14 +434,14 @@ M00_L01:
 M00_L02:
        cmp       dword ptr [rbp-64],3E8
        jl        short M00_L00
-       mov       rcx,7FFD70753AF4
+       mov       rcx,7FFD70743AF4
        call      CORINFO_HELP_COUNTPROFILE32
        mov       rax,[rbp+10]
        mov       rcx,[rax+38]
        cmp       [rcx],ecx
-       call      qword ptr [7FFD7070DD10]; Bshox.TestUtils.FixedBufferWriter.Reset()
+       call      qword ptr [7FFD706FDD10]; Bshox.TestUtils.FixedBufferWriter.Reset()
        lea       rcx,[rbp-60]
-       call      qword ptr [7FFD7070DD28]; Bshox.BshoxWriter.get_UnflushedBytes()
+       call      qword ptr [7FFD706FDD28]; Bshox.BshoxWriter.get_UnflushedBytes()
        nop
        add       rsp,90
        pop       rbp
@@ -469,8 +484,8 @@ M00_L03:
        cmp       qword ptr [rbp+20],0
        jne       short M01_L00
        mov       rcx,offset MT_Bshox.BshoxOptions
-       call      qword ptr [7FFD703A5728]; System.Runtime.CompilerServices.StaticsHelpers.GetGCStaticBase(System.Runtime.CompilerServices.MethodTable*)
-       mov       rax,23607001218
+       call      qword ptr [7FFD70395728]; System.Runtime.CompilerServices.StaticsHelpers.GetGCStaticBase(System.Runtime.CompilerServices.MethodTable*)
+       mov       rax,1AC20801218
        mov       rax,[rax]
        mov       [rbp-10],rax
 M01_L00:
@@ -495,27 +510,25 @@ M01_L00:
        mov       dword ptr [rbp-50],3E8
        mov       rcx,[rbp+10]
        mov       edx,5
-       call      qword ptr [7FFD7070DDD0]; Bshox.BshoxWriter.GetRef(Int32)
+       call      qword ptr [7FFD706FDDD0]; Bshox.BshoxWriter.GetRef(Int32)
        mov       [rbp-40],rax
+       mov       rax,[rbp-40]
+       mov       ecx,[rbp+18]
+       mov       [rax],cl
+       cmp       dword ptr [rbp+18],7F
+       ja        short M02_L00
+       mov       rcx,7FFD70743FE8
+       call      CORINFO_HELP_COUNTPROFILE32
+       mov       rcx,[rbp+10]
+       mov       edx,1
+       call      qword ptr [7FFD706FDDE8]; Bshox.BshoxWriter.Advance(Int32)
+       nop
+       add       rsp,70
+       pop       rbp
+       ret
+M02_L00:
        xor       eax,eax
        mov       [rbp-44],eax
-       jmp       short M02_L01
-M02_L00:
-       mov       rcx,7FFD70753FE8
-       call      CORINFO_HELP_COUNTPROFILE32
-       mov       eax,[rbp-44]
-       mov       [rbp-48],eax
-       mov       eax,[rbp-44]
-       inc       eax
-       mov       [rbp-44],eax
-       mov       eax,[rbp+18]
-       or        eax,0FFFFFF80
-       movsxd    rcx,dword ptr [rbp-48]
-       mov       rdx,[rbp-40]
-       mov       [rdx+rcx],al
-       mov       eax,[rbp+18]
-       shr       eax,7
-       mov       [rbp+18],eax
 M02_L01:
        mov       eax,[rbp-50]
        dec       eax
@@ -523,12 +536,25 @@ M02_L01:
        cmp       dword ptr [rbp-50],0
        jg        short M02_L02
        lea       rcx,[rbp-50]
-       mov       edx,22
+       mov       edx,1B
        call      CORINFO_HELP_PATCHPOINT
 M02_L02:
+       mov       eax,[rbp-44]
+       mov       [rbp-48],eax
+       mov       eax,[rbp-44]
+       inc       eax
+       mov       [rbp-44],eax
+       mov       eax,[rbp+18]
+       or        eax,80
+       movsxd    rcx,dword ptr [rbp-48]
+       mov       rdx,[rbp-40]
+       mov       [rdx+rcx],al
+       mov       eax,[rbp+18]
+       shr       eax,7
+       mov       [rbp+18],eax
        cmp       dword ptr [rbp+18],7F
-       ja        short M02_L00
-       mov       rcx,7FFD70753FEC
+       ja        short M02_L03
+       mov       rcx,7FFD70743FEC
        call      CORINFO_HELP_COUNTPROFILE32
        movsxd    rax,dword ptr [rbp-44]
        mov       rcx,[rbp-40]
@@ -537,12 +563,16 @@ M02_L02:
        mov       eax,[rbp-44]
        lea       edx,[rax+1]
        mov       rcx,[rbp+10]
-       call      qword ptr [7FFD7070DDE8]; Bshox.BshoxWriter.Advance(Int32)
+       call      qword ptr [7FFD706FDDE8]; Bshox.BshoxWriter.Advance(Int32)
        nop
        add       rsp,70
        pop       rbp
        ret
-; Total bytes of code 200
+M02_L03:
+       mov       rcx,7FFD70743FF0
+       call      CORINFO_HELP_COUNTPROFILE32
+       jmp       near ptr M02_L01
+; Total bytes of code 257
 ```
 ```asm
 ; Bshox.TestUtils.FixedBufferWriter.Reset()

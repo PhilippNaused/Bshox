@@ -14,18 +14,18 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 ```
 | Method    | Platform | Runtime            |      Mean |     Error | Ratio | Code Size |
 |-----------|----------|--------------------|----------:|----------:|------:|----------:|
-| WriteByte | X64      | .NET 8.0           | 0.7410 ns | 0.0039 ns |  2.21 |     564 B |
-| Write1    | X64      | .NET 8.0           | 0.8146 ns | 0.0062 ns |  2.43 |     657 B |
-| WriteAny  | X64      | .NET 8.0           | 1.4249 ns | 0.0118 ns |  4.25 |     631 B |
-| WriteByte | X64      | .NET 9.0           | 0.3384 ns | 0.0015 ns |  1.01 |     472 B |
-| Write1    | X64      | .NET 9.0           | 0.4980 ns | 0.0003 ns |  1.49 |     556 B |
-| WriteAny  | X64      | .NET 9.0           | 1.7205 ns | 0.0216 ns |  5.13 |     554 B |
-| WriteByte | X64      | .NET 10.0          | 0.3351 ns | 0.0013 ns |  1.00 |     460 B |
-| Write1    | X64      | .NET 10.0          | 0.5049 ns | 0.0040 ns |  1.51 |     562 B |
-| WriteAny  | X64      | .NET 10.0          | 1.1300 ns | 0.0036 ns |  3.37 |     567 B |
-| WriteByte | X64      | .NET Framework 4.8 | 1.3223 ns | 0.0015 ns |  3.95 |     536 B |
-| Write1    | X64      | .NET Framework 4.8 | 1.8551 ns | 0.0019 ns |  5.54 |     541 B |
-| WriteAny  | X64      | .NET Framework 4.8 | 2.4207 ns | 0.0046 ns |  7.22 |     541 B |
-| WriteByte | X86      | .NET Framework 4.8 | 2.0387 ns | 0.0035 ns |  6.08 |        NA |
-| Write1    | X86      | .NET Framework 4.8 | 1.8747 ns | 0.0084 ns |  5.59 |        NA |
-| WriteAny  | X86      | .NET Framework 4.8 | 2.3716 ns | 0.0046 ns |  7.08 |        NA |
+| WriteByte | X64      | .NET 8.0           | 0.7316 ns | 0.0058 ns |  2.21 |     564 B |
+| Write1    | X64      | .NET 8.0           | 0.7232 ns | 0.0087 ns |  2.19 |     699 B |
+| WriteAny  | X64      | .NET 8.0           | 1.4992 ns | 0.0061 ns |  4.54 |     678 B |
+| WriteByte | X64      | .NET 9.0           | 0.3311 ns | 0.0005 ns |  1.00 |     472 B |
+| Write1    | X64      | .NET 9.0           | 0.3735 ns | 0.0005 ns |  1.13 |     581 B |
+| WriteAny  | X64      | .NET 9.0           | 1.1526 ns | 0.0027 ns |  3.49 |     613 B |
+| WriteByte | X64      | .NET 10.0          | 0.3303 ns | 0.0004 ns |  1.00 |     460 B |
+| Write1    | X64      | .NET 10.0          | 0.3738 ns | 0.0007 ns |  1.13 |     575 B |
+| WriteAny  | X64      | .NET 10.0          | 1.1772 ns | 0.0058 ns |  3.56 |     591 B |
+| WriteByte | X64      | .NET Framework 4.8 | 1.6511 ns | 0.0018 ns |  5.00 |     432 B |
+| Write1    | X64      | .NET Framework 4.8 | 1.8270 ns | 0.0041 ns |  5.53 |     555 B |
+| WriteAny  | X64      | .NET Framework 4.8 | 2.4116 ns | 0.0044 ns |  7.30 |     555 B |
+| WriteByte | X86      | .NET Framework 4.8 | 1.8564 ns | 0.0073 ns |  5.62 |        NA |
+| Write1    | X86      | .NET Framework 4.8 | 1.8684 ns | 0.0158 ns |  5.66 |        NA |
+| WriteAny  | X86      | .NET Framework 4.8 | 2.5936 ns | 0.0152 ns |  7.85 |        NA |

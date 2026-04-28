@@ -8,10 +8,11 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 
 Job=Dry  IterationCount=1  LaunchCount=25
 RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
+RatioSD=0.07
 
 ```
 | Method    |     Mean |     Error | Ratio | Code Size |
 |-----------|---------:|----------:|------:|----------:|
-| WriteByte | 1.433 μs | 0.0620 μs |  1.00 |     495 B |
-| Write1    | 1.490 μs | 0.0619 μs |  1.04 |     635 B |
-| WriteAny  | 1.503 μs | 0.0938 μs |  1.05 |     635 B |
+| WriteByte | 1.444 μs | 0.0580 μs |  1.00 |     495 B |
+| Write1    | 1.479 μs | 0.0483 μs |  1.03 |     692 B |
+| WriteAny  | 1.490 μs | 0.0495 μs |  1.03 |     692 B |
