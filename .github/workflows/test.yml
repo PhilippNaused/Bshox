@@ -61,14 +61,11 @@ jobs:
     - name: 🛠️ Restore dependencies
       run: dotnet restore
 
-    - name: 🔨 Build Debug
-      run: dotnet build --no-restore --configuration Debug
+    - name: 🔨 Build Debug & Release
+      run: dotnet build --no-restore --target BuildAll
 
     - name: 🧪 Test Debug
       run: dotnet test --no-progress --configuration Debug --disable-logo --results-directory ./TestResults --no-build -- --report-trx
-
-    - name: 🔨 Build Release
-      run: dotnet build --no-restore --configuration Release
 
     - name: 🧪 Test Release
       run: dotnet test --no-progress --configuration Release --disable-logo --results-directory ./TestResults --no-build -- --report-trx

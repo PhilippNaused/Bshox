@@ -80,4 +80,17 @@
              Targets="Publish" />
   </Target>
 
+  <!-- Build Debug and Release (in parallel) -->
+  <Target Name="BuildAll">
+    <ItemGroup>
+      <_Project Include="$(MSBuildProjectFile)"
+                AdditionalProperties="Configuration=Debug" />
+      <_Project Include="$(MSBuildProjectFile)"
+                AdditionalProperties="Configuration=Release" />
+    </ItemGroup>
+    <MSBuild Projects="@(_Project)"
+             BuildInParallel="true"
+             Targets="Build" />
+  </Target>
+
 </Project>
