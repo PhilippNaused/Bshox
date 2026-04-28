@@ -4,6 +4,8 @@ using System.Diagnostics;
 
 namespace Bshox.TestUtils;
 
+#pragma warning disable CA1034 // Nested types should not be visible (False positive for extension blocks)
+
 public static class HexUtils
 {
     public static string ToHex(this byte[] bytes)
@@ -87,5 +89,10 @@ public static class HexUtils
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, // 239
         0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF  // 255
     ];
+
+    extension(char)
+    {
+        public static bool IsAscii(char c) => (uint)c <= '\x007f';
+    }
 #endif
 }
