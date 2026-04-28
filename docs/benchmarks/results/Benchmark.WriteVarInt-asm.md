@@ -21,7 +21,7 @@
        xor       ebx,ebx
        xor       ebp,ebp
        xor       r14d,r14d
-       mov       rcx,25530C012F8
+       mov       rcx,24D35C012F8
        mov       r15,[rcx]
        xor       r13d,r13d
 M00_L00:
@@ -68,7 +68,7 @@ M00_L04:
        jne       near ptr M00_L11
        lea       rdx,[rsp+38]
        mov       rcx,rdi
-       call      qword ptr [7FFD705E6278]; Bshox.TestUtils.FixedBufferWriter.GetMemory(Int32)
+       call      qword ptr [7FFD70616278]; Bshox.TestUtils.FixedBufferWriter.GetMemory(Int32)
        xor       ebx,ebx
        xor       ebp,ebp
        mov       rcx,[rsp+38]
@@ -102,7 +102,7 @@ M00_L07:
 M00_L08:
        mov       rcx,rdi
        mov       edx,r14d
-       mov       r11,7FFD702D04F8
+       mov       r11,7FFD703004F8
        call      qword ptr [r11]
        xor       r14d,r14d
        jmp       near ptr M00_L03
@@ -120,11 +120,11 @@ M00_L10:
 M00_L11:
        lea       rdx,[rsp+48]
        mov       rcx,rdi
-       mov       r11,7FFD702D04F0
+       mov       r11,7FFD703004F0
        call      qword ptr [r11]
        jmp       short M00_L07
 M00_L12:
-       call      qword ptr [7FFD70557990]
+       call      qword ptr [7FFD70587990]
        int       3
 M00_L13:
        call      CORINFO_HELP_RNGCHKFAIL
@@ -144,7 +144,7 @@ M00_L13:
 M01_L00:
        mov       edx,[rcx+14]
        mov       ecx,r8d
-       call      qword ptr [7FFD706EFDE0]
+       call      qword ptr [7FFD7071FDE0]
        mov       rcx,rax
        call      CORINFO_HELP_THROW
        int       3
@@ -174,30 +174,25 @@ M01_L00:
        xor       ebx,ebx
        xor       ebp,ebp
        xor       r14d,r14d
-       mov       rcx,1C7C98012F8
+       mov       rcx,260C50012F8
        mov       r15,[rcx]
        xor       r13d,r13d
 M00_L00:
        mov       rcx,[rsi+8]
        cmp       r13d,[rcx+8]
-       jae       near ptr M00_L16
+       jae       near ptr M00_L17
        mov       r12d,[rcx+r13*4+10]
        cmp       ebp,5
        jl        short M00_L03
 M00_L01:
-       xor       eax,eax
+       mov       rax,rbx
+       mov       [rax],r12b
        cmp       r12d,7F
        ja        near ptr M00_L13
+       inc       rbx
+       dec       ebp
+       inc       r14d
 M00_L02:
-       movsxd    rcx,eax
-       mov       [rbx+rcx],r12b
-       lea       r12d,[rax+1]
-       test      r12d,r12d
-       jl        near ptr M00_L15
-       mov       eax,r12d
-       add       rbx,rax
-       sub       ebp,r12d
-       add       r14d,r12d
        inc       r13d
        cmp       r13d,3E8
        jl        short M00_L00
@@ -249,7 +244,7 @@ M00_L06:
        add       r8,rdx
        mov       r11d,ebp
        cmp       r8,r11
-       ja        near ptr M00_L14
+       ja        near ptr M00_L15
        add       rbx,rdx
        mov       ebp,ecx
 M00_L07:
@@ -257,7 +252,7 @@ M00_L07:
        mov       [rsp+50],ebp
 M00_L08:
        cmp       dword ptr [rsp+50],0
-       jbe       near ptr M00_L16
+       jbe       near ptr M00_L17
        mov       rbx,[rsp+48]
        mov       ebp,[rsp+50]
        jmp       near ptr M00_L01
@@ -286,31 +281,42 @@ M00_L12:
        call      qword ptr [r11]
        jmp       short M00_L08
 M00_L13:
+       xor       eax,eax
+M00_L14:
        lea       ecx,[rax+1]
        mov       edx,r12d
-       or        edx,0FFFFFF80
+       or        edx,80
        cdqe
        mov       [rbx+rax],dl
        shr       r12d,7
        cmp       r12d,7F
        mov       eax,ecx
-       ja        short M00_L13
+       ja        short M00_L14
+       movsxd    rcx,eax
+       mov       [rbx+rcx],r12b
+       lea       r12d,[rax+1]
+       test      r12d,r12d
+       jl        short M00_L16
+       mov       eax,r12d
+       add       rbx,rax
+       sub       ebp,r12d
+       add       r14d,r12d
        jmp       near ptr M00_L02
-M00_L14:
+M00_L15:
        call      qword ptr [7FFD70577990]
        int       3
-M00_L15:
+M00_L16:
        mov       ecx,225
-       mov       rdx,7FFD70763568
+       mov       rdx,7FFD70763128
        call      qword ptr [7FFD703AEE38]
        mov       rdx,rax
        mov       ecx,r12d
        call      qword ptr [7FFD7070FFA8]
        int       3
-M00_L16:
+M00_L17:
        call      CORINFO_HELP_RNGCHKFAIL
        int       3
-; Total bytes of code 514
+; Total bytes of code 527
 ```
 ```asm
 ; Bshox.TestUtils.FixedBufferWriter.GetMemory(Int32)
@@ -325,7 +331,7 @@ M00_L16:
 M01_L00:
        mov       edx,[rcx+14]
        mov       ecx,r8d
-       call      qword ptr [7FFD7070FDE0]
+       call      qword ptr [7FFD7070FD20]
        mov       rcx,rax
        call      CORINFO_HELP_THROW
        int       3
@@ -355,13 +361,13 @@ M01_L00:
        xor       ebx,ebx
        xor       ebp,ebp
        xor       r14d,r14d
-       mov       rcx,20E52C012F8
+       mov       rcx,2CE064012F8
        mov       r15,[rcx]
        xor       r13d,r13d
        jmp       near ptr M00_L09
 M00_L00:
        test      r14d,r14d
-       jg        near ptr M00_L14
+       jg        near ptr M00_L15
 M00_L01:
        mov       r8d,[r15+0C]
        cmp       r8d,5
@@ -370,10 +376,10 @@ M00_L01:
 M00_L02:
        mov       rdx,offset MT_Bshox.TestUtils.FixedBufferWriter
        cmp       [rdi],rdx
-       jne       near ptr M00_L15
+       jne       near ptr M00_L16
        lea       rdx,[rsp+38]
        mov       rcx,rdi
-       call      qword ptr [7FFD705E6278]; Bshox.TestUtils.FixedBufferWriter.GetMemory(Int32)
+       call      qword ptr [7FFD70616278]; Bshox.TestUtils.FixedBufferWriter.GetMemory(Int32)
        xor       ebx,ebx
        xor       ebp,ebp
        mov       rcx,[rsp+38]
@@ -389,8 +395,7 @@ M00_L02:
        mov       ebp,[rsp+30]
        mov       rbx,[rsp+28]
        jmp       short M00_L04
-       nop       dword ptr [rax+rax]
-       nop       dword ptr [rax+rax]
+       nop       word ptr [rax+rax]
 M00_L03:
        lea       rbx,[rcx+10]
        mov       ebp,[rcx+8]
@@ -402,7 +407,7 @@ M00_L04:
        add       r8,rdx
        mov       r11d,ebp
        cmp       r8,r11
-       ja        near ptr M00_L13
+       ja        near ptr M00_L14
        add       rbx,rdx
        mov       ebp,ecx
 M00_L05:
@@ -410,47 +415,48 @@ M00_L05:
        mov       [rsp+50],ebp
 M00_L06:
        cmp       dword ptr [rsp+50],0
-       jbe       near ptr M00_L17
+       jbe       near ptr M00_L18
        mov       rbx,[rsp+48]
        mov       ebp,[rsp+50]
        jmp       short M00_L10
 M00_L07:
-       mov       ecx,eax
-M00_L08:
-       movsxd    rax,ecx
-       mov       [rbx+rax],r12b
-       lea       r12d,[rcx+1]
+       movsxd    rcx,eax
+       mov       [rbx+rcx],r12b
+       lea       r12d,[rax+1]
        test      r12d,r12d
-       jl        near ptr M00_L16
+       jl        near ptr M00_L17
        mov       eax,r12d
        add       rbx,rax
        sub       ebp,r12d
        add       r14d,r12d
+M00_L08:
        inc       r13d
        cmp       r13d,3E8
        jge       short M00_L12
 M00_L09:
        mov       rcx,[rsi+30]
        cmp       r13d,[rcx+8]
-       jae       near ptr M00_L17
+       jae       near ptr M00_L18
        mov       r12d,[rcx+r13*4+10]
        cmp       ebp,5
        jl        near ptr M00_L00
 M00_L10:
-       xor       eax,eax
+       mov       rax,rbx
+       mov       [rax],r12b
        cmp       r12d,7F
-       jbe       short M00_L07
+       jbe       short M00_L13
+       xor       eax,eax
 M00_L11:
        lea       ecx,[rax+1]
        mov       edx,r12d
-       or        edx,0FFFFFF80
+       or        edx,80
        cdqe
        mov       [rbx+rax],dl
        shr       r12d,7
        cmp       r12d,7F
-       jbe       short M00_L08
        mov       eax,ecx
-       jmp       short M00_L11
+       ja        short M00_L11
+       jmp       short M00_L07
 M00_L12:
        mov       rdi,[rsi+38]
        lea       rsi,[rdi+18]
@@ -469,33 +475,38 @@ M00_L12:
        pop       r15
        ret
 M00_L13:
-       call      qword ptr [7FFD70557990]
-       int       3
+       inc       rbx
+       dec       ebp
+       inc       r14d
+       jmp       near ptr M00_L08
 M00_L14:
+       call      qword ptr [7FFD70587990]
+       int       3
+M00_L15:
        mov       rcx,rdi
        mov       edx,r14d
-       mov       r11,7FFD702D04F8
+       mov       r11,7FFD703004F8
        call      qword ptr [r11]
        xor       r14d,r14d
        jmp       near ptr M00_L01
-M00_L15:
+M00_L16:
        lea       rdx,[rsp+48]
        mov       rcx,rdi
-       mov       r11,7FFD702D04F0
+       mov       r11,7FFD703004F0
        call      qword ptr [r11]
        jmp       near ptr M00_L06
-M00_L16:
+M00_L17:
        mov       ecx,225
-       mov       rdx,7FFD70743128
-       call      qword ptr [7FFD7038EE38]
+       mov       rdx,7FFD70773128
+       call      qword ptr [7FFD703BEE38]
        mov       rdx,rax
        mov       ecx,r12d
-       call      qword ptr [7FFD706EFFA8]
+       call      qword ptr [7FFD7071FFA8]
        int       3
-M00_L17:
+M00_L18:
        call      CORINFO_HELP_RNGCHKFAIL
        int       3
-; Total bytes of code 519
+; Total bytes of code 535
 ```
 ```asm
 ; Bshox.TestUtils.FixedBufferWriter.GetMemory(Int32)
@@ -510,7 +521,7 @@ M00_L17:
 M01_L00:
        mov       edx,[rcx+14]
        mov       ecx,r8d
-       call      qword ptr [7FFD706EFD20]
+       call      qword ptr [7FFD7071FD20]
        mov       rcx,rax
        call      CORINFO_HELP_THROW
        int       3

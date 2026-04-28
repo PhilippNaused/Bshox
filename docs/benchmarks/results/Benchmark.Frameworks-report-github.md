@@ -14,14 +14,14 @@ Intel Core i7-14700KF 3.40GHz, 1 CPU, 28 logical and 20 physical cores
 ```
 | Method      | Platform | Runtime            |       Mean |    Error | Ratio |
 |-------------|----------|--------------------|-----------:|---------:|------:|
-| Deserialize | X64      | .NET 8.0           |   868.4 ns |  9.65 ns |  1.01 |
-| Deserialize | X64      | .NET 9.0           |   810.1 ns |  4.26 ns |  0.94 |
-| Deserialize | X64      | .NET 10.0          |   859.3 ns |  4.98 ns |  1.00 |
-| Deserialize | X64      | .NET Framework 4.8 | 3,715.7 ns |  7.13 ns |  4.32 |
-| Deserialize | X86      | .NET Framework 4.8 | 3,491.6 ns |  7.45 ns |  4.06 |
+| Deserialize | X64      | .NET 8.0           |   823.6 ns |  1.36 ns |  1.05 |
+| Deserialize | X64      | .NET 9.0           |   717.0 ns |  1.84 ns |  0.92 |
+| Deserialize | X64      | .NET 10.0          |   782.2 ns |  1.87 ns |  1.00 |
+| Deserialize | X64      | .NET Framework 4.8 | 3,693.6 ns |  3.17 ns |  4.72 |
+| Deserialize | X86      | .NET Framework 4.8 | 3,542.1 ns |  6.44 ns |  4.53 |
 |             |          |                    |            |          |       |
-| Serialize   | X64      | .NET 8.0           |   779.6 ns | 12.46 ns |  1.02 |
-| Serialize   | X64      | .NET 9.0           |   740.7 ns |  3.65 ns |  0.97 |
-| Serialize   | X64      | .NET 10.0          |   767.2 ns |  5.34 ns |  1.00 |
-| Serialize   | X64      | .NET Framework 4.8 | 3,121.3 ns |  6.19 ns |  4.07 |
-| Serialize   | X86      | .NET Framework 4.8 | 4,809.0 ns | 25.83 ns |  6.27 |
+| Serialize   | X64      | .NET 8.0           |   766.4 ns |  2.17 ns |  1.17 |
+| Serialize   | X64      | .NET 9.0           |   678.5 ns |  2.54 ns |  1.04 |
+| Serialize   | X64      | .NET 10.0          |   654.4 ns |  3.22 ns |  1.00 |
+| Serialize   | X64      | .NET Framework 4.8 | 3,037.1 ns |  5.40 ns |  4.64 |
+| Serialize   | X86      | .NET Framework 4.8 | 4,456.5 ns | 11.46 ns |  6.81 |
