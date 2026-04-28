@@ -16,8 +16,7 @@
     "tests/**/Snapshots/**"
   ],
   "dictionaries": [
-    "project-words",
-    "dotnet-ext"
+    "project-words"
   ],
   "dictionaryDefinitions": [
     {
