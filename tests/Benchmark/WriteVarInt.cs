@@ -15,7 +15,7 @@ public class WriteVarIntCold : WriteVarInt;
 /// <summary>
 /// Benchmarks for BshoxWriter.WriteVarInt32
 /// </summary>
-// [DisassemblyDiagnoser]
+[DisassemblyDiagnoser]
 [Config(typeof(BaseConfig))]
 public class WriteVarInt : VarIntBase
 {
