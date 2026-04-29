@@ -1,13 +1,10 @@
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<TestType3>]
 public partial class Serializer3;
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true, ImplicitDefaultValues = true)]
 public record TestType3
 {

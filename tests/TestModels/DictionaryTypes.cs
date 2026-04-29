@@ -1,17 +1,13 @@
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable(typeof(Dictionary<string, TestType7?>))]
 public partial class DictionarySerializer1;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable(typeof(List<(string, TestType7?)>))]
 public partial class DictionarySerializer2;
 
-[ExcludeFromCodeCoverage]
 [BshoxContract(ImplicitMembers = true, ImplicitDefaultValues = true)]
 public record TestType7()
 {

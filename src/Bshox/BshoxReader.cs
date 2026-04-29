@@ -1,5 +1,7 @@
 using System.Buffers;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bshox.Internals;
@@ -11,7 +13,7 @@ namespace Bshox;
 /// </summary>
 public ref partial struct BshoxReader
 {
-    private ReadOnlySpan<byte> _span;
+    private ReadOnlySpan<byte> _span; // TODO: try inlining this field to bypass the redundant bounds checks.
 
     private readonly ReadOnlySequence<byte> _sequence;
 
@@ -68,6 +70,7 @@ public ref partial struct BshoxReader
             _span = sequence.First.Span;
             Length = _span.Length;
             _moreData = !_span.IsEmpty;
+            Check();
             return;
         }
         _usingSequence = true;
@@ -76,7 +79,7 @@ public ref partial struct BshoxReader
         Length = sequence.Length;
         _moreData = true;
         GetNextSpan();
-        Debug.Assert(_moreData != _span.IsEmpty, "_moreData != _span.IsEmpty");
+        Check();
     }
 
     /// <summary>
@@ -91,7 +94,16 @@ public ref partial struct BshoxReader
         Length = memory.Length;
         _span = memory.Span;
         _moreData = !memory.IsEmpty;
+        Check();
     }
+
+    /// <summary>
+    /// throws a <see cref="NotSupportedException"/> if called.
+    /// </summary>
+    [Obsolete("Do not use the parameterless constructor.", error: true)] // triggers a compile-time error if this constructor is called
+    [EditorBrowsable(EditorBrowsableState.Never)] // hides this constructor from IntelliSense
+    [ExcludeFromCodeCoverage]
+    public BshoxReader() => throw new NotSupportedException("Parameterless constructor is not supported.");
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal unsafe T ReadUnsafe<T>() where T : unmanaged
@@ -101,12 +113,28 @@ public ref partial struct BshoxReader
     {
         if (_span.Length >= sizeof(T))
         {
-            T value = Unsafe.ReadUnaligned<T>(ref MemoryMarshal.GetReference(_span));
+            T value = Unsafe.As<byte, T>(ref MemoryMarshal.GetReference(_span));
             Advance(sizeof(T));
             return value;
         }
 
         return ReadUnsafeSlow<T>();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal unsafe void ReadUnsafe<T>(scoped out T value) where T : unmanaged
+#if NET9_0_OR_GREATER
+        , allows ref struct
+#endif
+    {
+        if (_span.Length >= sizeof(T))
+        {
+            value = Unsafe.As<byte, T>(ref MemoryMarshal.GetReference(_span));
+            Advance(sizeof(T));
+            return;
+        }
+
+        value = ReadUnsafeSlow<T>();
     }
 
     /// <summary>
@@ -121,6 +149,7 @@ public ref partial struct BshoxReader
             // Fast path: all bytes to decode appear in the same span.
             string value = EncodingHelper.Utf8NoBom.GetString(_span.Slice(0, byteLength));
             Advance(byteLength);
+            Check();
             return value;
         }
 
@@ -140,6 +169,7 @@ public ref partial struct BshoxReader
         }
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private string ReadStringSlow(int byteLength)
     {
         CheckBufferSize(byteLength);
@@ -173,6 +203,7 @@ public ref partial struct BshoxReader
 
         string value = new(charArray, 0, initializedChars);
         ArrayPool<char>.Shared.Return(charArray); // TODO: use try-catch
+        Check();
         return value;
     }
 
@@ -195,8 +226,26 @@ public ref partial struct BshoxReader
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public byte ReadByte()
     {
+        if (_span.Length > 1) // hot path
+        {
+            // we have at least 2 bytes in the span, so we can read one without running out of data
+            byte value = _span[0];
+            _span = _span.Slice(1);
+            Consumed++;
+            Check();
+            return value;
+        }
+        Check();
+        return ReadByteSlow();
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+    private byte ReadByteSlow()
+    {
+        Debug.Assert(_span.Length < 2, "_span.Length < 2");
         if (!_moreData)
         {
+            Debug.Assert(_span.IsEmpty, "_span.IsEmpty");
             throw EndOfStream();
         }
 
@@ -217,24 +266,33 @@ public ref partial struct BshoxReader
             }
         }
 
+        Check();
         return value;
     }
 
+    /// <summary>
+    /// <see cref="ReadOnlySequence{T}.Enumerator.MoveNext"/>
+    /// </summary>
     private void GetNextSpan()
     {
         Debug.Assert(_moreData, nameof(_moreData));
         Debug.Assert(_usingSequence, nameof(_usingSequence));
-        while (TryMoveNext())
+        if (TryMoveNext())
         {
-            if (!_span.IsEmpty)
+            if (_span.IsEmpty)
             {
-                return;
+                Debug.Fail("Expected non-empty span");
+                throw new InvalidOperationException("Sequence returned an empty segment.");
             }
+            Check();
+            return;
         }
         _span = [];
         _moreData = false;
+        Check();
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private bool TryMoveNext()
     {
         if (_next.GetObject() == null)
@@ -253,10 +311,9 @@ public ref partial struct BshoxReader
     /// <summary>
     /// Move the reader ahead by the specified number of bytes.
     /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Advance(int count)
     {
-        if (_span.Length > count && count >= 0)
+        if (_span.Length > count)
         {
             _span = _span.Slice(count);
             Consumed += count;
@@ -273,31 +330,38 @@ public ref partial struct BshoxReader
         }
         else
         {
-            ArgumentOutOfRangeException.ThrowIfNegative(count);
             throw EndOfStream();
         }
+        Check();
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)]
     private void AdvanceSlow(int count)
     {
         Debug.Assert(_usingSequence, nameof(_usingSequence));
+        Debug.Assert(_span.Length <= count, "_span.Length <= count");
         ArgumentOutOfRangeException.ThrowIfNegative(count);
+        if (count > Remaining)
+        {
+            throw EndOfStream();
+        }
 
-        Consumed += count;
         while (_moreData)
         {
-            int remaining = _span.Length;
+            int spanLength = _span.Length;
 
-            if (remaining > count)
+            if (spanLength > count)
             {
                 _span = _span.Slice(count);
+                Consumed += count;
                 count = 0;
                 break;
             }
 
-            count -= remaining;
+            count -= spanLength;
             Debug.Assert(count >= 0, "count >= 0");
 
+            Consumed += spanLength;
             GetNextSpan();
 
             if (count == 0)
@@ -306,8 +370,11 @@ public ref partial struct BshoxReader
             }
         }
 
+        Check();
+
         if (count != 0)
         {
+            Debug.Fail("Ran into dead code");
             throw EndOfStream();
         }
     }
@@ -316,31 +383,28 @@ public ref partial struct BshoxReader
     /// Copies bytes from the reader into the specified <paramref name="destination"/> span and advances the reader by the number of bytes copied.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void CopyTo(Span<byte> destination)
+    public void CopyTo(scoped Span<byte> destination)
     {
         if (_span.Length >= destination.Length)
         {
+            // fast path: all bytes to copy appear in the current span
             _span.Slice(0, destination.Length).CopyTo(destination);
-            _span = _span.Slice(destination.Length);
-            Consumed += destination.Length;
-            if (_span.IsEmpty)
-            {
-                if (_usingSequence)
-                    GetNextSpan();
-                else
-                    _moreData = false;
-            }
+            Advance(destination.Length);
+            Check();
             return;
         }
         if (_usingSequence)
         {
+            // slow path: we need to copy bytes across multiple spans
             CopyToSlow(destination);
+            Check();
             return;
         }
         throw EndOfStream();
     }
 
-    private void CopyToSlow(Span<byte> destination)
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private void CopyToSlow(scoped Span<byte> destination)
     {
         Debug.Assert(_usingSequence, nameof(_usingSequence));
         CheckBufferSize(destination.Length);
@@ -354,7 +418,7 @@ public ref partial struct BshoxReader
             GetNextSpan();
             if (!_moreData)
             {
-                Debug.Assert(copied < destination.Length, "copied < destination.Length");
+                Debug.Fail("Ran into dead code"); // CheckBufferSize should prevent this
                 throw EndOfStream();
             }
             int toCopy = Math.Min(_span.Length, destination.Length - copied);
@@ -375,6 +439,7 @@ public ref partial struct BshoxReader
         throw EndOfStream();
     }
 
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
     private static BshoxException EndOfStream()
     {
         var inner = new EndOfStreamException();
@@ -386,15 +451,14 @@ public ref partial struct BshoxReader
     /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
     /// This method must be used in a <c>using</c> statement to ensure proper depth tracking.
     /// </summary>
-    /// <example>
+    /// <remarks>
+    /// e.g.:
     /// <code lang="csharp">
     /// using (reader.DepthLock())
     /// {
     ///   // Read nested object or array here.
     /// }
     /// </code>
-    /// </example>
-#pragma warning disable CS0618 // Type or member is obsolete
+    /// </remarks>
     public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
-#pragma warning restore CS0618 // Type or member is obsolete
 }

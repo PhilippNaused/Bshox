@@ -19,4 +19,5 @@ Bshox014 | Bshox | Error | The current compiler version is too low
 Bshox015 | Bshox | Warning | Dispose the return value of the DepthLock() method correctly
 Bshox016 | Bshox | Error | The specified symbol for the contract is not unique
 
+Bshox998 | Bshox | Error | Feature not implemented
 Bshox999 | Bshox | Error | Internal Error

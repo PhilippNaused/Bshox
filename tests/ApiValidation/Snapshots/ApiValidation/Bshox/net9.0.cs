@@ -70,7 +70,6 @@ namespace Bshox
         protected BshoxException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         [System.Obsolete("This API supports obsolete formatter-based serialization. It should not be called or extended by application code.", DiagnosticId = "SYSLIB0051", UrlFormat = "https://aka.ms/dotnet-warnings/{0}")]
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
-        public static Bshox.BshoxException InvalidEncoding(Bshox.BshoxCode encoding);
         public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
     }
     public sealed record BshoxOptions
@@ -87,13 +86,15 @@ namespace Bshox
     {
         public BshoxReader(System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions? options = null);
         public BshoxReader(System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);
+        [System.Obsolete("Do not use the parameterless constructor.", true)]
+        public BshoxReader();
         public long Consumed { readonly get; }
         public readonly int CurrentDepth { get; }
         public readonly long Length { get; }
         public readonly Bshox.BshoxOptions Options { get; }
         public readonly long Remaining { get; }
         public void Advance(int count);
-        public void CopyTo(System.Span<byte> destination);
+        public void CopyTo(scoped System.Span<byte> destination);
         public Bshox.Internals.DepthLockScope DepthLock();
         public int ReadArrayHeader(out Bshox.BshoxCode encoding);
         public byte ReadByte();
@@ -126,6 +127,8 @@ namespace Bshox
     public ref struct BshoxWriter
     {
         public BshoxWriter(System.Buffers.IBufferWriter<byte> buffer, Bshox.BshoxOptions? options = null);
+        [System.Obsolete("Do not use the parameterless constructor.", true)]
+        public BshoxWriter();
         public readonly int CurrentDepth { get; }
         public readonly Bshox.BshoxOptions Options { get; }
         public void Advance(int count);
@@ -169,11 +172,11 @@ namespace Bshox
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
-        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> contract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> contract1, Bshox.BshoxContract<TValue> contract2) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
-        public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> contract) where TKey : notnull;
-        public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<System.Collections.Generic.List<T>> contract);
+        public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> contract1, Bshox.BshoxContract<TValue> contract2) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract1) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.List<T>> List<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.ValueTuple<T1>> ValueTuple<T1>(Bshox.BshoxContract<T1> contract1);
         public static Bshox.BshoxContract<(T1, T2)> ValueTuple<T1, T2>(Bshox.BshoxContract<T1> contract1, Bshox.BshoxContract<T2> contract2);
@@ -234,7 +237,6 @@ namespace Bshox.Attributes
 }
 namespace Bshox.Internals
 {
-    [System.Obsolete("This type should only be referenced implicitly")]
     public readonly ref struct DepthLockScope
     {
         public void Dispose();

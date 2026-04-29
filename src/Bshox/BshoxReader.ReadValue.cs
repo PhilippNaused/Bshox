@@ -1,5 +1,6 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Bshox.Internals;
 
 namespace Bshox;
@@ -7,40 +8,74 @@ namespace Bshox;
 public ref partial struct BshoxReader
 {
     /// <summary>
-    /// Reads an unsigned integer using variable-length encoding.
+    /// Reads an unsigned 64-bit integer using variable-length encoding.
     /// </summary>
     public ulong ReadVarInt64()
     {
         ulong value = 0;
-        int shift = 0;
+        int bitShift = 0;
         byte b;
         do
         {
             b = ReadByte();
-            value |= (ulong)(b & 0x7F) << shift;
-            shift += 7;
-            if (shift > 10 * 7)
+            value |= (b & 0x7Ful) << bitShift;
+            bitShift += 7;
+            if (bitShift > 10 * 7)
                 throw BshoxException.VarIntTooLong();
-        } while ((b & 0x80) != 0);
+        } while (b > 127);
         return value;
     }
 
     /// <summary>
-    /// Reads an unsigned integer using variable-length encoding.
+    /// Reads an unsigned 32-bit integer using variable-length encoding.
     /// </summary>
     public uint ReadVarInt32()
     {
-        uint value = 0;
+        uint value = ReadByte();
+        if (value < 128u)
+            return value; // hot path
+        value &= 0x7Fu;
+        if (_span.Length >= 4)
+        {
+            return ReadVarInt32Fast(value); // lukewarm path
+        }
+        return ReadVarInt32Slow(value); // cold path
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] // lukewarm path
+    private uint ReadVarInt32Fast(uint value)
+    {
+        Debug.Assert(_span.Length >= 4, "_span.Length >= 4");
         int shift = 0;
         byte b;
         do
         {
-            b = ReadByte();
-            value |= (uint)(b & 0x7F) << shift;
-            shift += 7;
-            if (shift > 5 * 7)
+            b = _span[shift];
+            shift++;
+            value |= (b & 0x7Fu) << (shift * 7);
+            if (shift > 4)
                 throw BshoxException.VarIntTooLong();
-        } while ((b & 0x80) != 0);
+        } while (b > 127);
+
+        Advance(shift);
+
+        return value;
+    }
+
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+    private uint ReadVarInt32Slow(uint value)
+    {
+        Debug.Assert(_span.Length < 4, "_span.Length < 4");
+        int bitShift = 0;
+        byte b;
+        do
+        {
+            b = ReadByte();
+            bitShift += 7;
+            value |= (b & 0x7Fu) << bitShift;
+            if (bitShift > 5 * 7)
+                throw BshoxException.VarIntTooLong();
+        } while (b > 127);
         return value;
     }
 
@@ -89,8 +124,7 @@ public ref partial struct BshoxReader
         // guard against malicious input by checking if the array is too large
         long minSize = GetMinLength(encoding) * count;
         // check for overflow
-        if (minSize < 0)
-            throw EndOfStream();
+        Debug.Assert(minSize >= 0, "minSize >= 0");
         CheckBufferSize(minSize);
         Debug.Assert(count <= BshoxConstants.MaxKey, "count <= BshoxConstants.MaxKey");
         Debug.Assert(count <= int.MaxValue, "count <= int.MaxValue");
@@ -100,7 +134,7 @@ public ref partial struct BshoxReader
     /// <summary>
     /// Gets the minimum length of a value encoded with the specified encoding.
     /// </summary>
-    private static int GetMinLength(BshoxCode encoding)
+    private static uint GetMinLength(BshoxCode encoding)
     {
         return encoding switch
         {

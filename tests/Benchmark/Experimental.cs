@@ -1,6 +1,5 @@
 using BenchmarkDotNet.Attributes;
 using Bshox;
-using Bshox.Internals;
 using Bshox.TestUtils;
 
 namespace Benchmark;
@@ -13,11 +12,11 @@ public class Experimental
     private const int Count = 1_000;
 
     private readonly uint[] array = new uint[Count];
-    private readonly PooledByteBufferWriter buffer = new();
+    private readonly FixedBufferWriter buffer = new(new byte[BshoxOptions.BufferSizeDefault]);
 
     public Experimental()
     {
-        var random = new Random();
+        var random = new Random(42);
         for (int i = 0; i < Count; i++)
         {
             array[i] = random.NextScaledUInt();
@@ -34,6 +33,6 @@ public class Experimental
             writer.WriteByte(17);
         }
         writer.Flush();
-        buffer.Dispose();
+        buffer.Reset();
     }
 }

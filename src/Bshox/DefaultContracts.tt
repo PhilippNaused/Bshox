@@ -18,7 +18,7 @@ partial class DefaultContracts
 // load GeneratedContracts.json
 string filePath = this.Host.ResolvePath("../GeneratedContracts.json");
 string json = File.ReadAllText(filePath);
-var contracts = JsonSerializer.Deserialize<Contracts>(json);
+var contracts = JsonSerializer.Deserialize<Contracts>(json, new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip });
 foreach (var type in contracts.Primitives)
 {
 #>

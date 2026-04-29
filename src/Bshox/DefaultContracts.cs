@@ -42,29 +42,31 @@ public static partial class DefaultContracts
             byte length = reader.ReadByte();
             if (length != sizeofGuid)
             {
-                throw new BshoxException($"Expected {sizeofGuid} bytes but got {length}");
+                throw Fail(length);
             }
-            value = reader.ReadUnsafe<Guid>();
+            reader.ReadUnsafe(out value);
 
             // UUID is big-endian. See https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.2
             if (BitConverter.IsLittleEndian)
             {
-                value = EndiannessHelper.Reverse(value);
+                EndiannessHelper.Reverse(ref value);
             }
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            static BshoxException Fail(int length) => new($"Expected {sizeofGuid} bytes but got {length}");
         }
 
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly Guid value)
         {
             const int sizeofGuid = 16;
             ref byte bytes = ref writer.GetRef(sizeofGuid + 1);
-            bytes = sizeofGuid;
-            if (BitConverter.IsLittleEndian) // UUID is big-endian. See https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.2
+            bytes = sizeofGuid; // length prefix
+            ref Guid guid = ref Unsafe.As<byte, Guid>(ref Unsafe.Add(ref bytes, 1));
+            guid = value;
+            if (BitConverter.IsLittleEndian)
             {
-                Unsafe.WriteUnaligned(ref Unsafe.Add(ref bytes, 1), EndiannessHelper.Reverse(value));
-            }
-            else
-            {
-                Unsafe.WriteUnaligned(ref Unsafe.Add(ref bytes, 1), value);
+                // UUID is big-endian. See https://datatracker.ietf.org/doc/html/rfc4122#section-4.1.2
+                EndiannessHelper.Reverse(ref guid);
             }
             writer.Advance(sizeofGuid + 1);
         }

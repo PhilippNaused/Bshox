@@ -1,7 +1,6 @@
 using System.Reflection;
 using System.Runtime.Versioning;
 using Bshox;
-using Bshox.Generator;
 using Bshox.Utils;
 using ICSharpCode.Decompiler.Metadata;
 using VeriGit;
@@ -25,13 +24,6 @@ internal class ApiValidation
     }
 
     [Test]
-    public Task BshoxGenerator()
-    {
-        var assembly = typeof(BshoxGenerator).Assembly;
-        return Validate(assembly);
-    }
-
-    [Test]
     public Task VeriGit()
     {
         var assembly = typeof(Validation).Assembly;
@@ -42,17 +34,17 @@ internal class ApiValidation
     {
         var API = assembly.Decompile();
         var lines = API.Split(['\n'], StringSplitOptions.None).Where(line => !line.Contains("Reference: TUnit.Core")).ToArray();
-        return Validate(GetFramework(assembly) ?? "unknown", string.Join("\n", lines));
+        return Validate(GetFramework(assembly), string.Join("\n", lines));
     }
 
-    private static string? GetFramework(Assembly assembly)
+    private static string GetFramework(Assembly assembly)
     {
         TargetFrameworkAttribute? attribute = assembly.GetCustomAttribute<TargetFrameworkAttribute>();
         var (identifier, version) = ParseTargetFramework(attribute?.FrameworkName ?? string.Empty);
         return GetFtm(identifier, version);
     }
 
-    private static string? GetFtm(TargetFrameworkIdentifier type, Version version)
+    private static string GetFtm(TargetFrameworkIdentifier type, Version version)
     {
         // get framework moniker like "net48", "net6.0", "netstandard2.0", etc.
         return type switch

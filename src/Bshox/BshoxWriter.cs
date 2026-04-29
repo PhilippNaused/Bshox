@@ -7,7 +7,9 @@
 #endif
 
 using System.Buffers;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using Bshox.Internals;
 
@@ -62,6 +64,14 @@ public ref partial struct BshoxWriter
         Options = options ?? BshoxOptions.Default;
         Check();
     }
+
+    /// <summary>
+    /// throws a <see cref="NotSupportedException"/> if called.
+    /// </summary>
+    [Obsolete("Do not use the parameterless constructor.", error: true)] // triggers a compile-time error if this constructor is called
+    [EditorBrowsable(EditorBrowsableState.Never)] // hides this constructor from IntelliSense
+    [ExcludeFromCodeCoverage]
+    public BshoxWriter() => throw new NotSupportedException("Parameterless constructor is not supported.");
 
     /// <summary>
     /// Returns a span of bytes to write to. <see cref="Advance(int)"/> must be called afterwards to notify the writer of the number of bytes written.
@@ -190,15 +200,14 @@ public ref partial struct BshoxWriter
     /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
     /// This method must be used in a <c>using</c> statement to ensure proper depth tracking.
     /// </summary>
-    /// <example>
+    /// <remarks>
+    /// e.g.:
     /// <code lang="csharp">
     /// using (writer.DepthLock())
     /// {
-    ///   // Read nested object or array here.
+    ///   // Write nested object or array here.
     /// }
     /// </code>
-    /// </example>
-#pragma warning disable CS0618 // Type or member is obsolete
+    /// </remarks>
     public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
-#pragma warning restore CS0618 // Type or member is obsolete
 }

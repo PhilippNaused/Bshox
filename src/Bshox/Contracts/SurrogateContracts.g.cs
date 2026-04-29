@@ -10,9 +10,10 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Generic.IDictionary{TKey, TValue}"/>
         /// </summary>
-        public static BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(BshoxContract<Dictionary<TKey, TValue>> contract) where TKey : notnull
+        public static BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(BshoxContract<TKey> contract1, BshoxContract<TValue> contract2) where TKey : notnull
         {
-            return new Contracts.IDictionaryContract<TKey, TValue>(contract);
+            var innerContract = DefaultContracts.Dictionary<TKey, TValue>(contract1, contract2);
+            return new Contracts.IDictionaryContract<TKey, TValue>(innerContract);
         }
     }
 }
@@ -44,9 +45,10 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Generic.IList{T}"/>
         /// </summary>
-        public static BshoxContract<System.Collections.Generic.IList<T>> IList<T>(BshoxContract<List<T>> contract)
+        public static BshoxContract<System.Collections.Generic.IList<T>> IList<T>(BshoxContract<T> contract1) where T : notnull
         {
-            return new Contracts.IListContract<T>(contract);
+            var innerContract = DefaultContracts.List<T>(contract1);
+            return new Contracts.IListContract<T>(innerContract);
         }
     }
 }
@@ -54,7 +56,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class IListContract<T>(BshoxContract<List<T>> contract) : BshoxContract<System.Collections.Generic.IList<T>>(contract.Encoding)
+    internal sealed class IListContract<T>(BshoxContract<List<T>> contract) : BshoxContract<System.Collections.Generic.IList<T>>(contract.Encoding) where T : notnull
     {
         public override void Deserialize(ref BshoxReader reader, out System.Collections.Generic.IList<T> value)
         {
@@ -78,9 +80,10 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}"/>
         /// </summary>
-        public static BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(BshoxContract<Dictionary<TKey, TValue>> contract) where TKey : notnull
+        public static BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(BshoxContract<TKey> contract1, BshoxContract<TValue> contract2) where TKey : notnull
         {
-            return new Contracts.ConcurrentDictionaryContract<TKey, TValue>(contract);
+            var innerContract = DefaultContracts.Dictionary<TKey, TValue>(contract1, contract2);
+            return new Contracts.ConcurrentDictionaryContract<TKey, TValue>(innerContract);
         }
     }
 }

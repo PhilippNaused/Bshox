@@ -7,8 +7,11 @@ on:
   push:
     branches: main
 
+env:
+  TUNIT_DISABLE_HTML_REPORTER: true # https://tunit.dev/docs/guides/html-report
+
 jobs:
-  build:
+  test:
     strategy:
       fail-fast: false
       matrix:
@@ -19,6 +22,7 @@ jobs:
           - macos-latest
           # - windows-11-arm
     runs-on: ${{ matrix.os }}
+    name: Run Tests on ${{ matrix.os }}
 
     steps:
     - name: ⤵️ Checkout Source
@@ -58,14 +62,46 @@ jobs:
     - name: 🛠️ Restore dependencies
       run: dotnet restore
 
-    - name: 🔨 Build
-      run: dotnet build
+    - name: 🔨 Build Debug & Release
+      run: dotnet build --no-restore --target BuildAll
 
-    - name: 🧪 Test
-      run: dotnet test --no-progress --disable-logo --no-build
+    - name: 🧪 Test Debug
+      run: dotnet test --no-progress --configuration Debug --disable-logo --results-directory ./TestResults --no-build -- --report-trx
+
+    - name: 🧪 Test Release
+      run: dotnet test --no-progress --configuration Release --disable-logo --results-directory ./TestResults --no-build -- --report-trx
 
     - name: 🔨 Build AOT tests
-      run: dotnet build "tests/Bshox.Tests" -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
+      run: dotnet build "tests/Bshox.Tests" --configuration Release -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
-      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}"
+      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}" --results-directory ./TestResults -- --report-trx
+
+    - name: 📁 Upload Test Results
+      if: (!cancelled())
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-results-${{ matrix.os }}
+        path: ./TestResults/*.trx
+
+  publish-results:
+    name: Publish Test Results
+    needs: test
+    runs-on: ubuntu-latest
+    if: (!cancelled())
+
+    permissions:
+      checks: write
+      pull-requests: write
+
+    steps:
+    - name: ⤵️ Download Test Results
+      uses: actions/download-artifact@v8
+      with:
+        pattern: test-results-*
+        path: ./TestResults
+
+    - name: 📊 Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      with:
+        files: ./TestResults/**/*.trx

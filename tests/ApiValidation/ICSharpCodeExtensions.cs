@@ -139,7 +139,7 @@ public static class ICSharpCodeExtensions
             }
             else
             {
-                // BUG: ExtensionDeclaration.SymbolKind throws NotSupportedException because is's not a real symbol.
+                // BUG: ExtensionDeclaration.SymbolKind throws NotSupportedException because it's not a real symbol.
                 members = members
                     .OrderBy(m => m is ExtensionDeclaration || m.SymbolKind is not SymbolKind.Constructor) // constructors first
                     .ThenBy(m => m is ExtensionDeclaration ? SymbolKind.None : m.SymbolKind) // then sort by kind (fields, properties, methods, etc.)
@@ -191,7 +191,9 @@ public static class ICSharpCodeExtensions
             "System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute", // doesn't affect the API
             "System.Diagnostics.StackTraceHiddenAttribute", // doesn't affect the API
             "System.Reflection.AssemblyFileVersionAttribute",
-            "System.Reflection.AssemblyVersionAttribute"
+            "System.Reflection.AssemblyVersionAttribute",
+            "System.ComponentModel.EditorBrowsableAttribute",
+            "System.Runtime.CompilerServices.SkipLocalsInitAttribute"
         ];
 
         public override void VisitAttributeSection(AttributeSection attributeSection)

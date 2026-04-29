@@ -1,14 +1,11 @@
 using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
 using Bshox.Attributes;
 
 namespace TestModels;
 
-[ExcludeFromCodeCoverage]
 [BshoxSerializable<DateTimeOffset>(Surrogate = typeof(DateTimeOffsetSurrogate))]
 public partial class DateTimeOffsetSerializer;
 
-[ExcludeFromCodeCoverage]
 [BshoxContract]
 internal struct DateTimeOffsetSurrogate
 {
