@@ -11,9 +11,9 @@ namespace Bshox.Generator.Extensions;
 
 internal static class SymbolExtensions
 {
-    public static readonly SymbolDisplayFormat FullyQualifiedFormat = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple).AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormat.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+    private static readonly SymbolDisplayFormat FullyQualifiedFormatNoNull = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple).AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType).RemoveMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormatNoNull.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormatNoNull.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
 
     extension(ISymbol symbol)
     {
@@ -121,12 +121,12 @@ internal static class SymbolExtensions
             });
         }
 
-        public string FullyQualifiedToString()
+        public string FullyQualifiedToStringNoNull()
         {
-            return symbol.ToDisplayString(FullyQualifiedFormat);
+            return symbol.ToDisplayString(FullyQualifiedFormatNoNull);
         }
 
-        public string FullyQualifiedToStringWithNull()
+        public string FullyQualifiedToString()
         {
             return symbol.ToDisplayString(FullyQualifiedFormatWithNull);
         }
@@ -154,7 +154,7 @@ internal static class SymbolExtensions
                     var sb = new StringBuilder().Append('(');
                     for (int i = 0; i < types.Count; i++)
                     {
-                        _ = sb.Append(ToXmlCommentString(types[i]));
+                        _ = sb.Append(types[i].ToXmlCommentString());
                         if (i < types.Count - 1)
                             _ = sb.Append(", ");
                     }
@@ -164,7 +164,7 @@ internal static class SymbolExtensions
                 {
                     // Constructed generics are not supported in XML doc comments, so we need to use the unbound generic type
                     // See: https://github.com/dotnet/csharplang/discussions/8986
-                    string displayString = namedTypeSymbol.ConstructedFrom.ToDisplayString(NullableFlowState.None, FullyQualifiedFormat);
+                    string displayString = namedTypeSymbol.ConstructedFrom.FullyQualifiedToStringNoNull(); // nullable annotations are not supported in XML doc
                     displayString = displayString.Replace('<', '{').Replace('>', '}');
                     var typeParameters = namedTypeSymbol.TypeParameters.Select(x => x.Name).ToImmutableArray();
                     var typeArguments = namedTypeSymbol.TypeArguments.Select(ToXmlCommentString).ToImmutableArray();
@@ -184,7 +184,7 @@ internal static class SymbolExtensions
             }
             else
             {
-                string displayString = symbol.ToDisplayString(NullableFlowState.None, FullyQualifiedFormat);
+                string displayString = symbol.FullyQualifiedToStringNoNull(); // nullable annotations are not supported in XML doc
                 displayString = displayString.Replace('<', '{').Replace('>', '}');
                 return $"<see cref=\"{displayString}\" />";
             }

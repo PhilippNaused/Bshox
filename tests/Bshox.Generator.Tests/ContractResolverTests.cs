@@ -31,13 +31,13 @@ public class ContractResolverTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  [BshoxSerializable<Type1<int>>]
+                                  [BshoxSerializable(typeof(Type1<string?>))]
                                   public partial class Serializer1;
 
                                   [BshoxContract(ImplicitMembers = true)]
                                   public record Type1<T>
                                   {
-                                      public T? Value { get; set; }
+                                      public T Value { get; set; } = default(T)!;
                                   }
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -190,7 +190,7 @@ public class ContractResolverTests
                                   using System.Collections.Generic;
                                   namespace TestModels;
 
-                                  [BshoxSerializable<Dictionary<int, string>>]
+                                  [BshoxSerializable(typeof(Dictionary<int, string?>))]
                                   public partial class Serializer1;
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
@@ -207,17 +207,17 @@ public class ContractResolverTests
                                   using System.Collections.Generic;
                                   namespace TestModels;
 
-                                  [BshoxSerializable<Dictionary<string, string>>]
+                                  [BshoxSerializable(typeof(Dictionary<string, string?>))]
                                   public partial class Serializer1;
                                   """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
 
         await Assert.That(diagnostics).IsEmpty();
-        await Assert.That(generatedOutput).IsNotEmpty();
+        await Utils.ValidateOutput(generatedOutput, 1);
     }
 
     [Test]
-    [Arguments("System.Collections.Generic.IDictionary<string, string>")]
+    [Arguments("System.Collections.Generic.IDictionary<string, string?>")]
     [Arguments("System.Collections.Generic.IList<long>")]
     [Arguments("System.Collections.Concurrent.ConcurrentDictionary<uint, byte>")]
     public async Task Surrogate(string type)
@@ -226,7 +226,7 @@ public class ContractResolverTests
                           using Bshox.Attributes;
                           namespace TestModels;
 
-                          [BshoxSerializable<{type}>]
+                          [BshoxSerializable(typeof({type}))]
                           public partial class Serializer1;
                           """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);

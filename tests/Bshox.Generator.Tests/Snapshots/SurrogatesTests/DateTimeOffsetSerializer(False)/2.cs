@@ -43,7 +43,7 @@ sealed partial class DateTimeOffsetSerializer : bsx::BshoxSerializer
         c_Int64 = bsx::DefaultContracts.Int64;
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.DateTimeOffsetSurrogate))
             return c_DateTimeOffsetSurrogate;
