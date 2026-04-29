@@ -33,7 +33,7 @@ sealed partial class Serializer2 : bsx::BshoxSerializer
     /// A Bshox contract for <see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />)
     /// </summary>
     public static bsx::BshoxContract<global::System.Collections.Generic.List<global::TestModels.TestType2>> ListTestType2 => c_ListTestType2;
-    private static readonly bsx::BshoxContract<string?> c_String;
+    private static readonly bsx::BshoxContract<string> c_String;
     private static readonly bsx::BshoxContract<int> c_Int32;
     private static readonly bsx::BshoxContract<global::TestModels.TestType2[]> c_TestType2Array;
     /// <summary>
@@ -65,7 +65,7 @@ sealed partial class Serializer2 : bsx::BshoxSerializer
         c_ListListTestType2ArrayArray = bsx::DefaultContracts.List<global::System.Collections.Generic.List<global::TestModels.TestType2[]>[]>(c_ListTestType2ArrayArray);
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.TestType2))
             return c_TestType2;

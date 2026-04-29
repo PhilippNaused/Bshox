@@ -8,7 +8,10 @@ internal sealed record ContractInfo
 {
     public ContractInfo(ITypeSymbol type, string variableName)
     {
-        Type = type;
+        // Remove top-level nullability from the type, since contracts should not be nullable themselves.
+        // type parameters can still be nullable, but the contract itself should not be.
+        // e.g. List<string?>? => List<string?>
+        Type = type.WithNullableAnnotation(NullableAnnotation.NotAnnotated);
         VariableName = variableName;
         PropertyName = ContractHelper.GetContractPropertyName(Type);
     }

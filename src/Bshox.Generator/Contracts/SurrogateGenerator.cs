@@ -37,8 +37,8 @@ internal sealed class SurrogateGenerator(INamedTypeSymbol surrogateType, string 
         code.OpenScope();
         {
             string contractClassName = GeneratedTypeName;
-            string typeName = contract.Type.ToDisplayString(NullableFlowState.None, SymbolExtensions.FullyQualifiedFormat);
-            string surrogateFullName = surrogateType.ToDisplayString(NullableFlowState.None, SymbolExtensions.FullyQualifiedFormat);
+            string typeName = contract.Type.FullyQualifiedToString();
+            string surrogateFullName = surrogateType.FullyQualifiedToString();
 
             code.WriteComment($"This contract is using {surrogateType} as a surrogate for {contract.Type}");
 
