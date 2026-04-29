@@ -27,7 +27,7 @@ dotnet test --disable-logo --solution 'tests/UnitTests.slnf' --coverage --covera
 
 # create the report
 dotnet tool restore
-dotnet ReportGenerator -Reports:"$CoverageDir/*.xml" -TargetDir:"$ReportDir" -ReportTypes:'HtmlInline;MarkdownSummaryGithub;Badges'
+dotnet ReportGenerator -Reports:"$CoverageDir/*.xml" -TargetDir:"$ReportDir" -ReportTypes:'Html;MarkdownSummaryGithub;Badges'
 Get-Content (Join-Path $ReportDir 'SummaryGithub.md') | Select-String -NotMatch 'Feature is only available for sponsors|Generated on' | Set-Content (Join-Path $DocsDir 'SummaryGithub.md')
 # cspell:ignore linecoverage
 Copy-Item (Join-Path $ReportDir 'badge_linecoverage.svg') -Destination $DocsDir -Force
