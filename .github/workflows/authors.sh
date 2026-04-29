@@ -15,7 +15,7 @@ coAuthors=$(git log --pretty='format:%B' --grep='Co-authored-by:' $range | grep 
 allAuthors=$(echo -e "$authors\n$coAuthors" | sort -u)
 echo Authors:
 echo "$allAuthors"
-knownClankers="noreply@anthropic\.com|copilot@github\.com" # TODO: Update this list as needed
+knownClankers="noreply@anthropic\.com|copilot@github\.com|gemini@gogle\.cc" # TODO: Update this list as needed
 clankers=$(echo "$allAuthors" | grep -Ei "$knownClankers")
 if [ -n "$clankers" ]; then
     echo "::error title=Clankers detected::Clankers detected in recent commits: $clankers"
