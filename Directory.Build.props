@@ -17,6 +17,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableTUnitPolyfills>false</EnableTUnitPolyfills>
+    <TestingPlatformCommandLineArguments>--disable-logo</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
   <!-- Code Analysis -->

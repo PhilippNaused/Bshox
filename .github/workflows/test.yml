@@ -65,16 +65,16 @@ jobs:
       run: dotnet build --no-restore --target BuildAll
 
     - name: 🧪 Test Debug
-      run: dotnet test --no-progress --configuration Debug --disable-logo --results-directory ./TestResults --no-build -- --report-trx
+      run: dotnet test --no-progress --configuration Debug --results-directory ./TestResults --no-build -- --report-trx
 
     - name: 🧪 Test Release
-      run: dotnet test --no-progress --configuration Release --disable-logo --results-directory ./TestResults --no-build -- --report-trx
+      run: dotnet test --no-progress --configuration Release --results-directory ./TestResults --no-build -- --report-trx
 
     - name: 🔨 Build AOT tests
       run: dotnet build "tests/Bshox.Tests" --configuration Release -t:PublishAll --no-dependencies -p:PublishDir="${{ github.workspace }}/temp/Bshox.Tests" -p:DebugSymbols=false
 
     - name: 🧪 Test AOT
-      run: dotnet test --no-progress --disable-logo --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}" --results-directory ./TestResults -- --report-trx
+      run: dotnet test --no-progress --root-directory "${{ github.workspace }}/temp/Bshox.Tests" --test-modules "${{ runner.os == 'Windows' && '*\Bshox.Tests.exe' || '*/Bshox.Tests' }}" --results-directory ./TestResults -- --report-trx
 
     - name: 📁 Upload Test Results
       if: (!cancelled())

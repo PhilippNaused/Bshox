@@ -15,7 +15,7 @@ $env:TUNIT_DISABLE_HTML_REPORTER = $true
 cspell lint $PSScriptRoot
 
 # Run regular tests using MTP
-dotnet test --disable-logo --configuration $Configuration
+dotnet test --configuration $Configuration
 
 # Publish AOT tests
 $ProjectDir = Join-Path $PSScriptRoot 'tests\Bshox.Tests'
@@ -25,4 +25,4 @@ dotnet build --configuration $Configuration $ProjectDir -t:PublishAll --no-depen
 
 # Run AOT tests using MTP
 $Glob = $IsWindows ? '*\Bshox.Tests.exe' : '*/Bshox.Tests'
-dotnet test --disable-logo --root-directory $PublishDir --test-modules "$Glob"
+dotnet test --root-directory $PublishDir --test-modules "$Glob"
