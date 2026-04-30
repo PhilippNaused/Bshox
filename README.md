@@ -1,6 +1,6 @@
 # Bshox
 
-[![GitHub Release](https://img.shields.io/github/v/release/PhilippNaused/Bshox?include_prereleases)](https://github.com/PhilippNaused/Bshox/pkgs/nuget/Bshox)
+[![GitHub Release](https://img.shields.io/github/v/release/PhilippNaused/Bshox?include_prereleases)](https://github.com/PhilippNaused/Bshox/releases)
 [![Test Coverage](/docs/coverage/badge_linecoverage.svg)](/docs/coverage/SummaryGithub.md)
 [![License](https://img.shields.io/github/license/PhilippNaused/Bshox)](/LICENSE)
 
