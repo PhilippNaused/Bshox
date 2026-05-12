@@ -163,32 +163,83 @@ public ref partial struct BshoxWriter
 
         Check();
         const int maxHotPathSize = 127; // largest int that can be encoded in 1 byte.
+#if !NET8_0_OR_GREATER
         const int maxCharExpansion = 3; // max bytes per char in UTF-8
         const int maxHotPathLength = maxHotPathSize / maxCharExpansion; // max chars that can be encoded in 1 byte prefix, with worst case expansion (42).
-        if (value.Length <= maxHotPathLength)
+        if (value.Length <= maxHotPathLength) // 42
         {
             // hot path for short strings that can be encoded with a 1 byte prefix, with worst case expansion. This avoids the overhead of calculating the byte count.
-            // TODO: optimize for strings with best-case expansion (1 byte per char) by checking for ASCII chars and encoding them directly without calculating the byte count.
-            // e.g.: use Ascii.FromUtf16
-
-            // Max expansion: each char -> 3 bytes, so 127 bytes max of data, +1 for length prefix
+            // 127 bytes max of data, +1 for length prefix
             ref byte bytes = ref GetRef(maxHotPathSize + 1);
             // write the payload first:
-            int actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref Unsafe.Add(ref bytes, 1), maxHotPathSize);
+            var actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref Unsafe.Add(ref bytes, 1), maxHotPathSize);
             // then, write the length prefix:
             bytes = (byte)actualByteCount;
             Advance(actualByteCount + 1);
+            return;
         }
-        else
+#endif
+#if NET8_0_OR_GREATER // TryGetBytes only exists in .NET 8+ ;(
+        if (value.Length <= maxHotPathSize)
+        {
+            // less hot path for strings that can be encoded with a 1 byte prefix, if they are mostly ASCII (i.e. 1 byte per char).
+            var span = GetSpan(maxHotPathSize + 1);
+            if (EncodingHelper.Utf8NoBom.TryGetBytes(value, span.Slice(1), out var actualByteCount))
+            {
+                if (actualByteCount <= maxHotPathSize)
+                {
+                    span[0] = (byte)actualByteCount;
+                    Advance(actualByteCount + 1);
+                    return;
+                }
+                // string didn't fit in 127 bytes due to non-ASCII chars.
+                // But now, we know the actual byte count and the string is already encoded!
+                WriteStringInner2(value, actualByteCount, span);
+                return;
+            }
+
+            WaitingForAdvance(false); // equivalent to Advance(0), but faster.
+            // fall through to the cold path.
+        }
+#endif
         {
             // cold path
             int byteCount = EncodingHelper.Utf8NoBom.GetByteCount(value);
-            WriteVarInt32((uint)byteCount);
-            ref byte bytes = ref GetRef(byteCount);
-            int actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref bytes, byteCount);
-            Debug.Assert(actualByteCount == byteCount, "actualByteCount == byteCount");
-            Advance(byteCount);
+            WriteStringInner(value, byteCount);
         }
+    }
+
+    // This helper is called when the string is already encoded at span[1..], but the prefix takes more than 1 byte.
+    private void WriteStringInner2(string value, int byteCount, Span<byte> span)
+    {
+        CheckWaitingForAdvance(true);
+        WaitingForAdvance(false); // equivalent to Advance(0), but faster.
+        Debug.Assert(byteCount > 127, "byteCount > 127"); // needs more than 1 byte of prefix
+        Debug.Assert(value.Length <= 127, "value.Length <= 127"); // should have been handled by the cold path
+        Debug.Assert(span.Length >= byteCount + 1, "span.Length >= byteCount + 1"); // span is large enough to contain the encoded string and a 1 byte prefix.
+
+        var prefixSize = EncodingHelper.GetVarIntLength((uint)byteCount); // actual prefix size.
+        Debug.Assert(prefixSize > 1, "prefixSize > 1");
+        Debug.Assert(prefixSize <= 5, "prefixSize <= 5");
+        if (prefixSize + byteCount <= span.Length)
+        {
+            // move the already encoded data to make room for the larger prefix.
+            span.Slice(1, byteCount).CopyTo(span.Slice(prefixSize));
+            WriteVarInt32((uint)byteCount); // this calls Advance(prefixSize) internally, so we don't need to call it ourselves.
+            WaitingForAdvance(true);
+            Advance(byteCount);
+            return;
+        }
+        WriteStringInner(value, byteCount);
+    }
+
+    private void WriteStringInner(string value, int byteCount)
+    {
+        WriteVarInt32((uint)byteCount);
+        ref byte bytes = ref GetRef(byteCount);
+        var actualByteCount = EncodingHelper.Utf8Encode(value.AsSpan(), ref bytes, byteCount);
+        Debug.Assert(actualByteCount == byteCount, "actualByteCount == byteCount");
+        Advance(byteCount);
     }
 
     /// <summary>
