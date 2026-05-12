@@ -47,15 +47,16 @@ public ref partial struct BshoxReader
     {
         Debug.Assert(_span.Length >= 4, "_span.Length >= 4");
         int shift = 0;
-        byte b;
+        bool c; // continuation bit is set
         do
         {
-            b = _span[shift];
+            byte b = _span[shift];
             shift++;
             value |= (b & 0x7Fu) << (shift * 7);
-            if (shift > 4)
+            c = b > 127;
+            if (shift > 3 && c) // TODO: try increasing the min buffer size instead of the second condition.
                 throw BshoxException.VarIntTooLong();
-        } while (b > 127);
+        } while (c);
 
         Advance(shift);
 

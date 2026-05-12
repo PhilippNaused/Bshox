@@ -1,10 +1,13 @@
 using System.Text;
+using Bshox.TestUtils;
 using Bshox.Utils;
 
 namespace Bshox.Tests;
 
 [NotInParallel]
-public class FuzzRegression
+[Arguments(true)]
+[Arguments(false)]
+public class FuzzRegression(bool segmented)
 {
     [Test]
     public async Task ParseOverTextFlow()
@@ -18,7 +21,7 @@ public class FuzzRegression
     [Timeout(500)]
     public async Task ParseMeta(string name, CancellationToken token)
     {
-        _ = token;
+        _ = token; // TODO: use the token to cancel the test (somehow)
         var resource = GetResource(name);
         await Assert.That(CanParseBinary(resource)).IsTrue();
     }
@@ -28,7 +31,7 @@ public class FuzzRegression
     [Timeout(500)]
     public void ParseText(string name, CancellationToken token)
     {
-        _ = token;
+        _ = token; // TODO: use the token to cancel the test (somehow)
         var resource = GetResource(name);
         var text = Encoding.UTF8.GetString(resource);
 
@@ -54,7 +57,7 @@ public class FuzzRegression
         return [.. GetAllResourceNames().Where(x => x.StartsWith(filter))];
     }
 
-    private static bool CanParseBinary(byte[] array)
+    private bool CanParseBinary(byte[] array)
     {
         bool success = false;
 #if NETCOREAPP
@@ -63,7 +66,16 @@ public class FuzzRegression
         foreach (BshoxCode code in Enum.GetValues(typeof(BshoxCode)))
 #endif
         {
-            var reader = new BshoxReader(array);
+            BshoxReader reader;
+            if (segmented)
+            {
+                var seg = SequenceSegmenter.MakeSegmentedSequence(array, 1);
+                reader = new BshoxReader(seg);
+            }
+            else
+            {
+                reader = new BshoxReader(array);
+            }
             try
             {
                 _ = BshoxValue.Read(ref reader, code);

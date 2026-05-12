@@ -133,6 +133,8 @@ internal sealed class BshoxEncodingTests
         yield return ("FFFFFFFF0F", uint.MaxValue);
         yield return ("FFFFFFFF7F", uint.MaxValue); // This varint has 35 bits, to the result is cut off.
         yield return ("808080808001", null); // overflow
+        yield return ("8080808080", null); // overflow & end of stream
+        yield return ("80808080", null); // end of stream
         yield return ("FFFFFFFFFFFF", null); // overflow
     }
 
@@ -151,6 +153,8 @@ internal sealed class BshoxEncodingTests
         yield return ("FFFFFFFF0F", uint.MaxValue);
         yield return ("FFFFFFFF7F", 34359738367ul);
         yield return ("8080808080808080808001", null); // overflow
+        yield return ("80808080808080808080", null); // overflow & end of stream
+        yield return ("808080808080808080", null); // end of stream
         yield return ("FFFFFFFFFFFFFFFFFFFFFF", null); // overflow
     }
 
