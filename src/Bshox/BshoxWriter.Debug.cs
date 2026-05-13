@@ -1,7 +1,3 @@
-#if NET8_0_OR_GREATER
-#define USE_REF
-#endif
-
 #if DEBUG
 #pragma warning disable CS0282 // Don't care
 #else
@@ -43,34 +39,33 @@ public ref partial struct BshoxWriter
         Debug.Assert(_depth >= 0, "_depth >= 0");
         Debug.Assert(_buffer is not null, "_buffer is not null");
         Debug.Assert(Options is not null, "Options is not null");
-#if USE_REF
-        Debug.Assert(_unflushed >= 0);
-        Debug.Assert(_length >= 0);
+        Debug.Assert(_unflushed >= 0, "_unflushed >= 0");
+#if REF_FIELD
+        Debug.Assert(_length >= 0, "_length >= 0");
         if (_waitingForAdvance)
         {
-            Debug.Assert(!System.Runtime.CompilerServices.Unsafe.IsNullRef(ref _ref));
-            Debug.Assert(_length > 0);
+            Debug.Assert(!System.Runtime.CompilerServices.Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
+            Debug.Assert(_length > 0, "_length > 0");
         }
         if (System.Runtime.CompilerServices.Unsafe.IsNullRef(ref _ref))
         {
-            Debug.Assert(_length == 0);
-            Debug.Assert(_unflushed == 0);
-            Debug.Assert(!_waitingForAdvance);
+            Debug.Assert(_length == 0, "_length == 0");
+            Debug.Assert(_unflushed == 0, "_unflushed == 0");
+            Debug.Assert(!_waitingForAdvance, "!_waitingForAdvance");
         }
 #else
-        Debug.Assert(_span.Length >= 0);
-        Debug.Assert(_index >= 0);
-        Debug.Assert(_span.Length >= _index);
+        Debug.Assert(_span.Length >= 0, "_span.Length >= 0");
+        Debug.Assert(_span.Length >= _unflushed, "_span.Length >= _unflushed");
         if (_waitingForAdvance)
         {
-            Debug.Assert(!_span.IsEmpty);
+            Debug.Assert(!_span.IsEmpty, "!_span.IsEmpty");
         }
 #pragma warning disable CA2265 // Do not compare Span<T> to 'null' or 'default'
         if (_span == default)
 #pragma warning restore CA2265 // Do not compare Span<T> to 'null' or 'default'
         {
-            Debug.Assert(_index == 0);
-            Debug.Assert(!_waitingForAdvance);
+            Debug.Assert(_unflushed == 0, "_unflushed == 0");
+            Debug.Assert(!_waitingForAdvance, "!_waitingForAdvance");
         }
 #endif
 #endif

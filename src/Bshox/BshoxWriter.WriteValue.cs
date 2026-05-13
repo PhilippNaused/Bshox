@@ -1,7 +1,3 @@
-#if NET8_0_OR_GREATER
-#define USE_REF // runtime supports ref fields.
-#endif
-
 #pragma warning disable CS0282 // False positive
 
 using System.Buffers.Binary;
@@ -19,7 +15,7 @@ public ref partial struct BshoxWriter
     public void WriteByte(byte value)
     {
         Check();
-#if USE_REF
+#if REF_FIELD
         GetRef(1) = value;
 #else
         GetSpan(1)[0] = value;
