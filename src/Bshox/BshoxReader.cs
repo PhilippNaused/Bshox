@@ -249,21 +249,19 @@ public ref partial struct BshoxReader
             throw EndOfStream();
         }
 
-        Debug.Assert(!_span.IsEmpty, "!_span.IsEmpty");
+        Debug.Assert(_span.Length == 1, "_span.Length == 1");
         byte value = _span[0];
         _span = _span.Slice(1);
         Consumed++;
 
-        if (_span.IsEmpty)
+        Debug.Assert(_span.IsEmpty, "_span.IsEmpty");
+        if (_usingSequence)
         {
-            if (_usingSequence)
-            {
-                GetNextSpan();
-            }
-            else
-            {
-                _moreData = false;
-            }
+            GetNextSpan();
+        }
+        else
+        {
+            _moreData = false;
         }
 
         Check();
