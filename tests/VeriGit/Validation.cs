@@ -107,9 +107,9 @@ public static class Validation
         //var x = (FileStatus)status[0]; // index status
         var y = (FileStatus)status[1]; // working tree status
 #if NETCOREAPP
-        Debug.Assert(Enum.IsDefined(y));
+        Debug.Assert(Enum.IsDefined(y), $"Unknown value: {y}");
 #else
-        Debug.Assert(Enum.IsDefined(typeof(FileStatus), y));
+        Debug.Assert(Enum.IsDefined(typeof(FileStatus), y), $"Unknown value: {y}");
 #endif
         return y;
     }
@@ -140,7 +140,7 @@ public static class Validation
                 {
                     ["GIT_OPTIONAL_LOCKS"] = "0", // avoid hanging due to lock contention
                     // cspell:ignore PATHSPECS
-                    ["GIT_LITERAL_PATHSPECS"] = "0" // no globing
+                    ["GIT_LITERAL_PATHSPECS"] = "1" // no globing
                 }
             };
             var process = Process.Start(info)!;
