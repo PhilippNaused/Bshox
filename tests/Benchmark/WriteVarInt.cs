@@ -21,6 +21,17 @@ public class WriteVarInt : VarIntBase
 {
     protected readonly FixedBufferWriter buffer = new(new byte[BshoxOptions.BufferSizeDefault]);
 
+    [Benchmark(OperationsPerInvoke = Count)]
+    public int WriteNothing()
+    {
+        var w = new BshoxWriter(buffer);
+        for (int i = 0; i < Count; i++)
+        {
+        }
+        buffer.Reset();
+        return w.UnflushedBytes;
+    }
+
     [Benchmark(OperationsPerInvoke = Count, Baseline = true)]
     public int WriteByte()
     {
