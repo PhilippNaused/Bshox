@@ -141,8 +141,17 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         return _buffer.AsSpan(_index);
     }
 
-    internal void WriteToStream(Stream destination)
+    internal void CopyToStream(Stream destination)
     {
+        if (destination is MemoryStream memoryStream)
+        {
+            long newPosition = memoryStream.Position + Length;
+            if (memoryStream.Capacity < newPosition)
+            {
+                // Increase the capacity of the MemoryStream before copying to avoid multiple resizes of the MemoryStream's internal buffer.
+                memoryStream.Capacity = checked((int)newPosition);
+            }
+        }
         foreach (var segment in _segments)
         {
             destination.Write(segment.Buffer, 0, segment.Length);
@@ -150,24 +159,41 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         destination.Write(_buffer, 0, _index);
     }
 
+    // TODO: add more unit tests for this type!
+
 #if NETCOREAPP
-    internal async ValueTask WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
+    internal ValueTask CopyToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
-        // TODO: optimize for single segment case to avoid the async state machine and extra allocations.
-        foreach (var segment in _segments)
+        if (_segments.Count == 0)
         {
-            await destination.WriteAsync(segment.Memory, cancellationToken).ConfigureAwait(false);
+            return destination.WriteAsync(_buffer.AsMemory(0, _index), cancellationToken);
         }
-        await destination.WriteAsync(_buffer.AsMemory(0, _index), cancellationToken).ConfigureAwait(false);
+        return WriteInnerAsync(this, destination, cancellationToken);
+        static async ValueTask WriteInnerAsync(PooledByteBufferWriter buffer, Stream destination, CancellationToken cancellationToken)
+        {
+            foreach (var segment in buffer._segments)
+            {
+                await destination.WriteAsync(segment.Memory, cancellationToken).ConfigureAwait(false);
+            }
+            await destination.WriteAsync(buffer._buffer.AsMemory(0, buffer._index), cancellationToken).ConfigureAwait(false);
+        }
     }
 #else
-    internal async Task WriteToStreamAsync(Stream destination, CancellationToken cancellationToken)
+    internal Task CopyToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
-        foreach (var segment in _segments)
+        if (_segments.Count == 0)
         {
-            await destination.WriteAsync(segment.Buffer, 0, segment.Length, cancellationToken).ConfigureAwait(false);
+            return destination.WriteAsync(_buffer, 0, _index, cancellationToken);
         }
-        await destination.WriteAsync(_buffer, 0, _index, cancellationToken).ConfigureAwait(false);
+        return WriteInnerAsync(this, destination, cancellationToken);
+        static async Task WriteInnerAsync(PooledByteBufferWriter buffer, Stream destination, CancellationToken cancellationToken)
+        {
+            foreach (var segment in buffer._segments)
+            {
+                await destination.WriteAsync(segment.Buffer, 0, segment.Length, cancellationToken).ConfigureAwait(false);
+            }
+            await destination.WriteAsync(buffer._buffer, 0, buffer._index, cancellationToken).ConfigureAwait(false);
+        }
     }
 #endif
 

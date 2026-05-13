@@ -37,10 +37,32 @@ public static class BshoxContractExtensions
         /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
         public void Serialize(Stream stream, scoped in T value, BshoxOptions? options = null)
         {
-            // TODO: add optimization for MemoryStream
             using var buffer = new PooledByteBufferWriter(options);
             contract.Serialize(buffer, in value, options);
-            buffer.WriteToStream(stream);
+            buffer.CopyToStream(stream);
+        }
+
+        /// <summary>
+        /// Asynchronously serializes the specified <paramref name="value"/> using the provided <paramref name="contract"/> to the given <paramref name="stream"/>.
+        /// </summary>
+        /// <param name="stream">The stream to which the serialized data will be written.</param>
+        /// <param name="value">The value to serialize.</param>
+        /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
+        /// <remarks>
+        /// The <paramref name="value"/> is synchronously serialized to an internal buffer.
+        /// The content of the buffer is then asynchronously copied to the <paramref name="stream"/> (unless the <paramref name="stream"/> is a <see cref="MemoryStream"/>).
+        /// </remarks>
+        public async Task SerializeAsync(Stream stream, T value, BshoxOptions? options = null, CancellationToken cancellationToken = default)
+        {
+            if (stream is MemoryStream memoryStream)
+            {
+                contract.Serialize(memoryStream, in value, options);
+                return;
+            }
+            using var buffer = new PooledByteBufferWriter(options);
+            contract.Serialize(buffer, in value, options);
+            await buffer.CopyToStreamAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -55,8 +77,6 @@ public static class BshoxContractExtensions
             contract.Serialize(buffer, in value, options);
             return buffer.ToArray();
         }
-
-        // TODO: add async version
 
         /// <summary>
         /// Deserializes a value of type <typeparamref name="T"/> from the specified <paramref name="sequence"/> of bytes using the provided <paramref name="contract"/>.

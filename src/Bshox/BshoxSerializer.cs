@@ -185,7 +185,7 @@ public abstract class BshoxSerializer
     {
         using var buffer = new PooledByteBufferWriter(options);
         Serialize(buffer, value, inputType, options);
-        buffer.WriteToStream(stream);
+        buffer.CopyToStream(stream);
     }
 
     /// <summary>
