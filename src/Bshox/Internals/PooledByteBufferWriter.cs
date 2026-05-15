@@ -70,7 +70,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 
     public byte[] ToArray()
     {
-        var array = new byte[Length];
+        var array = Utils.Allocate((int)Length);
         int offset = 0;
         if (_segments.Count > 0)
         {
