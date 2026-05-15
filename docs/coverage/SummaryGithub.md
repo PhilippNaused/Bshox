@@ -7,25 +7,25 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 54                                    |
 | Files:             | 65                                    |
-| **Line coverage:** | 91.2% (3841 of 4209)                  |
-| Covered lines:     | 3841                                  |
-| Uncovered lines:   | 368                                   |
-| Coverable lines:   | 4209                                  |
-| Total lines:       | 8380                                  |
+| **Line coverage:** | 91.1% (3844 of 4215)                  |
+| Covered lines:     | 3844                                  |
+| Uncovered lines:   | 371                                   |
+| Coverable lines:   | 4215                                  |
+| Total lines:       | 8390                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 93.7%</summary>
+<details><summary>Bshox.dll - 93.5%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **93.7%** |
+| **Bshox.dll**                          | **93.5%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
 | Bshox.BshoxOptions                     |      100% |
-| Bshox.BshoxReader                      |     97.1% |
+| Bshox.BshoxReader                      |     97.2% |
 | Bshox.BshoxSerializer                  |     93.9% |
 | Bshox.BshoxWriter                      |     98.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
@@ -35,7 +35,7 @@
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |
-| Bshox.Internals.PooledByteBufferWriter |     81.9% |
+| Bshox.Internals.PooledByteBufferWriter |     80.5% |
 | Bshox.Internals.StreamSequence         |     92.8% |
 | Bshox.PolyFills                        |     82.6% |
 
