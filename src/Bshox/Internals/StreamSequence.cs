@@ -39,7 +39,7 @@ internal sealed class StreamSequence(Stream stream) : IDisposable
         {
             if (segment.OwnBuffer != null)
             {
-                ArrayPool<byte>.Shared.Return(segment.OwnBuffer, true);
+                ArrayPool<byte>.Shared.Return(segment.OwnBuffer);
             }
         }
         _segments.Clear();
