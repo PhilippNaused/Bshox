@@ -5,13 +5,13 @@
 |:-------------------|:--------------------------------------|
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
-| Classes:           | 54                                    |
-| Files:             | 65                                    |
-| **Line coverage:** | 91.1% (3844 of 4215)                  |
-| Covered lines:     | 3844                                  |
+| Classes:           | 55                                    |
+| Files:             | 66                                    |
+| **Line coverage:** | 91.2% (3848 of 4219)                  |
+| Covered lines:     | 3848                                  |
 | Uncovered lines:   | 371                                   |
-| Coverable lines:   | 4215                                  |
-| Total lines:       | 8390                                  |
+| Coverable lines:   | 4219                                  |
+| Total lines:       | 8406                                  |
 
 </details>
 
@@ -37,6 +37,7 @@
 | Bshox.Internals.EndiannessHelper       |      100% |
 | Bshox.Internals.PooledByteBufferWriter |     80.5% |
 | Bshox.Internals.StreamSequence         |     92.8% |
+| Bshox.Internals.Utils                  |      100% |
 | Bshox.PolyFills                        |     82.6% |
 
 </details>
