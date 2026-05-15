@@ -96,13 +96,13 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 
     public void Reset(int bufferSize = -1)
     {
-        ArrayPool<byte>.Shared.Return(_buffer, true);
+        ArrayPool<byte>.Shared.Return(_buffer);
         _index = 0;
 
         foreach (var segment in _segments)
         {
             Debug.Assert(segment.Length > 0, "segment.Length > 0");
-            ArrayPool<byte>.Shared.Return(segment.Buffer, true);
+            ArrayPool<byte>.Shared.Return(segment.Buffer);
         }
         _segments.Clear();
         _segLength = 0;
@@ -216,6 +216,13 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
     {
         sizeHint = Math.Max(sizeHint, _defaultCapacity);
 
+        // If we've reached ~1GB written, grow to the maximum buffer
+        // length to avoid incessant minimal growths causing perf issues.
+        if (_index >= MaximumBufferSize / 2)
+        {
+            sizeHint = Math.Max(sizeHint, MaximumBufferSize - _buffer.Length);
+        }
+
         if (_index != 0)
         {
             var segment = new Segment(_segLength, _buffer, _index);
@@ -237,7 +244,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
         else
         {
             // No need to add an empty segment if we haven't written anything to the current buffer.
-            ArrayPool<byte>.Shared.Return(_buffer, clearArray: false);
+            ArrayPool<byte>.Shared.Return(_buffer);
         }
 
         _buffer = ArrayPool<byte>.Shared.Rent(sizeHint);
