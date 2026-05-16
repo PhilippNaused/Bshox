@@ -57,7 +57,7 @@ public sealed record Forecast
 
     public static Forecast GetRandom(int size = 7 * 24, Random? random = null)
     {
-        random ??= new Random(42);
+        random ??= new Random();
         return new Forecast
         {
             Latitude = random.NextSingle(-90f, 90f),
@@ -92,7 +92,7 @@ public sealed record Forecast
 
     public static Forecast2 GetRandom2(int size = 7 * 24, Random? random = null)
     {
-        random ??= new Random(42);
+        random ??= new Random();
         return new Forecast2
         {
             Latitude = random.NextSingle(-90f, 90f),

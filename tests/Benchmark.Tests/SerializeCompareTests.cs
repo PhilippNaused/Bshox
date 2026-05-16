@@ -9,7 +9,7 @@ public sealed class SerializeCompareTests : SerializeCompare
     public async Task Regression()
     {
         Count = 100;
-        Setup();
+        Setup(new Random(42)); // use fixed seed to get consistent results
 
         byte[] bshox = Bshox();
         byte[] json = Json();
@@ -43,7 +43,7 @@ public sealed class SerializeCompareTests : SerializeCompare
     [Test]
     public Task BshoxText()
     {
-        var bshox = ForecastSerializer.Forecast.ToBshoxString(Forecast.GetRandom());
+        var bshox = ForecastSerializer.Forecast.ToBshoxString(Forecast.GetRandom(random: new Random(42)));
         return VeriGit.Validation.Validate(bshox.Replace("\r\n", "\n"));
     }
 

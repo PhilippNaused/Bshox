@@ -1,0 +1,2 @@
+M:System.Diagnostics.Debug.Assert(System.Boolean);Don't use Debug.Assert without a message.
+M:System.Random.#ctor(System.Int32);Don't use new Random(int) with a seed.

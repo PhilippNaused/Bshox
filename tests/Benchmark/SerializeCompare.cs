@@ -20,9 +20,10 @@ public class SerializeCompare
     private Forecast2Array data2 = null!;
 
     [GlobalSetup]
-    public void Setup()
+    public void Setup() => Setup(new Random());
+
+    internal void Setup(Random random)
     {
-        var random = new Random(42);
         // doesn't work: MessagePack.FormatterNotRegisteredException : System.DateTime[] is not registered in resolver: Benchmark.Models.MyMessagePackResolver
         // MessagePackSerializer.DefaultOptions = MessagePackSerializer.DefaultOptions.WithResolver(MyMessagePackResolver.Instance);
         data = new Forecast[Count];

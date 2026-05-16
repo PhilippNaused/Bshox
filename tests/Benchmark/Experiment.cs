@@ -23,7 +23,7 @@ public class Experiment
     [GlobalSetup]
     public void Setup()
     {
-        data = new Random(42).NextArray(Size, float.MinValue, float.MaxValue);
+        data = new Random().NextArray(Size, float.MinValue, float.MaxValue);
         options = new() { LittleEndian = LittleEndian };
     }
 

@@ -19,11 +19,10 @@ public class Serialize
     [GlobalSetup]
     public void Setup()
     {
-        var random = new Random(42);
         data = new Forecast[Count];
         for (int i = 0; i < Count; i++)
         {
-            data[i] = Forecast.GetRandom(random: random);
+            data[i] = Forecast.GetRandom();
         }
     }
 

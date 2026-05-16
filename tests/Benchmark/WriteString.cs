@@ -24,7 +24,7 @@ public class WriteString
     [GlobalSetup]
     public void Setup()
     {
-        var rand = new Random(42);
+        var rand = new Random();
         for (int i = 0; i < _stringsUnicode.Length; i++)
         {
             _stringsUnicode[i] = rand.NextString(Length);

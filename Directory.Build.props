@@ -54,4 +54,9 @@
     <PackageTags>serializer</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Banned API analyzer -->
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
+  </ItemGroup>
+
 </Project>

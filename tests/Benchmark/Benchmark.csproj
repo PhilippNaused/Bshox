@@ -51,4 +51,10 @@
 
   <Import Project="..\..\src\Bshox\build\Bshox.targets" />
 
+  <ItemGroup>
+    <!-- Banned API analyzer -->
+    <AdditionalFiles Remove="$(MSBuildThisFileDirectory)..\..\BannedSymbols.txt" />
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
+  </ItemGroup>
+
 </Project>
