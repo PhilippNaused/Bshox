@@ -10,16 +10,16 @@ Job=Dry  IterationCount=1  LaunchCount=25
 RunStrategy=ColdStart  UnrollFactor=1  WarmupCount=1
 
 ```
-| Method           | Count |       Mean |     Error | Ratio |   Allocated | Alloc Ratio |
-|------------------|-------|-----------:|----------:|------:|------------:|------------:|
-| Bshox            | 1     |   5.260 ms | 0.0505 ms |  1.00 |     3.05 KB |        1.00 |
-| System.Text.Json | 1     |  18.623 ms | 0.1548 ms |  3.54 |     9.23 KB |        3.03 |
-| MessagePack      | 1     |  23.696 ms | 0.4260 ms |  4.51 |     4.38 KB |        1.44 |
-| protobuf-net     | 1     |  12.347 ms | 0.0816 ms |  2.35 |     8.41 KB |        2.76 |
-| Google.Protobuf  | 1     |   6.956 ms | 0.0592 ms |  1.32 |      4.3 KB |        1.41 |
-|                  |       |            |           |       |             |             |
-| Bshox            | 1000  |  12.679 ms | 0.0740 ms |  1.00 |   2953.6 KB |        1.00 |
-| System.Text.Json | 1000  | 109.989 ms | 0.5377 ms |  8.68 |  9191.37 KB |        3.11 |
-| MessagePack      | 1000  |  36.606 ms | 0.3500 ms |  2.89 |  4361.86 KB |        1.48 |
-| protobuf-net     | 1000  |  41.816 ms | 0.2643 ms |  3.30 | 12714.71 KB |        4.30 |
-| Google.Protobuf  | 1000  |  49.054 ms | 0.3245 ms |  3.87 |  4218.15 KB |        1.43 |
+| Method           | Count |       Mean |     Error | Ratio | Allocated | Alloc Ratio |
+|------------------|-------|-----------:|----------:|------:|----------:|------------:|
+| Bshox            | 1     |   4.922 ms | 0.1171 ms |  1.00 |         - |          NA |
+| System.Text.Json | 1     |  19.268 ms | 0.3004 ms |  3.92 |     136 B |          NA |
+| MessagePack      | 1     |  24.785 ms | 0.3636 ms |  5.04 |         - |          NA |
+| protobuf-net     | 1     |  15.892 ms | 0.2407 ms |  3.23 |      80 B |          NA |
+| Google.Protobuf  | 1     |   7.298 ms | 0.2060 ms |  1.48 |      56 B |          NA |
+|                  |       |            |           |       |           |             |
+| Bshox            | 1000  |  12.089 ms | 0.3119 ms |  1.00 |         - |          NA |
+| System.Text.Json | 1000  | 109.017 ms | 0.6227 ms |  9.03 |     136 B |          NA |
+| MessagePack      | 1000  |  35.471 ms | 0.3656 ms |  2.94 |         - |          NA |
+| protobuf-net     | 1000  |  68.011 ms | 0.3650 ms |  5.63 |   80000 B |          NA |
+| Google.Protobuf  | 1000  |  44.680 ms | 0.3561 ms |  3.70 |   56000 B |          NA |

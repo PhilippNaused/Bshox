@@ -1,6 +1,7 @@
 using Benchmark.Models;
 using BenchmarkDotNet.Attributes;
 using Bshox;
+using Bshox.TestUtils;
 
 namespace Benchmark;
 
@@ -12,6 +13,7 @@ public class SerializeCold : Serialize;
 public class Serialize
 {
     private Forecast[] data = null!;
+    private FixedBufferWriter buffer = null!;
 
     [Params(1, 1000)]
     public int Count { get; set; } = 1;
@@ -24,11 +26,14 @@ public class Serialize
         {
             data[i] = Forecast.GetRandom();
         }
+        buffer = new FixedBufferWriter(new byte[Math.Max(Count * 1024 * 5, BshoxOptions.BufferSizeDefault)]);
     }
 
     [Benchmark]
-    public byte[] Bshox()
+    public object Bshox()
     {
-        return ForecastSerializer.ForecastArray.Serialize(in data);
+        buffer.Reset();
+        ForecastSerializer.ForecastArray.Serialize(buffer, in data);
+        return buffer;
     }
 }
