@@ -1,7 +1,6 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Bshox.Internals;
 
 namespace Bshox;
@@ -36,7 +35,7 @@ public ref partial struct BshoxReader
         if (value < 128u)
             return value; // hot path
         value &= 0x7Fu;
-        if (_span.Length >= 4)
+        if (SpanLength >= 4)
         {
             return ReadVarInt32Fast(value); // lukewarm path
         }
@@ -46,10 +45,10 @@ public ref partial struct BshoxReader
     [MethodImpl(MethodImplOptions.AggressiveInlining)] // lukewarm path
     private uint ReadVarInt32Fast(uint value)
     {
-        Debug.Assert(_span.Length >= 4, "_span.Length >= 4");
+        Debug.Assert(SpanLength >= 4, "SpanLength >= 4");
         int shift = 0;
         bool c; // continuation bit is set
-        ref byte r = ref MemoryMarshal.GetReference(_span);
+        ref byte r = ref GetRef();
         do
         {
             byte b = r;
@@ -69,7 +68,7 @@ public ref partial struct BshoxReader
     [MethodImpl(MethodImplOptions.NoInlining)] // cold path
     private uint ReadVarInt32Slow(uint value)
     {
-        Debug.Assert(_span.Length < 4, "_span.Length < 4");
+        Debug.Assert(SpanLength < 4, "SpanLength < 4");
         int bitShift = 0;
         byte b;
         do
