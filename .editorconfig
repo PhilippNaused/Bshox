@@ -142,6 +142,8 @@ dotnet_diagnostic.IDE0052.severity = warning
 dotnet_diagnostic.IDE0076.severity = error
 dotnet_diagnostic.IDE0077.severity = error
 dotnet_diagnostic.IDE0043.severity = error
+dotnet_diagnostic.IDE0370.severity = none # Remove unnecessary suppression (very buggy) TODO: removed when fixed
+dotnet_diagnostic.CA2252.severity = none # Enable preview features (Adding the EnablePreviewFeatures property to every projects causes conflicts) TODO: remove when runtime-async is generally available
 
 # yaml files
 [*.{yml,yaml}]
