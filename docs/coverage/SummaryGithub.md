@@ -7,25 +7,25 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 55                                    |
 | Files:             | 66                                    |
-| **Line coverage:** | 91.2% (3848 of 4219)                  |
-| Covered lines:     | 3848                                  |
-| Uncovered lines:   | 371                                   |
-| Coverable lines:   | 4219                                  |
-| Total lines:       | 8406                                  |
+| **Line coverage:** | 91.2% (3884 of 4257)                  |
+| Covered lines:     | 3884                                  |
+| Uncovered lines:   | 373                                   |
+| Coverable lines:   | 4257                                  |
+| Total lines:       | 8503                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 93.5%</summary>
+<details><summary>Bshox.dll - 93.6%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **93.5%** |
+| **Bshox.dll**                          | **93.6%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
 | Bshox.BshoxOptions                     |      100% |
-| Bshox.BshoxReader                      |     97.2% |
+| Bshox.BshoxReader                      |     97.4% |
 | Bshox.BshoxSerializer                  |     93.9% |
 | Bshox.BshoxWriter                      |     98.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
@@ -38,7 +38,7 @@
 | Bshox.Internals.PooledByteBufferWriter |     80.5% |
 | Bshox.Internals.StreamSequence         |     92.8% |
 | Bshox.Internals.Utils                  |      100% |
-| Bshox.PolyFills                        |     82.6% |
+| Bshox.PolyFills                        |     73.9% |
 
 </details>
 <details><summary>Bshox.Generator.dll - 90.3%</summary>

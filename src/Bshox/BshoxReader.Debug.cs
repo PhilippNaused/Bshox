@@ -32,13 +32,16 @@ public ref partial struct BshoxReader
 
         if (_moreData)
         {
-            Debug.Assert(!_span.IsEmpty, "!_span.IsEmpty");
+            Debug.Assert(SpanLength > 0, "SpanLength > 0");
             Debug.Assert(Consumed < Length, "Consumed < Length");
             Debug.Assert(Remaining > 0, "Remaining > 0");
+#if REF_FIELD
+            Debug.Assert(!System.Runtime.CompilerServices.Unsafe.IsNullRef(in _ref), "!Unsafe.IsNullRef(in _ref)");
+#endif
         }
         else
         {
-            Debug.Assert(_span.IsEmpty, "_span.IsEmpty");
+            Debug.Assert(SpanLength == 0, "SpanLength == 0");
             //Debug.Assert(Consumed == Length, "Consumed == Length"); // Not necessarily true
             //Debug.Assert(Remaining == 0, "Remaining == 0");
         }
