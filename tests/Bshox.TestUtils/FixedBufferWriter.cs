@@ -17,6 +17,8 @@ public sealed class FixedBufferWriter(Memory<byte> memory) : IBufferWriter<byte>
     private Memory<byte> _memory = memory;
     private readonly Memory<byte> _originalMemory = memory;
 
+    public ReadOnlyMemory<byte> WrittenMemory => _originalMemory.Slice(0, _originalMemory.Length - _memory.Length);
+
     /// <inheritdoc />
     public void Advance(int count)
     {

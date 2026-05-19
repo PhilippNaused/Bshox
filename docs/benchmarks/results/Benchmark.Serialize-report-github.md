@@ -10,7 +10,7 @@ Job=MediumRun  MaxRelativeError=0.01  IterationCount=15
 LaunchCount=2  WarmupCount=10
 
 ```
-| Method | Count |         Mean |       Error |  Allocated |
-|--------|-------|-------------:|------------:|-----------:|
-| Bshox  | 1     |     623.6 ns |     5.30 ns |    3.05 KB |
-| Bshox  | 1000  | 793,228.8 ns | 6,216.70 ns | 2953.81 KB |
+| Method | Count |         Mean |       Error | Allocated |
+|--------|-------|-------------:|------------:|----------:|
+| Bshox  | 1     |     481.0 ns |     1.45 ns |         - |
+| Bshox  | 1000  | 537,783.0 ns | 4,206.45 ns |         - |

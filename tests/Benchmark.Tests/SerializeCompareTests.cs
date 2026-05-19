@@ -1,4 +1,5 @@
 using Benchmark.Models;
+using Bshox.TestUtils;
 using Bshox.Utils;
 
 namespace Benchmark.Tests;
@@ -11,11 +12,11 @@ public sealed class SerializeCompareTests : SerializeCompare
         Count = 100;
         Setup(new Random(42)); // use fixed seed to get consistent results
 
-        byte[] bshox = Bshox();
-        byte[] json = Json();
-        byte[] messagePack = MessagePack();
-        byte[] proto = ProtoBufNet();
-        byte[] google = GoogleProtobuf();
+        byte[] bshox = ((FixedBufferWriter)Bshox()).WrittenMemory.ToArray();
+        byte[] json = ((FixedBufferWriter)Json()).WrittenMemory.ToArray();
+        byte[] messagePack = ((FixedBufferWriter)MessagePack()).WrittenMemory.ToArray();
+        byte[] proto = ((FixedBufferWriter)ProtoBufNet()).WrittenMemory.ToArray();
+        byte[] google = ((FixedBufferWriter)GoogleProtobuf()).WrittenMemory.ToArray();
         using (Assert.Multiple())
         {
 #if NETCOREAPP // netfx uses less compact json

@@ -10,16 +10,16 @@ Job=MediumRun  MaxRelativeError=0.01  IterationCount=15
 LaunchCount=2  WarmupCount=10
 
 ```
-| Method           | Count |          Mean |       Error | Ratio |   Allocated | Alloc Ratio |
-|------------------|-------|--------------:|------------:|------:|------------:|------------:|
-| Bshox            | 1     |      1.100 μs |   0.0094 μs |  1.00 |     3.05 KB |        1.00 |
-| System.Text.Json | 1     |     37.649 μs |   0.3518 μs | 34.23 |     9.19 KB |        3.02 |
-| MessagePack      | 1     |      3.177 μs |   0.0425 μs |  2.89 |     4.38 KB |        1.44 |
-| protobuf-net     | 1     |     11.799 μs |   0.2988 μs | 10.73 |     8.46 KB |        2.78 |
-| Google.Protobuf  | 1     |      8.308 μs |   0.0180 μs |  7.55 |     4.33 KB |        1.42 |
-|                  |       |               |             |       |             |             |
-| Bshox            | 1000  |  1,374.218 μs |  57.5616 μs |  1.00 |  2953.98 KB |        1.00 |
-| System.Text.Json | 1000  | 42,469.801 μs | 131.8419 μs | 31.03 |  9191.97 KB |        3.11 |
-| MessagePack      | 1000  |  4,108.296 μs |  59.3696 μs |  3.00 |  4362.35 KB |        1.48 |
-| protobuf-net     | 1000  | 13,122.760 μs |  63.3785 μs |  9.59 | 12786.73 KB |        4.33 |
-| Google.Protobuf  | 1000  | 10,840.126 μs |  40.1525 μs |  7.92 |  4221.06 KB |        1.43 |
+| Method           | Count |            Mean |         Error | Ratio | Allocated | Alloc Ratio |
+|------------------|-------|----------------:|--------------:|------:|----------:|------------:|
+| Bshox            | 1     |        481.3 ns |       0.63 ns |  1.00 |         - |          NA |
+| System.Text.Json | 1     |     19,004.8 ns |      60.72 ns | 39.49 |     136 B |          NA |
+| MessagePack      | 1     |      1,671.2 ns |       2.39 ns |  3.47 |         - |          NA |
+| protobuf-net     | 1     |     11,175.7 ns |      96.74 ns | 23.22 |      80 B |          NA |
+| Google.Protobuf  | 1     |      4,606.4 ns |      35.57 ns |  9.57 |      56 B |          NA |
+|                  |       |                 |               |       |           |             |
+| Bshox            | 1000  |    553,241.8 ns |   3,393.69 ns |  1.00 |         - |          NA |
+| System.Text.Json | 1000  | 21,339,070.2 ns |  76,849.66 ns | 38.57 |     136 B |          NA |
+| MessagePack      | 1000  |  1,846,193.3 ns |  11,356.58 ns |  3.34 |         - |          NA |
+| protobuf-net     | 1000  | 12,507,706.8 ns | 247,372.57 ns | 22.61 |   80000 B |          NA |
+| Google.Protobuf  | 1000  |  6,515,626.5 ns |  50,473.22 ns | 11.78 |   56000 B |          NA |
