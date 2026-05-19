@@ -35,7 +35,7 @@ sealed partial class RecursiveTestTypeSerializer : bsx::BshoxSerializer
         c_RecursiveTestType = new TestModels_RecursiveTestType__BshoxContract();
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.RecursiveTestType))
             return c_RecursiveTestType;

@@ -39,7 +39,7 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
         c_Enum1 = bsx::DefaultContracts.Enum<global::TestModels.Enum1>(c_Int32);
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.Type1))
             return c_Type1;

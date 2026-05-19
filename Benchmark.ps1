@@ -22,7 +22,7 @@ else {
   $Path = 'tests/Benchmark'
 }
 
-dotnet test 'tests/Benchmark.Tests/Benchmark.Tests.csproj' --disable-logo --configuration Release
+dotnet test 'tests/Benchmark.Tests/Benchmark.Tests.csproj' --configuration Release
 dotnet run --project $Path --configuration Release --framework $tfm
 
 # cspell:ignore maziac

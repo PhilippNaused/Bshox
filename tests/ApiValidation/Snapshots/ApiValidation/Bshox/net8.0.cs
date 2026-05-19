@@ -54,6 +54,7 @@ namespace Bshox
         {
             public void Serialize(System.Buffers.IBufferWriter<byte> buffer, scoped in T value, Bshox.BshoxOptions? options = null);
             public void Serialize(System.IO.Stream stream, scoped in T value, Bshox.BshoxOptions? options = null);
+            public async System.Threading.Tasks.Task SerializeAsync(System.IO.Stream stream, T value, Bshox.BshoxOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
             public byte[] Serialize(scoped in T value, Bshox.BshoxOptions? options = null);
             public T Deserialize(in System.Buffers.ReadOnlySequence<byte> sequence, Bshox.BshoxOptions? options = null);
             public T Deserialize(System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);

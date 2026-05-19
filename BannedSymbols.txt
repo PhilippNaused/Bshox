@@ -1,2 +1,3 @@
+M:System.Diagnostics.Debug.Assert(System.Boolean);Don't use Debug.Assert without a message.
 M:System.Random.#ctor;Don't use new Random() without a seed.
 P:System.Random.Shared;Create a new instance of Random with a seed instead.

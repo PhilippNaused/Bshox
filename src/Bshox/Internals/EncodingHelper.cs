@@ -1,3 +1,4 @@
+using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -23,6 +24,24 @@ internal static class EncodingHelper
         {
             return Utf8NoBom.GetBytes(charsPtr, chars.Length, bytesPtr, byteCount);
         }
+    }
+
+    [Pure]
+    public static int GetVarIntLength(uint value)
+    {
+        const uint max1 = 1 << (1 * 7);
+        const uint max2 = 1 << (2 * 7);
+        const uint max3 = 1 << (3 * 7);
+        const uint max4 = 1 << (4 * 7);
+        if (value < max1)
+            return 1;
+        if (value < max2)
+            return 2;
+        if (value < max3)
+            return 3;
+        if (value < max4)
+            return 4;
+        return 5;
     }
 
     public static long UnZigZag64(ulong value)

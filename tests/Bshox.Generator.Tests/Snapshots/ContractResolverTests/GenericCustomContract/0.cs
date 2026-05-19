@@ -11,26 +11,27 @@ namespace TestModels;
 partial class Serializer1
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
-    private sealed class TestModels_Type1_3Cint_3E__BshoxContract : bsx::BshoxContract<global::TestModels.Type1<int>>
+    private sealed class TestModels_Type1_3Cstring_3E__BshoxContract : bsx::BshoxContract<global::TestModels.Type1<string?>>
     {
-        internal TestModels_Type1_3Cint_3E__BshoxContract() : base(bsx::BshoxCode.SubObject)
+        internal TestModels_Type1_3Cstring_3E__BshoxContract() : base(bsx::BshoxCode.SubObject)
         {
         }
 
-        public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.Type1<int> value)
+        public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.Type1<string?> value)
         {
             using var _ = writer.DepthLock();
             var __Value = value.Value;
+            if (__Value != null)
             {
-                writer.WriteByte(8);
-                writer.WriteVarInt32(unchecked((uint)__Value));
+                writer.WriteByte(11);
+                writer.WriteString(__Value);
             }
             writer.WriteByte(0);
         }
 
-        public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.Type1<int> value)
+        public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.Type1<string?> value)
         {
-            int __Value = default;
+            string? __Value = default;
             using var _ = reader.DepthLock();
             while (true)
             {
@@ -40,7 +41,7 @@ partial class Serializer1
                     case 0:
                     {
                         bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        value = new global::TestModels.Type1<int>
+                        value = new global::TestModels.Type1<string?>
                         {
                             Value = __Value,
                         };
@@ -48,8 +49,8 @@ partial class Serializer1
                     }
                     case 1:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
-                        __Value = unchecked((int)reader.ReadVarInt32());
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Prefixed);
+                        __Value = reader.ReadString();
                         break;
                     }
                     default:

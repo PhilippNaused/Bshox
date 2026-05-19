@@ -72,6 +72,28 @@ internal class ApiTests
     }
 
     [Test]
+    public async Task SerializeToMemoryStreamAsync()
+    {
+        var stream = new MemoryStream();
+        var task = TestSerializer.Int32Array.SerializeAsync(stream, s_Array);
+        await Assert.That(task.IsCompleted).IsTrue(); // should complete synchronously since it's a memory stream
+        await task; // just in case, to propagate any exceptions
+        await Assert.That(stream.ToArray()).IsSequenceEqualTo(s_Expected);
+    }
+
+    [Test]
+    public async Task SerializeToStreamAsync()
+    {
+        var stream = new MemoryStream();
+        await using var asyncStream = stream.AsAsyncStream();
+        var task = TestSerializer.Int32Array.SerializeAsync(asyncStream, s_Array);
+        await Assert.That(task.IsCompleted).IsFalse(); // should not complete synchronously since it's an async stream that always yields
+        await task;
+        task.Dispose();
+        await Assert.That(stream.ToArray()).IsSequenceEqualTo(s_Expected);
+    }
+
+    [Test]
     public async Task SerializeToBufferedStream2()
     {
         var ms = new MemoryStream();

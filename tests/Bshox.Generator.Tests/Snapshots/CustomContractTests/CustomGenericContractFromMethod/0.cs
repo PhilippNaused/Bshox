@@ -31,7 +31,7 @@ sealed partial class CustomContracts1 : bsx::BshoxSerializer
         c_Int32 = global::TestModels.Test1<int>.Contract1();
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(int))
             return c_Int32;

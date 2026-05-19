@@ -1,6 +1,7 @@
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Bshox.Internals;
 
 namespace Bshox;
@@ -47,15 +48,18 @@ public ref partial struct BshoxReader
     {
         Debug.Assert(_span.Length >= 4, "_span.Length >= 4");
         int shift = 0;
-        byte b;
+        bool c; // continuation bit is set
+        ref byte r = ref MemoryMarshal.GetReference(_span);
         do
         {
-            b = _span[shift];
+            byte b = r;
+            r = ref Unsafe.Add(ref r, 1);
             shift++;
             value |= (b & 0x7Fu) << (shift * 7);
-            if (shift > 4)
+            c = b > 127;
+            if (shift > 3 && c)
                 throw BshoxException.VarIntTooLong();
-        } while (b > 127);
+        } while (c);
 
         Advance(shift);
 
@@ -197,7 +201,7 @@ public ref partial struct BshoxReader
         if (length == 0)
             return [];
         CheckBufferSize(length);
-        byte[] bytes = new byte[length];
+        byte[] bytes = Utils.Allocate(checked((int)length));
         CopyTo(bytes);
         return bytes;
     }

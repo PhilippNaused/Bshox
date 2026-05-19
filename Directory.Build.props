@@ -17,6 +17,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <EnableTUnitPolyfills>false</EnableTUnitPolyfills>
+    <TestingPlatformCommandLineArguments>--disable-logo</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
   <!-- Runtime Async -->
@@ -57,5 +58,10 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>serializer</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Banned API analyzer -->
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
+  </ItemGroup>
 
 </Project>

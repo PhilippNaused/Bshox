@@ -1,7 +1,3 @@
-#if NET8_0_OR_GREATER
-#define USE_REF // runtime supports ref fields.
-#endif
-
 #if DEBUG
 #pragma warning disable CS0282 // Don't care
 #endif
@@ -20,14 +16,13 @@ namespace Bshox;
 /// </summary>
 public ref partial struct BshoxWriter
 {
-#if USE_REF
+#if REF_FIELD
     private ref byte _ref; // reference to the underlying buffer
     private int _length; // remaining space in the buffer
-    private int _unflushed; // unflushed bytes
 #else
-    private int _index;
     private Span<byte> _span;
 #endif
+    private int _unflushed; // unflushed bytes
 
     private readonly IBufferWriter<byte> _buffer;
     private int _depth;
@@ -35,7 +30,7 @@ public ref partial struct BshoxWriter
     /// <summary>
     /// The options used by this writer.
     /// </summary>
-    public BshoxOptions Options { get; }
+    public readonly BshoxOptions Options { get; }
 
     /// <summary>
     /// The current depth of nested objects and arrays.<br/>
@@ -43,12 +38,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     public readonly int CurrentDepth => _depth;
 
-    internal readonly int UnflushedBytes =>
-#if USE_REF
-        _unflushed;
-#else
-        _index;
-#endif
+    internal readonly int UnflushedBytes => _unflushed;
 
     /// <summary>
     /// Creates a new writer that writes to the specified <paramref name="buffer"/>.
@@ -85,24 +75,24 @@ public ref partial struct BshoxWriter
     {
         Check();
         CheckWaitingForAdvance(false);
-#if USE_REF
+#if REF_FIELD
         ref byte r = ref GetRef(sizeHint);
         Debug.Assert(_length >= sizeHint, "_length >= sizeHint");
         WaitingForAdvance(true);
         return System.Runtime.InteropServices.MemoryMarshal.CreateSpan(ref r, _length);
 #else
-        Debug.Assert(_index <= _span.Length, "_index <= _span.Length");
-        if (_span.Length - _index >= sizeHint)
+        Debug.Assert(_unflushed <= _span.Length, "_unflushed <= _span.Length");
+        if (_span.Length - _unflushed >= sizeHint)
         {
-            Debug.Assert(_span.Length - _index >= sizeHint, "_span.Length - _index >= sizeHint");
+            Debug.Assert(_span.Length - _unflushed >= sizeHint, "_span.Length - _unflushed >= sizeHint");
             WaitingForAdvance(true);
-            return _span.Slice(_index); // hot path
+            return _span.Slice(_unflushed); // hot path
         }
-        if (_index > 0)
+        if (_unflushed > 0)
         {
             Flush();
         }
-        Debug.Assert(_index == 0, "_index == 0");
+        Debug.Assert(_unflushed == 0, "_unflushed == 0");
         _span = _buffer.GetSpan(Math.Max(sizeHint, Options.DefaultBufferSize));
         Debug.Assert(_span.Length >= sizeHint, "_span.Length >= sizeHint");
         WaitingForAdvance(true);
@@ -122,7 +112,7 @@ public ref partial struct BshoxWriter
         Check();
         CheckWaitingForAdvance(false);
         Debug.Assert(sizeHint >= 0, "sizeHint >= 0");
-#if USE_REF
+#if REF_FIELD
         Debug.Assert(_length >= 0, "length >= 0");
         if (_length >= sizeHint)
         {
@@ -157,15 +147,15 @@ public ref partial struct BshoxWriter
         Check();
         CheckWaitingForAdvance(true);
         ArgumentOutOfRangeException.ThrowIfNegative(count);
-#if USE_REF
+#if REF_FIELD
         _ref = ref Unsafe.Add(ref _ref, count);
         _length -= count;
         _unflushed += count;
         Debug.Assert(_length >= 0, "_length >= 0");
         Debug.Assert(!Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
 #else
-        Debug.Assert(_index + count <= _span.Length);
-        _index += count;
+        Debug.Assert(_unflushed + count <= _span.Length, "_unflushed + count <= _span.Length");
+        _unflushed += count;
 #endif
         WaitingForAdvance(false);
     }
@@ -178,9 +168,9 @@ public ref partial struct BshoxWriter
     {
         Check();
         CheckWaitingForAdvance(false);
-        if (UnflushedBytes == 0)
+        if (_unflushed == 0)
             return;
-#if USE_REF
+#if REF_FIELD
         Debug.Assert(!Unsafe.IsNullRef(ref _ref), "!Unsafe.IsNullRef(ref _ref)");
         Debug.Assert(_unflushed >= 0, "_unflushed >= 0");
         _buffer.Advance(_unflushed);
@@ -188,9 +178,9 @@ public ref partial struct BshoxWriter
         _length = 0;
         _unflushed = 0;
 #else
-        Debug.Assert(_index <= _span.Length, "_index <= _span.Length");
-        _buffer.Advance(_index);
-        _index = 0;
+        Debug.Assert(_unflushed <= _span.Length, "_unflushed <= _span.Length");
+        _buffer.Advance(_unflushed);
+        _unflushed = 0;
         _span = default;
 #endif
     }

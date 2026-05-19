@@ -16,7 +16,7 @@ public abstract class VarIntBase
 
     protected VarIntBase()
     {
-        var random = new Random(42);
+        var random = new Random();
         values1 = new uint[Count];
         values2 = new uint[Count];
         values3 = new uint[Count];

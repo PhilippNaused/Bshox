@@ -114,7 +114,7 @@ public class DiagnosticTests
     }
 
     [Test]
-    [Explicit("This diagnostic cannot be triggered without a compiler error (yet)")]
+    [Explicit] // This diagnostic cannot be triggered without a compiler error (yet)
     public async Task SerializerMustHaveAtLeastOneType()
     {
         const string sourceCode = """

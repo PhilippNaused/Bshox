@@ -37,6 +37,16 @@ public class ReadVarInt : VarIntBase
         bufferX = DefaultContracts.Array(DefaultContracts.UInt32).Serialize(valuesX).AsMemory().Slice(prefixLength);
     }
 
+    [Benchmark(OperationsPerInvoke = Count)]
+    public long ReadNothing()
+    {
+        var r = new BshoxReader(buffer1);
+        for (int i = 0; i < Count; i++)
+        {
+        }
+        return r.Consumed;
+    }
+
     [Benchmark(OperationsPerInvoke = Count, Baseline = true)]
     public long ReadByte()
     {

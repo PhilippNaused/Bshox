@@ -1,0 +1,15 @@
+name: 'Check Authors'
+on:
+  pull_request:
+
+jobs:
+  check-authors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Fetch all history for accurate author detection
+      - name: Verify Authors
+        run: |
+          chmod +x .github/workflows/authors.sh
+          .github/workflows/authors.sh

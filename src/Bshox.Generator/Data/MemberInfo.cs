@@ -28,6 +28,8 @@ internal sealed class MemberInfo
 
         if (Symbol.TryParseDefaultValueAttribute(context, out TypedConstant? value))
         {
+            // TODO: check if the default value is valid for the member type and report a diagnostic if not
+            // e.g [DefaultValue("Hello")] on an int property should cause an error
             DefaultValue = value;
         }
         else if (parameters.ImplicitDefaultValues || IsReferenceType)

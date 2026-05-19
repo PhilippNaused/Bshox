@@ -10,21 +10,21 @@ namespace TestModels;
 
 /// <summary>
 /// A source generated Bshox serializer that can serialize the following types:
-/// <para><see cref="global::TestModels.Type1{T}" /> (<c>T</c> is <see cref="int" />)</para>
+/// <para><see cref="global::TestModels.Type1{T}" /> (<c>T</c> is <see cref="string" />)</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
 sealed partial class Serializer1 : bsx::BshoxSerializer
 {
-    private static readonly bsx::BshoxContract<global::TestModels.Type1<int>> c_Type1Int32;
+    private static readonly bsx::BshoxContract<global::TestModels.Type1<string?>> c_Type1String;
     /// <summary>
-    /// A source generated Bshox contract for <see cref="global::TestModels.Type1{T}" /> (<c>T</c> is <see cref="int" />)
+    /// A source generated Bshox contract for <see cref="global::TestModels.Type1{T}" /> (<c>T</c> is <see cref="string" />)
     /// </summary>
     /// <remarks>
     /// Bshox member layout:
-    /// <para><c>1</c>: <see cref="int" /> Value</para>
+    /// <para><c>1</c>: <see cref="string" /> Value (implicit default)</para>
     /// </remarks>
-    public static bsx::BshoxContract<global::TestModels.Type1<int>> Type1Int32 => c_Type1Int32;
-    private static readonly bsx::BshoxContract<int> c_Int32;
+    public static bsx::BshoxContract<global::TestModels.Type1<string?>> Type1String => c_Type1String;
+    private static readonly bsx::BshoxContract<string> c_String;
 
     /// <summary>
     /// Singleton instance of <see cref="global::TestModels.Serializer1" />
@@ -33,16 +33,16 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
 
     static Serializer1()
     {
-        c_Type1Int32 = new TestModels_Type1_3Cint_3E__BshoxContract();
-        c_Int32 = bsx::DefaultContracts.Int32;
+        c_Type1String = new TestModels_Type1_3Cstring_3E__BshoxContract();
+        c_String = bsx::DefaultContracts.String;
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
-        if (type == typeof(global::TestModels.Type1<int>))
-            return c_Type1Int32;
-        if (type == typeof(int))
-            return c_Int32;
+        if (type == typeof(global::TestModels.Type1<string?>))
+            return c_Type1String;
+        if (type == typeof(string))
+            return c_String;
         return null;
     }
 }

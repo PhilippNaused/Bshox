@@ -149,5 +149,5 @@ internal sealed class AsyncStreamWrapper(Stream stream, bool yield = true) : Str
 
 internal static class TestExtensions
 {
-    public static AsyncStreamWrapper AsAsyncStream(this Stream stream, bool yield = false) => new AsyncStreamWrapper(stream, yield);
+    public static AsyncStreamWrapper AsAsyncStream(this Stream stream, bool yield = true) => new AsyncStreamWrapper(stream, yield);
 }

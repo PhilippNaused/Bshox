@@ -106,7 +106,7 @@ sealed partial class ValueTupleSerializer : bsx::BshoxSerializer
         c_ValueTupleInt32Int64 = bsx::DefaultContracts.ValueTuple<int, long>(c_Int32, c_Int64);
     }
 
-    protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)
+    protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(int))
             return c_Int32;
@@ -134,7 +134,7 @@ sealed partial class ValueTupleSerializer : bsx::BshoxSerializer
             return c_UInt32;
         if (type == typeof(global::System.ValueTuple<uint, string, byte>))
             return c_ValueTupleUInt32StringByte;
-        if (type == typeof(global::System.ValueTuple<string, string>))
+        if (type == typeof(global::System.ValueTuple<string, string?>))
             return c_ValueTupleStringString;
         if (type == typeof(long))
             return c_Int64;

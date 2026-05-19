@@ -122,7 +122,7 @@ internal static class SerializerGenerator
         {
             foreach (var contract in contracts)
             {
-                code.WriteLine($"private static readonly bsx::BshoxContract<{contract.Type.FullyQualifiedToStringWithNull()}> {contract.VariableName};");
+                code.WriteLine($"private static readonly bsx::BshoxContract<{contract.Type.FullyQualifiedToString()}> {contract.VariableName};");
                 if (contract.Explicit)
                 {
                     if (contract.Generator is { } generator)
@@ -146,7 +146,7 @@ internal static class SerializerGenerator
                                         """);
                     }
 
-                    code.WriteLine($"public static bsx::BshoxContract<{contract.Type.FullyQualifiedToStringWithNull()}> {contract.PropertyName} => {contract.VariableName};");
+                    code.WriteLine($"public static bsx::BshoxContract<{contract.Type.FullyQualifiedToString()}> {contract.PropertyName} => {contract.VariableName};");
                 }
             }
 
@@ -173,8 +173,8 @@ internal static class SerializerGenerator
             code.CloseScope(); // static constructor
             code.WriteLine();
 
-            // IBshoxContract GetContractInternal(Type type)
-            code.WriteLine("protected override bsx::IBshoxContract GetContractInternal(global::System.Type type)");
+            // IBshoxContract? GetContractInternal(Type type)
+            code.WriteLine("protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)");
             code.OpenScope();
             {
                 foreach (var serializableType in contracts)
