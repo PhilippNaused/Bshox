@@ -95,8 +95,7 @@ internal sealed class MemberInfo
 
     private bool NeedsExplicitNullSupport()
     {
-        // TODO: check if this is still needed
-        if (IsValueType)
+        if (IsValueType && !MemberType.IsNullableValueType())
             return false; // value types are never null
         if (ImplicitDefault)
             return false; // the implicit default value for reference types is null
@@ -113,34 +112,29 @@ internal sealed class MemberInfo
     public void WriteSerialize(SourceWriter code)
     {
         code.WriteLine($"var {LocalVariableName} = value.{Name};");
+        if (NeedsExplicitNullSupport())
+        {
+            code.WriteLine($"if ({LocalVariableName} is not null)");
+        }
         if (ImplicitDefault)
         {
-            if (IsValueType)
+            if (IsValueType && !MemberType.IsNullableValueType())
                 code.WriteLine($"if ({LocalVariableName} != default)");
             else
-                code.WriteLine($"if ({LocalVariableName} != null)"); // "default" is not allowed on unconstrained type parameters
+                code.WriteLine($"if ({LocalVariableName} is not null)"); // "default" is not allowed on unconstrained type parameters
         }
         else if (DefaultValue is not null)
         {
-            code.WriteLine($"if ({LocalVariableName} != {DefaultValueString})");
+            if (DefaultValue.Value.IsNull)
+                code.WriteLine($"if ({LocalVariableName} is not null)");
+            else
+                code.WriteLine($"if ({LocalVariableName} != {DefaultValueString})");
         }
 
         code.OpenScope();
         code.WriteComment($"Key: {Key}");
 
-        if (NeedsExplicitNullSupport())
-        {
-            code.WriteLine($"if ({LocalVariableName} is not null)");
-            code.OpenScope();
-            {
-                WriteInnerSerialize(code);
-            }
-            code.CloseScope();
-        }
-        else
-        {
-            WriteInnerSerialize(code);
-        }
+        WriteInnerSerialize(code);
 
         code.CloseScope();
     }

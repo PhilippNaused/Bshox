@@ -176,6 +176,10 @@
     {
       "Name": "List",
       "Type": "System.Collections.Generic.List<>"
+    },
+    {
+      "Name": "Nullable",
+      "Type": "System.Nullable<>"
     }
   ]
 }

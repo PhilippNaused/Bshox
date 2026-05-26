@@ -4,40 +4,49 @@
 
 using bsx = global::Bshox;
 
-using _gen_bshox_t = global::TestModels.Serializer2;
+using _gen_bshox_t = global::TestModels.Serializer1;
 
 namespace TestModels;
 
-partial class Serializer2
+partial class Serializer1
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
-    private sealed class TestModels_TestType2__BshoxContract : bsx::BshoxContract<global::TestModels.TestType2>
+    private sealed class TestModels_TestType1__BshoxContract : bsx::BshoxContract<global::TestModels.TestType1>
     {
-        internal TestModels_TestType2__BshoxContract() : base(bsx::BshoxCode.SubObject)
+        internal TestModels_TestType1__BshoxContract() : base(bsx::BshoxCode.SubObject)
         {
         }
 
-        public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.TestType2 value)
+        public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.TestType1 value)
         {
             using var _ = writer.DepthLock();
             var __Value1 = value.Value1;
+            if (__Value1 is not null)
             {
                 writer.WriteByte(8);
                 writer.WriteVarInt32(unchecked((uint)__Value1));
             }
             var __Value2 = value.Value2;
             if (__Value2 is not null)
+            if (__Value2 != 42)
             {
-                writer.WriteByte(19);
-                writer.WriteString(__Value2);
+                writer.WriteByte(16);
+                writer.WriteVarInt32(unchecked((uint)__Value2));
+            }
+            var __Value3 = value.Value3;
+            if (__Value3 is not null)
+            {
+                writer.WriteByte(24);
+                writer.WriteVarInt32(unchecked((uint)__Value3));
             }
             writer.WriteByte(0);
         }
 
-        public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.TestType2 value)
+        public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.TestType1 value)
         {
-            int __Value1 = default;
-            string? __Value2 = default;
+            global::System.Nullable<int> __Value1 = default;
+            global::System.Nullable<int> __Value2 = 42;
+            global::System.Nullable<int> __Value3 = null;
             using var _ = reader.DepthLock();
             while (true)
             {
@@ -47,10 +56,11 @@ partial class Serializer2
                     case 0:
                     {
                         bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        value = new global::TestModels.TestType2
+                        value = new global::TestModels.TestType1
                         {
                             Value1 = __Value1,
                             Value2 = __Value2,
+                            Value3 = __Value3,
                         };
                         return;
                     }
@@ -62,8 +72,14 @@ partial class Serializer2
                     }
                     case 2:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Prefixed);
-                        __Value2 = reader.ReadString();
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        __Value2 = unchecked((int)reader.ReadVarInt32());
+                        break;
+                    }
+                    case 3:
+                    {
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        __Value3 = unchecked((int)reader.ReadVarInt32());
                         break;
                     }
                     default:

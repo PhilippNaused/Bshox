@@ -34,6 +34,37 @@ public static partial class DefaultContracts
         return new ArrayContract<T>(contract);
     }
 
+    /// <summary>
+    /// A Bshox contract for <see cref="System.Nullable{T}"/>.
+    /// </summary>
+    /// <remarks>
+    /// This contract does not support <see langword="null"/> values.
+    /// It will throw an <see cref="ArgumentNullException"/> if you try to serialize a <see langword="null"/> value, and it will never return <see langword="null"/> when deserializing.
+    /// </remarks>
+    public static BshoxContract<T?> Nullable<T>(BshoxContract<T> contract) where T : struct
+    {
+        return new NullableContract<T>(contract);
+    }
+
+    private sealed class NullableContract<T>(BshoxContract<T> contract) : BshoxContract<T?>(contract.Encoding) where T : struct
+    {
+        public override void Deserialize(ref BshoxReader reader, out T? value)
+        {
+            contract.Deserialize(ref reader, out T value2);
+            value = value2;
+        }
+
+        public override void Serialize(ref BshoxWriter writer, scoped ref readonly T? value)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            T value2 = value.Value;
+            contract.Serialize(ref writer, in value2);
+        }
+    }
+
     private partial class GuidContract
     {
         public override partial void Deserialize(ref BshoxReader reader, out Guid value)

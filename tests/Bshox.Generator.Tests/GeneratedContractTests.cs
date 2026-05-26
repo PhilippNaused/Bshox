@@ -84,4 +84,33 @@ public class GeneratedContractTests
             await Assert.That(generatedOutput).IsNotEmpty(); // TODO: fix this
         }
     }
+
+    [Test]
+    public async Task NullableValueTypes()
+    {
+        const string sourceCode = """
+                                  using System.ComponentModel;
+                                  using Bshox.Attributes;
+                                  namespace TestModels;
+
+                                  [BshoxSerializable<TestType1>]
+                                  public partial class Serializer1;
+
+                                  [BshoxContract(ImplicitMembers = true)]
+                                  public record TestType1
+                                  {
+                                      public int? Value1 { get; set; }
+
+                                      [DefaultValue(42)]
+                                      public int? Value2 { get; set; }
+
+                                      [DefaultValue(null)]
+                                      public int? Value3 { get; set; }
+                                  }
+                                  """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Utils.ValidateOutput(generatedOutput, 2);
+    }
 }

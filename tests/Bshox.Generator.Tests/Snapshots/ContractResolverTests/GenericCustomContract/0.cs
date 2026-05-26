@@ -21,7 +21,7 @@ partial class Serializer1
         {
             using var _ = writer.DepthLock();
             var __Value = value.Value;
-            if (__Value != null)
+            if (__Value is not null)
             {
                 writer.WriteByte(11);
                 writer.WriteString(__Value);
