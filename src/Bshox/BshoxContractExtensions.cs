@@ -21,7 +21,7 @@ public static class BshoxContractExtensions
         /// </summary>
         /// <param name="buffer">The buffer writer to which the serialized data will be written.</param>
         /// <param name="value">The value to serialize.</param>
-        /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         public void Serialize(IBufferWriter<byte> buffer, scoped in T value, BshoxOptions? options = null)
         {
             var writer = new BshoxWriter(buffer, options);
@@ -34,7 +34,7 @@ public static class BshoxContractExtensions
         /// </summary>
         /// <param name="stream">The stream to which the serialized data will be written.</param>
         /// <param name="value">The value to serialize.</param>
-        /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         public void Serialize(Stream stream, scoped in T value, BshoxOptions? options = null)
         {
             using var buffer = new PooledByteBufferWriter(options);
@@ -47,7 +47,7 @@ public static class BshoxContractExtensions
         /// </summary>
         /// <param name="stream">The stream to which the serialized data will be written.</param>
         /// <param name="value">The value to serialize.</param>
-        /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <remarks>
         /// The <paramref name="value"/> is synchronously serialized to an internal buffer.
@@ -69,7 +69,7 @@ public static class BshoxContractExtensions
         /// Serializes the specified <paramref name="value"/> using the provided <paramref name="contract"/> to a <see cref="byte"/> array.
         /// </summary>
         /// <param name="value">The value to serialize.</param>
-        /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         /// <returns>A <see cref="byte"/> array containing the serialized data.</returns>
         public byte[] Serialize(scoped in T value, BshoxOptions? options = null)
         {
@@ -82,7 +82,7 @@ public static class BshoxContractExtensions
         /// Deserializes a value of type <typeparamref name="T"/> from the specified <paramref name="sequence"/> of bytes using the provided <paramref name="contract"/>.
         /// </summary>
         /// <param name="sequence">The <see cref="ReadOnlySequence{T}"/> of bytes containing the data to deserialize.</param>
-        /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         /// <returns>The deserialized value of type <typeparamref name="T"/>.</returns>
         public T Deserialize(in ReadOnlySequence<byte> sequence, BshoxOptions? options = null)
         {
@@ -95,7 +95,7 @@ public static class BshoxContractExtensions
         /// Deserializes a value of type <typeparamref name="T"/> from the specified <paramref name="memory"/> using the provided <paramref name="contract"/>.
         /// </summary>
         /// <param name="memory">The <see cref="ReadOnlyMemory{T}"/> containing the data to deserialize.</param>
-        /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         /// <returns>The deserialized value of type <typeparamref name="T"/>.</returns>
         public T Deserialize(ReadOnlyMemory<byte> memory, BshoxOptions? options = null)
         {
@@ -108,7 +108,7 @@ public static class BshoxContractExtensions
         /// Deserializes a value of type <typeparamref name="T"/> from the specified <paramref name="stream"/> using the provided <paramref name="contract"/>.
         /// </summary>
         /// <param name="stream">The <see cref="Stream"/> containing the data to deserialize.</param>
-        /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         /// <returns>The deserialized value of type <typeparamref name="T"/>.</returns>
         /// <remarks>This method is optimized for use with <see cref="MemoryStream"/>.</remarks>
         public T Deserialize(Stream stream, BshoxOptions? options = null)
@@ -140,7 +140,7 @@ public static class BshoxContractExtensions
         /// Asynchronously deserializes a value of type <typeparamref name="T"/> from the specified <paramref name="stream"/> using the provided <paramref name="contract"/>.
         /// </summary>
         /// <param name="stream">The <see cref="Stream"/> containing the data to deserialize.</param>
-        /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+        /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
         /// <returns>The deserialized value of type <typeparamref name="T"/>.</returns>
         /// <remarks>

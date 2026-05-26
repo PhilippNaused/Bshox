@@ -49,7 +49,7 @@ public sealed record BshoxOptions
     public bool LittleEndian { get; init; }
 
     /// <summary>
-    /// <c>true</c> if the endianness of multi-byte numeric values should be reversed when reading or writing data.
+    /// <see langword="true"/> if the endianness of multi-byte numeric values should be reversed when reading or writing data.
     /// </summary>
     internal bool ReverseEndianness => LittleEndian != BitConverter.IsLittleEndian;
 

@@ -7,7 +7,7 @@ namespace Bshox;
 partial class DefaultContracts
 {
     /// <summary>
-    /// A Bshox contract for <c>sbyte</c>
+    /// A Bshox contract for <see cref="sbyte" />
     /// </summary>
     public static BshoxContract<sbyte> SByte { get; } = new SByteContract();
 
@@ -18,7 +18,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>byte</c>
+    /// A Bshox contract for <see cref="byte" />
     /// </summary>
     public static BshoxContract<byte> Byte { get; } = new ByteContract();
 
@@ -29,7 +29,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>short</c>
+    /// A Bshox contract for <see cref="short" />
     /// </summary>
     public static BshoxContract<short> Int16 { get; } = new Int16Contract();
 
@@ -40,7 +40,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>ushort</c>
+    /// A Bshox contract for <see cref="ushort" />
     /// </summary>
     public static BshoxContract<ushort> UInt16 { get; } = new UInt16Contract();
 
@@ -51,7 +51,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>char</c>
+    /// A Bshox contract for <see cref="char" />
     /// </summary>
     public static BshoxContract<char> Char { get; } = new CharContract();
 
@@ -62,7 +62,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>int</c>
+    /// A Bshox contract for <see cref="int" />
     /// </summary>
     public static BshoxContract<int> Int32 { get; } = new Int32Contract();
 
@@ -73,7 +73,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>int</c>
+    /// A Bshox contract for <see cref="int" />
     /// </summary>
     public static BshoxContract<int> Int32Z { get; } = new Int32ZContract();
 
@@ -84,7 +84,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>uint</c>
+    /// A Bshox contract for <see cref="uint" />
     /// </summary>
     public static BshoxContract<uint> UInt32 { get; } = new UInt32Contract();
 
@@ -95,7 +95,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>ulong</c>
+    /// A Bshox contract for <see cref="ulong" />
     /// </summary>
     public static BshoxContract<ulong> UInt64 { get; } = new UInt64Contract();
 
@@ -106,7 +106,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>long</c>
+    /// A Bshox contract for <see cref="long" />
     /// </summary>
     public static BshoxContract<long> Int64 { get; } = new Int64Contract();
 
@@ -117,7 +117,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>long</c>
+    /// A Bshox contract for <see cref="long" />
     /// </summary>
     public static BshoxContract<long> Int64Z { get; } = new Int64ZContract();
 
@@ -128,7 +128,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>float</c>
+    /// A Bshox contract for <see cref="float" />
     /// </summary>
     public static BshoxContract<float> Single { get; } = new SingleContract();
 
@@ -141,7 +141,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>double</c>
+    /// A Bshox contract for <see cref="double" />
     /// </summary>
     public static BshoxContract<double> Double { get; } = new DoubleContract();
 
@@ -154,7 +154,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>string</c>
+    /// A Bshox contract for <see cref="string" />
     /// </summary>
     public static BshoxContract<string> String { get; } = new StringContract();
 
@@ -165,7 +165,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>bool</c>
+    /// A Bshox contract for <see cref="bool" />
     /// </summary>
     public static BshoxContract<bool> Boolean { get; } = new BooleanContract();
 
@@ -176,7 +176,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>byte[]</c>
+    /// A Bshox contract for <see cref="byte" />[]
     /// </summary>
     public static BshoxContract<byte[]> ByteArray { get; } = new ByteArrayContract();
 
@@ -187,7 +187,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>System.Guid</c>
+    /// A Bshox contract for <see cref="System.Guid" />
     /// </summary>
     public static BshoxContract<System.Guid> Guid { get; } = new GuidContract();
 
@@ -198,7 +198,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>System.DateTime</c>
+    /// A Bshox contract for <see cref="System.DateTime" />
     /// </summary>
     public static BshoxContract<System.DateTime> DateTime { get; } = new DateTimeContract();
 
@@ -209,7 +209,7 @@ partial class DefaultContracts
     }
 
     /// <summary>
-    /// A Bshox contract for <c>System.TimeSpan</c>
+    /// A Bshox contract for <see cref="System.TimeSpan" />
     /// </summary>
     public static BshoxContract<System.TimeSpan> TimeSpan { get; } = new TimeSpanContract();
 
