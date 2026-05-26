@@ -44,7 +44,7 @@ public ref partial struct BshoxWriter
     /// Creates a new writer that writes to the specified <paramref name="buffer"/>.
     /// </summary>
     /// <param name="buffer">The buffer to write to</param>
-    /// <param name="options">The options to use. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">The options to use. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     /// <remarks>
     /// The caller must call <see cref="Flush"/> before this writer goes out of scope.
     /// </remarks>
@@ -188,7 +188,7 @@ public ref partial struct BshoxWriter
     /// <summary>
     /// Creates a scope to track depth of nested objects and arrays.<br/>
     /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
-    /// This method must be used in a <c>using</c> statement to ensure proper depth tracking.
+    /// This method must be used in a <see langword="using"/> statement to ensure proper depth tracking.
     /// </summary>
     /// <remarks>
     /// e.g.:

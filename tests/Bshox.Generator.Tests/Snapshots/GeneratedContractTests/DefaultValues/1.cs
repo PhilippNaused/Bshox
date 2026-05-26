@@ -21,13 +21,17 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     /// </summary>
     /// <remarks>
     /// Bshox member layout:
-    /// <para><c>1</c>: <see cref="int" />? Value1</para>
-    /// <para><c>2</c>: <see cref="int" />? Value2 (default: <c>42</c>)</para>
-    /// <para><c>3</c>: <see cref="int" />? Value3 (default: <see langword="null"/>)</para>
+    /// <para><c>1</c>: <see cref="int" /> Value1 (default: <c>42</c>)</para>
+    /// <para><c>2</c>: <see cref="global::TestModels.MyEnum" /> Value2 (default: <see cref"TestModels.MyEnum.EnumValue1">)</para>
+    /// <para><c>3</c>: <see cref="global::TestModels.MyEnum" />? Value3 (default: <see langword="null"/>)</para>
+    /// <para><c>4</c>: <see cref="string" /> Value4 (default: <see langword="null"/>)</para>
+    /// <para><c>5</c>: <see cref="string" /> Value5 (default: <c>"Hello, World!"</c>)</para>
     /// </remarks>
     public static bsx::BshoxContract<global::TestModels.TestType1> TestType1 => c_TestType1;
+    private static readonly bsx::BshoxContract<string> c_String;
     private static readonly bsx::BshoxContract<int> c_Int32;
-    private static readonly bsx::BshoxContract<global::System.Nullable<int>> c_NullableInt32;
+    private static readonly bsx::BshoxContract<global::TestModels.MyEnum> c_MyEnum;
+    private static readonly bsx::BshoxContract<global::System.Nullable<global::TestModels.MyEnum>> c_NullableMyEnum;
 
     /// <summary>
     /// Singleton instance of <see cref="global::TestModels.Serializer1" />
@@ -37,18 +41,24 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     static Serializer1()
     {
         c_TestType1 = new TestModels_TestType1__BshoxContract();
+        c_String = bsx::DefaultContracts.String;
         c_Int32 = bsx::DefaultContracts.Int32;
-        c_NullableInt32 = bsx::DefaultContracts.Nullable<int>(c_Int32);
+        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>(c_Int32);
+        c_NullableMyEnum = bsx::DefaultContracts.Nullable<global::TestModels.MyEnum>(c_MyEnum);
     }
 
     protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.TestType1))
             return c_TestType1;
+        if (type == typeof(string))
+            return c_String;
         if (type == typeof(int))
             return c_Int32;
-        if (type == typeof(global::System.Nullable<int>))
-            return c_NullableInt32;
+        if (type == typeof(global::TestModels.MyEnum))
+            return c_MyEnum;
+        if (type == typeof(global::System.Nullable<global::TestModels.MyEnum>))
+            return c_NullableMyEnum;
         return null;
     }
 }
