@@ -301,12 +301,19 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         Debug.Assert(!type.IsUnboundGenericType, "!type.IsUnboundGenericType");
         ImmutableArray<ITypeSymbol> parameters = type.TypeArguments;
         Debug.Assert(!parameters.IsDefaultOrEmpty, "!parameters.IsDefaultOrEmpty");
+        InlineContractData? inlineData = null;
+        if (type.IsNullableValueType() && contractNameBase == "Nullable")
+        {
+            var typeInfo = KnownTypeInfo.GetKnownTypeInfo(parameters.Single());
+            inlineData = typeInfo?.InlineData;
+        }
         var genericParameterList = string.Join(", ", parameters.Select(x => x.FullyQualifiedToString()));
         return new ContractInfo(type, GetUniqueName(type))
         {
             Dependencies = [.. parameters.Select(ContractDemand.DefaultForType)],
             StaticDependencies = true, // The only dependencies are the type arguments, so the dependencies are never circular and can be resolved statically
-            InitializeStatementFormat = $"bsx::DefaultContracts.{contractNameBase}<{genericParameterList}>($0)"
+            InitializeStatementFormat = $"bsx::DefaultContracts.{contractNameBase}<{genericParameterList}>($0)",
+            InlineData = inlineData
         };
     }
 

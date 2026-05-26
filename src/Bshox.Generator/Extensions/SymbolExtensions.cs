@@ -11,9 +11,17 @@ namespace Bshox.Generator.Extensions;
 
 internal static class SymbolExtensions
 {
-    private static readonly SymbolDisplayFormat FullyQualifiedFormatNoNull = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple).AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType).RemoveMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormatNoNull.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormatNoNull.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+    private static readonly SymbolDisplayFormat FullyQualifiedFormatNoNull = SymbolDisplayFormat.FullyQualifiedFormat
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple)
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandNullable)
+        .AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType)
+        .RemoveMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormatNoNull
+        .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
+
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormatNoNull
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
 
     extension(ISymbol symbol)
     {
@@ -193,6 +201,11 @@ internal static class SymbolExtensions
         public bool IsNested()
         {
             return symbol.ContainingType is not null;
+        }
+
+        public bool IsNullableValueType()
+        {
+            return symbol is { IsValueType: true, OriginalDefinition.SpecialType: SpecialType.System_Nullable_T };
         }
 
         public bool IsUnresolvedGeneric()

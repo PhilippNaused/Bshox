@@ -15,6 +15,7 @@ partial struct KnownTypeInfo
         dict["System.Collections.Generic.List<>"] = new("List");
         dict["System.DateTime"] = new("DateTime");
         dict["System.Guid"] = new("Guid");
+        dict["System.Nullable<>"] = new("Nullable");
         dict["System.TimeSpan"] = new("TimeSpan");
         dict["bool"] = new("Boolean", "writer.WriteByte({0} ? (byte)1 : (byte)0);", "reader.ReadByte() != 0", BshoxCode.VarInt);
         dict["byte"] = new("Byte", "writer.WriteVarInt32({0});", "checked((byte)reader.ReadVarInt32())", BshoxCode.VarInt);
