@@ -87,4 +87,15 @@
              Targets="Build" />
   </Target>
 
+  <!--
+  Workaround for https://github.com/dotnet/sdk/issues/51953
+  See: https://github.com/dotnet/sdk/pull/52091
+
+  TODO: consider removing tests for mono entirely
+  -->
+  <PropertyGroup Condition="$([MSBuild]::IsOSUnixLike()) AND !$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
+    <RunCommand Condition="'$(RunCommand)' == ''">mono</RunCommand>
+    <RunArguments Condition="'$(RunArguments)' == ''">&quot;$(TargetPath)&quot; $(StartArguments)</RunArguments>
+  </PropertyGroup>
+
 </Project>
