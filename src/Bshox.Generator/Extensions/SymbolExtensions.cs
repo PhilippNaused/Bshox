@@ -11,9 +11,17 @@ namespace Bshox.Generator.Extensions;
 
 internal static class SymbolExtensions
 {
-    private static readonly SymbolDisplayFormat FullyQualifiedFormatNoNull = SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple).AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType).RemoveMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormatNoNull.WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
-    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormatNoNull.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+    private static readonly SymbolDisplayFormat FullyQualifiedFormatNoNull = SymbolDisplayFormat.FullyQualifiedFormat
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandValueTuple)
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.ExpandNullable)
+        .AddMemberOptions(SymbolDisplayMemberOptions.IncludeContainingType)
+        .RemoveMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatNG = FullyQualifiedFormatNoNull
+        .WithGlobalNamespaceStyle(SymbolDisplayGlobalNamespaceStyle.Omitted);
+
+    public static readonly SymbolDisplayFormat FullyQualifiedFormatWithNull = FullyQualifiedFormatNoNull
+        .AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
 
     extension(ISymbol symbol)
     {
@@ -141,6 +149,8 @@ internal static class SymbolExtensions
     {
         public string ToXmlCommentString()
         {
+            const string seeFormat = "<see cref=\"{0}\" />";
+
             if (symbol is IArrayTypeSymbol array)
             {
                 return array.ElementType.ToXmlCommentString() + "[]";
@@ -148,6 +158,11 @@ internal static class SymbolExtensions
 
             if (symbol is INamedTypeSymbol { IsGenericType: true } namedTypeSymbol)
             {
+                if (namedTypeSymbol.IsNullableValueType() && namedTypeSymbol.TypeArguments.Single() is INamedTypeSymbol { IsGenericType: false } innerType)
+                {
+                    // only use this format on simple types like int?
+                    return innerType.ToXmlCommentString() + "?";
+                }
                 if (namedTypeSymbol is { IsTupleType: true, TupleElements.Length: > 0 })
                 {
                     var types = namedTypeSymbol.TupleElements.Select(x => x.Type).ToList();
@@ -168,7 +183,7 @@ internal static class SymbolExtensions
                     displayString = displayString.Replace('<', '{').Replace('>', '}');
                     var typeParameters = namedTypeSymbol.TypeParameters.Select(x => x.Name).ToImmutableArray();
                     var typeArguments = namedTypeSymbol.TypeArguments.Select(ToXmlCommentString).ToImmutableArray();
-                    var sb = new StringBuilder().AppendFormat("<see cref=\"{0}\" />", displayString);
+                    var sb = new StringBuilder().AppendFormat(seeFormat, displayString);
                     if (typeParameters.Length > 0)
                         _ = sb.Append(" (");
                     for (int i = 0; i < typeParameters.Length; i++)
@@ -186,13 +201,18 @@ internal static class SymbolExtensions
             {
                 string displayString = symbol.FullyQualifiedToStringNoNull(); // nullable annotations are not supported in XML doc
                 displayString = displayString.Replace('<', '{').Replace('>', '}');
-                return $"<see cref=\"{displayString}\" />";
+                return string.Format(seeFormat, displayString);
             }
         }
 
         public bool IsNested()
         {
             return symbol.ContainingType is not null;
+        }
+
+        public bool IsNullableValueType()
+        {
+            return symbol is { IsValueType: true, OriginalDefinition.SpecialType: SpecialType.System_Nullable_T };
         }
 
         public bool IsUnresolvedGeneric()

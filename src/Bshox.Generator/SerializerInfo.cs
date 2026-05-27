@@ -15,7 +15,7 @@ internal interface IDiagnosticOutput
     void ReportDiagnostic(DiagnosticDescriptor descriptor, Location? location, params object?[] messageArgs);
 
     /// <summary>
-    /// <c>true</c> if an error has occurred and the generation should be aborted.
+    /// <see langword="true"/> if an error has occurred and the generation should be aborted.
     /// </summary>
     bool HasErrors { get; }
 }

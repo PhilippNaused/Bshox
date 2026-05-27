@@ -416,3 +416,5 @@ gen/
 # C# Dev Kit LSP cache
 # TODO: remove when/if https://github.com/microsoft/vscode-dotnettools/issues/2952 is fixed
 *.lscache
+
+!/Directory.Build.rsp

@@ -21,6 +21,7 @@ parameterless
 Perfolizer
 Philipp
 Reentrancy
+sbyte
 sharpfuzz
 slnf
 slnx

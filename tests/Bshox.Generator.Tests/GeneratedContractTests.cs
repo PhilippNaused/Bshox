@@ -84,4 +84,74 @@ public class GeneratedContractTests
             await Assert.That(generatedOutput).IsNotEmpty(); // TODO: fix this
         }
     }
+
+    [Test]
+    public async Task NullableValueTypes()
+    {
+        const string sourceCode = """
+                                  using System.ComponentModel;
+                                  using Bshox.Attributes;
+                                  namespace TestModels;
+
+                                  [BshoxSerializable<TestType1>]
+                                  public partial class Serializer1;
+
+                                  [BshoxContract(ImplicitMembers = true)]
+                                  public record TestType1
+                                  {
+                                      public int? Value1 { get; set; }
+
+                                      [DefaultValue(42)]
+                                      public int? Value2 { get; set; }
+
+                                      [DefaultValue(null)]
+                                      public int? Value3 { get; set; }
+                                  }
+                                  """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Utils.ValidateOutput(generatedOutput, 2);
+    }
+
+    [Test]
+    public async Task DefaultValues()
+    {
+        const string sourceCode = """
+        using System.ComponentModel;
+        using Bshox.Attributes;
+        namespace TestModels;
+
+        public enum MyEnum
+        {
+            EnumValue1
+        }
+
+        [BshoxSerializable<TestType1>]
+        public partial class Serializer1;
+
+        [BshoxContract(ImplicitMembers = true)]
+        public record TestType1
+        {
+            [DefaultValue(42)]
+            public int Value1 { get; set; }
+
+            [DefaultValue(MyEnum.EnumValue1)]
+            public MyEnum Value2 { get; set; }
+
+            [DefaultValue(null)]
+            public MyEnum? Value3 { get; set; }
+
+            [DefaultValue(null)]
+            public string? Value4 { get; set; }
+
+            [DefaultValue("Hello, World!")]
+            public string? Value5 { get; set; }
+        }
+        """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Utils.ValidateOutput(generatedOutput, 2);
+    }
 }

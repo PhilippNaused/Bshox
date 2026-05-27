@@ -15,7 +15,7 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
     /// <summary>
     /// The encoding of the elements in the array.
     /// This value is set when the first element is added to the array.
-    /// If the array is empty, the encoding may be <c>null</c>.
+    /// If the array is empty, the encoding may be <see langword="null"/>.
     /// </summary>
     public BshoxCode? ElementEncoding { get; private set; }
 

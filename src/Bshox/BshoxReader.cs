@@ -97,7 +97,7 @@ public ref partial struct BshoxReader
     /// Creates a new reader that reads from the specified <paramref name="sequence"/>.
     /// </summary>
     /// <param name="sequence">The sequence of bytes to read from.</param>
-    /// <param name="options">Options to customize the deserialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Options to customize the deserialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     public BshoxReader(ReadOnlySequence<byte> sequence, BshoxOptions? options = null) : this(options)
     {
         Consumed = 0;
@@ -129,7 +129,7 @@ public ref partial struct BshoxReader
     /// Creates a new reader that reads from the specified <paramref name="memory"/>.
     /// </summary>
     /// <param name="memory">The memory to read from.</param>
-    /// <param name="options">Options to customize the deserialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Options to customize the deserialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     public BshoxReader(ReadOnlyMemory<byte> memory, BshoxOptions? options = null) : this(options)
     {
         Consumed = 0;
@@ -542,7 +542,7 @@ public ref partial struct BshoxReader
     /// <summary>
     /// Creates a scope to track depth of nested objects and arrays.<br/>
     /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
-    /// This method must be used in a <c>using</c> statement to ensure proper depth tracking.
+    /// This method must be used in a <see langword="using"/> statement to ensure proper depth tracking.
     /// </summary>
     /// <remarks>
     /// e.g.:

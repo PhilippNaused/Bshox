@@ -45,7 +45,7 @@ public abstract class BshoxSerializer
     /// </summary>
     /// <param name="sequence">The <see cref="ReadOnlySequence{T}"/> of bytes containing the data to deserialize.</param>
     /// <param name="returnType">The type of the value to deserialize.</param>
-    /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     /// <returns>The deserialized value of type <paramref name="returnType"/>.</returns>
     public object Deserialize(in ReadOnlySequence<byte> sequence, Type returnType, BshoxOptions? options = null)
     {
@@ -60,7 +60,7 @@ public abstract class BshoxSerializer
     /// </summary>
     /// <param name="memory">The <see cref="ReadOnlyMemory{T}"/> containing the data to deserialize.</param>
     /// <param name="returnType">The type of the value to deserialize.</param>
-    /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     /// <returns>The deserialized value of type <paramref name="returnType"/>.</returns>
     public object Deserialize(ReadOnlyMemory<byte> memory, Type returnType, BshoxOptions? options = null)
     {
@@ -75,7 +75,7 @@ public abstract class BshoxSerializer
     /// </summary>
     /// <param name="stream">The <see cref="Stream"/> containing the data to deserialize.</param>
     /// <param name="returnType">The type of the value to deserialize.</param>
-    /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     /// <returns>The deserialized value of type <paramref name="returnType"/>.</returns>
     public object Deserialize(Stream stream, Type returnType, BshoxOptions? options = null)
     {
@@ -108,7 +108,7 @@ public abstract class BshoxSerializer
     /// </summary>
     /// <param name="stream">The <see cref="Stream"/> containing the data to deserialize.</param>
     /// <param name="returnType">The type of the value to deserialize.</param>
-    /// <param name="options">Optional settings that control deserialization behavior. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional settings that control deserialization behavior. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
     /// <returns>The deserialized value of type <paramref name="returnType"/>.</returns>
     /// <remarks>
@@ -165,7 +165,7 @@ public abstract class BshoxSerializer
     /// <param name="buffer">The buffer writer to which the serialized data will be written.</param>
     /// <param name="value">The value to serialize.</param>
     /// <param name="inputType">The type of the value to serialize.</param>
-    /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     public void Serialize(IBufferWriter<byte> buffer, object value, Type inputType, BshoxOptions? options = null)
     {
         var contract = GetContract(inputType);
@@ -180,7 +180,7 @@ public abstract class BshoxSerializer
     /// <param name="stream">The stream to which the serialized data will be written.</param>
     /// <param name="value">The value to serialize.</param>
     /// <param name="inputType">The type of the value to serialize.</param>
-    /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     public void Serialize(Stream stream, object value, Type inputType, BshoxOptions? options = null)
     {
         using var buffer = new PooledByteBufferWriter(options);
@@ -193,7 +193,7 @@ public abstract class BshoxSerializer
     /// </summary>
     /// <param name="value">The value to serialize.</param>
     /// <param name="inputType">The type of the value to serialize.</param>
-    /// <param name="options">Optional serialization options to customize the serialization process. If <c>null</c>, <see cref="BshoxOptions.Default"/> is used.</param>
+    /// <param name="options">Optional serialization options to customize the serialization process. If <see langword="null"/>, <see cref="BshoxOptions.Default"/> is used.</param>
     public byte[] Serialize(object value, Type inputType, BshoxOptions? options = null)
     {
         using var buffer = new PooledByteBufferWriter(options);

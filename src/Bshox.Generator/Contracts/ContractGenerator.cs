@@ -32,9 +32,22 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             }
             if (member.DefaultValue is not null)
             {
-                _ = sb.AppendFormat(" (default: <c>{0}</c>)", member.DefaultValue.Value.ToCSharpString());
+                var defaultValue = member.DefaultValue.Value;
+                var defaultValueString = defaultValue.ToCSharpString();
+                if (defaultValue.Kind is not TypedConstantKind.Array && defaultValue.Value is null or true or false)
+                {
+                    _ = sb.AppendFormat(" (default: <see langword=\"{0}\"/>)", defaultValueString);
+                }
+                else if (defaultValue.Kind is TypedConstantKind.Enum)
+                {
+                    _ = sb.AppendFormat(" (default: <see cref\"{0}\">)", defaultValueString);
+                }
+                else
+                {
+                    _ = sb.AppendFormat(" (default: <c>{0}</c>)", defaultValueString);
+                }
             }
-            if (member.ImplicitDefault)
+            else if (member.ImplicitDefault)
             {
                 _ = sb.Append(" (implicit default)");
             }

@@ -21,9 +21,10 @@ string json = File.ReadAllText(filePath);
 var contracts = JsonSerializer.Deserialize<Contracts>(json, new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip });
 foreach (var type in contracts.Primitives)
 {
+    string xmlRef = type.Type == "byte[]" ? @"<see cref=""byte"" />[]" : $@"<see cref=""{type.Type}"" />";
 #>
     /// <summary>
-    /// A Bshox contract for <c><#= type.Type #></c>
+    /// A Bshox contract for <#= xmlRef #>
     /// </summary>
     public static BshoxContract<<#= type.Type #>> <#= type.Name #> { get; } = new <#= type.Name #>Contract();
 
