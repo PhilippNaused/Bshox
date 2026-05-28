@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text;
 using Bshox.Generator.Data;
 using Bshox.Generator.Extensions;
@@ -59,6 +60,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
 
     public bool TryGenerate(ContractInfo contract, SerializerInfo serializer)
     {
+        Debug.Assert(contract.Kind is ContractKind.SourceGenerated, "contract.Kind is ContractKind.SourceGenerated");
         var code = new SourceWriter();
 
         code.WriteComment($"ImplicitDefaultValues = {parameters.ImplicitDefaultValues}");

@@ -22,8 +22,8 @@ partial class Serializer1
             using var _ = writer.DepthLock();
             var __Value = value.Value;
             {
-                writer.WriteTag(1, _gen_bshox_t.c_Enum1.Encoding);
-                _gen_bshox_t.c_Enum1.Serialize(ref writer, in __Value);
+                writer.WriteByte(8);
+                writer.WriteVarInt32(unchecked((uint)(int)__Value));
             }
             writer.WriteByte(0);
         }
@@ -48,8 +48,8 @@ partial class Serializer1
                     }
                     case 1:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_Enum1.Encoding);
-                        _gen_bshox_t.c_Enum1.Deserialize(ref reader, out __Value);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        __Value = (global::TestModels.Enum1)unchecked((int)reader.ReadVarInt32());
                         break;
                     }
                     default:

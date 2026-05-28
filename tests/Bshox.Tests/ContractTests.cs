@@ -97,10 +97,24 @@ internal class ContractTests
     }
 
     [Test]
+    public async Task FloatList()
+    {
+        var list = ExampleData.Floats().ToList();
+        await new ListContract<float>(DefaultContracts.Single).TestSerialization(list);
+    }
+
+    [Test]
     public async Task DoubleArray()
     {
         var array = ExampleData.Doubles().ToArray();
         await new ArrayContract<double>(DefaultContracts.Double).TestSerialization(array);
+    }
+
+    [Test]
+    public async Task DoubleList()
+    {
+        var list = ExampleData.Doubles().ToList();
+        await new ListContract<double>(DefaultContracts.Double).TestSerialization(list);
     }
 
     [Test]

@@ -13,6 +13,7 @@ internal sealed class SurrogateGenerator(INamedTypeSymbol surrogateType, string 
     /// <inheritdoc />
     public bool TryGenerate(ContractInfo contract, SerializerInfo serializer)
     {
+        Debug.Assert(contract.Kind is ContractKind.SourceGenerated, "contract.Kind is ContractKind.SourceGenerated");
         if (!serializer.ContractResolver.TryResolveContract(contract.Dependencies.Single(), out var innerContract))
         {
             return false;

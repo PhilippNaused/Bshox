@@ -122,6 +122,8 @@ internal static class SerializerGenerator
         {
             foreach (var contract in contracts)
             {
+                // TODO: consider using the derived type of the contract when possible (for better JIT inlining).
+                // TODO: only declare fields for contracts that are directly referenced (i.e. not fully inlined).
                 code.WriteLine($"private static readonly bsx::BshoxContract<{contract.Type.FullyQualifiedToString()}> {contract.VariableName};");
                 if (contract.Explicit)
                 {
