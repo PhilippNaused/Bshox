@@ -22,6 +22,12 @@ internal readonly partial struct KnownTypeInfo // TODO: rename
         Name = name;
     }
 
+    internal KnownTypeInfo(string name, InlineContractData? inlineData)
+    {
+        Name = name;
+        InlineData = inlineData;
+    }
+
     static KnownTypeInfo()
     {
         const int maxTupleArity = 8; // System.ValueTuple had 0-8 generic parameters.
