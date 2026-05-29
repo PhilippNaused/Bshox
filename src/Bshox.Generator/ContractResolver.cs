@@ -37,7 +37,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
 
     public ContractInfo CreateGenerated(ITypeSymbol type, bool staticDependencies, ImmutableArray<ContractDemand> dependencies, IContractGenerator generator, string initializer)
     {
-        return new ContractInfo(type, GetUniqueName(type))
+        return new ContractInfo(type, GetUniqueName(type), ContractKind.SourceGenerated)
         {
             Generator = generator,
             Dependencies = dependencies,
@@ -148,10 +148,11 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
     /// <param name="contract">The contract that was resolved</param>
     private bool TryMakeContractFromSymbol(ITypeSymbol type, ISymbol symbol, [NotNullWhen(true)] out ContractInfo? contract)
     {
+        // TODO: check if the symbol is a build-in contract with inline data.
         contract = null;
         if (symbol is IPropertySymbol or IFieldSymbol)
         {
-            contract = new ContractInfo(type, GetUniqueName(type))
+            contract = new ContractInfo(type, GetUniqueName(type), ContractKind.UserDefined)
             {
                 Dependencies = [],
                 InitializeStatementFormat = $"{symbol.ContainingType.FullyQualifiedToString()}.{symbol.Name}"
@@ -183,7 +184,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
                 }
             }
 
-            contract = new ContractInfo(type, GetUniqueName(type))
+            contract = new ContractInfo(type, GetUniqueName(type), ContractKind.UserDefined)
             {
                 Dependencies = [.. dependencies],
                 StaticDependencies = true,
@@ -211,6 +212,21 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             context.ReportDiagnostic(Diagnostics.TypeNotSerializable, unboundSymbol, unboundSymbol.ToDisplayString(SymbolDisplayFormat.CSharpErrorMessageFormat));
             return false;
         }
+        // nullable value types: System.Nullable<T>
+        if (type is INamedTypeSymbol nValueType && nValueType.IsNullableValueType())
+        {
+            var innerType = nValueType.TypeArguments.Single();
+            var innerContract = ResolveContract(ContractDemand.DefaultForType(innerType));
+            var inlineData = innerContract.InlineData;
+            var oldTypeInfo = KnownTypeInfo.GetKnownTypeInfo(nValueType);
+            Debug.Assert(oldTypeInfo is not null, "oldTypeInfo is not null");
+            Debug.Assert(oldTypeInfo!.Value.InlineData is null, "oldTypeInfo!.Value.InlineData is null");
+            Debug.Assert(oldTypeInfo!.Value.Name is "Nullable", "oldTypeInfo!.Value.Name is 'Nullable'");
+            // create a new type info with the same name but with the inner type's inline data (if it exists)
+            var newTypeInfo = new KnownTypeInfo("Nullable", inlineData);
+            contract = CreateKnownGenericContract(nValueType, newTypeInfo);
+            return true;
+        }
         // built-in types with predefined contracts
         if (KnownTypeInfo.GetKnownTypeInfo(type) is { } knownTypeInfo)
         {
@@ -218,7 +234,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             {
                 // e.g., List<>, Dictionary<,>, ValueTuple<,>, etc.
                 Debug.Assert(knownTypeInfo.InlineData is null, "knownTypeInfo.InlineData is null");
-                contract = CreateKnownGenericContract(genericType, knownTypeInfo.Name);
+                contract = CreateKnownGenericContract(genericType, knownTypeInfo);
                 return true;
             }
             // e.g., int, string, DateTime, byte[], etc.
@@ -264,7 +280,7 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
 
     private ContractInfo CreatePrimitiveContract(ITypeSymbol type, KnownTypeInfo knownTypeInfo)
     {
-        return new ContractInfo(type, GetUniqueName(type))
+        return new ContractInfo(type, GetUniqueName(type), ContractKind.BuiltIn)
         {
             InlineData = knownTypeInfo.InlineData,
             InitializeStatementFormat = $"bsx::DefaultContracts.{knownTypeInfo.Name}",
@@ -274,11 +290,25 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
 
     private ContractInfo CreateEnumContract(INamedTypeSymbol enumType, INamedTypeSymbol enumUnderlyingType)
     {
-        return new ContractInfo(enumType, GetUniqueName(enumType))
+        var innerContractDemand = ContractDemand.DefaultForType(enumUnderlyingType);
+        var innerContract = ResolveContract(innerContractDemand);
+        InlineContractData? inlineData = null;
+        if (innerContract.InlineData is { } innerData)
         {
-            // TODO: add inline info
-            Dependencies = [ContractDemand.DefaultForType(enumUnderlyingType)],
+            // inline the underlying type contract by adding a cast to/from the enum type
+            var underlyingTypeName = enumUnderlyingType.FullyQualifiedToString();
+            // e.g.: writer.WriteVarInt32((int){0});
+            var serializeFormat = string.Format(innerData.SerializeFormat, $"({underlyingTypeName}){{0}}");
+            var typeName = enumType.FullyQualifiedToString();
+            // e.g.: (global::MyEnum)reader.ReadVarInt32()
+            var deserializeString = $"({typeName}){innerData.DeserializeString}";
+            inlineData = new InlineContractData(serializeFormat, deserializeString, innerData.Encoding);
+        }
+        return new ContractInfo(enumType, GetUniqueName(enumType), ContractKind.BuiltIn)
+        {
+            Dependencies = [innerContractDemand],
             StaticDependencies = true,
+            InlineData = inlineData,
             InitializeStatementFormat = $"bsx::DefaultContracts.Enum<{enumType.FullyQualifiedToString()}>($0)"
         };
     }
@@ -286,7 +316,8 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
     private ContractInfo CreateArrayContract(IArrayTypeSymbol arrayType)
     {
         ITypeSymbol elementType = arrayType.ElementType;
-        return new ContractInfo(arrayType, GetUniqueName(arrayType))
+        // TODO: try to source-generate a contract if we have inline data for the element type.
+        return new ContractInfo(arrayType, GetUniqueName(arrayType), ContractKind.BuiltIn)
         {
             Dependencies = [ContractDemand.DefaultForType(elementType)],
             StaticDependencies = true,
@@ -294,26 +325,20 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
         };
     }
 
-    private ContractInfo CreateKnownGenericContract(INamedTypeSymbol type, string contractNameBase)
+    private ContractInfo CreateKnownGenericContract(INamedTypeSymbol type, KnownTypeInfo typeInfo)
     {
         Debug.Assert(type.IsGenericType, "type.IsGenericType");
-        Debug.Assert(!string.IsNullOrWhiteSpace(contractNameBase), "!string.IsNullOrWhiteSpace(contractNameBase)");
+        Debug.Assert(!string.IsNullOrWhiteSpace(typeInfo.Name), "!string.IsNullOrWhiteSpace(typeInfo.Name)");
         Debug.Assert(!type.IsUnboundGenericType, "!type.IsUnboundGenericType");
         ImmutableArray<ITypeSymbol> parameters = type.TypeArguments;
         Debug.Assert(!parameters.IsDefaultOrEmpty, "!parameters.IsDefaultOrEmpty");
-        InlineContractData? inlineData = null;
-        if (type.IsNullableValueType() && contractNameBase == "Nullable")
-        {
-            var typeInfo = KnownTypeInfo.GetKnownTypeInfo(parameters.Single());
-            inlineData = typeInfo?.InlineData;
-        }
         var genericParameterList = string.Join(", ", parameters.Select(x => x.FullyQualifiedToString()));
-        return new ContractInfo(type, GetUniqueName(type))
+        return new ContractInfo(type, GetUniqueName(type), ContractKind.BuiltIn)
         {
             Dependencies = [.. parameters.Select(ContractDemand.DefaultForType)],
             StaticDependencies = true, // The only dependencies are the type arguments, so the dependencies are never circular and can be resolved statically
-            InitializeStatementFormat = $"bsx::DefaultContracts.{contractNameBase}<{genericParameterList}>($0)",
-            InlineData = inlineData
+            InitializeStatementFormat = $"bsx::DefaultContracts.{typeInfo.Name}<{genericParameterList}>($0)",
+            InlineData = typeInfo.InlineData
         };
     }
 

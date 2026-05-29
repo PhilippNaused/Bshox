@@ -5,15 +5,17 @@ namespace Bshox.Contracts;
 /// </summary>
 internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContract<T[]>(BshoxCode.Array) where T : notnull
 {
+    private readonly ISpanContract<T>? _spanContract = contract as ISpanContract<T>;
+
     /// <inheritdoc />
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly T[] value)
     {
         int count = value.Length;
         writer.WriteArrayHeader(count, contract.Encoding);
 
-        if (contract is ISpanContract<T> vc)
+        if (_spanContract is not null)
         {
-            vc.Serialize(ref writer, value);
+            _spanContract.Serialize(ref writer, value);
             return;
         }
 
@@ -32,9 +34,9 @@ internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContrac
 
         value = new T[count];
 
-        if (contract is ISpanContract<T> vc)
+        if (_spanContract is not null)
         {
-            vc.Deserialize(ref reader, value);
+            _spanContract.Deserialize(ref reader, value);
             return;
         }
 

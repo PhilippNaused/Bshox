@@ -29,14 +29,14 @@ partial class Serializer1
             var __Value2 = value.Value2;
             if (__Value2 != TestModels.MyEnum.EnumValue1)
             {
-                writer.WriteTag(2, _gen_bshox_t.c_MyEnum.Encoding);
-                _gen_bshox_t.c_MyEnum.Serialize(ref writer, in __Value2);
+                writer.WriteByte(16);
+                writer.WriteVarInt32(unchecked((uint)(int)__Value2));
             }
             var __Value3 = value.Value3;
             if (__Value3 is not null)
             {
-                writer.WriteTag(3, _gen_bshox_t.c_NullableMyEnum.Encoding);
-                _gen_bshox_t.c_NullableMyEnum.Serialize(ref writer, in __Value3);
+                writer.WriteByte(24);
+                writer.WriteVarInt32(unchecked((uint)(int)__Value3));
             }
             var __Value4 = value.Value4;
             if (__Value4 is not null)
@@ -88,14 +88,14 @@ partial class Serializer1
                     }
                     case 2:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_MyEnum.Encoding);
-                        _gen_bshox_t.c_MyEnum.Deserialize(ref reader, out __Value2);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        __Value2 = (global::TestModels.MyEnum)unchecked((int)reader.ReadVarInt32());
                         break;
                     }
                     case 3:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_NullableMyEnum.Encoding);
-                        _gen_bshox_t.c_NullableMyEnum.Deserialize(ref reader, out __Value3);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        __Value3 = (global::TestModels.MyEnum)unchecked((int)reader.ReadVarInt32());
                         break;
                     }
                     case 4:
