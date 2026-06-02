@@ -5,22 +5,22 @@
 |:-------------------|:--------------------------------------|
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
-| Classes:           | 55                                    |
+| Classes:           | 57                                    |
 | Files:             | 64                                    |
-| **Line coverage:** | 92% (3992 of 4339)                    |
-| Covered lines:     | 3992                                  |
+| **Line coverage:** | 92.1% (4081 of 4428)                  |
+| Covered lines:     | 4081                                  |
 | Uncovered lines:   | 347                                   |
-| Coverable lines:   | 4339                                  |
-| Total lines:       | 7954                                  |
+| Coverable lines:   | 4428                                  |
+| Total lines:       | 8130                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 94.4%</summary>
+<details><summary>Bshox.dll - 94.7%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **94.4%** |
+| **Bshox.dll**                          | **94.7%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
@@ -29,9 +29,11 @@
 | Bshox.BshoxSerializer                  |     93.9% |
 | Bshox.BshoxWriter                      |     98.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
-| Bshox.Contracts.DictionaryContract     |     95.6% |
-| Bshox.Contracts.ListContract           |      100% |
-| Bshox.DefaultContracts                 |     95.5% |
+| Bshox.Contracts.CollectionContract     |      100% |
+| Bshox.Contracts.DictionaryContract     |      100% |
+| Bshox.Contracts.DictionaryContract2    |      100% |
+| Bshox.Contracts.DictionaryContractBase |     96.1% |
+| Bshox.DefaultContracts                 |     96.2% |
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |
@@ -55,7 +57,7 @@
 | Bshox.Generator.Contracts.ContractInfo             |     69.2% |
 | Bshox.Generator.Contracts.GeneratedContract        |     94.1% |
 | Bshox.Generator.Contracts.InlineContractData       |      100% |
-| Bshox.Generator.Contracts.KnownTypeInfo            |     98.3% |
+| Bshox.Generator.Contracts.KnownTypeInfo            |     98.5% |
 | Bshox.Generator.Contracts.SurrogateContract        |      100% |
 | Bshox.Generator.Contracts.SurrogateGenerator       |     96.9% |
 | Bshox.Generator.Data.KnownTypeSymbols              |      100% |

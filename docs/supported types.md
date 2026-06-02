@@ -25,9 +25,14 @@ ushort
 byte[] // This type has special handling. It is not serialized as an array.
 System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>
 System.Collections.Generic.Dictionary<TKey, TValue>
+System.Collections.Generic.HashSet<>
+System.Collections.Generic.ICollection<>
 System.Collections.Generic.IDictionary<TKey, TValue>
 System.Collections.Generic.IList<T>
+System.Collections.Generic.IReadOnlyDictionary<,>
 System.Collections.Generic.List<T>
+System.Collections.Generic.SortedDictionary<,>
+System.Collections.ObjectModel.ReadOnlyDictionary<,>
 T[]
 ```
 
