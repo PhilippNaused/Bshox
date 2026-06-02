@@ -138,7 +138,7 @@
     }
   ],
   "Other": [
-    // Other contracts that are manually implemented.
+    // Dictionaries
     {
       "Name": "Dictionary",
       "Type": "System.Collections.Generic.Dictionary<,>"
@@ -146,18 +146,6 @@
     {
       "Name": "IDictionary",
       "Type": "System.Collections.Generic.IDictionary<,>"
-    },
-    {
-      "Name": "List",
-      "Type": "System.Collections.Generic.List<>"
-    },
-    {
-      "Name": "IList",
-      "Type": "System.Collections.Generic.IList<>"
-    },
-    {
-      "Name": "Nullable",
-      "Type": "System.Nullable<>"
     },
     {
       "Name": "ConcurrentDictionary",
@@ -174,6 +162,24 @@
     {
       "Name": "IReadOnlyDictionary",
       "Type": "System.Collections.Generic.IReadOnlyDictionary<,>"
+    },
+    // Other collections
+    {
+      "Name": "List",
+      "Type": "System.Collections.Generic.List<>"
+    },
+    {
+      "Name": "IList",
+      "Type": "System.Collections.Generic.IList<>"
+    },
+    {
+      "Name": "ICollection",
+      "Type": "System.Collections.Generic.ICollection<>"
+    },
+    // Misc
+    {
+      "Name": "Nullable",
+      "Type": "System.Nullable<>"
     }
   ]
 }

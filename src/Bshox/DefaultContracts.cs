@@ -87,6 +87,16 @@ public static partial class DefaultContracts
     }
 
     /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.ICollection{T}"/>.
+    /// </summary>
+    public static BshoxContract<ICollection<T>> ICollection<T>(BshoxContract<T> contract) where T : notnull
+    {
+        return new CollectionContract<ICollection<T>, T>(contract,
+            factory: static count => new List<T>(count),
+            factory2: static segment => new List<T>(segment));
+    }
+
+    /// <summary>
     /// A Bshox contract for an array of <typeparamref name="T"/>.
     /// </summary>
     public static BshoxContract<T[]> Array<T>(BshoxContract<T> contract) where T : notnull

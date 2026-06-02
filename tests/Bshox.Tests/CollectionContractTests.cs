@@ -53,4 +53,20 @@ internal class CollectionContractTests
         await c.TestSerialization(doubles.ToList());
         await c.TestSerialization([]);
     }
+
+    [Test]
+    public async Task DoubleIList()
+    {
+        var c = DefaultContracts.IList(DefaultContracts.Double);
+        await c.TestSerialization2<IList<double>, double>(doubles);
+        await c.TestSerialization2<IList<double>, double>([]);
+    }
+
+    [Test]
+    public async Task DoubleICollection()
+    {
+        var c = DefaultContracts.ICollection(DefaultContracts.Double);
+        await c.TestSerialization2<ICollection<double>, double>(doubles);
+        await c.TestSerialization2<ICollection<double>, double>([]);
+    }
 }
