@@ -1,4 +1,5 @@
 using System.Buffers;
+using System.Diagnostics;
 
 namespace Bshox.Contracts;
 
@@ -39,8 +40,36 @@ internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contra
             return;
         }
 
-        foreach (T item in value)
+        if (value is IReadOnlyList<T> list)
         {
+            SerializeList(ref writer, list, count);
+            return;
+        }
+
+        var array = ArrayPool<T>.Shared.Rent(count);
+        try
+        {
+            value.CopyTo(array, 0);
+            SerializeList(ref writer, array, count);
+        }
+        finally
+        {
+            ArrayPool<T>.Shared.Return(array, clearArray);
+        }
+
+        // avoid calling GetEnumerator() if possible to prevent allocating memory for the enumerator
+        //foreach (T item in value)
+        //{
+        //    contract.Serialize(ref writer, in item);
+        //}
+    }
+
+    private void SerializeList(ref BshoxWriter writer, IReadOnlyList<T> value, int count)
+    {
+        Debug.Assert(value.Count == count, "value.Count == count");
+        for (int i = 0; i < count; i++)
+        {
+            T item = value[i];
             contract.Serialize(ref writer, in item);
         }
     }
