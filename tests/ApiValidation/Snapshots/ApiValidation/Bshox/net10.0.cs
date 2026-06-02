@@ -3,7 +3,6 @@
 // Runtime: v4.0.30319
 // Reference: System.Collections, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Collections.Concurrent, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-// Reference: System.Linq, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Memory, Version=10.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 // Reference: System.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Runtime.InteropServices, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -178,7 +177,7 @@ namespace Bshox
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
         public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
-        public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract1) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>> IReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.List<T>> List<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<T?> Nullable<T>(Bshox.BshoxContract<T> contract) where T : struct;
