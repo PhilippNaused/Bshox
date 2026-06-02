@@ -1,5 +1,3 @@
-using Bshox.Contracts;
-
 namespace Bshox.Tests;
 
 internal class ContractTests
@@ -93,28 +91,40 @@ internal class ContractTests
     public async Task FloatArray()
     {
         var array = ExampleData.Floats().ToArray();
-        await new ArrayContract<float>(DefaultContracts.Single).TestSerialization(array);
+        await DefaultContracts.Array(DefaultContracts.Single).TestSerialization(array);
+        await DefaultContracts.Array(DefaultContracts.Single).TestSerialization([]);
     }
 
     [Test]
     public async Task FloatList()
     {
         var list = ExampleData.Floats().ToList();
-        await new ListContract<float>(DefaultContracts.Single).TestSerialization(list);
+        await DefaultContracts.List(DefaultContracts.Single).TestSerialization(list);
+        await DefaultContracts.List(DefaultContracts.Single).TestSerialization([]);
+    }
+
+    [Test]
+    public async Task IntList()
+    {
+        var list = ExampleData.Ints().ToList();
+        await DefaultContracts.List(DefaultContracts.Int32).TestSerialization(list);
+        await DefaultContracts.List(DefaultContracts.Int32).TestSerialization([]);
     }
 
     [Test]
     public async Task DoubleArray()
     {
         var array = ExampleData.Doubles().ToArray();
-        await new ArrayContract<double>(DefaultContracts.Double).TestSerialization(array);
+        await DefaultContracts.Array(DefaultContracts.Double).TestSerialization(array);
+        await DefaultContracts.Array(DefaultContracts.Double).TestSerialization([]);
     }
 
     [Test]
     public async Task DoubleList()
     {
         var list = ExampleData.Doubles().ToList();
-        await new ListContract<double>(DefaultContracts.Double).TestSerialization(list);
+        await DefaultContracts.List(DefaultContracts.Double).TestSerialization(list);
+        await DefaultContracts.List(DefaultContracts.Double).TestSerialization([]);
     }
 
     [Test]

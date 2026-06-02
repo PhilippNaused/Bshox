@@ -1,6 +1,5 @@
 using BenchmarkDotNet.Attributes;
 using Bshox;
-using Bshox.Contracts;
 using Bshox.TestUtils;
 
 namespace Benchmark;
@@ -9,7 +8,7 @@ namespace Benchmark;
 [Config(typeof(MediumConfig))]
 public class Experiment
 {
-    private static readonly BshoxContract<float[]> c1 = new ArrayContract<float>(DefaultContracts.Single);
+    private static readonly BshoxContract<float[]> c1 = DefaultContracts.Array(DefaultContracts.Single);
     private float[] data = null!;
     private BshoxOptions options = null!;
     private readonly FixedBufferWriter buffer = new();
