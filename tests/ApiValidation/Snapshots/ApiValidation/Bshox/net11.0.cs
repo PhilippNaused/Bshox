@@ -3,9 +3,9 @@
 // Runtime: v4.0.30319
 // Reference: System.Collections, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Collections.Concurrent, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
-// Reference: System.Linq, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Memory, Version=11.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 // Reference: System.Runtime, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+// Reference: System.Runtime.InteropServices, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Text.Encoding.Extensions, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
@@ -173,13 +173,18 @@ namespace Bshox
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
-        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> contract1, Bshox.BshoxContract<TValue> contract2) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
-        public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> contract1, Bshox.BshoxContract<TValue> contract2) where TKey : notnull;
-        public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract1) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.HashSet<T>> HashSet<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.ICollection<T>> ICollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>> IReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.List<T>> List<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<T?> Nullable<T>(Bshox.BshoxContract<T> contract) where T : struct;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>> ReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.SortedDictionary<TKey, TValue>> SortedDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.ValueTuple<T1>> ValueTuple<T1>(Bshox.BshoxContract<T1> contract1);
         public static Bshox.BshoxContract<(T1, T2)> ValueTuple<T1, T2>(Bshox.BshoxContract<T1> contract1, Bshox.BshoxContract<T2> contract2);
         public static Bshox.BshoxContract<(T1, T2, T3)> ValueTuple<T1, T2, T3>(Bshox.BshoxContract<T1> contract1, Bshox.BshoxContract<T2> contract2, Bshox.BshoxContract<T3> contract3);
