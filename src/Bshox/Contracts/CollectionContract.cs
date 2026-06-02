@@ -25,6 +25,13 @@ internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contra
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly TCollection value)
     {
         int count = value.Count;
+
+        if (count == 0)
+        {
+            writer.WriteByte((byte)contract.Encoding);
+            return;
+        }
+
         writer.WriteArrayHeader(count, contract.Encoding);
 
         // These value have been determined experimentally.
@@ -102,6 +109,12 @@ internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contra
     {
         int count = reader.ReadArrayHeader(out var encoding);
         BshoxException.ThrowIfWrongEncoding(encoding, contract.Encoding);
+
+        if (count == 0)
+        {
+            value = factory(0);
+            return;
+        }
 
         // These value have been determined experimentally.
 #if NETCOREAPP
