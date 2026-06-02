@@ -200,7 +200,7 @@ public ref partial struct BshoxReader
         if (length == 0)
             return [];
         CheckBufferSize(length);
-        byte[] bytes = Utils.Allocate(checked((int)length));
+        byte[] bytes = Utils.Allocate<byte>(checked((int)length));
         CopyTo(bytes);
         return bytes;
     }
