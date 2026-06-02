@@ -8,42 +8,6 @@ namespace Bshox
     partial class DefaultContracts
     {
         /// <summary>
-        /// A Bshox contract for <see cref="System.Collections.Generic.IDictionary{TKey, TValue}"/>
-        /// </summary>
-        [ExcludeFromCodeCoverage]
-        public static BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(BshoxContract<TKey> contract1, BshoxContract<TValue> contract2) where TKey : notnull
-        {
-            var innerContract = DefaultContracts.Dictionary<TKey, TValue>(contract1, contract2);
-            return new Contracts.IDictionaryContract<TKey, TValue>(innerContract);
-        }
-    }
-}
-
-namespace Bshox.Contracts
-{
-    [ExcludeFromCodeCoverage]
-    internal sealed class IDictionaryContract<TKey, TValue>(BshoxContract<Dictionary<TKey, TValue>> contract) : BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>>(contract.Encoding) where TKey : notnull
-    {
-        public override void Deserialize(ref BshoxReader reader, out System.Collections.Generic.IDictionary<TKey, TValue> value)
-        {
-            contract.Deserialize(ref reader, out var surrogate);
-            value = surrogate;
-        }
-
-        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Collections.Generic.IDictionary<TKey, TValue> value)
-        {
-            if (value is not Dictionary<TKey, TValue> surrogate)
-                surrogate = new Dictionary<TKey, TValue>(value);
-            contract.Serialize(ref writer, in surrogate);
-        }
-    }
-}
-
-namespace Bshox
-{
-    partial class DefaultContracts
-    {
-        /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Generic.IList{T}"/>
         /// </summary>
         [ExcludeFromCodeCoverage]
@@ -70,42 +34,6 @@ namespace Bshox.Contracts
         {
             if (value is not List<T> surrogate)
                 surrogate = [.. value];
-            contract.Serialize(ref writer, in surrogate);
-        }
-    }
-}
-
-namespace Bshox
-{
-    partial class DefaultContracts
-    {
-        /// <summary>
-        /// A Bshox contract for <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}"/>
-        /// </summary>
-        [ExcludeFromCodeCoverage]
-        public static BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(BshoxContract<TKey> contract1, BshoxContract<TValue> contract2) where TKey : notnull
-        {
-            var innerContract = DefaultContracts.Dictionary<TKey, TValue>(contract1, contract2);
-            return new Contracts.ConcurrentDictionaryContract<TKey, TValue>(innerContract);
-        }
-    }
-}
-
-namespace Bshox.Contracts
-{
-    [ExcludeFromCodeCoverage]
-    internal sealed class ConcurrentDictionaryContract<TKey, TValue>(BshoxContract<Dictionary<TKey, TValue>> contract) : BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>>(contract.Encoding) where TKey : notnull
-    {
-        public override void Deserialize(ref BshoxReader reader, out System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue> value)
-        {
-            contract.Deserialize(ref reader, out var surrogate);
-            value = new System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>(surrogate);
-        }
-
-        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue> value)
-        {
-            if (value is not Dictionary<TKey, TValue> surrogate)
-                surrogate = new Dictionary<TKey, TValue>(value);
             contract.Serialize(ref writer, in surrogate);
         }
     }

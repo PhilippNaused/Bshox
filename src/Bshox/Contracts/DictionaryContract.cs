@@ -1,15 +1,15 @@
 namespace Bshox.Contracts;
 
 /// <summary>
-/// A Bshox contract for a <see cref="Dictionary{TKey,TValue}"/>.
+/// A Bshox contract for a type derived from <see cref="Dictionary{TKey,TValue}"/>.
 /// </summary>
-internal sealed class DictionaryContract<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) : BshoxContract<Dictionary<TKey, TValue>>(BshoxCode.Array) where TKey : notnull
+internal sealed class DictionaryContract<TDict, TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract, Func<int, TDict> factory) : BshoxContract<TDict>(BshoxCode.Array) where TKey : notnull where TDict : IDictionary<TKey, TValue>
 {
     private readonly byte _keyTag = checked((byte)((1 << 3) | (uint)keyContract.Encoding));
     private readonly byte _valueTag = checked((byte)((2 << 3) | (uint)valueContract.Encoding));
 
     /// <inheritdoc />
-    public override void Serialize(ref BshoxWriter writer, scoped ref readonly Dictionary<TKey, TValue> value)
+    public override void Serialize(ref BshoxWriter writer, scoped ref readonly TDict value)
     {
         int count = value.Count;
         writer.WriteArrayHeader(count, BshoxCode.SubObject);
@@ -35,12 +35,12 @@ internal sealed class DictionaryContract<TKey, TValue>(BshoxContract<TKey> keyCo
     }
 
     /// <inheritdoc />
-    public override void Deserialize(ref BshoxReader reader, out Dictionary<TKey, TValue> value)
+    public override void Deserialize(ref BshoxReader reader, out TDict value)
     {
         int count = reader.ReadArrayHeader(out var encoding);
         BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.SubObject);
 
-        value = new Dictionary<TKey, TValue>(count);
+        value = factory(count);
 
         for (int i = 0; i < count; i++)
         {

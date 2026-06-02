@@ -28,6 +28,7 @@ System.Collections.Generic.Dictionary<TKey, TValue>
 System.Collections.Generic.IDictionary<TKey, TValue>
 System.Collections.Generic.IList<T>
 System.Collections.Generic.List<T>
+System.Collections.Generic.SortedDictionary<,>
 T[]
 ```
 

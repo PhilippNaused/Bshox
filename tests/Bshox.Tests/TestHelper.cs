@@ -10,31 +10,28 @@ namespace Bshox.Tests;
 public static class TestHelper
 {
     [OverloadResolutionPriority(1)]
-    public static async Task TestSerialization<T>(this BshoxContract<T[]> contract, T[] value, string? hex = null)
+    public static Task TestSerialization<T>(this BshoxContract<T[]> contract, T[] value, string? hex = null)
     {
-        (byte[] bytes, BshoxValue metaValue, T[] actual) = await PreTest(contract, value);
-
-        await Assert.That(actual).IsSequenceEqualTo(value);
-
-        await PostTest(hex, bytes, metaValue);
+        return contract.TestSerialization2<T[], T>(value, hex);
     }
 
     [OverloadResolutionPriority(1)]
-    public static async Task TestSerialization<T>(this BshoxContract<List<T>> contract, List<T> value, string? hex = null)
+    public static Task TestSerialization<T>(this BshoxContract<List<T>> contract, List<T> value, string? hex = null)
     {
-        (byte[] bytes, BshoxValue metaValue, List<T> actual) = await PreTest(contract, value);
-
-        await Assert.That(actual).IsSequenceEqualTo(value);
-
-        await PostTest(hex, bytes, metaValue);
+        return contract.TestSerialization2<List<T>, T>(value, hex);
     }
 
     [OverloadResolutionPriority(1)]
-    public static async Task TestSerialization<T, T2>(this BshoxContract<Dictionary<T, T2>> contract, Dictionary<T, T2> value, string? hex = null) where T : notnull
+    public static Task TestSerialization<T, T2>(this BshoxContract<Dictionary<T, T2>> contract, Dictionary<T, T2> value, string? hex = null) where T : notnull
     {
-        (byte[] bytes, BshoxValue metaValue, Dictionary<T, T2> actual) = await PreTest(contract, value);
+        return contract.TestSerialization2<Dictionary<T, T2>, KeyValuePair<T, T2>>(value, hex);
+    }
 
-        await Assert.That<IEnumerable<KeyValuePair<T, T2>>>(actual).IsSequenceEqualTo(value);
+    public static async Task TestSerialization2<T, T2>(this BshoxContract<T> contract, T value, string? hex = null) where T : IEnumerable<T2>
+    {
+        (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value);
+
+        await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
 
         await PostTest(hex, bytes, metaValue);
     }

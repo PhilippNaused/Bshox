@@ -2,16 +2,6 @@
   "Surrogates": [
     // Surrogates convert to/from another type that has an existing contract.
     {
-      "Name": "IDictionary",
-      "Type": "System.Collections.Generic.IDictionary<,>",
-      "Type2": "System.Collections.Generic.IDictionary<TKey, TValue>",
-      "SurrogateType": "Dictionary<TKey, TValue>",
-      "SurrogateName": "Dictionary",
-      "From": "surrogate",
-      "To": "new Dictionary<TKey, TValue>(value)",
-      "Where": "TKey : notnull"
-    },
-    {
       "Name": "IList",
       "Type": "System.Collections.Generic.IList<>",
       "Type2": "System.Collections.Generic.IList<T>",
@@ -19,17 +9,8 @@
       "SurrogateName": "List",
       "From": "surrogate",
       "To": "[.. value]",
-      "Where": "T : notnull"
-    },
-    {
-      "Name": "ConcurrentDictionary",
-      "Type": "System.Collections.Concurrent.ConcurrentDictionary<,>",
-      "Type2": "System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>",
-      "SurrogateType": "Dictionary<TKey, TValue>",
-      "SurrogateName": "Dictionary",
-      "From": "new System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>(surrogate)",
-      "To": "new Dictionary<TKey, TValue>(value)",
-      "Where": "TKey : notnull"
+      "Where": "T : notnull",
+      "TryCast": true
     }
   ],
   "Primitives": [
@@ -174,12 +155,24 @@
       "Type": "System.Collections.Generic.Dictionary<,>"
     },
     {
+      "Name": "IDictionary",
+      "Type": "System.Collections.Generic.IDictionary<,>"
+    },
+    {
       "Name": "List",
       "Type": "System.Collections.Generic.List<>"
     },
     {
       "Name": "Nullable",
       "Type": "System.Nullable<>"
+    },
+    {
+      "Name": "ConcurrentDictionary",
+      "Type": "System.Collections.Concurrent.ConcurrentDictionary<,>"
+    },
+    {
+      "Name": "SortedDictionary",
+      "Type": "System.Collections.Generic.SortedDictionary<,>"
     }
   ]
 }

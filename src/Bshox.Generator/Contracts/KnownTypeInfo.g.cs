@@ -13,6 +13,7 @@ partial struct KnownTypeInfo
         dict["System.Collections.Generic.IDictionary<,>"] = new("IDictionary");
         dict["System.Collections.Generic.IList<>"] = new("IList");
         dict["System.Collections.Generic.List<>"] = new("List");
+        dict["System.Collections.Generic.SortedDictionary<,>"] = new("SortedDictionary");
         dict["System.DateTime"] = new("DateTime");
         dict["System.Guid"] = new("Guid");
         dict["System.Nullable<>"] = new("Nullable");

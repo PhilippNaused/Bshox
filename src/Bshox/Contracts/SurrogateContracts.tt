@@ -55,8 +55,21 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly <#= surrogate.Type2 #> value)
         {
+<#
+    if (surrogate.TryCast)
+    {
+#>
             if (value is not <#= surrogate.SurrogateType #> surrogate)
                 surrogate = <#= surrogate.To #>;
+<#
+    }
+    else
+    {
+#>
+            <#= surrogate.SurrogateType #> surrogate = <#= surrogate.To #>;
+<#
+    }
+#>
             contract.Serialize(ref writer, in surrogate);
         }
     }
@@ -84,5 +97,6 @@ namespace Bshox.Contracts
         public string To { get; set; }
         public string From { get; set; }
         public string Where { get; set; }
+        public bool TryCast { get; set; }
     }
 #>

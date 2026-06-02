@@ -1,7 +1,10 @@
+using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bshox.Contracts;
 using Bshox.Internals;
+
+// ReSharper disable InconsistentNaming
 
 namespace Bshox;
 
@@ -15,7 +18,33 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
     {
-        return new DictionaryContract<TKey, TValue>(keyContract, valueContract);
+        return new DictionaryContract<Dictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract, static count => new Dictionary<TKey, TValue>(count));
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.IDictionary{TKey,TValue}"/>.
+    /// </summary>
+    public static BshoxContract<IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
+    {
+        return new DictionaryContract<IDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract, static count => new Dictionary<TKey, TValue>(count));
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey,TValue}"/>.
+    /// </summary>
+    public static BshoxContract<ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
+    {
+        return new DictionaryContract<ConcurrentDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
+            factory: static count => new ConcurrentDictionary<TKey, TValue>(concurrencyLevel: Environment.ProcessorCount, capacity: count));
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.SortedDictionary{TKey,TValue}"/>.
+    /// </summary>
+    public static BshoxContract<SortedDictionary<TKey, TValue>> SortedDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
+    {
+        return new DictionaryContract<SortedDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
+            factory: static _ => new SortedDictionary<TKey, TValue>());
     }
 
     /// <summary>
