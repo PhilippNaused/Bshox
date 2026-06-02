@@ -10,6 +10,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Generic.IDictionary{TKey, TValue}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(BshoxContract<TKey> contract1, BshoxContract<TValue> contract2) where TKey : notnull
         {
             var innerContract = DefaultContracts.Dictionary<TKey, TValue>(contract1, contract2);
@@ -45,6 +46,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Generic.IList{T}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<System.Collections.Generic.IList<T>> IList<T>(BshoxContract<T> contract1) where T : notnull
         {
             var innerContract = DefaultContracts.List<T>(contract1);
@@ -80,6 +82,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey, TValue}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(BshoxContract<TKey> contract1, BshoxContract<TValue> contract2) where TKey : notnull
         {
             var innerContract = DefaultContracts.Dictionary<TKey, TValue>(contract1, contract2);

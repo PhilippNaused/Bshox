@@ -33,6 +33,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for <see cref="<#= xml #>"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<<#= surrogate.Type2 #>> <#= surrogate.Name #><#= generics #>(<#= list2 #>)<#= postFix #>
         {
             var innerContract = DefaultContracts.<#= surrogate.SurrogateName #><#= generics #>(<#= list1 #>);

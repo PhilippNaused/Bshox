@@ -13,6 +13,7 @@ namespace TestModels;
 /// <para><see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="int" />)</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 sealed partial class CustomContracts1 : bsx::BshoxSerializer
 {
     private static readonly bsx::BshoxContract<global::System.Collections.Generic.List<int>> c_ListInt32;

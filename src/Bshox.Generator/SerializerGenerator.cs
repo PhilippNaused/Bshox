@@ -117,6 +117,7 @@ internal static class SerializerGenerator
         code.WriteLine("/// </summary>");
 
         code.WriteLine(Constants.GeneratedCodeAttributeText);
+        code.WriteLine(Constants.ExcludeFromCodeCoverageAttributeText);
         code.WriteLine($"sealed partial class {className} : bsx::BshoxSerializer");
         code.OpenScope();
         {

@@ -11,6 +11,7 @@ namespace TestModels;
 partial class RecursiveTestTypeSerializer
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_RecursiveTestType__BshoxContract : bsx::BshoxContract<global::TestModels.RecursiveTestType>
     {
         internal TestModels_RecursiveTestType__BshoxContract() : base(bsx::BshoxCode.SubObject)

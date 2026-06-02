@@ -11,6 +11,7 @@ namespace TestModels;
 partial class Serializer1
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_Type1__BshoxContract : bsx::BshoxContract<global::TestModels.Type1>
     {
         internal TestModels_Type1__BshoxContract() : base(bsx::BshoxCode.SubObject)
