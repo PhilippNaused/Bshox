@@ -22,6 +22,7 @@ namespace TestModels;
 /// <para>(<see cref="int" />, <see cref="long" />)</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 sealed partial class ValueTupleSerializer : bsx::BshoxSerializer
 {
     private static readonly bsx::BshoxContract<int> c_Int32;

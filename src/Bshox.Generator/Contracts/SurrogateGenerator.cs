@@ -46,6 +46,7 @@ internal sealed class SurrogateGenerator(INamedTypeSymbol surrogateType, string 
             string innerContractFullName = innerContract.VariableFullName;
 
             code.WriteLine(Constants.GeneratedCodeAttributeText);
+            code.WriteLine(Constants.ExcludeFromCodeCoverageAttributeText);
             code.WriteLine($$"""
                              private sealed class {{contractClassName}} : bsx::BshoxContract<{{typeName}}>
                              {

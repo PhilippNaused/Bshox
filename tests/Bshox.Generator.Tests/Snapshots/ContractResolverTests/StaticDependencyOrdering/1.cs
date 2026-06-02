@@ -16,6 +16,7 @@ namespace TestModels;
 /// <para><see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::System.Collections.Generic.List{T}" /> (<c>T</c> is <see cref="global::TestModels.TestType2" />[])[])</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 sealed partial class Serializer2 : bsx::BshoxSerializer
 {
     private static readonly bsx::BshoxContract<global::TestModels.TestType2> c_TestType2;

@@ -169,6 +169,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         string typeName = contract.Type.FullyQualifiedToString();
 
         code.WriteLine(Constants.GeneratedCodeAttributeText);
+        code.WriteLine(Constants.ExcludeFromCodeCoverageAttributeText);
         code.WriteLine($$"""
                         private sealed class {{generatedTypeName}} : bsx::BshoxContract<{{typeName}}>
                         {
