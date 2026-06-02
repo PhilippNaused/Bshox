@@ -26,8 +26,8 @@
     <PackageVersion Include="SharpFuzz" Version="2.2.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <PackageVersion Include="System.Text.Json" Version="11.0.0-preview.4.26230.115" />
-    <PackageVersion Include="TUnit" Version="1.47.0" />
-    <PackageVersion Include="TUnit.Core" Version="1.47.0" />
+    <PackageVersion Include="TUnit" Version="1.48.6" />
+    <PackageVersion Include="TUnit.Core" Version="1.48.6" />
   </ItemGroup>
   <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">
     <PackageVersion Update="System.Text.Json" Version="10.0.8" />

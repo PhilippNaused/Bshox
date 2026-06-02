@@ -5,12 +5,12 @@ namespace Bshox.Internals;
 internal static class Utils
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte[] Allocate(int length)
+    public static T[] Allocate<T>(int length)
     {
 #if NETCOREAPP
-        return GC.AllocateUninitializedArray<byte>(length);
+        return GC.AllocateUninitializedArray<T>(length);
 #else
-        return new byte[length];
+        return new T[length];
 #endif
     }
 }

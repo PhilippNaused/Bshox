@@ -11,6 +11,7 @@ namespace TestModels;
 partial class DateTimeOffsetSerializer
 {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+    [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_DateTimeOffsetSurrogate__BshoxContract : bsx::BshoxContract<global::TestModels.DateTimeOffsetSurrogate>
     {
         internal TestModels_DateTimeOffsetSurrogate__BshoxContract() : base(bsx::BshoxCode.SubObject)

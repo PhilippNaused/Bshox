@@ -83,6 +83,8 @@ public static class Validation
         if (status is FileStatus.Modified)
         {
             string diff = await RunGitCommandAsync(path, $"diff \"{path}\"");
+            // remove the first 4 lines of text
+            diff = string.Join("\n", diff.Replace("\r\n", "\n").Split(['\n'], StringSplitOptions.RemoveEmptyEntries).Skip(4));
             throw new ValidationFailedException($"Validation failed for '{path}':{Environment.NewLine}{diff}", path, actual, diff);
         }
         if (status is not FileStatus.Unmodified)

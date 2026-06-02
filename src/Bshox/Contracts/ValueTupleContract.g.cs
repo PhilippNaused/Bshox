@@ -10,6 +10,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1>> ValueTuple<T1>(BshoxContract<T1> contract1)
         {
             return new Contracts.ValueTupleContract<T1>(contract1);
@@ -64,6 +65,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2>> ValueTuple<T1, T2>(BshoxContract<T1> contract1, BshoxContract<T2> contract2)
         {
             return new Contracts.ValueTupleContract<T1, T2>(contract1, contract2);
@@ -127,6 +129,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2, T3}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2, T3>> ValueTuple<T1, T2, T3>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3)
         {
             return new Contracts.ValueTupleContract<T1, T2, T3>(contract1, contract2, contract3);
@@ -199,6 +202,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2, T3, T4}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2, T3, T4>> ValueTuple<T1, T2, T3, T4>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4)
         {
             return new Contracts.ValueTupleContract<T1, T2, T3, T4>(contract1, contract2, contract3, contract4);
@@ -280,6 +284,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2, T3, T4, T5}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2, T3, T4, T5>> ValueTuple<T1, T2, T3, T4, T5>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5)
         {
             return new Contracts.ValueTupleContract<T1, T2, T3, T4, T5>(contract1, contract2, contract3, contract4, contract5);
@@ -370,6 +375,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2, T3, T4, T5, T6}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6>> ValueTuple<T1, T2, T3, T4, T5, T6>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6)
         {
             return new Contracts.ValueTupleContract<T1, T2, T3, T4, T5, T6>(contract1, contract2, contract3, contract4, contract5, contract6);
@@ -469,6 +475,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2, T3, T4, T5, T6, T7}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7>> ValueTuple<T1, T2, T3, T4, T5, T6, T7>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7)
         {
             return new Contracts.ValueTupleContract<T1, T2, T3, T4, T5, T6, T7>(contract1, contract2, contract3, contract4, contract5, contract6, contract7);
@@ -577,6 +584,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{T1, T2, T3, T4, T5, T6, T7, TRest}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>> ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7, BshoxContract<TRest> contract8) where TRest : struct
         {
             return new Contracts.ValueTupleContract<T1, T2, T3, T4, T5, T6, T7, TRest>(contract1, contract2, contract3, contract4, contract5, contract6, contract7, contract8);

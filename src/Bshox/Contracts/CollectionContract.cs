@@ -1,11 +1,15 @@
 using System.Buffers;
+using System.Diagnostics;
 
 namespace Bshox.Contracts;
 
 /// <summary>
 /// A Bshox contract for a <see cref="List{T}"/>.
 /// </summary>
-internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract<List<T>>(BshoxCode.Array) where T : notnull
+internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contract, Func<int, TCollection> factory, Func<IReadOnlyList<T>, TCollection> factory2)
+    : BshoxContract<TCollection>(BshoxCode.Array)
+    where TCollection : ICollection<T>
+    where T : notnull
 {
     private readonly ISpanContract<T>? _spanContract = contract as ISpanContract<T>;
 
@@ -18,9 +22,16 @@ internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract
 #endif
 
     /// <inheritdoc />
-    public override void Serialize(ref BshoxWriter writer, scoped ref readonly List<T> value)
+    public override void Serialize(ref BshoxWriter writer, scoped ref readonly TCollection value)
     {
         int count = value.Count;
+
+        if (count == 0)
+        {
+            writer.WriteByte((byte)contract.Encoding);
+            return;
+        }
+
         writer.WriteArrayHeader(count, contract.Encoding);
 
         // These value have been determined experimentally.
@@ -36,6 +47,33 @@ internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract
             return;
         }
 
+        if (value is IReadOnlyList<T> list)
+        {
+            SerializeList(ref writer, list, count);
+            return;
+        }
+
+        var array = ArrayPool<T>.Shared.Rent(count);
+        try
+        {
+            value.CopyTo(array, 0);
+            SerializeList(ref writer, array, count);
+        }
+        finally
+        {
+            ArrayPool<T>.Shared.Return(array, clearArray);
+        }
+
+        // avoid calling GetEnumerator() if possible to prevent allocating memory for the enumerator
+        //foreach (T item in value)
+        //{
+        //    contract.Serialize(ref writer, in item);
+        //}
+    }
+
+    private void SerializeList(ref BshoxWriter writer, IReadOnlyList<T> value, int count)
+    {
+        Debug.Assert(value.Count >= count, "value.Count >= count");
         for (int i = 0; i < count; i++)
         {
             T item = value[i];
@@ -43,31 +81,40 @@ internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract
         }
     }
 
-    private void SerializeSpan(ref BshoxWriter writer, scoped ref readonly List<T> value)
+    private void SerializeSpan(ref BshoxWriter writer, scoped ref readonly TCollection value)
     {
 #if NETCOREAPP
-        var span = System.Runtime.InteropServices.CollectionsMarshal.AsSpan(value);
-        _spanContract!.Serialize(ref writer, span);
-#else
+        if (value is List<T> list)
+        {
+            var span = System.Runtime.InteropServices.CollectionsMarshal.AsSpan(list);
+            _spanContract!.Serialize(ref writer, span);
+            return;
+        }
+#endif
         int count = value.Count;
         var array = ArrayPool<T>.Shared.Rent(count);
         try
         {
-            value.CopyTo(array);
+            value.CopyTo(array, 0);
             _spanContract!.Serialize(ref writer, array.AsSpan(0, count));
         }
         finally
         {
             ArrayPool<T>.Shared.Return(array, clearArray);
         }
-#endif
     }
 
     /// <inheritdoc />
-    public override void Deserialize(ref BshoxReader reader, out List<T> value)
+    public override void Deserialize(ref BshoxReader reader, out TCollection value)
     {
         int count = reader.ReadArrayHeader(out var encoding);
         BshoxException.ThrowIfWrongEncoding(encoding, contract.Encoding);
+
+        if (count == 0)
+        {
+            value = factory(0);
+            return;
+        }
 
         // These value have been determined experimentally.
 #if NETCOREAPP
@@ -82,7 +129,7 @@ internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract
             return;
         }
 
-        value = new List<T>(count);
+        value = factory(count);
         for (int i = 0; i < count; i++)
         {
             contract.Deserialize(ref reader, out T item);
@@ -90,13 +137,13 @@ internal sealed class ListContract<T>(BshoxContract<T> contract) : BshoxContract
         }
     }
 
-    private List<T> DeserializeSpan(ref BshoxReader reader, int count)
+    private TCollection DeserializeSpan(ref BshoxReader reader, int count)
     {
         var array = ArrayPool<T>.Shared.Rent(count);
         try
         {
             _spanContract!.Deserialize(ref reader, array.AsSpan(0, count));
-            return new List<T>(new ArraySegment<T>(array, 0, count));
+            return factory2(new ArraySegment<T>(array, 0, count));
         }
         finally
         {

@@ -13,6 +13,7 @@ namespace TestModels;
 /// <para><see cref="global::TestModels.RecursiveTestType" /></para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 sealed partial class RecursiveTestTypeSerializer : bsx::BshoxSerializer
 {
     private static readonly bsx::BshoxContract<global::TestModels.RecursiveTestType> c_RecursiveTestType;

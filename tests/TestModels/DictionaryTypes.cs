@@ -1,8 +1,15 @@
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using Bshox.Attributes;
 
 namespace TestModels;
 
 [BshoxSerializable(typeof(Dictionary<string, TestType7?>))]
+[BshoxSerializable(typeof(IDictionary<string, TestType7?>))]
+[BshoxSerializable(typeof(ConcurrentDictionary<string, TestType7?>))]
+[BshoxSerializable(typeof(SortedDictionary<string, TestType7?>))]
+[BshoxSerializable(typeof(ReadOnlyDictionary<string, TestType7?>))]
+[BshoxSerializable(typeof(IReadOnlyDictionary<string, TestType7?>))]
 public partial class DictionarySerializer1;
 
 [BshoxSerializable(typeof(List<(string, TestType7?)>))]

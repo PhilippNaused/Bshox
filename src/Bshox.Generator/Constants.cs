@@ -11,4 +11,5 @@ internal static class Constants
     private static readonly string GeneratorName = GeneratorAssemblyName.Name!;
     public static readonly Regex InvalidPathChars = new($"[{Regex.Escape(new string(Path.GetInvalidFileNameChars()))} ]", RegexOptions.Compiled);
     public static string GeneratedCodeAttributeText => $"""[global::System.CodeDom.Compiler.GeneratedCodeAttribute("{GeneratorName}", "{GeneratorVersion}")]""";
+    public const string ExcludeFromCodeCoverageAttributeText = "[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]";
 }

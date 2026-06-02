@@ -23,6 +23,7 @@ namespace Bshox
         /// <summary>
         /// A Bshox contract for a <see cref="System.ValueTuple{<#= genericParameters #>}"/>
         /// </summary>
+        [ExcludeFromCodeCoverage]
         public static BshoxContract<<#= typeName #>> ValueTuple<<#= genericParameters #>>(<#= ctorParameters #>)<#= ((i == 8) ? " where TRest : struct" : "") #>
         {
             return new Contracts.ValueTupleContract<<#= genericParameters #>>(<#= string.Join(", ", Enumerable.Range(1, i).Select(x => Contract(x))) #>);

@@ -1,3 +1,5 @@
+using Bshox.Internals;
+
 namespace Bshox.Contracts;
 
 /// <summary>
@@ -11,6 +13,13 @@ internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContrac
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly T[] value)
     {
         int count = value.Length;
+
+        if (count == 0)
+        {
+            writer.WriteByte((byte)contract.Encoding);
+            return;
+        }
+
         writer.WriteArrayHeader(count, contract.Encoding);
 
         if (_spanContract is not null)
@@ -32,7 +41,13 @@ internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContrac
         int count = reader.ReadArrayHeader(out var encoding);
         BshoxException.ThrowIfWrongEncoding(encoding, contract.Encoding);
 
-        value = new T[count];
+        if (count == 0)
+        {
+            value = [];
+            return;
+        }
+
+        value = Utils.Allocate<T>(count);
 
         if (_spanContract is not null)
         {

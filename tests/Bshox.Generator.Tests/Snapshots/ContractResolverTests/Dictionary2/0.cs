@@ -13,6 +13,7 @@ namespace TestModels;
 /// <para><see cref="global::System.Collections.Generic.Dictionary{TKey, TValue}" /> (<c>TKey</c> is <see cref="string" />, <c>TValue</c> is <see cref="string" />)</para>
 /// </summary>
 [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Bshox.Generator", "0.0.0.0")]
+[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
 sealed partial class Serializer1 : bsx::BshoxSerializer
 {
     private static readonly bsx::BshoxContract<string> c_String;

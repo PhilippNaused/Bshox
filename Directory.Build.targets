@@ -88,6 +88,30 @@
   </Target>
 
   <!--
+   Run tests for all configurations (in parallel).
+   This is a modified version of the target "DispatchToInnerBuildsWithMTPTestTarget" from Microsoft.Testing.Platform.MSBuild.targets
+  -->
+  <Target Name="TestAll">
+    <ItemGroup>
+      <_TargetFrameworksToTest Include="$(TargetFrameworks)"
+                               Condition="'$(TargetFramework)' == ''" />
+      <_TargetFrameworksToTest Include="$(TargetFramework)"
+                               Condition="'$(TargetFramework)' != ''" />
+      <_Project Include="$(MSBuildProjectFile)"
+                Properties="TargetFramework=%(_TargetFrameworksToTest.Identity)"
+                AdditionalProperties="Configuration=Debug" />
+      <_Project Include="$(MSBuildProjectFile)"
+                Properties="TargetFramework=%(_TargetFrameworksToTest.Identity)"
+                AdditionalProperties="Configuration=Release" />
+    </ItemGroup>
+    <MSBuild Projects="@(_Project)"
+             BuildInParallel="true"
+             Condition=" '$(IsTestingPlatformApplication)' == 'true' "
+             ContinueOnError="ErrorAndContinue"
+             Targets="InvokeTestingPlatform" />
+  </Target>
+
+  <!--
   Workaround for https://github.com/dotnet/sdk/issues/51953
   See: https://github.com/dotnet/sdk/pull/52091
 
