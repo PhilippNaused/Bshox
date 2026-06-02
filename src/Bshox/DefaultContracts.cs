@@ -71,7 +71,7 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<List<T>> List<T>(BshoxContract<T> contract) where T : notnull
     {
-        return new ListContract<T>(contract);
+        return new CollectionContract<List<T>, T>(contract, static count => new List<T>(count), static segment => new List<T>(segment));
     }
 
     /// <summary>
