@@ -71,7 +71,19 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<List<T>> List<T>(BshoxContract<T> contract) where T : notnull
     {
-        return new CollectionContract<List<T>, T>(contract, static count => new List<T>(count), static segment => new List<T>(segment));
+        return new CollectionContract<List<T>, T>(contract,
+            factory: static count => new List<T>(count),
+            factory2: static segment => new List<T>(segment));
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.IList{T}"/>.
+    /// </summary>
+    public static BshoxContract<IList<T>> IList<T>(BshoxContract<T> contract) where T : notnull
+    {
+        return new CollectionContract<IList<T>, T>(contract,
+            factory: static count => new List<T>(count),
+            factory2: static segment => new List<T>(segment));
     }
 
     /// <summary>

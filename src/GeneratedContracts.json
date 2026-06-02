@@ -1,17 +1,6 @@
 {
   "Surrogates": [
     // Surrogates convert to/from another type that has an existing contract.
-    {
-      "Name": "IList",
-      "Type": "System.Collections.Generic.IList<>",
-      "Type2": "System.Collections.Generic.IList<T>",
-      "SurrogateType": "List<T>",
-      "SurrogateName": "List",
-      "From": "surrogate",
-      "To": "[.. value]",
-      "Where": "T : notnull",
-      "TryCast": true
-    }
   ],
   "Primitives": [
     // non-generic types that are mostly generated from this template.
@@ -161,6 +150,10 @@
     {
       "Name": "List",
       "Type": "System.Collections.Generic.List<>"
+    },
+    {
+      "Name": "IList",
+      "Type": "System.Collections.Generic.IList<>"
     },
     {
       "Name": "Nullable",

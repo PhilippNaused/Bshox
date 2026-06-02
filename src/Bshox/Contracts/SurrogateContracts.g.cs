@@ -2,39 +2,3 @@
 #nullable enable
 
 using System.Diagnostics.CodeAnalysis;
-
-namespace Bshox
-{
-    partial class DefaultContracts
-    {
-        /// <summary>
-        /// A Bshox contract for <see cref="System.Collections.Generic.IList{T}"/>
-        /// </summary>
-        [ExcludeFromCodeCoverage]
-        public static BshoxContract<System.Collections.Generic.IList<T>> IList<T>(BshoxContract<T> contract1) where T : notnull
-        {
-            var innerContract = DefaultContracts.List<T>(contract1);
-            return new Contracts.IListContract<T>(innerContract);
-        }
-    }
-}
-
-namespace Bshox.Contracts
-{
-    [ExcludeFromCodeCoverage]
-    internal sealed class IListContract<T>(BshoxContract<List<T>> contract) : BshoxContract<System.Collections.Generic.IList<T>>(contract.Encoding) where T : notnull
-    {
-        public override void Deserialize(ref BshoxReader reader, out System.Collections.Generic.IList<T> value)
-        {
-            contract.Deserialize(ref reader, out var surrogate);
-            value = surrogate;
-        }
-
-        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Collections.Generic.IList<T> value)
-        {
-            if (value is not List<T> surrogate)
-                surrogate = [.. value];
-            contract.Serialize(ref writer, in surrogate);
-        }
-    }
-}

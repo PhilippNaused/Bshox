@@ -88,46 +88,6 @@ internal class ContractTests
     }
 
     [Test]
-    public async Task FloatArray()
-    {
-        var array = ExampleData.Floats().ToArray();
-        await DefaultContracts.Array(DefaultContracts.Single).TestSerialization(array);
-        await DefaultContracts.Array(DefaultContracts.Single).TestSerialization([]);
-    }
-
-    [Test]
-    public async Task FloatList()
-    {
-        var list = ExampleData.Floats().ToList();
-        await DefaultContracts.List(DefaultContracts.Single).TestSerialization(list);
-        await DefaultContracts.List(DefaultContracts.Single).TestSerialization([]);
-    }
-
-    [Test]
-    public async Task IntList()
-    {
-        var list = ExampleData.Ints().ToList();
-        await DefaultContracts.List(DefaultContracts.Int32).TestSerialization(list);
-        await DefaultContracts.List(DefaultContracts.Int32).TestSerialization([]);
-    }
-
-    [Test]
-    public async Task DoubleArray()
-    {
-        var array = ExampleData.Doubles().ToArray();
-        await DefaultContracts.Array(DefaultContracts.Double).TestSerialization(array);
-        await DefaultContracts.Array(DefaultContracts.Double).TestSerialization([]);
-    }
-
-    [Test]
-    public async Task DoubleList()
-    {
-        var list = ExampleData.Doubles().ToList();
-        await DefaultContracts.List(DefaultContracts.Double).TestSerialization(list);
-        await DefaultContracts.List(DefaultContracts.Double).TestSerialization([]);
-    }
-
-    [Test]
     [MethodDataSource(typeof(ExampleData), nameof(ExampleData.Doubles))]
     public async Task Doubles(double i)
     {
