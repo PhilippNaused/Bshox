@@ -176,6 +176,10 @@
       "Name": "ICollection",
       "Type": "System.Collections.Generic.ICollection<>"
     },
+    {
+      "Name": "HashSet",
+      "Type": "System.Collections.Generic.HashSet<>"
+    },
     // Misc
     {
       "Name": "Nullable",

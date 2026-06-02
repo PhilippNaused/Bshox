@@ -10,6 +10,7 @@ partial struct KnownTypeInfo
         // don't use a collection initializer because it would silently ignore duplicate keys.
         dict["System.Collections.Concurrent.ConcurrentDictionary<,>"] = new("ConcurrentDictionary");
         dict["System.Collections.Generic.Dictionary<,>"] = new("Dictionary");
+        dict["System.Collections.Generic.HashSet<>"] = new("HashSet");
         dict["System.Collections.Generic.ICollection<>"] = new("ICollection");
         dict["System.Collections.Generic.IDictionary<,>"] = new("IDictionary");
         dict["System.Collections.Generic.IList<>"] = new("IList");

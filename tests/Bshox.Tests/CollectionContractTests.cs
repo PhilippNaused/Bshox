@@ -7,22 +7,6 @@ internal class CollectionContractTests
     private static readonly double[] doubles = ExampleData.Doubles().ToArray();
 
     [Test]
-    public async Task IntArray()
-    {
-        var c = DefaultContracts.Array(DefaultContracts.Int32);
-        await c.TestSerialization(ints);
-        await c.TestSerialization([]);
-    }
-
-    [Test]
-    public async Task IntList()
-    {
-        var c = DefaultContracts.List(DefaultContracts.Int32);
-        await c.TestSerialization(ints.ToList());
-        await c.TestSerialization([]);
-    }
-
-    [Test]
     public async Task FloatArray()
     {
         var c = DefaultContracts.Array(DefaultContracts.Single);
@@ -55,18 +39,42 @@ internal class CollectionContractTests
     }
 
     [Test]
-    public async Task DoubleIList()
+    public async Task IntArray()
     {
-        var c = DefaultContracts.IList(DefaultContracts.Double);
-        await c.TestSerialization2<IList<double>, double>(doubles);
-        await c.TestSerialization2<IList<double>, double>([]);
+        var c = DefaultContracts.Array(DefaultContracts.Int32);
+        await c.TestSerialization(ints);
+        await c.TestSerialization([]);
     }
 
     [Test]
-    public async Task DoubleICollection()
+    public async Task IntList()
     {
-        var c = DefaultContracts.ICollection(DefaultContracts.Double);
-        await c.TestSerialization2<ICollection<double>, double>(doubles);
-        await c.TestSerialization2<ICollection<double>, double>([]);
+        var c = DefaultContracts.List(DefaultContracts.Int32);
+        await c.TestSerialization(ints.ToList());
+        await c.TestSerialization([]);
+    }
+
+    [Test]
+    public async Task IntIList()
+    {
+        var c = DefaultContracts.IList(DefaultContracts.Int32);
+        await c.TestSerialization2<IList<int>, int>(ints);
+        await c.TestSerialization2<IList<int>, int>([]);
+    }
+
+    [Test]
+    public async Task IntICollection()
+    {
+        var c = DefaultContracts.ICollection(DefaultContracts.Int32);
+        await c.TestSerialization2<ICollection<int>, int>(ints);
+        await c.TestSerialization2<ICollection<int>, int>([]);
+    }
+
+    [Test]
+    public async Task IntHashSet()
+    {
+        var c = DefaultContracts.HashSet(DefaultContracts.Int32);
+        await c.TestSerialization2<HashSet<int>, int>([.. ints]);
+        await c.TestSerialization2<HashSet<int>, int>([]);
     }
 }

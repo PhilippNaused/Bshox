@@ -73,7 +73,7 @@ internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contra
 
     private void SerializeList(ref BshoxWriter writer, IReadOnlyList<T> value, int count)
     {
-        Debug.Assert(value.Count == count, "value.Count == count");
+        Debug.Assert(value.Count >= count, "value.Count >= count");
         for (int i = 0; i < count; i++)
         {
             T item = value[i];

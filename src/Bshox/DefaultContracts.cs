@@ -97,6 +97,20 @@ public static partial class DefaultContracts
     }
 
     /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.HashSet{T}"/>.
+    /// </summary>
+    public static BshoxContract<HashSet<T>> HashSet<T>(BshoxContract<T> contract) where T : notnull
+    {
+        return new CollectionContract<HashSet<T>, T>(contract,
+#if NETCOREAPP
+            factory: static count => new HashSet<T>(count),
+#else
+            factory: static count => new HashSet<T>(),
+#endif
+            factory2: static segment => new HashSet<T>(segment));
+    }
+
+    /// <summary>
     /// A Bshox contract for an array of <typeparamref name="T"/>.
     /// </summary>
     public static BshoxContract<T[]> Array<T>(BshoxContract<T> contract) where T : notnull
