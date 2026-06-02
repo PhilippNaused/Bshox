@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bshox.Contracts;
@@ -45,6 +46,24 @@ public static partial class DefaultContracts
     {
         return new DictionaryContract<SortedDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
             factory: static _ => new SortedDictionary<TKey, TValue>());
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.ObjectModel.ReadOnlyDictionary{TKey,TValue}"/>.
+    /// </summary>
+    public static BshoxContract<ReadOnlyDictionary<TKey, TValue>> ReadOnlyDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
+    {
+        return new DictionaryContract2<ReadOnlyDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
+            factory: static dict => new ReadOnlyDictionary<TKey, TValue>(dict));
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.IReadOnlyDictionary{TKey,TValue}"/>.
+    /// </summary>
+    public static BshoxContract<IReadOnlyDictionary<TKey, TValue>> IReadOnlyDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
+    {
+        return new DictionaryContract2<IReadOnlyDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
+            factory: static dict => dict);
     }
 
     /// <summary>

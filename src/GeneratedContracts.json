@@ -173,6 +173,14 @@
     {
       "Name": "SortedDictionary",
       "Type": "System.Collections.Generic.SortedDictionary<,>"
+    },
+    {
+      "Name": "ReadOnlyDictionary",
+      "Type": "System.Collections.ObjectModel.ReadOnlyDictionary<,>"
+    },
+    {
+      "Name": "IReadOnlyDictionary",
+      "Type": "System.Collections.Generic.IReadOnlyDictionary<,>"
     }
   ]
 }

@@ -179,8 +179,10 @@ namespace Bshox
         public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
         public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract1) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>> IReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.List<T>> List<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<T?> Nullable<T>(Bshox.BshoxContract<T> contract) where T : struct;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>> ReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.SortedDictionary<TKey, TValue>> SortedDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<System.ValueTuple<T1>> ValueTuple<T1>(Bshox.BshoxContract<T1> contract1);
         public static Bshox.BshoxContract<(T1, T2)> ValueTuple<T1, T2>(Bshox.BshoxContract<T1> contract1, Bshox.BshoxContract<T2> contract2);

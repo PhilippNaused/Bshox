@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using TestModels;
 
 namespace Bshox.Tests;
@@ -21,33 +22,33 @@ public class DictionarySerializerTests
         await DictionarySerializer1.DictionaryStringTestType7.TestSerialization(testValue, expectedHex);
 
         await DictionarySerializer1.DictionaryStringTestType7.TestProtoScope(testValue, """
-                                                                                        [
-                                                                                          {
-                                                                                            1: " "
-                                                                                          }
-                                                                                          {
-                                                                                            1: "a"
-                                                                                            2: {
-                                                                                              1: 1
-                                                                                              2: "a"
-                                                                                            }
-                                                                                          }
-                                                                                          {
-                                                                                            1: "b"
-                                                                                            2: {
-                                                                                              1: 2
-                                                                                              2: "b"
-                                                                                            }
-                                                                                          }
-                                                                                          {
-                                                                                            1: "c"
-                                                                                            2: {
-                                                                                              1: 3
-                                                                                              2: "c"
-                                                                                            }
-                                                                                          }
-                                                                                        ]
-                                                                                        """);
+        [
+          {
+            1: " "
+          }
+          {
+            1: "a"
+            2: {
+              1: 1
+              2: "a"
+            }
+          }
+          {
+            1: "b"
+            2: {
+              1: 2
+              2: "b"
+            }
+          }
+          {
+            1: "c"
+            2: {
+              1: 3
+              2: "c"
+            }
+          }
+        ]
+        """);
 
         var ms = new MemoryStream();
         DictionarySerializer1.DictionaryStringTestType7.Serialize(ms, testValue);
@@ -120,5 +121,21 @@ public class DictionarySerializerTests
         var dict = new SortedDictionary<string, TestType7?>(testValue);
 
         await DictionarySerializer1.SortedDictionaryStringTestType7.TestSerialization2<SortedDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
+    }
+
+    [Test]
+    public async Task TestReadOnlyDictionary()
+    {
+        var dict = new ReadOnlyDictionary<string, TestType7?>(testValue);
+
+        await DictionarySerializer1.ReadOnlyDictionaryStringTestType7.TestSerialization2<ReadOnlyDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
+    }
+
+    [Test]
+    public async Task TestIReadOnlyDictionary()
+    {
+        var dict = testValue as IReadOnlyDictionary<string, TestType7?>;
+
+        await DictionarySerializer1.IReadOnlyDictionaryStringTestType7.TestSerialization2<IReadOnlyDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
     }
 }
