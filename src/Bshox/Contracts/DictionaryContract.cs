@@ -15,6 +15,13 @@ internal abstract class DictionaryContractBase<TDict, TKey, TValue>(BshoxContrac
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly TDict value)
     {
         int count = GetCount(value);
+
+        if (count == 0)
+        {
+            writer.WriteByte((byte)BshoxCode.SubObject);
+            return;
+        }
+
         writer.WriteArrayHeader(count, BshoxCode.SubObject);
 
 #if NET6_0_OR_GREATER
@@ -87,7 +94,10 @@ internal sealed class DictionaryContract<TDict, TKey, TValue>(BshoxContract<TKey
     protected override TDict DeserializeInner(ref BshoxReader reader, int count)
     {
         var dict = factory(count);
-        ReadToDictionary(ref reader, dict, count);
+        if (count != 0)
+        {
+            ReadToDictionary(ref reader, dict, count);
+        }
         return dict;
     }
 }
@@ -102,7 +112,10 @@ internal sealed class DictionaryContract2<TDict, TKey, TValue>(BshoxContract<TKe
     protected override TDict DeserializeInner(ref BshoxReader reader, int count)
     {
         var dict = new Dictionary<TKey, TValue>(count);
-        ReadToDictionary(ref reader, dict, count);
+        if (count != 0)
+        {
+            ReadToDictionary(ref reader, dict, count);
+        }
         return factory(dict);
     }
 }

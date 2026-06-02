@@ -14,11 +14,15 @@ public class DictionarySerializerTests
         ["c"] = new TestType7(3, "c"),
     };
 
+    private static readonly Dictionary<string, TestType7?> emptyDict = [];
+
     private const string expectedHex = "250B0120000B016115080113016100000B016215080213016200000B01631508031301630000";
+    private const string emptyHex = "05";
 
     [Test]
     public async Task Test1()
     {
+        await DictionarySerializer1.DictionaryStringTestType7.TestSerialization(emptyDict, emptyHex);
         await DictionarySerializer1.DictionaryStringTestType7.TestSerialization(testValue, expectedHex);
 
         await DictionarySerializer1.DictionaryStringTestType7.TestProtoScope(testValue, """
@@ -103,6 +107,7 @@ public class DictionarySerializerTests
     {
         var dict = testValue as IDictionary<string, TestType7?>;
 
+        await DictionarySerializer1.IDictionaryStringTestType7.TestSerialization2<IDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(emptyDict, emptyHex);
         await DictionarySerializer1.IDictionaryStringTestType7.TestSerialization2<IDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
     }
 
@@ -112,6 +117,7 @@ public class DictionarySerializerTests
     {
         var dict = new ConcurrentDictionary<string, TestType7?>(testValue);
 
+        await DictionarySerializer1.ConcurrentDictionaryStringTestType7.TestSerialization2<ConcurrentDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(new ConcurrentDictionary<string, TestType7?>(), emptyHex);
         await DictionarySerializer1.ConcurrentDictionaryStringTestType7.TestSerialization2<ConcurrentDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
     }
 
@@ -120,6 +126,7 @@ public class DictionarySerializerTests
     {
         var dict = new SortedDictionary<string, TestType7?>(testValue);
 
+        await DictionarySerializer1.SortedDictionaryStringTestType7.TestSerialization2<SortedDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(new SortedDictionary<string, TestType7?>(), emptyHex);
         await DictionarySerializer1.SortedDictionaryStringTestType7.TestSerialization2<SortedDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
     }
 
@@ -128,6 +135,7 @@ public class DictionarySerializerTests
     {
         var dict = new ReadOnlyDictionary<string, TestType7?>(testValue);
 
+        await DictionarySerializer1.ReadOnlyDictionaryStringTestType7.TestSerialization2<ReadOnlyDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(new ReadOnlyDictionary<string, TestType7?>(emptyDict), emptyHex);
         await DictionarySerializer1.ReadOnlyDictionaryStringTestType7.TestSerialization2<ReadOnlyDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
     }
 
@@ -136,6 +144,7 @@ public class DictionarySerializerTests
     {
         var dict = testValue as IReadOnlyDictionary<string, TestType7?>;
 
+        await DictionarySerializer1.IReadOnlyDictionaryStringTestType7.TestSerialization2<IReadOnlyDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(emptyDict, emptyHex);
         await DictionarySerializer1.IReadOnlyDictionaryStringTestType7.TestSerialization2<IReadOnlyDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
     }
 }
