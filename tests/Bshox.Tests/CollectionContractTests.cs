@@ -14,6 +14,7 @@ internal class CollectionContractTests
     [Arguments("HashSet")]
     [Arguments("ICollection")]
     [Arguments("IList")]
+    [Arguments("IReadOnlyCollection")]
     [Arguments("List")]
     [Arguments("Queue")]
     [Arguments("Stack")]
@@ -26,6 +27,7 @@ internal class CollectionContractTests
             "HashSet" => TestAll(DefaultContracts.HashSet, x => new HashSet<T>(x), examples),
             "ICollection" => TestAll(DefaultContracts.ICollection, x => x, examples),
             "IList" => TestAll(DefaultContracts.IList, x => x, examples),
+            "IReadOnlyCollection" => TestAll(DefaultContracts.IReadOnlyCollection, x => x, examples),
             "List" => TestAll(DefaultContracts.List, x => new List<T>(x), examples),
             "Queue" => TestAll(DefaultContracts.Queue, x => new Queue<T>(x), examples),
             "Stack" => TestAll(DefaultContracts.Stack, x => new Stack<T>(x), examples),

@@ -14,6 +14,7 @@ partial struct KnownTypeInfo
         dict["System.Collections.Generic.ICollection<>"] = new("ICollection");
         dict["System.Collections.Generic.IDictionary<,>"] = new("IDictionary");
         dict["System.Collections.Generic.IList<>"] = new("IList");
+        dict["System.Collections.Generic.IReadOnlyCollection<>"] = new("IReadOnlyCollection");
         dict["System.Collections.Generic.IReadOnlyDictionary<,>"] = new("IReadOnlyDictionary");
         dict["System.Collections.Generic.List<>"] = new("List");
         dict["System.Collections.Generic.Queue<>"] = new("Queue");

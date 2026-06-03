@@ -1,8 +1,5 @@
-using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Bshox.Contracts;
 using Bshox.Internals;
 
 // ReSharper disable InconsistentNaming
@@ -14,140 +11,6 @@ namespace Bshox;
 /// </summary>
 public static partial class DefaultContracts
 {
-    #region Dictionaries
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.Dictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static BshoxContract<Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
-    {
-        return new DictionaryContract<Dictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract, static count => new Dictionary<TKey, TValue>(count));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.IDictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static BshoxContract<IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
-    {
-        return new DictionaryContract<IDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract, static count => new Dictionary<TKey, TValue>(count));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Concurrent.ConcurrentDictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static BshoxContract<ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
-    {
-        return new DictionaryContract<ConcurrentDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
-            factory: static count => new ConcurrentDictionary<TKey, TValue>(concurrencyLevel: Environment.ProcessorCount, capacity: count));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.SortedDictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static BshoxContract<SortedDictionary<TKey, TValue>> SortedDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
-    {
-        return new DictionaryContract<SortedDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
-            factory: static _ => new SortedDictionary<TKey, TValue>());
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.ObjectModel.ReadOnlyDictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static BshoxContract<ReadOnlyDictionary<TKey, TValue>> ReadOnlyDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
-    {
-        return new DictionaryContract2<ReadOnlyDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
-            factory: static dict => new ReadOnlyDictionary<TKey, TValue>(dict));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.IReadOnlyDictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static BshoxContract<IReadOnlyDictionary<TKey, TValue>> IReadOnlyDictionary<TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract) where TKey : notnull
-    {
-        return new DictionaryContract2<IReadOnlyDictionary<TKey, TValue>, TKey, TValue>(keyContract, valueContract,
-            factory: static dict => dict);
-    }
-
-    #endregion Dictionaries
-
-    #region Collections
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.List{T}"/>.
-    /// </summary>
-    public static BshoxContract<List<T>> List<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new CollectionContract<List<T>, T>(contract,
-            factory: static count => new List<T>(count),
-            factory2: static segment => new List<T>(segment));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.IList{T}"/>.
-    /// </summary>
-    public static BshoxContract<IList<T>> IList<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new CollectionContract<IList<T>, T>(contract,
-            factory: static count => new List<T>(count),
-            factory2: static segment => new List<T>(segment));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.ICollection{T}"/>.
-    /// </summary>
-    public static BshoxContract<ICollection<T>> ICollection<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new CollectionContract<ICollection<T>, T>(contract,
-            factory: static count => new List<T>(count),
-            factory2: static segment => new List<T>(segment));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.Queue{T}"/>.
-    /// </summary>
-    public static BshoxContract<Queue<T>> Queue<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new CollectionContract2<Queue<T>, T>(contract,
-            factory: static count => new Queue<T>(count),
-            factory2: static segment => new Queue<T>(segment));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.Stack{T}"/>.
-    /// </summary>
-    public static BshoxContract<Stack<T>> Stack<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new CollectionContract2<Stack<T>, T>(contract,
-            factory: static count => new Stack<T>(count),
-            factory2: static segment => new Stack<T>(segment));
-    }
-
-    /// <summary>
-    /// A Bshox contract for a <see cref="System.Collections.Generic.HashSet{T}"/>.
-    /// </summary>
-    public static BshoxContract<HashSet<T>> HashSet<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new CollectionContract<HashSet<T>, T>(contract,
-#if NETCOREAPP
-            factory: static count => new HashSet<T>(count),
-#else
-            factory: static count => new HashSet<T>(),
-#endif
-            factory2: static segment => new HashSet<T>(segment));
-    }
-
-    /// <summary>
-    /// A Bshox contract for an array of <typeparamref name="T"/>.
-    /// </summary>
-    public static BshoxContract<T[]> Array<T>(BshoxContract<T> contract) where T : notnull
-    {
-        return new ArrayContract<T>(contract);
-    }
-
-    #endregion Collections
-
-    #region Other
-
     /// <summary>
     /// A Bshox contract for <see cref="System.Nullable{T}"/>.
     /// </summary>
@@ -352,6 +215,4 @@ public static partial class DefaultContracts
             contract.Serialize(ref writer, in Unsafe.As<TEnum, TInner>(ref v2));
         }
     }
-
-    #endregion Other
 }

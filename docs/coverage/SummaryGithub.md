@@ -6,21 +6,21 @@
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
 | Classes:           | 59                                    |
-| Files:             | 64                                    |
-| **Line coverage:** | 92.2% (4133 of 4481)                  |
-| Covered lines:     | 4133                                  |
+| Files:             | 66                                    |
+| **Line coverage:** | 92.1% (4107 of 4455)                  |
+| Covered lines:     | 4107                                  |
 | Uncovered lines:   | 348                                   |
-| Coverable lines:   | 4481                                  |
-| Total lines:       | 8272                                  |
+| Coverable lines:   | 4455                                  |
+| Total lines:       | 8255                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 94.8%</summary>
+<details><summary>Bshox.dll - 94.7%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **94.8%** |
+| **Bshox.dll**                          | **94.7%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
@@ -35,7 +35,7 @@
 | Bshox.Contracts.DictionaryContract     |      100% |
 | Bshox.Contracts.DictionaryContract2    |      100% |
 | Bshox.Contracts.DictionaryContractBase |     96.1% |
-| Bshox.DefaultContracts                 |     96.4% |
+| Bshox.DefaultContracts                 |     95.9% |
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |
