@@ -14,6 +14,8 @@ namespace Bshox;
 /// </summary>
 public static partial class DefaultContracts
 {
+    #region Dictionaries
+
     /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.Dictionary{TKey,TValue}"/>.
     /// </summary>
@@ -66,6 +68,10 @@ public static partial class DefaultContracts
             factory: static dict => dict);
     }
 
+    #endregion Dictionaries
+
+    #region Collections
+
     /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.List{T}"/>.
     /// </summary>
@@ -97,6 +103,26 @@ public static partial class DefaultContracts
     }
 
     /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.Queue{T}"/>.
+    /// </summary>
+    public static BshoxContract<Queue<T>> Queue<T>(BshoxContract<T> contract) where T : notnull
+    {
+        return new CollectionContract2<Queue<T>, T>(contract,
+            factory: static count => new Queue<T>(count),
+            factory2: static segment => new Queue<T>(segment));
+    }
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Generic.Stack{T}"/>.
+    /// </summary>
+    public static BshoxContract<Stack<T>> Stack<T>(BshoxContract<T> contract) where T : notnull
+    {
+        return new CollectionContract2<Stack<T>, T>(contract,
+            factory: static count => new Stack<T>(count),
+            factory2: static segment => new Stack<T>(segment));
+    }
+
+    /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.HashSet{T}"/>.
     /// </summary>
     public static BshoxContract<HashSet<T>> HashSet<T>(BshoxContract<T> contract) where T : notnull
@@ -117,6 +143,10 @@ public static partial class DefaultContracts
     {
         return new ArrayContract<T>(contract);
     }
+
+    #endregion Collections
+
+    #region Other
 
     /// <summary>
     /// A Bshox contract for <see cref="System.Nullable{T}"/>.
@@ -216,7 +246,7 @@ public static partial class DefaultContracts
         }
     }
 
-#pragma warning disable CA1822 // Mark members as static https://github.com/dotnet/roslyn-analyzers/issues/7447
+#pragma warning disable CA1822 // Mark members as static (false-positive: https://github.com/dotnet/roslyn-analyzers/issues/7447)
 
     private partial class SingleContract
     {
@@ -322,4 +352,6 @@ public static partial class DefaultContracts
             contract.Serialize(ref writer, in Unsafe.As<TEnum, TInner>(ref v2));
         }
     }
+
+    #endregion Other
 }

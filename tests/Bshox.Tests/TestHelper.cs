@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -31,6 +32,11 @@ public static class TestHelper
     {
         (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value);
 
+        // serializing a stack will reverse the order, so we need to re-reverse it for the equality check
+        if (actual is Stack<T2> s)
+            actual = (T)(object)new Stack<T2>(s);
+        if (actual is ConcurrentStack<T2> s2)
+            actual = (T)(object)new ConcurrentStack<T2>(s2);
         await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
 
         await PostTest(hex, bytes, metaValue);

@@ -5,22 +5,22 @@
 |:-------------------|:--------------------------------------|
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
-| Classes:           | 57                                    |
+| Classes:           | 59                                    |
 | Files:             | 64                                    |
-| **Line coverage:** | 92.1% (4081 of 4428)                  |
-| Covered lines:     | 4081                                  |
-| Uncovered lines:   | 347                                   |
-| Coverable lines:   | 4428                                  |
-| Total lines:       | 8130                                  |
+| **Line coverage:** | 92.2% (4133 of 4481)                  |
+| Covered lines:     | 4133                                  |
+| Uncovered lines:   | 348                                   |
+| Coverable lines:   | 4481                                  |
+| Total lines:       | 8272                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 94.7%</summary>
+<details><summary>Bshox.dll - 94.8%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **94.7%** |
+| **Bshox.dll**                          | **94.8%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
@@ -30,10 +30,12 @@
 | Bshox.BshoxWriter                      |     98.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
 | Bshox.Contracts.CollectionContract     |      100% |
+| Bshox.Contracts.CollectionContract2    |      100% |
+| Bshox.Contracts.CollectionContractBase |     98.9% |
 | Bshox.Contracts.DictionaryContract     |      100% |
 | Bshox.Contracts.DictionaryContract2    |      100% |
 | Bshox.Contracts.DictionaryContractBase |     96.1% |
-| Bshox.DefaultContracts                 |     96.2% |
+| Bshox.DefaultContracts                 |     96.4% |
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |

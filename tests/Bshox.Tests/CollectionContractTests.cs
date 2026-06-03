@@ -1,80 +1,117 @@
+using TestModels;
+
 namespace Bshox.Tests;
 
 internal class CollectionContractTests
 {
-    private static readonly int[] ints = ExampleData.Ints().ToArray();
-    private static readonly float[] floats = ExampleData.Floats().ToArray();
-    private static readonly double[] doubles = ExampleData.Doubles().ToArray();
-
     [Test]
-    public async Task FloatArray()
+    [GenerateGenericTest(typeof(int))] // primitive without span support
+    [GenerateGenericTest(typeof(float))] // primitive with span support
+    [GenerateGenericTest(typeof(double))] // primitive with span support
+    [GenerateGenericTest(typeof(Guid))] // value type
+    [GenerateGenericTest(typeof(TestType1))] // reference type
+    [Arguments("Array")]
+    [Arguments("HashSet")]
+    [Arguments("ICollection")]
+    [Arguments("IList")]
+    [Arguments("List")]
+    [Arguments("Queue")]
+    [Arguments("Stack")]
+    public Task TestRoundtrip<T>(string name) where T : notnull
     {
-        var c = DefaultContracts.Array(DefaultContracts.Single);
-        await c.TestSerialization(floats);
-        await c.TestSerialization([]);
+        T[][] examples = GetExamples<T>();
+        return name switch
+        {
+            "Array" => TestAll(DefaultContracts.Array, x => x, examples),
+            "HashSet" => TestAll(DefaultContracts.HashSet, x => new HashSet<T>(x), examples),
+            "ICollection" => TestAll(DefaultContracts.ICollection, x => x, examples),
+            "IList" => TestAll(DefaultContracts.IList, x => x, examples),
+            "List" => TestAll(DefaultContracts.List, x => new List<T>(x), examples),
+            "Queue" => TestAll(DefaultContracts.Queue, x => new Queue<T>(x), examples),
+            "Stack" => TestAll(DefaultContracts.Stack, x => new Stack<T>(x), examples),
+            _ => throw new NotSupportedException($"Contract {name} is not supported."),
+        };
     }
 
-    [Test]
-    public async Task FloatList()
+    private static IBshoxContract GetContract<T>()
     {
-        var c = DefaultContracts.List(DefaultContracts.Single);
-        await c.TestSerialization(floats.ToList());
-        await c.TestSerialization([]);
+        if (typeof(T) == typeof(int))
+        {
+            return DefaultContracts.Int32;
+        }
+        if (typeof(T) == typeof(float))
+        {
+            return DefaultContracts.Single;
+        }
+        if (typeof(T) == typeof(double))
+        {
+            return DefaultContracts.Double;
+        }
+        if (typeof(T) == typeof(TestType1))
+        {
+            return Serializer1.TestType1;
+        }
+        if (typeof(T) == typeof(Guid))
+        {
+            return DefaultContracts.Guid;
+        }
+        throw new NotSupportedException($"Type {typeof(T)} is not supported.");
     }
 
-    [Test]
-    public async Task DoubleArray()
+    private static async Task TestAll<TCollection, T>(Func<BshoxContract<T>, BshoxContract<TCollection>> contractFactory, Func<T[], TCollection> converter, T[][] examples)
+        where TCollection : IEnumerable<T>
     {
-        var c = DefaultContracts.Array(DefaultContracts.Double);
-        await c.TestSerialization(doubles);
-        await c.TestSerialization([]);
+        var contract1 = (BshoxContract<T>)GetContract<T>();
+        var contract2 = contractFactory(contract1);
+        foreach (var example in examples)
+        {
+            TCollection data = converter(example);
+            await contract2.TestSerialization2<TCollection, T>(data);
+        }
     }
 
-    [Test]
-    public async Task DoubleList()
+    private static T[][] GetExamples<T>()
     {
-        var c = DefaultContracts.List(DefaultContracts.Double);
-        await c.TestSerialization(doubles.ToList());
-        await c.TestSerialization([]);
-    }
-
-    [Test]
-    public async Task IntArray()
-    {
-        var c = DefaultContracts.Array(DefaultContracts.Int32);
-        await c.TestSerialization(ints);
-        await c.TestSerialization([]);
-    }
-
-    [Test]
-    public async Task IntList()
-    {
-        var c = DefaultContracts.List(DefaultContracts.Int32);
-        await c.TestSerialization(ints.ToList());
-        await c.TestSerialization([]);
-    }
-
-    [Test]
-    public async Task IntIList()
-    {
-        var c = DefaultContracts.IList(DefaultContracts.Int32);
-        await c.TestSerialization2<IList<int>, int>(ints);
-        await c.TestSerialization2<IList<int>, int>([]);
-    }
-
-    [Test]
-    public async Task IntICollection()
-    {
-        var c = DefaultContracts.ICollection(DefaultContracts.Int32);
-        await c.TestSerialization2<ICollection<int>, int>(ints);
-        await c.TestSerialization2<ICollection<int>, int>([]);
-    }
-
-    [Test]
-    public async Task IntHashSet()
-    {
-        var c = DefaultContracts.HashSet(DefaultContracts.Int32);
-        await c.TestSerialization2<HashSet<int>, int>([.. ints]);
-        await c.TestSerialization2<HashSet<int>, int>([]);
+        if (typeof(T) == typeof(int))
+        {
+            return (T[][])(object)(int[][])[
+                [],
+                [1],
+                ExampleData.Ints().ToArray(),
+            ];
+        }
+        if (typeof(T) == typeof(float))
+        {
+            return (T[][])(object)(float[][])[
+                [],
+                [1f],
+                ExampleData.Floats().ToArray(),
+            ];
+        }
+        if (typeof(T) == typeof(double))
+        {
+            return (T[][])(object)(double[][])[
+                [],
+                [1d],
+                ExampleData.Doubles().ToArray(),
+            ];
+        }
+        if (typeof(T) == typeof(TestType1))
+        {
+            return (T[][])(object)(TestType1[][])[
+                [],
+                [new TestType1()],
+                [new TestType1 {Value1 = 1}, new TestType1 {Value2 = 2}, new TestType1 {Value3 = Guid.NewGuid()}],
+            ];
+        }
+        if (typeof(T) == typeof(Guid))
+        {
+            return (T[][])(object)(Guid[][])[
+                [],
+                [Guid.NewGuid()],
+                ExampleData.Guids().ToArray(),
+            ];
+        }
+        throw new NotSupportedException($"Type {typeof(T)} is not supported.");
     }
 }
