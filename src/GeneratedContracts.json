@@ -177,6 +177,14 @@
       "Type": "System.Collections.Generic.ICollection<>"
     },
     {
+      "Name": "Queue",
+      "Type": "System.Collections.Generic.Queue<>"
+    },
+    {
+      "Name": "Stack",
+      "Type": "System.Collections.Generic.Stack<>"
+    },
+    {
       "Name": "HashSet",
       "Type": "System.Collections.Generic.HashSet<>"
     },
