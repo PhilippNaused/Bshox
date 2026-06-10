@@ -5,13 +5,13 @@
 |:-------------------|:--------------------------------------|
 | Parser:            | MultiReport (10x DynamicCodeCoverage) |
 | Assemblies:        | 3                                     |
-| Classes:           | 57                                    |
-| Files:             | 64                                    |
-| **Line coverage:** | 92.1% (4081 of 4428)                  |
-| Covered lines:     | 4081                                  |
-| Uncovered lines:   | 347                                   |
-| Coverable lines:   | 4428                                  |
-| Total lines:       | 8130                                  |
+| Classes:           | 59                                    |
+| Files:             | 66                                    |
+| **Line coverage:** | 92.1% (4107 of 4455)                  |
+| Covered lines:     | 4107                                  |
+| Uncovered lines:   | 348                                   |
+| Coverable lines:   | 4455                                  |
+| Total lines:       | 8255                                  |
 
 </details>
 
@@ -30,10 +30,12 @@
 | Bshox.BshoxWriter                      |     98.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
 | Bshox.Contracts.CollectionContract     |      100% |
+| Bshox.Contracts.CollectionContract2    |      100% |
+| Bshox.Contracts.CollectionContractBase |     98.9% |
 | Bshox.Contracts.DictionaryContract     |      100% |
 | Bshox.Contracts.DictionaryContract2    |      100% |
 | Bshox.Contracts.DictionaryContractBase |     96.1% |
-| Bshox.DefaultContracts                 |     96.2% |
+| Bshox.DefaultContracts                 |     95.9% |
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |

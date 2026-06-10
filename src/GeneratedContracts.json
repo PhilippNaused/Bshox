@@ -177,6 +177,18 @@
       "Type": "System.Collections.Generic.ICollection<>"
     },
     {
+      "Name": "IReadOnlyCollection",
+      "Type": "System.Collections.Generic.IReadOnlyCollection<>"
+    },
+    {
+      "Name": "Queue",
+      "Type": "System.Collections.Generic.Queue<>"
+    },
+    {
+      "Name": "Stack",
+      "Type": "System.Collections.Generic.Stack<>"
+    },
+    {
       "Name": "HashSet",
       "Type": "System.Collections.Generic.HashSet<>"
     },
