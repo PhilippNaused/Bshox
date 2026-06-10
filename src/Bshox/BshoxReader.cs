@@ -164,7 +164,7 @@ public ref partial struct BshoxReader
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal unsafe void ReadUnsafe<T>(scoped out T value) where T : unmanaged
+    internal void ReadUnsafe<T>(scoped out T value) where T : unmanaged
 #if NET9_0_OR_GREATER
         , allows ref struct
 #endif
@@ -258,7 +258,7 @@ public ref partial struct BshoxReader
         return value;
     }
 
-    private unsafe T ReadUnsafeSlow<T>() where T : unmanaged
+    private T ReadUnsafeSlow<T>() where T : unmanaged
 #if NET9_0_OR_GREATER
         , allows ref struct
 #endif

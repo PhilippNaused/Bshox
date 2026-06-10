@@ -144,7 +144,7 @@ internal sealed class SourceWriter
         return next;
     }
 
-    private unsafe void AppendSpan(ReadOnlySpan<char> span)
+    private void AppendSpan(ReadOnlySpan<char> span)
     {
         fixed (char* ptr = span)
         {
