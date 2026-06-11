@@ -34,19 +34,23 @@ System.Collections.ObjectModel.ReadOnlyDictionary<,>
 
 ```cs
 T[] // one-dimensional arrays
+System.Collections.Concurrent.ConcurrentBag<>
+System.Collections.Concurrent.ConcurrentQueue<>
+System.Collections.Concurrent.ConcurrentStack<>
 System.Collections.Generic.HashSet<>
 System.Collections.Generic.ICollection<>
 System.Collections.Generic.IList<T>
 System.Collections.Generic.List<T>
 System.Collections.Generic.Queue<>
 System.Collections.Generic.Stack<>
+System.Collections.ObjectModel.Collection<>
 ```
 
 ## Other
 
 ```cs
-string
 byte[] // This type has special handling. It is not serialized as an array.
+string
 System.DateTime
 System.Guid
 System.Nullable<T>

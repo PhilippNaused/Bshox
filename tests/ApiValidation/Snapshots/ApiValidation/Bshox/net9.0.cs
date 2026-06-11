@@ -3,6 +3,7 @@
 // Runtime: v4.0.30319
 // Reference: System.Collections, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Collections.Concurrent, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+// Reference: System.Linq, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Memory, Version=9.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 // Reference: System.Runtime, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Runtime.InteropServices, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
@@ -173,7 +174,11 @@ namespace Bshox
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.Collection<T>> Collection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentBag<T>> ConcurrentBag<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentQueue<T>> ConcurrentQueue<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentStack<T>> ConcurrentStack<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
         public static Bshox.BshoxContract<System.Collections.Generic.HashSet<T>> HashSet<T>(Bshox.BshoxContract<T> contract) where T : notnull;
