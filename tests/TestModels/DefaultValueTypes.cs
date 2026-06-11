@@ -25,9 +25,12 @@ public record DefaultValueType1
 
     public string? Value5 { get; set; }
 
+    [DefaultValue(0)]
+    public decimal Value6 { get; set; }
+
     // TODO: support explicit default values for non-primitive types like Guid, DateTime, TimeSpan, etc. and report an error if the default value is not valid for the member type
     //[DefaultValue((typeof(Guid)), "00000000-0000-0000-0000-000000000000")]
-    //public Guid Value6 { get; set; }
+    //public Guid Value7 { get; set; }
 }
 
 [BshoxContract(ImplicitMembers = true)]

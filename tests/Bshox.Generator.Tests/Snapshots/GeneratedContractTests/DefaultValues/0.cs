@@ -52,6 +52,12 @@ partial class Serializer1
                 writer.WriteByte(43);
                 writer.WriteString(__Value5);
             }
+            var __Value6 = value.Value6;
+            if (__Value6 != -3.14M)
+            {
+                writer.WriteTag(6, _gen_bshox_t.c_Decimal.Encoding);
+                _gen_bshox_t.c_Decimal.Serialize(ref writer, in __Value6);
+            }
             writer.WriteByte(0);
         }
 
@@ -62,6 +68,7 @@ partial class Serializer1
             global::System.Nullable<global::TestModels.MyEnum> __Value3 = null;
             string? __Value4 = null;
             string? __Value5 = "Hello, World!";
+            decimal __Value6 = -3.14M;
             using var _ = reader.DepthLock();
             while (true)
             {
@@ -78,6 +85,7 @@ partial class Serializer1
                             Value3 = __Value3,
                             Value4 = __Value4,
                             Value5 = __Value5,
+                            Value6 = __Value6,
                         };
                         return;
                     }
@@ -109,6 +117,12 @@ partial class Serializer1
                     {
                         bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Prefixed);
                         __Value5 = reader.ReadString();
+                        break;
+                    }
+                    case 6:
+                    {
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_Decimal.Encoding);
+                        _gen_bshox_t.c_Decimal.Deserialize(ref reader, out __Value6);
                         break;
                     }
                     default:

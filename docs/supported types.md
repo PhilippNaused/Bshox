@@ -50,6 +50,7 @@ System.Collections.ObjectModel.Collection<>
 
 ```cs
 byte[] // This type has special handling. It is not serialized as an array.
+decimal
 string
 System.DateTime
 System.Guid

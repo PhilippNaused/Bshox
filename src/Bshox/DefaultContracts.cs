@@ -1,3 +1,7 @@
+#if !NETCOREAPP
+using System.Buffers.Text;
+#endif
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bshox.Internals;
@@ -77,6 +81,53 @@ public static partial class DefaultContracts
                 EndiannessHelper.Reverse(ref guid);
             }
             writer.Advance(sizeofGuid + 1);
+        }
+    }
+
+    private partial class DecimalContract
+    {
+        private const int DecimalMaxLength = 31; // Decimal can be up to 29 digits, plus sign and decimal point
+
+        public override partial void Deserialize(ref BshoxReader reader, out decimal value)
+        {
+            byte length = reader.ReadByte();
+            if (length > DecimalMaxLength)
+            {
+                throw Fail(length);
+            }
+            Span<byte> buffer = stackalloc byte[length];
+            reader.CopyTo(buffer);
+#if NETCOREAPP
+            var success = decimal.TryParse(buffer, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out value);
+#else
+            var success = Utf8Parser.TryParse(buffer, out value, out int consumed) && consumed == length;
+#endif
+            if (!success)
+            {
+                throw Fail2();
+            }
+
+            return;
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            static BshoxException Fail(int length) => new($"Invalid decimal length: {length}");
+
+            [MethodImpl(MethodImplOptions.NoInlining)]
+            static BshoxException Fail2() => new("Invalid decimal encoding");
+        }
+
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly decimal value)
+        {
+            var span = writer.GetSpan(DecimalMaxLength + 1);
+#if NETCOREAPP
+            var success = value.TryFormat(span.Slice(1), out int bytesWritten, default, System.Globalization.CultureInfo.InvariantCulture);
+#else
+            var success = Utf8Formatter.TryFormat(value, span.Slice(1), out int bytesWritten);
+#endif
+            // This can only fail if the buffer is too small.
+            Debug.Assert(success, "decimal formatting failed!");
+            Debug.Assert(bytesWritten <= DecimalMaxLength, "bytesWritten <= DecimalMaxLength");
+            span[0] = (byte)bytesWritten;
+            writer.Advance(bytesWritten + 1);
         }
     }
 

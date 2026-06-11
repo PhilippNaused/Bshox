@@ -127,6 +127,11 @@
       "Encoding": "Prefixed"
     },
     {
+      "Name": "Decimal",
+      "Type": "decimal",
+      "Encoding": "Prefixed"
+    },
+    {
       "Name": "DateTime",
       "Type": "System.DateTime",
       "Encoding": "Fixed8"

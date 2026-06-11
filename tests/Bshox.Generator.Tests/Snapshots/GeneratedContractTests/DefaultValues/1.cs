@@ -27,8 +27,10 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     /// <para><c>3</c>: <see cref="global::TestModels.MyEnum" />? Value3 (default: <see langword="null"/>)</para>
     /// <para><c>4</c>: <see cref="string" /> Value4 (default: <see langword="null"/>)</para>
     /// <para><c>5</c>: <see cref="string" /> Value5 (default: <c>"Hello, World!"</c>)</para>
+    /// <para><c>6</c>: <see cref="decimal" /> Value6 (default: <c>-3.14</c>)</para>
     /// </remarks>
     public static bsx::BshoxContract<global::TestModels.TestType1> TestType1 => c_TestType1;
+    private static readonly bsx::BshoxContract<decimal> c_Decimal;
     private static readonly bsx::BshoxContract<string> c_String;
     private static readonly bsx::BshoxContract<int> c_Int32;
     private static readonly bsx::BshoxContract<global::TestModels.MyEnum> c_MyEnum;
@@ -42,6 +44,7 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     static Serializer1()
     {
         c_TestType1 = new TestModels_TestType1__BshoxContract();
+        c_Decimal = bsx::DefaultContracts.Decimal;
         c_String = bsx::DefaultContracts.String;
         c_Int32 = bsx::DefaultContracts.Int32;
         c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>(c_Int32);
@@ -52,6 +55,8 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     {
         if (type == typeof(global::TestModels.TestType1))
             return c_TestType1;
+        if (type == typeof(decimal))
+            return c_Decimal;
         if (type == typeof(string))
             return c_String;
         if (type == typeof(int))
