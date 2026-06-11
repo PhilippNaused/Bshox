@@ -8,7 +8,10 @@ partial struct KnownTypeInfo
     {
         var dict = new Dictionary<string, KnownTypeInfo>(StringComparer.Ordinal);
         // don't use a collection initializer because it would silently ignore duplicate keys.
+        dict["System.Collections.Concurrent.ConcurrentBag<>"] = new("ConcurrentBag");
         dict["System.Collections.Concurrent.ConcurrentDictionary<,>"] = new("ConcurrentDictionary");
+        dict["System.Collections.Concurrent.ConcurrentQueue<>"] = new("ConcurrentQueue");
+        dict["System.Collections.Concurrent.ConcurrentStack<>"] = new("ConcurrentStack");
         dict["System.Collections.Generic.Dictionary<,>"] = new("Dictionary");
         dict["System.Collections.Generic.HashSet<>"] = new("HashSet");
         dict["System.Collections.Generic.ICollection<>"] = new("ICollection");
@@ -20,6 +23,7 @@ partial struct KnownTypeInfo
         dict["System.Collections.Generic.Queue<>"] = new("Queue");
         dict["System.Collections.Generic.SortedDictionary<,>"] = new("SortedDictionary");
         dict["System.Collections.Generic.Stack<>"] = new("Stack");
+        dict["System.Collections.ObjectModel.Collection<>"] = new("Collection");
         dict["System.Collections.ObjectModel.ReadOnlyDictionary<,>"] = new("ReadOnlyDictionary");
         dict["System.DateTime"] = new("DateTime");
         dict["System.Guid"] = new("Guid");

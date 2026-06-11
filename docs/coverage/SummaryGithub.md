@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 59                                    |
 | Files:             | 66                                    |
-| **Line coverage:** | 92.1% (4107 of 4455)                  |
-| Covered lines:     | 4107                                  |
+| **Line coverage:** | 92.2% (4123 of 4471)                  |
+| Covered lines:     | 4123                                  |
 | Uncovered lines:   | 348                                   |
-| Coverable lines:   | 4455                                  |
-| Total lines:       | 8255                                  |
+| Coverable lines:   | 4471                                  |
+| Total lines:       | 8293                                  |
 
 </details>
 
@@ -35,7 +35,7 @@
 | Bshox.Contracts.DictionaryContract     |      100% |
 | Bshox.Contracts.DictionaryContract2    |      100% |
 | Bshox.Contracts.DictionaryContractBase |     96.1% |
-| Bshox.DefaultContracts                 |     95.9% |
+| Bshox.DefaultContracts                 |     96.1% |
 | Bshox.Internals.DepthLockScope         |      100% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |
@@ -59,7 +59,7 @@
 | Bshox.Generator.Contracts.ContractInfo             |     69.2% |
 | Bshox.Generator.Contracts.GeneratedContract        |     94.1% |
 | Bshox.Generator.Contracts.InlineContractData       |      100% |
-| Bshox.Generator.Contracts.KnownTypeInfo            |     98.5% |
+| Bshox.Generator.Contracts.KnownTypeInfo            |     98.6% |
 | Bshox.Generator.Contracts.SurrogateContract        |      100% |
 | Bshox.Generator.Contracts.SurrogateGenerator       |     96.9% |
 | Bshox.Generator.Data.KnownTypeSymbols              |      100% |

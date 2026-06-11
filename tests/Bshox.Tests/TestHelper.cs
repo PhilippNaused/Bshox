@@ -37,7 +37,18 @@ public static class TestHelper
             actual = (T)(object)new Stack<T2>(s);
         if (actual is ConcurrentStack<T2> s2)
             actual = (T)(object)new ConcurrentStack<T2>(s2);
-        await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
+
+        if (actual is ConcurrentBag<T2> b)
+        {
+            // ConcurrentBag does not guarantee order, so we need to sort it for the equality check
+            var valueSorted = value.OrderBy(x => x).ToArray();
+            var actualSorted = b.OrderBy(x => x).ToArray();
+            await Assert.That<IEnumerable<T2>>(actualSorted).IsSequenceEqualTo(valueSorted);
+        }
+        else
+        {
+            await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
+        }
 
         await PostTest(hex, bytes, metaValue);
     }
