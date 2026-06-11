@@ -33,6 +33,7 @@ partial struct KnownTypeInfo
         dict["byte"] = new("Byte", "writer.WriteVarInt32({0});", "checked((byte)reader.ReadVarInt32())", BshoxCode.VarInt);
         dict["byte[]"] = new("ByteArray", "writer.WriteByteArray({0});", "reader.ReadByteArray()", BshoxCode.Prefixed);
         dict["char"] = new("Char", "writer.WriteVarInt32((uint){0});", "checked((char)reader.ReadVarInt32())", BshoxCode.VarInt);
+        dict["decimal"] = new("Decimal");
         dict["double"] = new("Double", "writer.WriteDouble({0});", "reader.ReadDouble()", BshoxCode.Fixed8);
         dict["float"] = new("Single", "writer.WriteSingle({0});", "reader.ReadSingle()", BshoxCode.Fixed4);
         dict["int"] = new("Int32", "writer.WriteVarInt32(unchecked((uint){0}));", "unchecked((int)reader.ReadVarInt32())", BshoxCode.VarInt);

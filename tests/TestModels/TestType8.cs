@@ -25,6 +25,7 @@ public record TestType8
     public char Value14 { get; set; }
     public TimeSpan Value15 { get; set; }
     public DateTime Value16 { get; set; }
+    public decimal Value17 { get; set; }
 }
 
 #pragma warning disable CS8851 // Record defines 'Equals' but not 'GetHashCode'.

@@ -198,6 +198,17 @@ partial class DefaultContracts
     }
 
     /// <summary>
+    /// A Bshox contract for <see cref="decimal" />
+    /// </summary>
+    public static BshoxContract<decimal> Decimal { get; } = new DecimalContract();
+
+    private sealed partial class DecimalContract() : BshoxContract<decimal>(BshoxCode.Prefixed)
+    {
+        public override partial void Deserialize(ref BshoxReader reader, out decimal value);
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly decimal value);
+    }
+
+    /// <summary>
     /// A Bshox contract for <see cref="System.DateTime" />
     /// </summary>
     public static BshoxContract<System.DateTime> DateTime { get; } = new DateTimeContract();

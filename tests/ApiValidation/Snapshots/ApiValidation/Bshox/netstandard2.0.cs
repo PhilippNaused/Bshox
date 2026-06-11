@@ -152,6 +152,7 @@ namespace Bshox
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }
         public static Bshox.BshoxContract<char> Char { get; }
         public static Bshox.BshoxContract<System.DateTime> DateTime { get; }
+        public static Bshox.BshoxContract<decimal> Decimal { get; }
         public static Bshox.BshoxContract<double> Double { get; }
         public static Bshox.BshoxContract<System.Guid> Guid { get; }
         public static Bshox.BshoxContract<short> Int16 { get; }
