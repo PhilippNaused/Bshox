@@ -183,8 +183,8 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         code.WriteLine($"public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly {typeName} value)");
         code.OpenScope();
 
-        // TODO: check if this contract can cause infinite recursion. If not, skip the DepthLock.
-        code.WriteLine("using var _ = writer.DepthLock();");
+        // TODO: check if this contract can cause infinite recursion.
+        code.WriteLine("writer.IncreaseDepth();");
 
         for (int i = 0; i < members.Count; i++)
         {
@@ -193,6 +193,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         }
 
         code.WriteLine("writer.WriteByte(0);");
+        code.WriteLine("writer.DecreaseDepth();");
 
         code.CloseScope(); // Serialize
         code.WriteLine();
@@ -206,8 +207,8 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             code.WriteLine($"{member.MemberType.FullyQualifiedToString()} {member.LocalVariableName} = {defaultValue};");
         }
 
-        // TODO: check if this contract can cause infinite recursion. If not, skip the DepthLock.
-        code.WriteLine("using var _ = reader.DepthLock();");
+        // TODO: check if this contract can cause infinite recursion.
+        code.WriteLine("reader.IncreaseDepth();");
 
         code.WriteLine("""
                         while (true)
@@ -230,6 +231,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             }
             code.Indentation--;
             code.WriteLine("};");
+            code.WriteLine("reader.DecreaseDepth();");
             code.WriteLine("return;");
         }
         code.CloseScope();

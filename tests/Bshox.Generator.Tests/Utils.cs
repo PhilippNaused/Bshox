@@ -6,7 +6,6 @@ using Bshox.Generator.Helpers;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
 using VeriGit;
 using Assembly = System.Reflection.Assembly;
 
@@ -75,14 +74,12 @@ public static class Utils
         var compilation = GetCompilation(sourceCode, options, options2);
         // Source Generator to test
         generator ??= new BshoxGenerator();
-        var analyzer = new UseDepthLockCorrectly();
-        var x = compilation.WithAnalyzers([analyzer], new CompilationWithAnalyzersOptions(null, null, concurrentAnalysis: false, logAnalyzerExecutionTime: false, reportSuppressedDiagnostics: true, null));
 
         _ = CSharpGeneratorDriver.Create([generator.AsSourceGenerator()], null, options2)
             .RunGeneratorsAndUpdateCompilation(compilation,
                 out var outputCompilation,
                 out diagnostics, TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None);
-        diagnostics = [.. diagnostics, .. outputCompilation.GetDiagnostics(TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None), .. x.GetAllDiagnosticsAsync().Result];
+        diagnostics = [.. diagnostics, .. outputCompilation.GetDiagnostics(TestContext.Current?.Execution.CancellationToken ?? CancellationToken.None)];
 
         diagnostics = [.. diagnostics.Distinct()];
 

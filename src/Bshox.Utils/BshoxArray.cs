@@ -35,6 +35,7 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
 
     public static BshoxArray Read(ref BshoxReader reader)
     {
+        reader.IncreaseDepth();
         var count = reader.ReadArrayHeader(out var elementEncoding);
         Debug.Assert(count >= 0, "count >= 0");
         var array = new BshoxArray(count)
@@ -46,13 +47,14 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
         {
             array.Add(Read(ref reader, elementEncoding));
         }
+        reader.DecreaseDepth();
         return array;
     }
 
     /// <inheritdoc />
     public override void Write(ref BshoxWriter writer)
     {
-        using var _ = writer.DepthLock();
+        writer.IncreaseDepth();
         BshoxCode encoding = ElementEncoding ?? BshoxCode.VarInt;
         writer.WriteArrayHeader(Count, encoding);
         foreach (var value in _values)
@@ -60,6 +62,7 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
             Debug.Assert(value.Encoding == encoding, "value.Encoding == encoding");
             value.Write(ref writer);
         }
+        writer.DecreaseDepth();
     }
 
     internal override void Write(StringBuilder text, ref uint indent)

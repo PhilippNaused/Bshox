@@ -539,19 +539,25 @@ public ref partial struct BshoxReader
         return new(inner.Message, inner);
     }
 
-    /// <summary>
-    /// Creates a scope to track depth of nested objects and arrays.<br/>
-    /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
-    /// This method must be used in a <see langword="using"/> statement to ensure proper depth tracking.
-    /// </summary>
-    /// <remarks>
-    /// e.g.:
-    /// <code lang="csharp">
-    /// using (reader.DepthLock())
-    /// {
-    ///   // Read nested object or array here.
-    /// }
-    /// </code>
-    /// </remarks>
-    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void IncreaseDepth()
+    {
+        Check();
+        int max = Options.MaxDepth;
+        if (_depth == max)
+        {
+            throw Fail(max);
+        }
+        _depth++;
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static BshoxException Fail(int max) => new($"Maximum depth of {max} exceeded.");
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void DecreaseDepth()
+    {
+        Check();
+        _depth--;
+    }
 }

@@ -14,8 +14,6 @@ public abstract class BshoxValue
 
     public static BshoxValue Read(ref BshoxReader reader, BshoxCode encoding)
     {
-        // TODO: move lock to inner methods
-        using var _ = reader.DepthLock();
         return encoding switch
         {
             BshoxCode.VarInt => VarInt.Read(ref reader),

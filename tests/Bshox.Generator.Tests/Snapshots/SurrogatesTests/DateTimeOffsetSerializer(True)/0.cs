@@ -20,7 +20,7 @@ partial class DateTimeOffsetSerializer
 
         public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.DateTimeOffsetSurrogate value)
         {
-            using var _ = writer.DepthLock();
+            writer.IncreaseDepth();
             var __UtcTicks = value.UtcTicks;
             {
                 writer.WriteByte(8);
@@ -33,13 +33,14 @@ partial class DateTimeOffsetSerializer
                 writer.WriteVarInt32(unchecked((ushort)__TotalOffsetMinutes));
             }
             writer.WriteByte(0);
+            writer.DecreaseDepth();
         }
 
         public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.DateTimeOffsetSurrogate value)
         {
             long __UtcTicks = default;
             short __TotalOffsetMinutes = 0;
-            using var _ = reader.DepthLock();
+            reader.IncreaseDepth();
             while (true)
             {
                 uint key = reader.ReadTag(out bsx::BshoxCode encoding);
@@ -53,6 +54,7 @@ partial class DateTimeOffsetSerializer
                             UtcTicks = __UtcTicks,
                             TotalOffsetMinutes = __TotalOffsetMinutes,
                         };
+                        reader.DecreaseDepth();
                         return;
                     }
                     case 1:

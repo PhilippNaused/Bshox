@@ -228,17 +228,18 @@ public ref partial struct BshoxReader
                 break;
             case BshoxCode.Array:
             {
-                using var _ = DepthLock();
+                IncreaseDepth();
                 int count = ReadArrayHeader(out BshoxCode code);
                 for (int i = 0; i < count; i++)
                 {
                     SkipValue(code);
                 }
+                DecreaseDepth();
                 break;
             }
             case BshoxCode.SubObject:
             {
-                using var _ = DepthLock();
+                IncreaseDepth();
                 while (true)
                 {
                     uint key = ReadTag(out BshoxCode code);
@@ -249,6 +250,7 @@ public ref partial struct BshoxReader
                     }
                     SkipValue(code);
                 }
+                DecreaseDepth();
                 break;
             }
             default:

@@ -97,7 +97,8 @@ namespace Bshox
         public readonly long Remaining { get; }
         public void Advance(int count);
         public void CopyTo(scoped System.Span<byte> destination);
-        public Bshox.Internals.DepthLockScope DepthLock();
+        public void DecreaseDepth();
+        public void IncreaseDepth();
         public int ReadArrayHeader(out Bshox.BshoxCode encoding);
         public byte ReadByte();
         public byte[] ReadByteArray();
@@ -134,9 +135,10 @@ namespace Bshox
         public readonly int CurrentDepth { get; }
         public readonly Bshox.BshoxOptions Options { get; }
         public void Advance(int count);
-        public Bshox.Internals.DepthLockScope DepthLock();
+        public void DecreaseDepth();
         public void Flush();
         public System.Span<byte> GetSpan(int sizeHint);
+        public void IncreaseDepth();
         public void WriteArrayHeader(int count, Bshox.BshoxCode elementEncoding);
         public void WriteByte(byte value);
         public void WriteByteArray(byte[] value);
@@ -249,12 +251,5 @@ namespace Bshox.Attributes
         public BshoxSerializableAttribute(System.Type type);
         public System.Type? Surrogate { get; set; }
         public System.Type Type { get; }
-    }
-}
-namespace Bshox.Internals
-{
-    public readonly ref struct DepthLockScope
-    {
-        public void Dispose();
     }
 }
