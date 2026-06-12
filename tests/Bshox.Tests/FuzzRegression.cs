@@ -9,6 +9,8 @@ namespace Bshox.Tests;
 [Arguments(false)]
 public class FuzzRegression(bool segmented)
 {
+    private const int Timeout = 500;
+
     [Test]
     public async Task ParseOverTextFlow()
     {
@@ -18,17 +20,27 @@ public class FuzzRegression(bool segmented)
 
     [Test]
     [MethodDataSource(nameof(AllMetaResourceNames))]
-    [Timeout(500)]
+    [Timeout(Timeout)]
     public async Task ParseMeta(string name, CancellationToken token)
     {
         _ = token; // TODO: use the token to cancel the test (somehow)
         var resource = GetResource(name);
-        await Assert.That(CanParseBinary(resource)).IsTrue();
+        await Assert.That(CanParseBinary(resource, skip: false)).IsTrue();
+    }
+
+    [Test]
+    [MethodDataSource(nameof(AllMetaResourceNames))]
+    [Timeout(Timeout)]
+    public async Task SkipMeta(string name, CancellationToken token)
+    {
+        _ = token; // TODO: use the token to cancel the test (somehow)
+        var resource = GetResource(name);
+        await Assert.That(CanParseBinary(resource, skip: true)).IsTrue();
     }
 
     [Test]
     [MethodDataSource(nameof(AllTextResourceNames))]
-    [Timeout(500)]
+    [Timeout(Timeout)]
     public void ParseText(string name, CancellationToken token)
     {
         _ = token; // TODO: use the token to cancel the test (somehow)
@@ -57,7 +69,7 @@ public class FuzzRegression(bool segmented)
         return [.. GetAllResourceNames().Where(x => x.StartsWith(filter))];
     }
 
-    private bool CanParseBinary(byte[] array)
+    private bool CanParseBinary(byte[] array, bool skip)
     {
         bool success = false;
 #if NETCOREAPP
@@ -78,7 +90,14 @@ public class FuzzRegression(bool segmented)
             }
             try
             {
-                _ = BshoxValue.Read(ref reader, code);
+                if (skip)
+                {
+                    reader.SkipValue(code);
+                }
+                else
+                {
+                    _ = BshoxValue.Read(ref reader, code);
+                }
                 success = true;
             }
             catch (BshoxException) { } // this is the only valid exception type
