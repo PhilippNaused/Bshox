@@ -142,14 +142,6 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
-    public static readonly DiagnosticDescriptor DepthLockNotUsedCorrectly = new(
-        id: $"{Prefix}015",
-        title: "Dispose the return value of the DepthLock() method correctly",
-        messageFormat: "DepthLock() should only be called in a using statement or using declaration without assigning it to a named variable",
-        category: Category,
-        defaultSeverity: DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
-
     public static readonly DiagnosticDescriptor ContractSymbolNotUnique = new(
         id: $"{Prefix}016",
         title: "The specified symbol for the contract is not unique",

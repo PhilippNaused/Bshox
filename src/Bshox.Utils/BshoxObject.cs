@@ -13,6 +13,7 @@ public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection
 
     public static BshoxObject Read(ref BshoxReader reader)
     {
+        reader.IncreaseDepth();
         var obj = new BshoxObject();
         while (true)
         {
@@ -24,13 +25,14 @@ public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection
             }
             obj.Add(key, Read(ref reader, encoding));
         }
+        reader.DecreaseDepth();
         return obj;
     }
 
     /// <inheritdoc />
     public override void Write(ref BshoxWriter writer)
     {
-        using var _ = writer.DepthLock();
+        writer.IncreaseDepth();
 #if NET6_0_OR_GREATER
         foreach ((uint key, BshoxValue value) in _values)
         {
@@ -44,6 +46,7 @@ public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection
             value.Write(ref writer);
         }
         writer.WriteByte(0);
+        writer.DecreaseDepth();
     }
 
     internal override void Write(StringBuilder text, ref uint indent)
