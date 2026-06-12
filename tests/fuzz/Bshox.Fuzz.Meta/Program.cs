@@ -19,5 +19,11 @@ SharpFuzz.Fuzzer.OutOfProcess.Run(stream =>
             _ = BshoxValue.Read(ref reader, code);
         }
         catch (BshoxException) { }
+        reader = new BshoxReader(array);
+        try
+        {
+            reader.SkipValue(code);
+        }
+        catch (BshoxException) { }
     }
 });

@@ -69,20 +69,23 @@ public static class TestHelper
 
         var reader = new BshoxReader(bytes.AsMemory());
         reader.SkipValue(contract.Encoding); // will throw on decoding error
-        (var r, var c) = (reader.Remaining, reader.Consumed);
+        (var r, var c, var d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
+        await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
 
         reader = new BshoxReader(bytes.AsMemory());
         var metaValue = BshoxValue.Read(ref reader, contract.Encoding); // will throw on decoding error
-        (r, c) = (reader.Remaining, reader.Consumed);
+        (r, c, d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
+        await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
 
         reader = new BshoxReader(bytes.AsMemory());
         contract.Deserialize(ref reader, out T actual);
-        (r, c) = (reader.Remaining, reader.Consumed);
+        (r, c, d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
+        await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
         return (bytes, metaValue, actual);
     }

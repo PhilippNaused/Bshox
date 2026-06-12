@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 59                                    |
 | Files:             | 66                                    |
-| **Line coverage:** | 92.1% (4145 of 4499)                  |
-| Covered lines:     | 4145                                  |
-| Uncovered lines:   | 354                                   |
-| Coverable lines:   | 4499                                  |
-| Total lines:       | 8356                                  |
+| **Line coverage:** | 92.1% (4148 of 4501)                  |
+| Covered lines:     | 4148                                  |
+| Uncovered lines:   | 353                                   |
+| Coverable lines:   | 4501                                  |
+| Total lines:       | 8358                                  |
 
 </details>
 
@@ -25,7 +25,7 @@
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
 | Bshox.BshoxOptions                     |      100% |
-| Bshox.BshoxReader                      |     97.4% |
+| Bshox.BshoxReader                      |     97.6% |
 | Bshox.BshoxSerializer                  |     93.9% |
 | Bshox.BshoxWriter                      |     98.5% |
 | Bshox.Contracts.ArrayContract          |      100% |
