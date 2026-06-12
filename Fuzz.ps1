@@ -28,7 +28,7 @@ dotnet tool restore
 $project = Get-Item ".\tests\fuzz\$ProjectName\$ProjectName.csproj"
 $inDir = Get-Item ".\tests\fuzz\$ProjectName\TestCases"
 
-$timeout = 10000
+$timeout = 1000
 
 $outputDir = 'bin'
 $findingsDir = 'findings'
@@ -45,6 +45,8 @@ if (Test-Path $findingsDir) {
 }
 
 dotnet publish $project -c Debug -f $tfm -o $outputDir
+
+$target = Get-Item $target
 
 # cspell:ignore dnlib
 $exclusions = @(
@@ -84,7 +86,7 @@ try {
   for ($i = 1; $i -lt $Processors; $i++) {
     $p = [System.Diagnostics.Process]::new()
     $p.StartInfo.FileName = "afl-fuzz"
-    $p.StartInfo.Arguments = "-i $inDir -o $findingsDir -t $timeout -S Sub$i $target -m 50 -t 500"
+    $p.StartInfo.Arguments = "-i $inDir -o $findingsDir -t $timeout -S Sub$i -- $target"
     $p.StartInfo.UseShellExecute = $false
     $p.StartInfo.RedirectStandardOutput = $true
     $p.StartInfo.RedirectStandardError = $true
@@ -97,7 +99,7 @@ try {
     $arg = '-M', 'Main'
   }
 
-  afl-fuzz -i $inDir -o $findingsDir -t $timeout $arg $target -m 50 -t 500
+  afl-fuzz -i $inDir -o $findingsDir -t $timeout $arg -- $target
 }
 finally {
   foreach ($job in $Jobs) {
