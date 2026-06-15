@@ -73,4 +73,7 @@ public class BshoxException : Exception
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     internal static BshoxException VarIntTooLong() => new("VarInt is too long.");
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    public static BshoxException RequiredMemberMissing(string name, uint id) => new($"Required member \"{name}\" (id: {id}) is missing.");
 }

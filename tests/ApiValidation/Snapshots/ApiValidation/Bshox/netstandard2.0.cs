@@ -65,6 +65,7 @@ namespace Bshox
         public BshoxException(string message, System.Exception? inner);
         protected BshoxException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
+        public static Bshox.BshoxException RequiredMemberMissing(string name, uint id);
         public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
     }
     public sealed record BshoxOptions

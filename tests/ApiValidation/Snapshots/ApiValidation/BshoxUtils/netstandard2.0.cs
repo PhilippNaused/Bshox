@@ -89,6 +89,10 @@ namespace Bshox.Utils
             public Bshox.Utils.BshoxValue ToBshoxValue(scoped in T value);
             public string ToBshoxString(scoped in T value);
         }
+        extension(Bshox.Utils.BshoxValue value)
+        {
+            public byte[] ToBytes();
+        }
     }
     public sealed class Fixed4 : Bshox.Utils.BshoxValue
     {
