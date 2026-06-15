@@ -7,20 +7,20 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 57                                    |
 | Files:             | 64                                    |
-| **Line coverage:** | 92.2% (4127 of 4476)                  |
-| Covered lines:     | 4127                                  |
+| **Line coverage:** | 92.2% (4154 of 4503)                  |
+| Covered lines:     | 4154                                  |
 | Uncovered lines:   | 349                                   |
-| Coverable lines:   | 4476                                  |
-| Total lines:       | 8243                                  |
+| Coverable lines:   | 4503                                  |
+| Total lines:       | 8288                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 94.5%</summary>
+<details><summary>Bshox.dll - 94.6%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **94.5%** |
+| **Bshox.dll**                          | **94.6%** |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
@@ -31,7 +31,7 @@
 | Bshox.Contracts.ArrayContract          |      100% |
 | Bshox.Contracts.CollectionContract     |      100% |
 | Bshox.Contracts.CollectionContract2    |      100% |
-| Bshox.Contracts.CollectionContractBase |     98.9% |
+| Bshox.Contracts.CollectionContractBase |     98.8% |
 | Bshox.Contracts.DictionaryContract     |      100% |
 | Bshox.Contracts.DictionaryContract2    |      100% |
 | Bshox.Contracts.DictionaryContractBase |     96.1% |

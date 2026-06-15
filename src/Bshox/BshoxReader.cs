@@ -228,34 +228,40 @@ public ref partial struct BshoxReader
         // We need to decode bytes incrementally across multiple spans.
         int maxCharLength = EncodingHelper.Utf8NoBom.GetMaxCharCount(byteLength);
         char[] charArray = ArrayPool<char>.Shared.Rent(maxCharLength);
-        System.Text.Decoder decoder = EncodingHelper.Utf8NoBom.GetDecoder();
-
-        int remainingByteLength = byteLength;
-        int initializedChars = 0;
-        while (remainingByteLength > 0)
+        try
         {
-            int bytesRead = Math.Min(remainingByteLength, SpanLength);
-            remainingByteLength -= bytesRead;
-            bool flush = remainingByteLength == 0;
-#if NETCOREAPP
-            initializedChars += decoder.GetChars(GetSpan(bytesRead), charArray.AsSpan(initializedChars), flush);
-#else
-            unsafe
-            {
-                fixed (byte* pUnreadSpan = _span)
-                fixed (char* pCharArray = &charArray[initializedChars])
-                {
-                    initializedChars += decoder.GetChars(pUnreadSpan, bytesRead, pCharArray, charArray.Length - initializedChars, flush);
-                }
-            }
-#endif
-            Advance(bytesRead);
-        }
+            System.Text.Decoder decoder = EncodingHelper.Utf8NoBom.GetDecoder();
 
-        string value = new(charArray, 0, initializedChars);
-        ArrayPool<char>.Shared.Return(charArray); // TODO: use try-catch
-        Check();
-        return value;
+            int remainingByteLength = byteLength;
+            int initializedChars = 0;
+            while (remainingByteLength > 0)
+            {
+                int bytesRead = Math.Min(remainingByteLength, SpanLength);
+                remainingByteLength -= bytesRead;
+                bool flush = remainingByteLength == 0;
+#if NETCOREAPP
+                initializedChars += decoder.GetChars(GetSpan(bytesRead), charArray.AsSpan(initializedChars), flush);
+#else
+                unsafe
+                {
+                    fixed (byte* pUnreadSpan = _span)
+                    fixed (char* pCharArray = &charArray[initializedChars])
+                    {
+                        initializedChars += decoder.GetChars(pUnreadSpan, bytesRead, pCharArray, charArray.Length - initializedChars, flush);
+                    }
+                }
+#endif
+                Advance(bytesRead);
+            }
+
+            string value = new(charArray, 0, initializedChars);
+            Check();
+            return value;
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(charArray);
+        }
     }
 
     private unsafe T ReadUnsafeSlow<T>() where T : unmanaged
