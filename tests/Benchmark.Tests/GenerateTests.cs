@@ -31,3 +31,33 @@ internal class GenerateTests
         await Assert.That(trees).Count().IsEqualTo(8);
     }
 }
+
+internal class GenerateIncrementalTests
+{
+    [Test]
+    public async Task BaseTest()
+    {
+        (var trees, var diags) = new GenerateIncremental().Base();
+        await Assert.That(trees).IsNotNull();
+        await Assert.That(diags).IsEmpty();
+        await Assert.That(trees).Count().IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task BshoxTest()
+    {
+        (var trees, var diags) = new GenerateIncremental().Bshox();
+        await Assert.That(trees).IsNotNull();
+        await Assert.That(diags).IsEmpty();
+        await Assert.That(trees).Count().IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task JsonTest()
+    {
+        (var trees, var diags) = new GenerateIncremental().Json();
+        await Assert.That(trees).IsNotNull();
+        await Assert.That(diags).IsEmpty();
+        await Assert.That(trees).Count().IsEqualTo(8);
+    }
+}
