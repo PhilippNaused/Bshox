@@ -5,10 +5,12 @@
     <IsPackable>false</IsPackable>
     <!-- <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles> -->
     <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+    <PolySharpExcludeTypeForwardedToDeclarations>true</PolySharpExcludeTypeForwardedToDeclarations>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IsExternalInit">
+    <PackageReference Include="PolySharp">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

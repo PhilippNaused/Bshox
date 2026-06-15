@@ -52,6 +52,10 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             {
                 _ = sb.Append(" (implicit default)");
             }
+            else if (member.IsRequired)
+            {
+                _ = sb.Append(" (required)");
+            }
             _ = sb.Append("</para>");
             code.WriteLine(sb.ToString());
             _ = sb.Clear();
@@ -205,6 +209,11 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         {
             string defaultValue = member.DefaultValueString ?? "default";
             code.WriteLine($"{member.MemberType.FullyQualifiedToString()} {member.LocalVariableName} = {defaultValue};");
+            if (member.IsRequired)
+            {
+                code.WriteLine($"bool {member.LocalVariableName}__Set = false;");
+                // TODO: consider using a bit-field instead.
+            }
         }
 
         // TODO: check if this contract can cause infinite recursion.
@@ -223,6 +232,11 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         {
             // throw exception if encoding is not the expected encoding (0)
             code.WriteLine("bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);");
+            foreach (var member in members.Where(m => m.IsRequired))
+            {
+                code.WriteLine($"if (!{member.LocalVariableName}__Set)");
+                code.WriteLine($"    throw bsx::BshoxException.RequiredMemberMissing(\"{member.Name}\", {member.Key});");
+            }
             code.WriteLine($"value = new {typeName}"); // object initializer
             code.OpenScope();
             foreach (var member in members)

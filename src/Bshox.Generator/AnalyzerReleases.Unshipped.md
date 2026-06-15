@@ -16,6 +16,7 @@ Bshox011 | Bshox | Warning | Surrogate types should have the 'Surrogate' suffix
 Bshox012 | Bshox | Error | Surrogate types must have the required constructor
 Bshox013 | Bshox | Error | Surrogate types must have the required 'Convert' method
 Bshox014 | Bshox | Error | The current compiler version is too low
+Bshox015 | Bshox | Error | Required members cannot have default values
 Bshox016 | Bshox | Error | The specified symbol for the contract is not unique
 
 Bshox998 | Bshox | Error | Feature not implemented

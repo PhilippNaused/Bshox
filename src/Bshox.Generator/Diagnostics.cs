@@ -142,6 +142,14 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
+    public static readonly DiagnosticDescriptor RequiredMembersCannotHaveDefaultValue = new(
+        id: $"{Prefix}015",
+        title: "Required members cannot have default values",
+        messageFormat: "The member '{0}' is required and cannot have a default value",
+        category: Category,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
     public static readonly DiagnosticDescriptor ContractSymbolNotUnique = new(
         id: $"{Prefix}016",
         title: "The specified symbol for the contract is not unique",
