@@ -11,7 +11,7 @@
 | Covered lines:     | 4202                                  |
 | Uncovered lines:   | 351                                   |
 | Coverable lines:   | 4553                                  |
-| Total lines:       | 8358                                  |
+| Total lines:       | 8372                                  |
 
 </details>
 

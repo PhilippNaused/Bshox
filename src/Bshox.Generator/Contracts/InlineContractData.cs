@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Bshox.Generator.Contracts;
 
 internal readonly struct InlineContractData(string serializeFormat, string deserializeString, BshoxCode encoding)
@@ -10,6 +12,7 @@ internal readonly struct InlineContractData(string serializeFormat, string deser
     /// writer.WriteVarInt32({0});
     /// </code>
     /// </summary>
+    [StringSyntax("C#")]
     public readonly string SerializeFormat = serializeFormat;
     /// <summary>
     /// A single C# expression that can be used to deserialize a value of the type represented by this contract.
@@ -18,6 +21,7 @@ internal readonly struct InlineContractData(string serializeFormat, string deser
     /// reader.ReadVarInt32()
     /// </code>
     /// </summary>
+    [StringSyntax("C#")]
     public readonly string DeserializeString = deserializeString;
     public readonly BshoxCode Encoding = encoding;
 }

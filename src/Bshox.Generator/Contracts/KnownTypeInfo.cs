@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Bshox.Generator.Extensions;
 using Microsoft.CodeAnalysis;
 
@@ -11,7 +12,7 @@ internal readonly partial struct KnownTypeInfo // TODO: rename
     public string Name { get; }
     public InlineContractData? InlineData { get; }
 
-    private KnownTypeInfo(string name, string serializeFormat, string deserializeString, BshoxCode encoding)
+    private KnownTypeInfo(string name, [StringSyntax("C#")] string serializeFormat, [StringSyntax("C#")] string deserializeString, BshoxCode encoding)
     {
         Name = name;
         InlineData = new InlineContractData(serializeFormat, deserializeString, encoding);

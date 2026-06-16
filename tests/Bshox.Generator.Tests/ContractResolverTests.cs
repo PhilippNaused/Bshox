@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Bshox.Generator.Tests;
 
 public class ContractResolverTests
@@ -154,7 +156,7 @@ public class ContractResolverTests
 
     [Test]
     [MethodDataSource(nameof(GetTupleTypes))]
-    public async Task ValueTuple(string type)
+    public async Task ValueTuple([StringSyntax("C#")] string type)
     {
         string sourceCode = $"""
                               using Bshox.Attributes;

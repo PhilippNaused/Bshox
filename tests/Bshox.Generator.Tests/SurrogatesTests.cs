@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Bshox.Generator.Tests;
 
 internal class SurrogatesTests
@@ -129,7 +131,7 @@ internal class SurrogatesTests
     [Arguments("public DateTime Convert() => new(DateTimeTicks);")] // wrong return type
     [Arguments("public DateTimeOffset ConvertTo() => new(DateTimeTicks, TimeSpan.FromMinutes(OffsetMinutes));")] // wrong method name
     [Arguments("internal DateTimeOffset Convert() => new(DateTimeTicks, TimeSpan.FromMinutes(OffsetMinutes));")] // wrong access modifier
-    public async Task SurrogateMustHaveCorrectConvertMethod(string method)
+    public async Task SurrogateMustHaveCorrectConvertMethod([StringSyntax("C#")] string method)
     {
         string sourceCode = $$"""
                               using System;
@@ -170,7 +172,7 @@ internal class SurrogatesTests
     [Arguments("public DateTimeOffsetSurrogate() { }")] // missing parameter
     [Arguments("internal DateTimeOffsetSurrogate(DateTimeOffset value) { }")] // wrong access modifier
     [Arguments("public DateTimeOffsetSurrogate(DateTime value) { }")] // wrong parameter type
-    public async Task SurrogateMustHaveCorrectConstructor(string constructor)
+    public async Task SurrogateMustHaveCorrectConstructor([StringSyntax("C#")] string constructor)
     {
         string sourceCode = $$"""
                               using System;
