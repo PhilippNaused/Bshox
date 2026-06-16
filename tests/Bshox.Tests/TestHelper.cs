@@ -45,12 +45,29 @@ public static class TestHelper
             var actualSorted = b.OrderBy(x => x).ToArray();
             await Assert.That<IEnumerable<T2>>(actualSorted).IsSequenceEqualTo(valueSorted);
         }
+        else if (actual.GetType().IsGenericType && actual.GetType().GetGenericTypeDefinition() == typeof(ConcurrentDictionary<,>))
+        {
+            // ConcurrentDictionary does not guarantee order, so we need to sort it for the equality check
+            var valueSorted = value.OrderBy(x => x, ToStringComparer<T2>.Instance).ToArray();
+            var actualSorted = actual.OrderBy(x => x, ToStringComparer<T2>.Instance).ToArray();
+            await Assert.That<IEnumerable<T2>>(actualSorted).IsSequenceEqualTo(valueSorted);
+        }
         else
         {
             await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
         }
 
         await PostTest(hex, bytes, metaValue);
+    }
+
+    private sealed class ToStringComparer<T>() : IComparer<T>
+    {
+        public static readonly ToStringComparer<T> Instance = new();
+
+        public int Compare(T? x, T? y)
+        {
+            return string.Compare(x?.ToString(), y?.ToString(), StringComparison.Ordinal);
+        }
     }
 
     public static async Task TestSerialization<T>(this BshoxContract<T> contract, T value, string? hex = null)

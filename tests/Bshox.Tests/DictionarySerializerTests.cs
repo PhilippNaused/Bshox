@@ -112,13 +112,12 @@ public class DictionarySerializerTests
     }
 
     [Test]
-    [Skip("Order of items is non-deterministic for ConcurrentDictionary")]
     public async Task TestConcurrentDictionary()
     {
         var dict = new ConcurrentDictionary<string, TestType7?>(testValue);
 
         await DictionarySerializer1.ConcurrentDictionaryStringTestType7.TestSerialization2<ConcurrentDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(new ConcurrentDictionary<string, TestType7?>(), emptyHex);
-        await DictionarySerializer1.ConcurrentDictionaryStringTestType7.TestSerialization2<ConcurrentDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict, expectedHex);
+        await DictionarySerializer1.ConcurrentDictionaryStringTestType7.TestSerialization2<ConcurrentDictionary<string, TestType7?>, KeyValuePair<string, TestType7?>>(dict);
     }
 
     [Test]
