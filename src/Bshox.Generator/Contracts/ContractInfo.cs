@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 
 namespace Bshox.Generator.Contracts;
@@ -75,6 +76,7 @@ internal sealed record ContractInfo
     /// The format string for the C# initialization statement of the contract.
     /// The substring <c>$0</c> will be replaced with the variable names of the dependencies.
     /// </summary>
+    [StringSyntax("C#")]
     public required string InitializeStatementFormat { get; init; }
 
     /// <summary>

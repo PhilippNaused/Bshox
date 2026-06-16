@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.SourceGeneration;
 using BenchmarkDotNet.Attributes;
 using Bshox.Generator;
@@ -10,6 +11,7 @@ namespace Generator.Benchmark;
 #pragma warning disable CA1051 // Do not declare visible instance fields
 public class GenerateBase
 {
+    [StringSyntax("C#")]
     protected const string BaseCode = """
                                     using Bshox.Attributes;
 
@@ -23,6 +25,7 @@ public class GenerateBase
                                     }
                                     """;
 
+    [StringSyntax("C#")]
     protected const string BshoxCode = $$"""
                                         using System.Collections.Generic;
                                         {{BaseCode}}
@@ -31,6 +34,7 @@ public class GenerateBase
                                         public partial class MyBshoxSerializer;
                                         """;
 
+    [StringSyntax("C#")]
     protected const string JsonCode = $$"""
                                         using System.Collections.Generic;
                                         using System.Text.Json.Serialization;

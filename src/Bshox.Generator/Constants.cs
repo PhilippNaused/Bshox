@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
@@ -10,6 +11,8 @@ internal static class Constants
     public static Version GeneratorVersion = GeneratorAssemblyName.Version!;
     private static readonly string GeneratorName = GeneratorAssemblyName.Name!;
     public static readonly Regex InvalidPathChars = new($"[{Regex.Escape(new string(Path.GetInvalidFileNameChars()))} ]", RegexOptions.Compiled);
+    [StringSyntax("C#")]
     public static string GeneratedCodeAttributeText => $"""[global::System.CodeDom.Compiler.GeneratedCodeAttribute("{GeneratorName}", "{GeneratorVersion}")]""";
+    [StringSyntax("C#")]
     public const string ExcludeFromCodeCoverageAttributeText = "[global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]";
 }

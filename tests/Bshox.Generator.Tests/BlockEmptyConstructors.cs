@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace Bshox.Generator.Tests;
 
 public class BlockEmptyConstructors
@@ -5,7 +7,7 @@ public class BlockEmptyConstructors
     [Test]
     [Arguments("Bshox.BshoxWriter")]
     [Arguments("Bshox.BshoxReader")]
-    public async Task EmptyConstructorsCausesError(string typeName)
+    public async Task EmptyConstructorsCausesError([StringSyntax("C#")] string typeName)
     {
         string sourceCode = $$"""
                             namespace TestModels;

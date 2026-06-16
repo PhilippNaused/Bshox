@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Bshox.Generator.Contracts;
 using Bshox.Generator.Extensions;
 using Bshox.Generator.Helpers;
@@ -76,6 +77,7 @@ internal sealed class MemberInfo
 
     public ContractInfo? Contract { get; private set; }
 
+    [StringSyntax("C#")]
     public string? DefaultValueString
     {
         get

@@ -1,4 +1,5 @@
 extern alias bsx;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using Microsoft.CodeAnalysis;
@@ -25,7 +26,7 @@ public static class Utils
 
     private static List<MetadataReference>? references;
 
-    public static CSharpCompilation GetCompilation(string sourceCode, CSharpCompilationOptions? options = null, CSharpParseOptions? options2 = null)
+    public static CSharpCompilation GetCompilation([StringSyntax("C#")] string sourceCode, CSharpCompilationOptions? options = null, CSharpParseOptions? options2 = null)
     {
         var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode, options2);
         references ??= GetReferences();
