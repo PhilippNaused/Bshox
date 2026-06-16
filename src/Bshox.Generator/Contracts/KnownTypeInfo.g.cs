@@ -8,7 +8,11 @@ partial struct KnownTypeInfo
     {
         var dict = new Dictionary<string, KnownTypeInfo>(StringComparer.Ordinal);
         // don't use a collection initializer because it would silently ignore duplicate keys.
+        dict["System.Collections.Concurrent.BlockingCollection<>"] = new("BlockingCollection");
+        dict["System.Collections.Concurrent.ConcurrentBag<>"] = new("ConcurrentBag");
         dict["System.Collections.Concurrent.ConcurrentDictionary<,>"] = new("ConcurrentDictionary");
+        dict["System.Collections.Concurrent.ConcurrentQueue<>"] = new("ConcurrentQueue");
+        dict["System.Collections.Concurrent.ConcurrentStack<>"] = new("ConcurrentStack");
         dict["System.Collections.Generic.Dictionary<,>"] = new("Dictionary");
         dict["System.Collections.Generic.HashSet<>"] = new("HashSet");
         dict["System.Collections.Generic.ICollection<>"] = new("ICollection");
@@ -20,6 +24,7 @@ partial struct KnownTypeInfo
         dict["System.Collections.Generic.Queue<>"] = new("Queue");
         dict["System.Collections.Generic.SortedDictionary<,>"] = new("SortedDictionary");
         dict["System.Collections.Generic.Stack<>"] = new("Stack");
+        dict["System.Collections.ObjectModel.Collection<>"] = new("Collection");
         dict["System.Collections.ObjectModel.ReadOnlyDictionary<,>"] = new("ReadOnlyDictionary");
         dict["System.DateTime"] = new("DateTime");
         dict["System.Guid"] = new("Guid");
@@ -29,6 +34,7 @@ partial struct KnownTypeInfo
         dict["byte"] = new("Byte", "writer.WriteVarInt32({0});", "checked((byte)reader.ReadVarInt32())", BshoxCode.VarInt);
         dict["byte[]"] = new("ByteArray", "writer.WriteByteArray({0});", "reader.ReadByteArray()", BshoxCode.Prefixed);
         dict["char"] = new("Char", "writer.WriteVarInt32((uint){0});", "checked((char)reader.ReadVarInt32())", BshoxCode.VarInt);
+        dict["decimal"] = new("Decimal");
         dict["double"] = new("Double", "writer.WriteDouble({0});", "reader.ReadDouble()", BshoxCode.Fixed8);
         dict["float"] = new("Single", "writer.WriteSingle({0});", "reader.ReadSingle()", BshoxCode.Fixed4);
         dict["int"] = new("Int32", "writer.WriteVarInt32(unchecked((uint){0}));", "unchecked((int)reader.ReadVarInt32())", BshoxCode.VarInt);

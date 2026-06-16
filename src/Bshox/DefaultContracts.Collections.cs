@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using Bshox.Contracts;
 
 // ReSharper disable InconsistentNaming
@@ -34,11 +36,27 @@ public static partial class DefaultContracts
         => new CollectionContract2<IReadOnlyCollection<T>, T>(contract, ListFactory<T>, ListFactory2);
 
     /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.ObjectModel.Collection{T}"/>.
+    /// </summary>
+    public static BshoxContract<Collection<T>> Collection<T>(BshoxContract<T> contract) where T : notnull
+        => new CollectionContract<Collection<T>, T>(contract,
+            static capacity => new Collection<T>(),
+            static list => new Collection<T>(list.ToList()));
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Concurrent.BlockingCollection{T}"/>.
+    /// </summary>
+    public static BshoxContract<BlockingCollection<T>> BlockingCollection<T>(BshoxContract<T> contract) where T : notnull
+        => new CollectionContract2<BlockingCollection<T>, T>(contract,
+            static capacity => new BlockingCollection<T>(),
+            static list => new BlockingCollection<T>(new ConcurrentQueue<T>(list)));
+
+    /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.Queue{T}"/>.
     /// </summary>
     public static BshoxContract<Queue<T>> Queue<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract2<Queue<T>, T>(contract,
-            static count => new Queue<T>(count),
+            static capacity => new Queue<T>(capacity),
             static segment => new Queue<T>(segment));
 
     /// <summary>
@@ -46,7 +64,7 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<Stack<T>> Stack<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract2<Stack<T>, T>(contract,
-            static count => new Stack<T>(count),
+            static capacity => new Stack<T>(capacity),
             static segment => new Stack<T>(segment));
 
     /// <summary>
@@ -55,11 +73,35 @@ public static partial class DefaultContracts
     public static BshoxContract<HashSet<T>> HashSet<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract<HashSet<T>, T>(contract,
 #if NETCOREAPP
-            static count => new HashSet<T>(count),
+            static capacity => new HashSet<T>(capacity),
 #else
-            static count => new HashSet<T>(),
+            static capacity => new HashSet<T>(),
 #endif
             static segment => new HashSet<T>(segment));
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Concurrent.ConcurrentBag{T}"/>.
+    /// </summary>
+    public static BshoxContract<ConcurrentBag<T>> ConcurrentBag<T>(BshoxContract<T> contract) where T : notnull
+        => new CollectionContract2<ConcurrentBag<T>, T>(contract,
+            static capacity => new ConcurrentBag<T>(),
+            static list => new ConcurrentBag<T>(list));
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Concurrent.ConcurrentQueue{T}"/>.
+    /// </summary>
+    public static BshoxContract<ConcurrentQueue<T>> ConcurrentQueue<T>(BshoxContract<T> contract) where T : notnull
+        => new CollectionContract2<ConcurrentQueue<T>, T>(contract,
+            static capacity => new ConcurrentQueue<T>(),
+            static list => new ConcurrentQueue<T>(list));
+
+    /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Concurrent.ConcurrentStack{T}"/>.
+    /// </summary>
+    public static BshoxContract<ConcurrentStack<T>> ConcurrentStack<T>(BshoxContract<T> contract) where T : notnull
+        => new CollectionContract2<ConcurrentStack<T>, T>(contract,
+            static capacity => new ConcurrentStack<T>(),
+            static list => new ConcurrentStack<T>(list));
 
     /// <summary>
     /// A Bshox contract for an array of <typeparamref name="T"/>.

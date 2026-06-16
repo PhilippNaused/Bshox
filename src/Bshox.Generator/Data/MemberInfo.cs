@@ -13,12 +13,21 @@ internal sealed class MemberInfo
     {
         Symbol = symbol;
 
-        MemberType = symbol switch
+
+        if (Symbol is IPropertySymbol propertySymbol)
         {
-            IFieldSymbol f => f.Type,
-            IPropertySymbol p => p.Type,
-            _ => throw new InvalidOperationException("member is neither field nor property.")
-        };
+            IsRequired = propertySymbol.IsRequired;
+            MemberType = propertySymbol.Type;
+        }
+        else if (Symbol is IFieldSymbol fieldSymbol)
+        {
+            IsRequired = fieldSymbol.IsRequired;
+            MemberType = fieldSymbol.Type;
+        }
+        else
+        {
+            throw new InvalidOperationException("member is neither field nor property.");
+        }
 
         if (Symbol.TryParseBshoxMemberAttribute(context.KnownSymbols, out uint key))
         {
@@ -30,11 +39,21 @@ internal sealed class MemberInfo
         {
             // TODO: check if the default value is valid for the member type and report a diagnostic if not
             // e.g [DefaultValue("Hello")] on an int property should cause an error
-            DefaultValue = value;
+            if (IsRequired)
+            {
+                context.ReportDiagnostic(Diagnostics.RequiredMembersCannotHaveDefaultValue, Symbol, Symbol);
+            }
+            else
+            {
+                DefaultValue = value;
+            }
         }
         else if (parameters.ImplicitDefaultValues || IsReferenceType)
         {
-            ImplicitDefault = true; // only set this if no explicit default value is set
+            if (!IsRequired) // required members cannot have default values.
+            {
+                ImplicitDefault = true; // only set this if no explicit default value is set
+            }
         }
 
         ContractDemand = ContractDemand.DefaultForType(MemberType);
@@ -46,6 +65,7 @@ internal sealed class MemberInfo
     public string LocalVariableName { get; }
     public ITypeSymbol MemberType { get; }
     public ContractDemand ContractDemand { get; }
+    public bool IsRequired { get; }
 
     public bool IsValueType => MemberType.IsValueType;
     public bool IsReferenceType => MemberType.IsReferenceType;
@@ -176,6 +196,10 @@ internal sealed class MemberInfo
         code.OpenScope();
         {
             WriteInnerDeserialize(code);
+            if (IsRequired)
+            {
+                code.WriteLine($"{LocalVariableName}__Set = true;");
+            }
             code.WriteLine("break;");
         }
         code.CloseScope();

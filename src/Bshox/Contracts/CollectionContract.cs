@@ -2,6 +2,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Bshox.Internals;
 
 namespace Bshox.Contracts;
 
@@ -30,14 +31,7 @@ internal abstract class CollectionContractBase<TCollection, T>
     }
 
     // We need to clear the array before returning it to the pool if T is a reference type, to avoid keeping objects alive longer than necessary.
-#if NETCOREAPP
-    protected static readonly bool ClearArray = System.Runtime.CompilerServices.RuntimeHelpers.IsReferenceOrContainsReferences<T>();
-#else
-    // The required API doesn't exist in .NET Standard 2.0, so we check for non-primitives instead.
-    protected static readonly bool ClearArray = !typeof(T).IsPrimitive
-                                                && typeof(T) != typeof(Guid)
-                                                && typeof(T) != typeof(decimal);
-#endif
+    protected static readonly bool ClearArray = Utils<T>.IsReferenceOrContainsReferences;
 
     protected abstract int GetCount(TCollection value);
 

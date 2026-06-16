@@ -228,34 +228,40 @@ public ref partial struct BshoxReader
         // We need to decode bytes incrementally across multiple spans.
         int maxCharLength = EncodingHelper.Utf8NoBom.GetMaxCharCount(byteLength);
         char[] charArray = ArrayPool<char>.Shared.Rent(maxCharLength);
-        System.Text.Decoder decoder = EncodingHelper.Utf8NoBom.GetDecoder();
-
-        int remainingByteLength = byteLength;
-        int initializedChars = 0;
-        while (remainingByteLength > 0)
+        try
         {
-            int bytesRead = Math.Min(remainingByteLength, SpanLength);
-            remainingByteLength -= bytesRead;
-            bool flush = remainingByteLength == 0;
-#if NETCOREAPP
-            initializedChars += decoder.GetChars(GetSpan(bytesRead), charArray.AsSpan(initializedChars), flush);
-#else
-            unsafe
-            {
-                fixed (byte* pUnreadSpan = _span)
-                fixed (char* pCharArray = &charArray[initializedChars])
-                {
-                    initializedChars += decoder.GetChars(pUnreadSpan, bytesRead, pCharArray, charArray.Length - initializedChars, flush);
-                }
-            }
-#endif
-            Advance(bytesRead);
-        }
+            System.Text.Decoder decoder = EncodingHelper.Utf8NoBom.GetDecoder();
 
-        string value = new(charArray, 0, initializedChars);
-        ArrayPool<char>.Shared.Return(charArray); // TODO: use try-catch
-        Check();
-        return value;
+            int remainingByteLength = byteLength;
+            int initializedChars = 0;
+            while (remainingByteLength > 0)
+            {
+                int bytesRead = Math.Min(remainingByteLength, SpanLength);
+                remainingByteLength -= bytesRead;
+                bool flush = remainingByteLength == 0;
+#if NETCOREAPP
+                initializedChars += decoder.GetChars(GetSpan(bytesRead), charArray.AsSpan(initializedChars), flush);
+#else
+                unsafe
+                {
+                    fixed (byte* pUnreadSpan = _span)
+                    fixed (char* pCharArray = &charArray[initializedChars])
+                    {
+                        initializedChars += decoder.GetChars(pUnreadSpan, bytesRead, pCharArray, charArray.Length - initializedChars, flush);
+                    }
+                }
+#endif
+                Advance(bytesRead);
+            }
+
+            string value = new(charArray, 0, initializedChars);
+            Check();
+            return value;
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(charArray);
+        }
     }
 
     private T ReadUnsafeSlow<T>() where T : unmanaged
@@ -539,19 +545,25 @@ public ref partial struct BshoxReader
         return new(inner.Message, inner);
     }
 
-    /// <summary>
-    /// Creates a scope to track depth of nested objects and arrays.<br/>
-    /// Calling this method increments the current depth by <c>1</c> and returns a <see cref="DepthLockScope"/> that will decrement the depth when disposed.<br/>
-    /// This method must be used in a <see langword="using"/> statement to ensure proper depth tracking.
-    /// </summary>
-    /// <remarks>
-    /// e.g.:
-    /// <code lang="csharp">
-    /// using (reader.DepthLock())
-    /// {
-    ///   // Read nested object or array here.
-    /// }
-    /// </code>
-    /// </remarks>
-    public DepthLockScope DepthLock() => DepthLockScope.Create(ref _depth, Options.MaxDepth);
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void IncreaseDepth()
+    {
+        Check();
+        int max = Options.MaxDepth;
+        if (_depth == max)
+        {
+            throw Fail(max);
+        }
+        _depth++;
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static BshoxException Fail(int max) => new($"Maximum depth of {max} exceeded.");
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void DecreaseDepth()
+    {
+        Check();
+        _depth--;
+    }
 }

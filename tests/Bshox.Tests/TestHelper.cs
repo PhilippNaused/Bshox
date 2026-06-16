@@ -37,9 +37,37 @@ public static class TestHelper
             actual = (T)(object)new Stack<T2>(s);
         if (actual is ConcurrentStack<T2> s2)
             actual = (T)(object)new ConcurrentStack<T2>(s2);
-        await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
+
+        if (actual is ConcurrentBag<T2> b)
+        {
+            // ConcurrentBag does not guarantee order, so we need to sort it for the equality check
+            var valueSorted = value.OrderBy(x => x).ToArray();
+            var actualSorted = b.OrderBy(x => x).ToArray();
+            await Assert.That<IEnumerable<T2>>(actualSorted).IsSequenceEqualTo(valueSorted);
+        }
+        else if (actual.GetType().IsGenericType && actual.GetType().GetGenericTypeDefinition() == typeof(ConcurrentDictionary<,>))
+        {
+            // ConcurrentDictionary does not guarantee order, so we need to sort it for the equality check
+            var valueSorted = value.OrderBy(x => x, ToStringComparer<T2>.Instance).ToArray();
+            var actualSorted = actual.OrderBy(x => x, ToStringComparer<T2>.Instance).ToArray();
+            await Assert.That<IEnumerable<T2>>(actualSorted).IsSequenceEqualTo(valueSorted);
+        }
+        else
+        {
+            await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
+        }
 
         await PostTest(hex, bytes, metaValue);
+    }
+
+    private sealed class ToStringComparer<T>() : IComparer<T>
+    {
+        public static readonly ToStringComparer<T> Instance = new();
+
+        public int Compare(T? x, T? y)
+        {
+            return string.Compare(x?.ToString(), y?.ToString(), StringComparison.Ordinal);
+        }
     }
 
     public static async Task TestSerialization<T>(this BshoxContract<T> contract, T value, string? hex = null)
@@ -58,20 +86,23 @@ public static class TestHelper
 
         var reader = new BshoxReader(bytes.AsMemory());
         reader.SkipValue(contract.Encoding); // will throw on decoding error
-        (var r, var c) = (reader.Remaining, reader.Consumed);
+        (var r, var c, var d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
+        await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
 
         reader = new BshoxReader(bytes.AsMemory());
         var metaValue = BshoxValue.Read(ref reader, contract.Encoding); // will throw on decoding error
-        (r, c) = (reader.Remaining, reader.Consumed);
+        (r, c, d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
+        await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
 
         reader = new BshoxReader(bytes.AsMemory());
         contract.Deserialize(ref reader, out T actual);
-        (r, c) = (reader.Remaining, reader.Consumed);
+        (r, c, d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
+        await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
         return (bytes, metaValue, actual);
     }

@@ -22,4 +22,16 @@ public static class Extensions
             return contract.ToBshoxValue(value).ToString();
         }
     }
+
+    extension(BshoxValue value)
+    {
+        public byte[] ToBytes()
+        {
+            using var buffer = new PooledByteBufferWriter();
+            var writer = new BshoxWriter(buffer);
+            value.Write(ref writer);
+            writer.Flush();
+            return buffer.ToArray();
+        }
+    }
 }

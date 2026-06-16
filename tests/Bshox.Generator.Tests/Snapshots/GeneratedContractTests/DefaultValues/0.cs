@@ -20,7 +20,7 @@ partial class Serializer1
 
         public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.TestType1 value)
         {
-            using var _ = writer.DepthLock();
+            writer.IncreaseDepth();
             var __Value1 = value.Value1;
             if (__Value1 != 42)
             {
@@ -52,7 +52,14 @@ partial class Serializer1
                 writer.WriteByte(43);
                 writer.WriteString(__Value5);
             }
+            var __Value6 = value.Value6;
+            if (__Value6 != -3.14M)
+            {
+                writer.WriteTag(6, _gen_bshox_t.c_Decimal.Encoding);
+                _gen_bshox_t.c_Decimal.Serialize(ref writer, in __Value6);
+            }
             writer.WriteByte(0);
+            writer.DecreaseDepth();
         }
 
         public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.TestType1 value)
@@ -62,7 +69,8 @@ partial class Serializer1
             global::System.Nullable<global::TestModels.MyEnum> __Value3 = null;
             string? __Value4 = null;
             string? __Value5 = "Hello, World!";
-            using var _ = reader.DepthLock();
+            decimal __Value6 = -3.14M;
+            reader.IncreaseDepth();
             while (true)
             {
                 uint key = reader.ReadTag(out bsx::BshoxCode encoding);
@@ -78,7 +86,9 @@ partial class Serializer1
                             Value3 = __Value3,
                             Value4 = __Value4,
                             Value5 = __Value5,
+                            Value6 = __Value6,
                         };
+                        reader.DecreaseDepth();
                         return;
                     }
                     case 1:
@@ -109,6 +119,12 @@ partial class Serializer1
                     {
                         bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.Prefixed);
                         __Value5 = reader.ReadString();
+                        break;
+                    }
+                    case 6:
+                    {
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, _gen_bshox_t.c_Decimal.Encoding);
+                        _gen_bshox_t.c_Decimal.Deserialize(ref reader, out __Value6);
                         break;
                     }
                     default:

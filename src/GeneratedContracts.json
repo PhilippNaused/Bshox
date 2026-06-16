@@ -127,6 +127,11 @@
       "Encoding": "Prefixed"
     },
     {
+      "Name": "Decimal",
+      "Type": "decimal",
+      "Encoding": "Prefixed"
+    },
+    {
       "Name": "DateTime",
       "Type": "System.DateTime",
       "Encoding": "Fixed8"
@@ -177,6 +182,14 @@
       "Type": "System.Collections.Generic.ICollection<>"
     },
     {
+      "Name": "Collection",
+      "Type": "System.Collections.ObjectModel.Collection<>"
+    },
+    {
+      "Name": "BlockingCollection",
+      "Type": "System.Collections.Concurrent.BlockingCollection<>"
+    },
+    {
       "Name": "IReadOnlyCollection",
       "Type": "System.Collections.Generic.IReadOnlyCollection<>"
     },
@@ -191,6 +204,18 @@
     {
       "Name": "HashSet",
       "Type": "System.Collections.Generic.HashSet<>"
+    },
+    {
+      "Name": "ConcurrentBag",
+      "Type": "System.Collections.Concurrent.ConcurrentBag<>"
+    },
+    {
+      "Name": "ConcurrentStack",
+      "Type": "System.Collections.Concurrent.ConcurrentStack<>"
+    },
+    {
+      "Name": "ConcurrentQueue",
+      "Type": "System.Collections.Concurrent.ConcurrentQueue<>"
     },
     // Misc
     {

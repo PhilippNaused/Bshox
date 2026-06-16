@@ -65,6 +65,7 @@ namespace Bshox
         public BshoxException(string message, System.Exception? inner);
         protected BshoxException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
+        public static Bshox.BshoxException RequiredMemberMissing(string name, uint id);
         public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
     }
     public sealed record BshoxOptions
@@ -90,7 +91,8 @@ namespace Bshox
         public readonly long Remaining { get; }
         public void Advance(int count);
         public void CopyTo(scoped System.Span<byte> destination);
-        public Bshox.Internals.DepthLockScope DepthLock();
+        public void DecreaseDepth();
+        public void IncreaseDepth();
         public int ReadArrayHeader(out Bshox.BshoxCode encoding);
         public byte ReadByte();
         public byte[] ReadByteArray();
@@ -127,9 +129,10 @@ namespace Bshox
         public readonly int CurrentDepth { get; }
         public readonly Bshox.BshoxOptions Options { get; }
         public void Advance(int count);
-        public Bshox.Internals.DepthLockScope DepthLock();
+        public void DecreaseDepth();
         public void Flush();
         public System.Span<byte> GetSpan(int sizeHint);
+        public void IncreaseDepth();
         public void WriteArrayHeader(int count, Bshox.BshoxCode elementEncoding);
         public void WriteByte(byte value);
         public void WriteByteArray(byte[] value);
@@ -152,6 +155,7 @@ namespace Bshox
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }
         public static Bshox.BshoxContract<char> Char { get; }
         public static Bshox.BshoxContract<System.DateTime> DateTime { get; }
+        public static Bshox.BshoxContract<decimal> Decimal { get; }
         public static Bshox.BshoxContract<double> Double { get; }
         public static Bshox.BshoxContract<System.Guid> Guid { get; }
         public static Bshox.BshoxContract<short> Int16 { get; }
@@ -167,7 +171,12 @@ namespace Bshox
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.BlockingCollection<T>> BlockingCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.Collection<T>> Collection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentBag<T>> ConcurrentBag<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentDictionary<TKey, TValue>> ConcurrentDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentQueue<T>> ConcurrentQueue<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentStack<T>> ConcurrentStack<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
         public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
         public static Bshox.BshoxContract<System.Collections.Generic.HashSet<T>> HashSet<T>(Bshox.BshoxContract<T> contract) where T : notnull;
@@ -237,12 +246,5 @@ namespace Bshox.Attributes
         public BshoxSerializableAttribute(System.Type type);
         public System.Type? Surrogate { get; set; }
         public System.Type Type { get; }
-    }
-}
-namespace Bshox.Internals
-{
-    public readonly ref struct DepthLockScope
-    {
-        public void Dispose();
     }
 }

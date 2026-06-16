@@ -82,7 +82,12 @@ internal static class ExampleData
         var rand = Randomizer;
         for (int i = 0; i < TestCount; i++)
         {
-            yield return new(rand.NextULong());
+            int lo = rand.Next(int.MinValue, int.MaxValue);
+            int mid = rand.Next(int.MinValue, int.MaxValue);
+            int hi = rand.Next(int.MinValue, int.MaxValue);
+            bool isNegative = rand.NextBool();
+            byte scale = (byte)rand.Next(29);
+            yield return new decimal(lo, mid, hi, isNegative, scale);
         }
     }
 

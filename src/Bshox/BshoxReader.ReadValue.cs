@@ -223,22 +223,25 @@ public ref partial struct BshoxReader
                 Advance(8);
                 break;
             case BshoxCode.Prefixed:
-                int length = checked((int)ReadVarInt64());
+                int length = (int)ReadVarInt32();
+                if (length < 0)
+                    throw BshoxException.VarIntTooLong();
                 Advance(length);
                 break;
             case BshoxCode.Array:
             {
-                using var _ = DepthLock();
+                IncreaseDepth();
                 int count = ReadArrayHeader(out BshoxCode code);
                 for (int i = 0; i < count; i++)
                 {
                     SkipValue(code);
                 }
+                DecreaseDepth();
                 break;
             }
             case BshoxCode.SubObject:
             {
-                using var _ = DepthLock();
+                IncreaseDepth();
                 while (true)
                 {
                     uint key = ReadTag(out BshoxCode code);
@@ -249,6 +252,7 @@ public ref partial struct BshoxReader
                     }
                     SkipValue(code);
                 }
+                DecreaseDepth();
                 break;
             }
             default:

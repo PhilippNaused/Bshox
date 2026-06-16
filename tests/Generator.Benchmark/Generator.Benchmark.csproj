@@ -34,4 +34,10 @@
                       SetTargetFramework="TargetFramework=netstandard2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- Banned API analyzer -->
+    <AdditionalFiles Remove="$(MSBuildThisFileDirectory)..\..\BannedSymbols.txt" />
+    <None Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
+  </ItemGroup>
+
 </Project>

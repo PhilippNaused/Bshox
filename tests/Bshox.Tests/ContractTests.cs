@@ -116,6 +116,13 @@ internal class ContractTests
     }
 
     [Test]
+    [MethodDataSource(typeof(ExampleData), nameof(ExampleData.Decimals))]
+    public async Task Decimal(decimal s)
+    {
+        await DefaultContracts.Decimal.TestSerialization(s);
+    }
+
+    [Test]
     [MethodDataSource(typeof(ExampleData), nameof(ExampleData.DateTimes))]
     public async Task DateTime(DateTime s)
     {

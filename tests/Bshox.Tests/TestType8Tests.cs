@@ -32,6 +32,7 @@ public class TestType8Tests
             Value14 = '☺',
             Value15 = TimeSpan.FromMinutes(1),
             Value16 = DateTime.UtcNow,
+            Value17 = decimal.MinusOne
         };
         await Serializer8.TestType8.TestSerialization(value);
     }

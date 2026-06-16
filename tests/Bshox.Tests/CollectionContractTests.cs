@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
 using TestModels;
 
 namespace Bshox.Tests;
@@ -11,6 +13,11 @@ internal class CollectionContractTests
     [GenerateGenericTest(typeof(Guid))] // value type
     [GenerateGenericTest(typeof(TestType1))] // reference type
     [Arguments("Array")]
+    [Arguments("BlockingCollection")]
+    [Arguments("Collection")]
+    [Arguments("ConcurrentBag")]
+    [Arguments("ConcurrentQueue")]
+    [Arguments("ConcurrentStack")]
     [Arguments("HashSet")]
     [Arguments("ICollection")]
     [Arguments("IList")]
@@ -24,6 +31,11 @@ internal class CollectionContractTests
         return name switch
         {
             "Array" => TestAll(DefaultContracts.Array, x => x, examples),
+            "BlockingCollection" => TestAll(DefaultContracts.BlockingCollection, x => new BlockingCollection<T>(new ConcurrentQueue<T>(x)), examples),
+            "Collection" => TestAll(DefaultContracts.Collection, x => new Collection<T>(x), examples),
+            "ConcurrentBag" => TestAll(DefaultContracts.ConcurrentBag, x => new ConcurrentBag<T>(x), examples),
+            "ConcurrentQueue" => TestAll(DefaultContracts.ConcurrentQueue, x => new ConcurrentQueue<T>(x), examples),
+            "ConcurrentStack" => TestAll(DefaultContracts.ConcurrentStack, x => new ConcurrentStack<T>(x), examples),
             "HashSet" => TestAll(DefaultContracts.HashSet, x => new HashSet<T>(x), examples),
             "ICollection" => TestAll(DefaultContracts.ICollection, x => x, examples),
             "IList" => TestAll(DefaultContracts.IList, x => x, examples),

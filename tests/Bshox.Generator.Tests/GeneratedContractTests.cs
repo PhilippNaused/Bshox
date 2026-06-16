@@ -147,6 +147,9 @@ public class GeneratedContractTests
 
             [DefaultValue("Hello, World!")]
             public string? Value5 { get; set; }
+
+            [DefaultValue(-3.14)]
+            public decimal Value6 { get; set; }
         }
         """;
         var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);

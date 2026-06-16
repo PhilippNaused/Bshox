@@ -20,7 +20,7 @@ partial class Serializer1
 
         public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.TestType1 value)
         {
-            using var _ = writer.DepthLock();
+            writer.IncreaseDepth();
             var __Value1 = value.Value1;
             if (__Value1 is not null)
             {
@@ -41,6 +41,7 @@ partial class Serializer1
                 writer.WriteVarInt32(unchecked((uint)__Value3));
             }
             writer.WriteByte(0);
+            writer.DecreaseDepth();
         }
 
         public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.TestType1 value)
@@ -48,7 +49,7 @@ partial class Serializer1
             global::System.Nullable<int> __Value1 = default;
             global::System.Nullable<int> __Value2 = 42;
             global::System.Nullable<int> __Value3 = null;
-            using var _ = reader.DepthLock();
+            reader.IncreaseDepth();
             while (true)
             {
                 uint key = reader.ReadTag(out bsx::BshoxCode encoding);
@@ -63,6 +64,7 @@ partial class Serializer1
                             Value2 = __Value2,
                             Value3 = __Value3,
                         };
+                        reader.DecreaseDepth();
                         return;
                     }
                     case 1:

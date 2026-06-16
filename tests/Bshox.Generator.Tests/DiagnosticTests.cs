@@ -337,4 +337,31 @@ public class DiagnosticTests
         await diagnostic.AssertEqual(Diagnostics.DefaultValueMustHave1Argument, "The DefaultValueAttribute on 'TestModels.Type1.Value' must have exactly one constructor argument");
         await Assert.That(generatedOutput).IsNotEmpty();
     }
+
+    [Test]
+    public async Task RequiredMembersCannotHaveDefaultValue()
+    {
+        const string sourceCode = """
+                                  using System.ComponentModel;
+                                  using Bshox.Attributes;
+                                  namespace TestModels;
+
+                                  [BshoxSerializable<Type1>]
+                                  public partial class Serializer1;
+
+                                  [BshoxContract]
+                                  public record Type1
+                                  {
+                                      [BshoxMember(1)]
+                                      [DefaultValue(42)]
+                                      public required int Value { get; set; }
+                                  }
+                                  """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).HasSingleItem();
+        var diagnostic = diagnostics.Single();
+        await diagnostic.AssertEqual(Diagnostics.RequiredMembersCannotHaveDefaultValue, "The member 'TestModels.Type1.Value' is required and cannot have a default value");
+        await Assert.That(generatedOutput).IsNotEmpty();
+    }
 }

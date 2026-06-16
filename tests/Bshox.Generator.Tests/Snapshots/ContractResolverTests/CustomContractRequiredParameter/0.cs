@@ -21,10 +21,15 @@ partial class Serializer1
         public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.Type1 value)
         {
             writer.IncreaseDepth();
-            var __Value = value.Value;
+            var __Value1 = value.Value1;
             {
                 writer.WriteByte(8);
-                writer.WriteVarInt32(unchecked((uint)__Value));
+                writer.WriteVarInt32(unchecked((uint)__Value1));
+            }
+            var __Value2 = value.Value2;
+            {
+                writer.WriteByte(16);
+                writer.WriteVarInt32(unchecked((uint)__Value2));
             }
             writer.WriteByte(0);
             writer.DecreaseDepth();
@@ -32,7 +37,9 @@ partial class Serializer1
 
         public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.Type1 value)
         {
-            int __Value = default;
+            int __Value1 = default;
+            bool __Value1__Set = false;
+            int __Value2 = default;
             reader.IncreaseDepth();
             while (true)
             {
@@ -42,9 +49,12 @@ partial class Serializer1
                     case 0:
                     {
                         bsx::BshoxException.ThrowIfWrongEncoding(encoding, 0);
+                        if (!__Value1__Set)
+                            throw bsx::BshoxException.RequiredMemberMissing("Value1", 1);
                         value = new global::TestModels.Type1
                         {
-                            Value = __Value,
+                            Value1 = __Value1,
+                            Value2 = __Value2,
                         };
                         reader.DecreaseDepth();
                         return;
@@ -52,7 +62,14 @@ partial class Serializer1
                     case 1:
                     {
                         bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
-                        __Value = unchecked((int)reader.ReadVarInt32());
+                        __Value1 = unchecked((int)reader.ReadVarInt32());
+                        __Value1__Set = true;
+                        break;
+                    }
+                    case 2:
+                    {
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        __Value2 = unchecked((int)reader.ReadVarInt32());
                         break;
                     }
                     default:

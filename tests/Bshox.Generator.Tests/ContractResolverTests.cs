@@ -25,6 +25,29 @@ public class ContractResolverTests
     }
 
     [Test]
+    public async Task CustomContractRequiredParameter()
+    {
+        const string sourceCode = """
+                                  using Bshox.Attributes;
+                                  namespace TestModels;
+
+                                  [BshoxSerializable<Type1>]
+                                  public partial class Serializer1;
+
+                                  [BshoxContract(ImplicitMembers = true)]
+                                  public record Type1
+                                  {
+                                      public required int Value1 { get; set; }
+                                      public int Value2 { get; set; }
+                                  }
+                                  """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Utils.ValidateOutput(generatedOutput, 2);
+    }
+
+    [Test]
     public async Task GenericCustomContract()
     {
         const string sourceCode = """

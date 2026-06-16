@@ -14,7 +14,8 @@ public class DefaultValueTypesTest
             Value2 = 3.14f,
             Value3 = "Hello, World!",
             Value4 = null,
-            Value5 = null
+            Value5 = null,
+            Value6 = 0m
         };
 
         await DefaultValueTypeSerializer.DefaultValueType1.TestSerialization(value, "00");

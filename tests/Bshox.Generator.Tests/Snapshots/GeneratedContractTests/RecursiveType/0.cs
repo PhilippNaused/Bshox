@@ -20,7 +20,7 @@ partial class RecursiveTestTypeSerializer
 
         public override void Serialize(ref bsx::BshoxWriter writer, scoped ref readonly global::TestModels.RecursiveTestType value)
         {
-            using var _ = writer.DepthLock();
+            writer.IncreaseDepth();
             var __Value1 = value.Value1;
             if (__Value1 is not null)
             {
@@ -28,12 +28,13 @@ partial class RecursiveTestTypeSerializer
                 _gen_bshox_t.c_RecursiveTestType.Serialize(ref writer, in __Value1);
             }
             writer.WriteByte(0);
+            writer.DecreaseDepth();
         }
 
         public override void Deserialize(ref bsx::BshoxReader reader, out global::TestModels.RecursiveTestType value)
         {
             global::TestModels.RecursiveTestType? __Value1 = default;
-            using var _ = reader.DepthLock();
+            reader.IncreaseDepth();
             while (true)
             {
                 uint key = reader.ReadTag(out bsx::BshoxCode encoding);
@@ -46,6 +47,7 @@ partial class RecursiveTestTypeSerializer
                         {
                             Value1 = __Value1,
                         };
+                        reader.DecreaseDepth();
                         return;
                     }
                     case 1:

@@ -142,12 +142,12 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
-    public static readonly DiagnosticDescriptor DepthLockNotUsedCorrectly = new(
+    public static readonly DiagnosticDescriptor RequiredMembersCannotHaveDefaultValue = new(
         id: $"{Prefix}015",
-        title: "Dispose the return value of the DepthLock() method correctly",
-        messageFormat: "DepthLock() should only be called in a using statement or using declaration without assigning it to a named variable",
+        title: "Required members cannot have default values",
+        messageFormat: "The member '{0}' is required and cannot have a default value",
         category: Category,
-        defaultSeverity: DiagnosticSeverity.Warning,
+        defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
     public static readonly DiagnosticDescriptor ContractSymbolNotUnique = new(
