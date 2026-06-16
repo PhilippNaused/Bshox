@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 57                                    |
 | Files:             | 64                                    |
-| **Line coverage:** | 92.2% (4198 of 4549)                  |
-| Covered lines:     | 4198                                  |
+| **Line coverage:** | 92.2% (4202 of 4553)                  |
+| Covered lines:     | 4202                                  |
 | Uncovered lines:   | 351                                   |
-| Coverable lines:   | 4549                                  |
-| Total lines:       | 8349                                  |
+| Coverable lines:   | 4553                                  |
+| Total lines:       | 8358                                  |
 
 </details>
 
@@ -35,7 +35,7 @@
 | Bshox.Contracts.DictionaryContract     |      100% |
 | Bshox.Contracts.DictionaryContract2    |      100% |
 | Bshox.Contracts.DictionaryContractBase |     96.1% |
-| Bshox.DefaultContracts                 |     94.2% |
+| Bshox.DefaultContracts                 |     94.3% |
 | Bshox.Internals.EncodingHelper         |     83.3% |
 | Bshox.Internals.EndiannessHelper       |      100% |
 | Bshox.Internals.PooledByteBufferWriter |     80.5% |

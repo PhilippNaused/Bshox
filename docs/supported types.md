@@ -34,6 +34,7 @@ System.Collections.ObjectModel.ReadOnlyDictionary<,>
 
 ```cs
 T[] // one-dimensional arrays
+System.Collections.Concurrent.BlockingCollection<>
 System.Collections.Concurrent.ConcurrentBag<>
 System.Collections.Concurrent.ConcurrentQueue<>
 System.Collections.Concurrent.ConcurrentStack<>

@@ -13,6 +13,7 @@ internal class CollectionContractTests
     [GenerateGenericTest(typeof(Guid))] // value type
     [GenerateGenericTest(typeof(TestType1))] // reference type
     [Arguments("Array")]
+    [Arguments("BlockingCollection")]
     [Arguments("Collection")]
     [Arguments("ConcurrentBag")]
     [Arguments("ConcurrentQueue")]
@@ -30,6 +31,7 @@ internal class CollectionContractTests
         return name switch
         {
             "Array" => TestAll(DefaultContracts.Array, x => x, examples),
+            "BlockingCollection" => TestAll(DefaultContracts.BlockingCollection, x => new BlockingCollection<T>(new ConcurrentQueue<T>(x)), examples),
             "Collection" => TestAll(DefaultContracts.Collection, x => new Collection<T>(x), examples),
             "ConcurrentBag" => TestAll(DefaultContracts.ConcurrentBag, x => new ConcurrentBag<T>(x), examples),
             "ConcurrentQueue" => TestAll(DefaultContracts.ConcurrentQueue, x => new ConcurrentQueue<T>(x), examples),

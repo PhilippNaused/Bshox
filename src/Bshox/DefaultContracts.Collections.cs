@@ -44,6 +44,14 @@ public static partial class DefaultContracts
             static list => new Collection<T>(list.ToList()));
 
     /// <summary>
+    /// A Bshox contract for a <see cref="System.Collections.Concurrent.BlockingCollection{T}"/>.
+    /// </summary>
+    public static BshoxContract<BlockingCollection<T>> BlockingCollection<T>(BshoxContract<T> contract) where T : notnull
+        => new CollectionContract2<BlockingCollection<T>, T>(contract,
+            static capacity => new BlockingCollection<T>(),
+            static list => new BlockingCollection<T>(new ConcurrentQueue<T>(list)));
+
+    /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.Queue{T}"/>.
     /// </summary>
     public static BshoxContract<Queue<T>> Queue<T>(BshoxContract<T> contract) where T : notnull

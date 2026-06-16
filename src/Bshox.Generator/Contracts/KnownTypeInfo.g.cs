@@ -8,6 +8,7 @@ partial struct KnownTypeInfo
     {
         var dict = new Dictionary<string, KnownTypeInfo>(StringComparer.Ordinal);
         // don't use a collection initializer because it would silently ignore duplicate keys.
+        dict["System.Collections.Concurrent.BlockingCollection<>"] = new("BlockingCollection");
         dict["System.Collections.Concurrent.ConcurrentBag<>"] = new("ConcurrentBag");
         dict["System.Collections.Concurrent.ConcurrentDictionary<,>"] = new("ConcurrentDictionary");
         dict["System.Collections.Concurrent.ConcurrentQueue<>"] = new("ConcurrentQueue");

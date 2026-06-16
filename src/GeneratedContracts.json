@@ -186,6 +186,10 @@
       "Type": "System.Collections.ObjectModel.Collection<>"
     },
     {
+      "Name": "BlockingCollection",
+      "Type": "System.Collections.Concurrent.BlockingCollection<>"
+    },
+    {
       "Name": "IReadOnlyCollection",
       "Type": "System.Collections.Generic.IReadOnlyCollection<>"
     },
