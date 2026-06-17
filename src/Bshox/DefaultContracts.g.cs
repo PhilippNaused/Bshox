@@ -187,6 +187,17 @@ partial class DefaultContracts
     }
 
     /// <summary>
+    /// A Bshox contract for <see cref="System.Collections.Specialized.BitVector32" />
+    /// </summary>
+    public static BshoxContract<System.Collections.Specialized.BitVector32> BitVector32 { get; } = new BitVector32Contract();
+
+    private sealed partial class BitVector32Contract() : BshoxContract<System.Collections.Specialized.BitVector32>(BshoxCode.Fixed4)
+    {
+        public override void Deserialize(ref BshoxReader reader, out System.Collections.Specialized.BitVector32 value) => value = new System.Collections.Specialized.BitVector32(unchecked((int)reader.ReadUInt32()));
+        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Collections.Specialized.BitVector32 value) => writer.WriteUInt32(unchecked((uint)value.Data));
+    }
+
+    /// <summary>
     /// A Bshox contract for <see cref="System.Guid" />
     /// </summary>
     public static BshoxContract<System.Guid> Guid { get; } = new GuidContract();
@@ -195,6 +206,17 @@ partial class DefaultContracts
     {
         public override partial void Deserialize(ref BshoxReader reader, out System.Guid value);
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.Guid value);
+    }
+
+    /// <summary>
+    /// A Bshox contract for <see cref="System.Numerics.BigInteger" />
+    /// </summary>
+    public static BshoxContract<System.Numerics.BigInteger> BigInteger { get; } = new BigIntegerContract();
+
+    private sealed partial class BigIntegerContract() : BshoxContract<System.Numerics.BigInteger>(BshoxCode.Prefixed)
+    {
+        public override partial void Deserialize(ref BshoxReader reader, out System.Numerics.BigInteger value);
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.Numerics.BigInteger value);
     }
 
     /// <summary>
@@ -226,8 +248,8 @@ partial class DefaultContracts
 
     private sealed partial class TimeSpanContract() : BshoxContract<System.TimeSpan>(BshoxCode.VarInt)
     {
-        public override partial void Deserialize(ref BshoxReader reader, out System.TimeSpan value);
-        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.TimeSpan value);
+        public override void Deserialize(ref BshoxReader reader, out System.TimeSpan value) => value = new System.TimeSpan(reader.ReadZigZagVarInt64());
+        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.TimeSpan value) => writer.WriteZigZagVarInt64(value.Ticks);
     }
 
 }

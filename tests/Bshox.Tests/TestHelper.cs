@@ -30,8 +30,23 @@ public static class TestHelper
 
     public static async Task TestSerialization2<T, T2>(this BshoxContract<T> contract, T value, string? hex = null) where T : IEnumerable<T2>
     {
-        (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value);
+        (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value, BshoxOptions.Default);
 
+        await CompareEnumerable<T, T2>(value, actual);
+
+        await PostTest(hex, bytes, metaValue, BshoxOptions.Default);
+
+        // again, but little-endian
+        (bytes, metaValue, actual) = await PreTest(contract, value, BshoxOptions.DefaultLittleEndian);
+
+        await CompareEnumerable<T, T2>(value, actual);
+
+        // don't pass hex here, since the endianness is different
+        await PostTest(null, bytes, metaValue, BshoxOptions.DefaultLittleEndian);
+    }
+
+    private static async Task CompareEnumerable<T, T2>(T value, T actual) where T : IEnumerable<T2>
+    {
         // serializing a stack will reverse the order, so we need to re-reverse it for the equality check
         if (actual is Stack<T2> s)
             actual = (T)(object)new Stack<T2>(s);
@@ -56,8 +71,6 @@ public static class TestHelper
         {
             await Assert.That<IEnumerable<T2>>(actual).IsSequenceEqualTo(value);
         }
-
-        await PostTest(hex, bytes, metaValue);
     }
 
     private sealed class ToStringComparer<T>() : IComparer<T>
@@ -72,33 +85,41 @@ public static class TestHelper
 
     public static async Task TestSerialization<T>(this BshoxContract<T> contract, T value, string? hex = null)
     {
-        (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value);
+        (byte[] bytes, BshoxValue metaValue, T actual) = await PreTest(contract, value, BshoxOptions.Default);
 
         await Assert.That(actual).IsEqualTo(value);
 
-        await PostTest(hex, bytes, metaValue);
+        await PostTest(hex, bytes, metaValue, BshoxOptions.Default);
+
+        // again, but little-endian
+        (bytes, metaValue, actual) = await PreTest(contract, value, BshoxOptions.DefaultLittleEndian);
+
+        await Assert.That(actual).IsEqualTo(value);
+
+        // don't pass hex here, since the endianness is different
+        await PostTest(null, bytes, metaValue, BshoxOptions.DefaultLittleEndian);
     }
 
-    private static async Task<(byte[] bytes, BshoxValue metaValue, T actual)> PreTest<T>(BshoxContract<T> contract, T value)
+    private static async Task<(byte[] bytes, BshoxValue metaValue, T actual)> PreTest<T>(BshoxContract<T> contract, T value, BshoxOptions options)
     {
-        var bytes = contract.Serialize(in value);
+        var bytes = contract.Serialize(in value, options);
         Debug.WriteLine(bytes.ToHex());
 
-        var reader = new BshoxReader(bytes.AsMemory());
+        var reader = new BshoxReader(bytes.AsMemory(), options);
         reader.SkipValue(contract.Encoding); // will throw on decoding error
         (var r, var c, var d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
         await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
 
-        reader = new BshoxReader(bytes.AsMemory());
+        reader = new BshoxReader(bytes.AsMemory(), options);
         var metaValue = BshoxValue.Read(ref reader, contract.Encoding); // will throw on decoding error
         (r, c, d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
         await Assert.That(d).IsEqualTo(0);
         await Assert.That(c).IsEqualTo(bytes.Length); // must read to end
 
-        reader = new BshoxReader(bytes.AsMemory());
+        reader = new BshoxReader(bytes.AsMemory(), options);
         contract.Deserialize(ref reader, out T actual);
         (r, c, d) = (reader.Remaining, reader.Consumed, reader.CurrentDepth);
         await Assert.That(r).IsEqualTo(0);
@@ -107,7 +128,7 @@ public static class TestHelper
         return (bytes, metaValue, actual);
     }
 
-    private static async Task PostTest(string? hex, byte[] bytes, BshoxValue metaValue)
+    private static async Task PostTest(string? hex, byte[] bytes, BshoxValue metaValue, BshoxOptions options)
     {
         if (hex != null)
         {
@@ -115,8 +136,8 @@ public static class TestHelper
             await Assert.That(actualHex).IsEqualTo(hex);
         }
 
-        using var buffer = new PooledByteBufferWriter();
-        var writer = new BshoxWriter(buffer);
+        using var buffer = new PooledByteBufferWriter(options);
+        var writer = new BshoxWriter(buffer, options);
         metaValue.Write(ref writer);
         writer.Flush();
         await Assert.That(buffer.ToArray()).IsSequenceEqualTo(bytes);

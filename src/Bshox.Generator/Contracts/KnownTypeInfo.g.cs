@@ -8,6 +8,7 @@ partial struct KnownTypeInfo
     {
         var dict = new Dictionary<string, KnownTypeInfo>(StringComparer.Ordinal);
         // don't use a collection initializer because it would silently ignore duplicate keys.
+        dict["System.ArraySegment<>"] = new("ArraySegment");
         dict["System.Collections.Concurrent.BlockingCollection<>"] = new("BlockingCollection");
         dict["System.Collections.Concurrent.ConcurrentBag<>"] = new("ConcurrentBag");
         dict["System.Collections.Concurrent.ConcurrentDictionary<,>"] = new("ConcurrentDictionary");
@@ -20,16 +21,24 @@ partial struct KnownTypeInfo
         dict["System.Collections.Generic.IList<>"] = new("IList");
         dict["System.Collections.Generic.IReadOnlyCollection<>"] = new("IReadOnlyCollection");
         dict["System.Collections.Generic.IReadOnlyDictionary<,>"] = new("IReadOnlyDictionary");
+        dict["System.Collections.Generic.IReadOnlyList<>"] = new("IReadOnlyList");
+        dict["System.Collections.Generic.ISet<>"] = new("ISet");
         dict["System.Collections.Generic.List<>"] = new("List");
         dict["System.Collections.Generic.Queue<>"] = new("Queue");
         dict["System.Collections.Generic.SortedDictionary<,>"] = new("SortedDictionary");
+        dict["System.Collections.Generic.SortedSet<>"] = new("SortedSet");
         dict["System.Collections.Generic.Stack<>"] = new("Stack");
         dict["System.Collections.ObjectModel.Collection<>"] = new("Collection");
+        dict["System.Collections.ObjectModel.ObservableCollection<>"] = new("ObservableCollection");
+        dict["System.Collections.ObjectModel.ReadOnlyCollection<>"] = new("ReadOnlyCollection");
         dict["System.Collections.ObjectModel.ReadOnlyDictionary<,>"] = new("ReadOnlyDictionary");
+        dict["System.Collections.ObjectModel.ReadOnlyObservableCollection<>"] = new("ReadOnlyObservableCollection");
+        dict["System.Collections.Specialized.BitVector32"] = new("BitVector32", "writer.WriteUInt32(unchecked((uint){0}.Data));", "new System.Collections.Specialized.BitVector32(unchecked((int)reader.ReadUInt32()))", BshoxCode.Fixed4);
         dict["System.DateTime"] = new("DateTime");
         dict["System.Guid"] = new("Guid");
         dict["System.Nullable<>"] = new("Nullable");
-        dict["System.TimeSpan"] = new("TimeSpan");
+        dict["System.Numerics.BigInteger"] = new("BigInteger");
+        dict["System.TimeSpan"] = new("TimeSpan", "writer.WriteZigZagVarInt64({0}.Ticks);", "new System.TimeSpan(reader.ReadZigZagVarInt64())", BshoxCode.VarInt);
         dict["bool"] = new("Boolean", "writer.WriteByte({0} ? (byte)1 : (byte)0);", "reader.ReadByte() != 0", BshoxCode.VarInt);
         dict["byte"] = new("Byte", "writer.WriteVarInt32({0});", "checked((byte)reader.ReadVarInt32())", BshoxCode.VarInt);
         dict["byte[]"] = new("ByteArray", "writer.WriteByteArray({0});", "reader.ReadByteArray()", BshoxCode.Prefixed);

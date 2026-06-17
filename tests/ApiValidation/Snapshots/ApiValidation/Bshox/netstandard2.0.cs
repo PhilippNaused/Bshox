@@ -72,6 +72,7 @@ namespace Bshox
     {
         public BshoxOptions();
         public static readonly Bshox.BshoxOptions Default;
+        public static readonly Bshox.BshoxOptions DefaultLittleEndian;
         public int DefaultBufferSize { get; init; }
         public bool LittleEndian { get; init; }
         public int MaxDepth { get; init; }
@@ -150,6 +151,8 @@ namespace Bshox
     }
     public static class DefaultContracts
     {
+        public static Bshox.BshoxContract<System.Numerics.BigInteger> BigInteger { get; }
+        public static Bshox.BshoxContract<System.Collections.Specialized.BitVector32> BitVector32 { get; }
         public static Bshox.BshoxContract<bool> Boolean { get; }
         public static Bshox.BshoxContract<byte> Byte { get; }
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }
@@ -171,6 +174,7 @@ namespace Bshox
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.ArraySegment<T>> ArraySegment<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.BlockingCollection<T>> BlockingCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.ObjectModel.Collection<T>> Collection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentBag<T>> ConcurrentBag<T>(Bshox.BshoxContract<T> contract) where T : notnull;
@@ -185,11 +189,17 @@ namespace Bshox
         public static Bshox.BshoxContract<System.Collections.Generic.IList<T>> IList<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.IReadOnlyCollection<T>> IReadOnlyCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>> IReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.IReadOnlyList<T>> IReadOnlyList<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.ISet<T>> ISet<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.List<T>> List<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<T?> Nullable<T>(Bshox.BshoxContract<T> contract) where T : struct;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.ObservableCollection<T>> ObservableCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Queue<T>> Queue<T>(Bshox.BshoxContract<T> contract) where T : notnull;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.ReadOnlyCollection<T>> ReadOnlyCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>> ReadOnlyDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.ObjectModel.ReadOnlyObservableCollection<T>> ReadOnlyObservableCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.SortedDictionary<TKey, TValue>> SortedDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
+        public static Bshox.BshoxContract<System.Collections.Generic.SortedSet<T>> SortedSet<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Stack<T>> Stack<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.ValueTuple<T1>> ValueTuple<T1>(Bshox.BshoxContract<T1> contract1);
         public static Bshox.BshoxContract<(T1, T2)> ValueTuple<T1, T2>(Bshox.BshoxContract<T1> contract1, Bshox.BshoxContract<T2> contract2);

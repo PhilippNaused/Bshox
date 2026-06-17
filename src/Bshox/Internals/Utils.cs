@@ -1,3 +1,6 @@
+#if !NETCOREAPP
+using System.Collections.ObjectModel;
+#endif
 using System.Runtime.CompilerServices;
 
 namespace Bshox.Internals;
@@ -58,4 +61,8 @@ internal static class Utils<T>
         }
 #endif
     }
+
+#if !NETCOREAPP
+    public static ReadOnlyObservableCollection<T> EmptyReadOnlyObservableCollection { get; } = new(new ObservableCollection<T>());
+#endif
 }

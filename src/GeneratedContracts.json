@@ -122,8 +122,20 @@
       "Write": "writer.WriteByteArray({0})"
     },
     {
+      "Name": "BitVector32",
+      "Type": "System.Collections.Specialized.BitVector32",
+      "Encoding": "Fixed4",
+      "Read": "new System.Collections.Specialized.BitVector32(unchecked((int)reader.ReadUInt32()))",
+      "Write": "writer.WriteUInt32(unchecked((uint){0}.Data))"
+    },
+    {
       "Name": "Guid",
       "Type": "System.Guid",
+      "Encoding": "Prefixed"
+    },
+    {
+      "Name": "BigInteger",
+      "Type": "System.Numerics.BigInteger",
       "Encoding": "Prefixed"
     },
     {
@@ -139,7 +151,9 @@
     {
       "Name": "TimeSpan",
       "Type": "System.TimeSpan",
-      "Encoding": "VarInt"
+      "Encoding": "VarInt",
+      "Read": "new System.TimeSpan(reader.ReadZigZagVarInt64())",
+      "Write": "writer.WriteZigZagVarInt64({0}.Ticks)"
     }
   ],
   "Other": [
@@ -170,6 +184,10 @@
     },
     // Other collections
     {
+      "Name": "ArraySegment",
+      "Type": "System.ArraySegment<>"
+    },
+    {
       "Name": "List",
       "Type": "System.Collections.Generic.List<>"
     },
@@ -186,12 +204,28 @@
       "Type": "System.Collections.ObjectModel.Collection<>"
     },
     {
+      "Name": "ObservableCollection",
+      "Type": "System.Collections.ObjectModel.ObservableCollection<>"
+    },
+    {
+      "Name": "ReadOnlyCollection",
+      "Type": "System.Collections.ObjectModel.ReadOnlyCollection<>"
+    },
+    {
+      "Name": "ReadOnlyObservableCollection",
+      "Type": "System.Collections.ObjectModel.ReadOnlyObservableCollection<>"
+    },
+    {
       "Name": "BlockingCollection",
       "Type": "System.Collections.Concurrent.BlockingCollection<>"
     },
     {
       "Name": "IReadOnlyCollection",
       "Type": "System.Collections.Generic.IReadOnlyCollection<>"
+    },
+    {
+      "Name": "IReadOnlyList",
+      "Type": "System.Collections.Generic.IReadOnlyList<>"
     },
     {
       "Name": "Queue",
@@ -204,6 +238,14 @@
     {
       "Name": "HashSet",
       "Type": "System.Collections.Generic.HashSet<>"
+    },
+    {
+      "Name": "ISet",
+      "Type": "System.Collections.Generic.ISet<>"
+    },
+    {
+      "Name": "SortedSet",
+      "Type": "System.Collections.Generic.SortedSet<>"
     },
     {
       "Name": "ConcurrentBag",

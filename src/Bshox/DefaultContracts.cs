@@ -1,7 +1,10 @@
-#if !NETCOREAPP
+#if NETCOREAPP
+using System.Buffers;
+#else
 using System.Buffers.Text;
 #endif
 using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Bshox.Internals;
@@ -147,16 +150,90 @@ public static partial class DefaultContracts
         }
     }
 
-    private partial class TimeSpanContract
+    private partial class BigIntegerContract
     {
-        public override partial void Deserialize(ref BshoxReader reader, out TimeSpan value)
+        [SkipLocalsInit] // prevents zeroing the stack-allocated buffer
+        public override partial void Deserialize(ref BshoxReader reader, out BigInteger value)
         {
-            value = new TimeSpan(reader.ReadZigZagVarInt64());
+#if NETCOREAPP
+            var size = (int)reader.ReadVarInt32();
+            if (size == 0)
+            {
+                value = System.Numerics.BigInteger.Zero;
+                return;
+            }
+            const int MaxStackAllocSize = 256;
+            if (size <= MaxStackAllocSize)
+            {
+                unsafe
+                {
+                    Span<byte> span = stackalloc byte[size];
+                    reader.CopyTo(span);
+                    value = new BigInteger(span, isBigEndian: !reader.Options.LittleEndian);
+                }
+            }
+            else
+            {
+                DeserializeSlow(ref reader, size, out value);
+            }
+#else
+            var bytes = reader.ReadByteArray();
+            if (bytes.Length == 0)
+            {
+                value = System.Numerics.BigInteger.Zero;
+                return;
+            }
+            if (!reader.Options.LittleEndian)
+            {
+                Span<byte> span = bytes;
+                span.Reverse();
+            }
+            value = new BigInteger(bytes); // this constructor expects little-endian
+#endif
         }
 
-        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly TimeSpan value)
+#if NETCOREAPP
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void DeserializeSlow(ref BshoxReader reader, int size, out BigInteger value)
         {
-            writer.WriteZigZagVarInt64(value.Ticks);
+            var bytes = ArrayPool<byte>.Shared.Rent(size);
+            try
+            {
+                var span = new Span<byte>(bytes, 0, size);
+                reader.CopyTo(span);
+                value = new BigInteger(span, isBigEndian: !reader.Options.LittleEndian);
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(bytes);
+            }
+        }
+#endif
+
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly BigInteger value)
+        {
+            if (value.IsZero)
+            {
+                writer.WriteByte(0);
+                return;
+            }
+#if NETCOREAPP
+            var size = value.GetByteCount();
+            writer.WriteVarInt32((uint)size);
+            var span = writer.GetSpan(size);
+            var success = value.TryWriteBytes(span, out int bytesWritten, isBigEndian: !writer.Options.LittleEndian);
+            writer.Advance(bytesWritten);
+            Debug.Assert(success, "BigInteger formatting failed!");
+            Debug.Assert(bytesWritten == size, "bytesWritten == size");
+#else
+            var bytes = value.ToByteArray(); // this is always little-endian
+            if (!writer.Options.LittleEndian)
+            {
+                Span<byte> span = bytes;
+                span.Reverse();
+            }
+            writer.WriteByteArray(bytes);
+#endif
         }
     }
 
