@@ -3,11 +3,13 @@
 // Runtime: v4.0.30319
 // Reference: System.Collections, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Collections.Concurrent, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+// Reference: System.Collections.Specialized, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Linq, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Memory, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51
 // Reference: System.ObjectModel, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Runtime, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Runtime.InteropServices, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
+// Reference: System.Runtime.Numerics, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 // Reference: System.Text.Encoding.Extensions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a
 [assembly: System.Reflection.AssemblyCompany("Philipp Naused")]
 [assembly: System.Reflection.AssemblyCopyright("© Philipp Naused")]
@@ -159,6 +161,8 @@ namespace Bshox
     }
     public static class DefaultContracts
     {
+        public static Bshox.BshoxContract<System.Numerics.BigInteger> BigInteger { get; }
+        public static Bshox.BshoxContract<System.Collections.Specialized.BitVector32> BitVector32 { get; }
         public static Bshox.BshoxContract<bool> Boolean { get; }
         public static Bshox.BshoxContract<byte> Byte { get; }
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }

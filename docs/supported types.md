@@ -53,6 +53,7 @@ System.Collections.ObjectModel.Collection<>
 System.Collections.ObjectModel.ObservableCollection<>
 System.Collections.ObjectModel.ReadOnlyCollection<>
 System.Collections.ObjectModel.ReadOnlyObservableCollection<>
+System.Collections.Specialized.BitVector32
 ```
 
 ## Other
@@ -64,6 +65,7 @@ string
 System.DateTime
 System.Guid
 System.Nullable<T>
+System.Numerics.BigInteger
 System.TimeSpan
 System.ValueTuple<...> // supported with 1-8 type parameters
 ```

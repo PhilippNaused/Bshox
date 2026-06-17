@@ -33,10 +33,12 @@ partial struct KnownTypeInfo
         dict["System.Collections.ObjectModel.ReadOnlyCollection<>"] = new("ReadOnlyCollection");
         dict["System.Collections.ObjectModel.ReadOnlyDictionary<,>"] = new("ReadOnlyDictionary");
         dict["System.Collections.ObjectModel.ReadOnlyObservableCollection<>"] = new("ReadOnlyObservableCollection");
+        dict["System.Collections.Specialized.BitVector32"] = new("BitVector32", "writer.WriteUInt32(unchecked((uint){0}.Data));", "new System.Collections.Specialized.BitVector32(unchecked((int)reader.ReadUInt32()))", BshoxCode.Fixed4);
         dict["System.DateTime"] = new("DateTime");
         dict["System.Guid"] = new("Guid");
         dict["System.Nullable<>"] = new("Nullable");
-        dict["System.TimeSpan"] = new("TimeSpan");
+        dict["System.Numerics.BigInteger"] = new("BigInteger");
+        dict["System.TimeSpan"] = new("TimeSpan", "writer.WriteZigZagVarInt64({0}.Ticks);", "new System.TimeSpan(reader.ReadZigZagVarInt64())", BshoxCode.VarInt);
         dict["bool"] = new("Boolean", "writer.WriteByte({0} ? (byte)1 : (byte)0);", "reader.ReadByte() != 0", BshoxCode.VarInt);
         dict["byte"] = new("Byte", "writer.WriteVarInt32({0});", "checked((byte)reader.ReadVarInt32())", BshoxCode.VarInt);
         dict["byte[]"] = new("ByteArray", "writer.WriteByteArray({0});", "reader.ReadByteArray()", BshoxCode.Prefixed);

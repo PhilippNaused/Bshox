@@ -122,8 +122,20 @@
       "Write": "writer.WriteByteArray({0})"
     },
     {
+      "Name": "BitVector32",
+      "Type": "System.Collections.Specialized.BitVector32",
+      "Encoding": "Fixed4",
+      "Read": "new System.Collections.Specialized.BitVector32(unchecked((int)reader.ReadUInt32()))",
+      "Write": "writer.WriteUInt32(unchecked((uint){0}.Data))"
+    },
+    {
       "Name": "Guid",
       "Type": "System.Guid",
+      "Encoding": "Prefixed"
+    },
+    {
+      "Name": "BigInteger",
+      "Type": "System.Numerics.BigInteger",
       "Encoding": "Prefixed"
     },
     {
@@ -139,7 +151,9 @@
     {
       "Name": "TimeSpan",
       "Type": "System.TimeSpan",
-      "Encoding": "VarInt"
+      "Encoding": "VarInt",
+      "Read": "new System.TimeSpan(reader.ReadZigZagVarInt64())",
+      "Write": "writer.WriteZigZagVarInt64({0}.Ticks)"
     }
   ],
   "Other": [

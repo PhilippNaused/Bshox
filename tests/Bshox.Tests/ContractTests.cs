@@ -1,3 +1,6 @@
+using System.Collections.Specialized;
+using System.Numerics;
+
 namespace Bshox.Tests;
 
 internal class ContractTests
@@ -106,6 +109,20 @@ internal class ContractTests
     public async Task String(string s)
     {
         await DefaultContracts.String.TestSerialization(s);
+    }
+
+    [Test]
+    [MethodDataSource(typeof(ExampleData), nameof(ExampleData.BitVector32))]
+    public async Task BitVector32(BitVector32 s)
+    {
+        await DefaultContracts.BitVector32.TestSerialization(s);
+    }
+
+    [Test]
+    [MethodDataSource(typeof(ExampleData), nameof(ExampleData.BigIntegers))]
+    public async Task BigInteger(BigInteger s)
+    {
+        await DefaultContracts.BigInteger.TestSerialization(s);
     }
 
     [Test]
