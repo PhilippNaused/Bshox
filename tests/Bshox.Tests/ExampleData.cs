@@ -1,3 +1,5 @@
+using System.Collections.Specialized;
+using System.Numerics;
 using Bshox.TestUtils;
 
 namespace Bshox.Tests;
@@ -183,6 +185,8 @@ internal static class ExampleData
         }
     }
 
+    public static IEnumerable<BitVector32> BitVector32() => Ints().Select(i => new BitVector32(i));
+
     public static IEnumerable<uint> UInts()
     {
         yield return uint.MaxValue;
@@ -304,6 +308,23 @@ internal static class ExampleData
                 list.Add(rand.NextScaledInt());
             }
             yield return list;
+        }
+    }
+
+    public static IEnumerable<BigInteger> BigIntegers()
+    {
+        yield return BigInteger.Zero;
+        yield return BigInteger.One;
+        yield return -BigInteger.One;
+        yield return new BigInteger(ulong.MaxValue);
+        yield return new BigInteger(long.MinValue);
+
+        var rand = Randomizer;
+        for (int i = 0; i < TestCount; i++)
+        {
+            byte[] bytes = new byte[rand.Next(1, 1000)]; // use values over 256 to test the non stack allocated path
+            rand.NextBytes(bytes);
+            yield return new BigInteger(bytes);
         }
     }
 

@@ -151,6 +151,8 @@ namespace Bshox
     }
     public static class DefaultContracts
     {
+        public static Bshox.BshoxContract<System.Numerics.BigInteger> BigInteger { get; }
+        public static Bshox.BshoxContract<System.Collections.Specialized.BitVector32> BitVector32 { get; }
         public static Bshox.BshoxContract<bool> Boolean { get; }
         public static Bshox.BshoxContract<byte> Byte { get; }
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }

@@ -7,41 +7,41 @@
 | Assemblies:        | 3                                     |
 | Classes:           | 57                                    |
 | Files:             | 64                                    |
-| **Line coverage:** | 92.4% (4248 of 4593)                  |
-| Covered lines:     | 4248                                  |
+| **Line coverage:** | 92.5% (4312 of 4657)                  |
+| Covered lines:     | 4312                                  |
 | Uncovered lines:   | 345                                   |
-| Coverable lines:   | 4593                                  |
-| Total lines:       | 8457                                  |
+| Coverable lines:   | 4657                                  |
+| Total lines:       | 8558                                  |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 95%</summary>
+<details><summary>Bshox.dll - 95.2%</summary>
 
-| **Name**                               | **Line** |
-|:---------------------------------------|---------:|
-| **Bshox.dll**                          |  **95%** |
-| Bshox.BshoxContract                    |     100% |
-| Bshox.BshoxContractExtensions          |    88.6% |
-| Bshox.BshoxException                   |     100% |
-| Bshox.BshoxOptions                     |     100% |
-| Bshox.BshoxReader                      |    97.7% |
-| Bshox.BshoxSerializer                  |    93.9% |
-| Bshox.BshoxWriter                      |    98.6% |
-| Bshox.Contracts.ArrayContract          |     100% |
-| Bshox.Contracts.CollectionContract     |     100% |
-| Bshox.Contracts.CollectionContract2    |     100% |
-| Bshox.Contracts.CollectionContractBase |    98.8% |
-| Bshox.Contracts.DictionaryContract     |     100% |
-| Bshox.Contracts.DictionaryContract2    |     100% |
-| Bshox.Contracts.DictionaryContractBase |    96.1% |
-| Bshox.DefaultContracts                 |    96.9% |
-| Bshox.Internals.EncodingHelper         |    83.3% |
-| Bshox.Internals.EndiannessHelper       |     100% |
-| Bshox.Internals.PooledByteBufferWriter |    80.5% |
-| Bshox.Internals.StreamSequence         |    92.8% |
-| Bshox.Internals.Utils                  |     100% |
-| Bshox.PolyFills                        |    73.9% |
+| **Name**                               |  **Line** |
+|:---------------------------------------|----------:|
+| **Bshox.dll**                          | **95.2%** |
+| Bshox.BshoxContract                    |      100% |
+| Bshox.BshoxContractExtensions          |     88.6% |
+| Bshox.BshoxException                   |      100% |
+| Bshox.BshoxOptions                     |      100% |
+| Bshox.BshoxReader                      |     97.7% |
+| Bshox.BshoxSerializer                  |     93.9% |
+| Bshox.BshoxWriter                      |     98.6% |
+| Bshox.Contracts.ArrayContract          |      100% |
+| Bshox.Contracts.CollectionContract     |      100% |
+| Bshox.Contracts.CollectionContract2    |      100% |
+| Bshox.Contracts.CollectionContractBase |     98.8% |
+| Bshox.Contracts.DictionaryContract     |      100% |
+| Bshox.Contracts.DictionaryContract2    |      100% |
+| Bshox.Contracts.DictionaryContractBase |     96.1% |
+| Bshox.DefaultContracts                 |     97.4% |
+| Bshox.Internals.EncodingHelper         |     83.3% |
+| Bshox.Internals.EndiannessHelper       |      100% |
+| Bshox.Internals.PooledByteBufferWriter |     80.5% |
+| Bshox.Internals.StreamSequence         |     92.8% |
+| Bshox.Internals.Utils                  |      100% |
+| Bshox.PolyFills                        |     73.9% |
 
 </details>
 <details><summary>Bshox.Generator.dll - 91.6%</summary>
@@ -58,7 +58,7 @@
 | Bshox.Generator.Contracts.ContractInfo             |     69.2% |
 | Bshox.Generator.Contracts.GeneratedContract        |     94.1% |
 | Bshox.Generator.Contracts.InlineContractData       |      100% |
-| Bshox.Generator.Contracts.KnownTypeInfo            |     98.7% |
+| Bshox.Generator.Contracts.KnownTypeInfo            |     98.8% |
 | Bshox.Generator.Contracts.SurrogateContract        |      100% |
 | Bshox.Generator.Contracts.SurrogateGenerator       |     96.9% |
 | Bshox.Generator.Data.KnownTypeSymbols              |      100% |
