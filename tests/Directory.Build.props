@@ -6,4 +6,9 @@
 
   <Import Project="../Directory.Build.props" />
 
+  <PropertyGroup>
+    <!-- Disable the filter to include all generated types -->
+    <PolySharpIncludeGeneratedTypes />
+  </PropertyGroup>
+
 </Project>
