@@ -22,6 +22,11 @@ public sealed record BshoxOptions
     public static readonly BshoxOptions Default = new();
 
     /// <summary>
+    /// Same as <see cref="BshoxOptions.Default"/> but with little-endian byte order.
+    /// </summary>
+    public static readonly BshoxOptions DefaultLittleEndian = Default with { LittleEndian = true };
+
+    /// <summary>
     /// The maximum depth of nested objects and arrays allowed during serialization and deserialization.<br/>
     /// If this value is exceeded, a <see cref="BshoxException"/> will be thrown.<br/>
     /// </summary>
