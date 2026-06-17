@@ -34,6 +34,7 @@ System.Collections.ObjectModel.ReadOnlyDictionary<,>
 
 ```cs
 T[] // one-dimensional arrays
+System.ArraySegment<>
 System.Collections.Concurrent.BlockingCollection<>
 System.Collections.Concurrent.ConcurrentBag<>
 System.Collections.Concurrent.ConcurrentQueue<>
@@ -41,10 +42,17 @@ System.Collections.Concurrent.ConcurrentStack<>
 System.Collections.Generic.HashSet<>
 System.Collections.Generic.ICollection<>
 System.Collections.Generic.IList<T>
+System.Collections.Generic.IReadOnlyCollection<>
+System.Collections.Generic.IReadOnlyList<>
+System.Collections.Generic.ISet<>
 System.Collections.Generic.List<T>
 System.Collections.Generic.Queue<>
+System.Collections.Generic.SortedSet<>
 System.Collections.Generic.Stack<>
 System.Collections.ObjectModel.Collection<>
+System.Collections.ObjectModel.ObservableCollection<>
+System.Collections.ObjectModel.ReadOnlyCollection<>
+System.Collections.ObjectModel.ReadOnlyObservableCollection<>
 ```
 
 ## Other
