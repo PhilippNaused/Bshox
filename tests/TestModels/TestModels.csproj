@@ -5,8 +5,6 @@
     <IsPackable>false</IsPackable>
     <!-- <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles> -->
     <CompilerGeneratedFilesOutputPath>gen\$(TargetFramework)</CompilerGeneratedFilesOutputPath>
-    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
-    <PolySharpExcludeTypeForwardedToDeclarations>true</PolySharpExcludeTypeForwardedToDeclarations>
   </PropertyGroup>
 
   <ItemGroup>
