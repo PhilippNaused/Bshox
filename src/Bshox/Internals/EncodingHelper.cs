@@ -8,7 +8,7 @@ internal static class EncodingHelper
 {
     public static readonly UTF8Encoding Utf8NoBom = new(false);
 
-    public static unsafe int Utf8Encode(ReadOnlySpan<char> chars, Span<byte> bytes)
+    public static int Utf8Encode(ReadOnlySpan<char> chars, Span<byte> bytes)
     {
         fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
         fixed (byte* bytesPtr = &MemoryMarshal.GetReference(bytes))
@@ -17,7 +17,7 @@ internal static class EncodingHelper
         }
     }
 
-    public static unsafe int Utf8Encode(ReadOnlySpan<char> chars, ref byte bytes, int byteCount)
+    public static int Utf8Encode(ReadOnlySpan<char> chars, ref byte bytes, int byteCount)
     {
         fixed (char* charsPtr = &MemoryMarshal.GetReference(chars))
         fixed (byte* bytesPtr = &bytes)
