@@ -54,6 +54,12 @@
     <PackageTags>serializer</PackageTags>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PolySharpIncludeRuntimeSupportedAttributes>true</PolySharpIncludeRuntimeSupportedAttributes>
+    <PolySharpExcludeTypeForwardedToDeclarations>true</PolySharpExcludeTypeForwardedToDeclarations>
+    <PolySharpUseEmbeddedAttributeForGeneratedTypes>true</PolySharpUseEmbeddedAttributeForGeneratedTypes>
+  </PropertyGroup>
+
   <ItemGroup>
     <!-- Banned API analyzer -->
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
