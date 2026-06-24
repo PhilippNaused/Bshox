@@ -25,7 +25,7 @@
     <PackageVersion Include="SharpFuzz" Version="2.3.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <PackageVersion Include="System.Text.Json" Version="10.0.9" />
-    <PackageVersion Include="TUnit" Version="1.56.25" />
-    <PackageVersion Include="TUnit.Core" Version="1.56.25" />
+    <PackageVersion Include="TUnit" Version="1.56.35" />
+    <PackageVersion Include="TUnit.Core" Version="1.56.35" />
   </ItemGroup>
 </Project>
