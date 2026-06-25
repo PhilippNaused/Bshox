@@ -25,7 +25,6 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     /// <para><c>1</c>: <see cref="global::TestModels.Enum1" /> Value</para>
     /// </remarks>
     public static bsx::BshoxContract<global::TestModels.Type1> Type1 => c_Type1;
-    private static readonly bsx::BshoxContract<int> c_Int32;
     private static readonly bsx::BshoxContract<global::TestModels.Enum1> c_Enum1;
 
     /// <summary>
@@ -36,16 +35,13 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     static Serializer1()
     {
         c_Type1 = new TestModels_Type1__BshoxContract();
-        c_Int32 = bsx::DefaultContracts.Int32;
-        c_Enum1 = bsx::DefaultContracts.Enum<global::TestModels.Enum1>(c_Int32);
+        c_Enum1 = bsx::DefaultContracts.Enum<global::TestModels.Enum1>();
     }
 
     protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.Type1))
             return c_Type1;
-        if (type == typeof(int))
-            return c_Int32;
         if (type == typeof(global::TestModels.Enum1))
             return c_Enum1;
         return null;

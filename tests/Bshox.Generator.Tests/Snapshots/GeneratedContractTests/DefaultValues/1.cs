@@ -32,9 +32,9 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     public static bsx::BshoxContract<global::TestModels.TestType1> TestType1 => c_TestType1;
     private static readonly bsx::BshoxContract<decimal> c_Decimal;
     private static readonly bsx::BshoxContract<string> c_String;
-    private static readonly bsx::BshoxContract<int> c_Int32;
     private static readonly bsx::BshoxContract<global::TestModels.MyEnum> c_MyEnum;
     private static readonly bsx::BshoxContract<global::System.Nullable<global::TestModels.MyEnum>> c_NullableMyEnum;
+    private static readonly bsx::BshoxContract<int> c_Int32;
 
     /// <summary>
     /// Singleton instance of <see cref="global::TestModels.Serializer1" />
@@ -46,9 +46,9 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
         c_TestType1 = new TestModels_TestType1__BshoxContract();
         c_Decimal = bsx::DefaultContracts.Decimal;
         c_String = bsx::DefaultContracts.String;
-        c_Int32 = bsx::DefaultContracts.Int32;
-        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>(c_Int32);
+        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>();
         c_NullableMyEnum = bsx::DefaultContracts.Nullable<global::TestModels.MyEnum>(c_MyEnum);
+        c_Int32 = bsx::DefaultContracts.Int32;
     }
 
     protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
@@ -59,12 +59,12 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
             return c_Decimal;
         if (type == typeof(string))
             return c_String;
-        if (type == typeof(int))
-            return c_Int32;
         if (type == typeof(global::TestModels.MyEnum))
             return c_MyEnum;
         if (type == typeof(global::System.Nullable<global::TestModels.MyEnum>))
             return c_NullableMyEnum;
+        if (type == typeof(int))
+            return c_Int32;
         return null;
     }
 }
