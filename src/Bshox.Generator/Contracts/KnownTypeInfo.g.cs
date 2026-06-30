@@ -38,7 +38,9 @@ partial struct KnownTypeInfo
         dict["System.Guid"] = new("Guid");
         dict["System.Nullable<>"] = new("Nullable");
         dict["System.Numerics.BigInteger"] = new("BigInteger");
+        dict["System.Numerics.Complex"] = new("Complex");
         dict["System.TimeSpan"] = new("TimeSpan", "writer.WriteZigZagVarInt64({0}.Ticks);", "new System.TimeSpan(reader.ReadZigZagVarInt64())", BshoxCode.VarInt);
+        dict["System.Uri"] = new("Uri", "writer.WriteString({0}.OriginalString);", "new System.Uri(reader.ReadString(), UriKind.RelativeOrAbsolute)", BshoxCode.Prefixed);
         dict["bool"] = new("Boolean", "writer.WriteByte({0} ? (byte)1 : (byte)0);", "reader.ReadByte() != 0", BshoxCode.VarInt);
         dict["byte"] = new("Byte", "writer.WriteVarInt32({0});", "checked((byte)reader.ReadVarInt32())", BshoxCode.VarInt);
         dict["byte[]"] = new("ByteArray", "writer.WriteByteArray({0});", "reader.ReadByteArray()", BshoxCode.Prefixed);

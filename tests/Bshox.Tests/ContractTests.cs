@@ -159,4 +159,18 @@ internal class ContractTests
     {
         await DefaultContracts.ByteArray.TestSerialization(s);
     }
+
+    [Test]
+    [MethodDataSource(typeof(ExampleData), nameof(ExampleData.Uris))]
+    public async Task Uri(Uri s)
+    {
+        await DefaultContracts.Uri.TestSerialization(s);
+    }
+
+    [Test]
+    [MethodDataSource(typeof(ExampleData), nameof(ExampleData.Complexes))]
+    public async Task Complex(Complex s)
+    {
+        await DefaultContracts.Complex.TestSerialization(s);
+    }
 }

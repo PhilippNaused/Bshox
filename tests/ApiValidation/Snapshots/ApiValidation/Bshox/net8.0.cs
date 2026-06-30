@@ -167,6 +167,7 @@ namespace Bshox
         public static Bshox.BshoxContract<byte> Byte { get; }
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }
         public static Bshox.BshoxContract<char> Char { get; }
+        public static Bshox.BshoxContract<System.Numerics.Complex> Complex { get; }
         public static Bshox.BshoxContract<System.DateTime> DateTime { get; }
         public static Bshox.BshoxContract<decimal> Decimal { get; }
         public static Bshox.BshoxContract<double> Double { get; }
@@ -183,6 +184,7 @@ namespace Bshox
         public static Bshox.BshoxContract<ushort> UInt16 { get; }
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
+        public static Bshox.BshoxContract<System.Uri> Uri { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.ArraySegment<T>> ArraySegment<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.BlockingCollection<T>> BlockingCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;

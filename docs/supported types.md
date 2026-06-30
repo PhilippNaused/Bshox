@@ -66,6 +66,8 @@ System.DateTime
 System.Guid
 System.Nullable<T>
 System.Numerics.BigInteger
+System.Numerics.Complex
 System.TimeSpan
+System.Uri
 System.ValueTuple<...> // supported with 1-8 type parameters
 ```

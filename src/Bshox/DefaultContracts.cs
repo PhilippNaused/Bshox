@@ -150,6 +150,52 @@ public static partial class DefaultContracts
         }
     }
 
+    private partial class ComplexContract
+    {
+        public override partial void Deserialize(ref BshoxReader reader, out Complex value)
+        {
+            double re = 0, im = 0;
+            while (true)
+            {
+                uint key = reader.ReadTag(out var encoding);
+                switch (key)
+                {
+                    case 0:
+                    {
+                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
+                        value = new Complex(re, im);
+                        return;
+                    }
+                    case 1:
+                    {
+                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Fixed8);
+                        re = reader.ReadDouble();
+                        break;
+                    }
+                    case 2:
+                    {
+                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Fixed8);
+                        im = reader.ReadDouble();
+                        break;
+                    }
+                    default:
+                        throw BshoxException.InvalidEncoding(encoding);
+                }
+            }
+        }
+
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly Complex value)
+        {
+            writer.WriteTag(1, BshoxCode.Fixed8);
+            writer.WriteDouble(value.Real);
+
+            writer.WriteTag(2, BshoxCode.Fixed8);
+            writer.WriteDouble(value.Imaginary);
+
+            writer.WriteByte(0);
+        }
+    }
+
     private partial class BigIntegerContract
     {
         [SkipLocalsInit] // prevents zeroing the stack-allocated buffer

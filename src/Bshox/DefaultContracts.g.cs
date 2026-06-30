@@ -242,6 +242,17 @@ partial class DefaultContracts
     }
 
     /// <summary>
+    /// A Bshox contract for <see cref="System.Numerics.Complex" />
+    /// </summary>
+    public static BshoxContract<System.Numerics.Complex> Complex { get; } = new ComplexContract();
+
+    private sealed partial class ComplexContract() : BshoxContract<System.Numerics.Complex>(BshoxCode.SubObject)
+    {
+        public override partial void Deserialize(ref BshoxReader reader, out System.Numerics.Complex value);
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.Numerics.Complex value);
+    }
+
+    /// <summary>
     /// A Bshox contract for <see cref="System.TimeSpan" />
     /// </summary>
     public static BshoxContract<System.TimeSpan> TimeSpan { get; } = new TimeSpanContract();
@@ -250,6 +261,17 @@ partial class DefaultContracts
     {
         public override void Deserialize(ref BshoxReader reader, out System.TimeSpan value) => value = new System.TimeSpan(reader.ReadZigZagVarInt64());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.TimeSpan value) => writer.WriteZigZagVarInt64(value.Ticks);
+    }
+
+    /// <summary>
+    /// A Bshox contract for <see cref="System.Uri" />
+    /// </summary>
+    public static BshoxContract<System.Uri> Uri { get; } = new UriContract();
+
+    private sealed partial class UriContract() : BshoxContract<System.Uri>(BshoxCode.Prefixed)
+    {
+        public override void Deserialize(ref BshoxReader reader, out System.Uri value) => value = new System.Uri(reader.ReadString(), UriKind.RelativeOrAbsolute);
+        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Uri value) => writer.WriteString(value.OriginalString);
     }
 
 }
