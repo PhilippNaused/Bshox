@@ -64,18 +64,19 @@ internal abstract class DictionaryContractBase<TDict, TKey, TValue>(BshoxContrac
             TKey? key = default;
             TValue? value1 = default;
 
-            while (true)
+            var tag = reader.ReadByte();
+            if (tag == _keyTag)
             {
-                var tag = reader.ReadByte();
-                if (tag == 0)
-                    break;
-                if (tag == _keyTag)
-                    keyContract.Deserialize(ref reader, out key);
-                else if (tag == _valueTag)
-                    valueContract.Deserialize(ref reader, out value1);
-                else
-                    throw new BshoxException($"Unexpected tag: {tag}. Must be either 0, {_keyTag}, or {_valueTag}.");
+                keyContract.Deserialize(ref reader, out key);
+                tag = reader.ReadByte();
             }
+            if (tag == _valueTag)
+            {
+                valueContract.Deserialize(ref reader, out value1);
+                tag = reader.ReadByte();
+            }
+            if (tag != 0)
+                throw BshoxException.UnexpectedTag(tag);
 
             if (key is null)
                 throw new BshoxException("Key cannot be null.");
