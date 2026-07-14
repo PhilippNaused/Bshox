@@ -1,11 +1,12 @@
 namespace Bshox;
 
 #pragma warning disable CA1028 // Enum Storage should be Int32
+#pragma warning disable CA1720 // Identifier contains type name
 
 /// <summary>
 /// A 3 bit code specifying the encoding of Bshox serialized data. Similar to the <i>wire type</i> in Protobuf.
 /// </summary>
-public enum BshoxCode : byte
+public enum BshoxEncoding : byte
 {
     /// <summary>
     /// A base-128 variable-length integer.
@@ -61,7 +62,7 @@ public enum BshoxCode : byte
     /// This format is similar to the <i>submessage</i> encoding in Protobuf.<br/>
     /// The main difference is that Protobuf's submessages use the <c>LEN</c> encoding, while Bshox's SubObjects have a dedicated encoding that is <c>0</c>-terminated.
     /// </remarks>
-    SubObject = 5,
+    Object = 5,
     // Unused = 6,
     // Unused = 7
 }

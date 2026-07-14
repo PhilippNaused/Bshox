@@ -10,7 +10,7 @@ internal class ApiTests
 {
     private static readonly int[] s_Array = [1, 2, 3, 4, 5];
 
-    // 40 = (byte)BshoxCode.VarInt ^ (s_Array.Length << 3)
+    // 40 = (byte)BshoxEncoding.VarInt ^ (s_Array.Length << 3)
     private static readonly byte[] s_Expected = [40, 1, 2, 3, 4, 5];
 
     [Test]

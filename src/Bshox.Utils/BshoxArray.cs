@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Bshox.Utils;
 
-public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), IList<BshoxValue>
+public sealed class BshoxArray(int capacity) : BshoxValue(BshoxEncoding.Array), IList<BshoxValue>
 {
     private readonly List<BshoxValue> _values = new(capacity);
 
@@ -17,7 +17,7 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
     /// This value is set when the first element is added to the array.
     /// If the array is empty, the encoding may be <see langword="null"/>.
     /// </summary>
-    public BshoxCode? ElementEncoding { get; private set; }
+    public BshoxEncoding? ElementEncoding { get; private set; }
 
     private void UpdateEncoding(BshoxValue newValue)
     {
@@ -55,7 +55,7 @@ public sealed class BshoxArray(int capacity) : BshoxValue(BshoxCode.Array), ILis
     public override void Write(ref BshoxWriter writer)
     {
         writer.IncreaseDepth();
-        BshoxCode encoding = ElementEncoding ?? BshoxCode.VarInt;
+        BshoxEncoding encoding = ElementEncoding ?? BshoxEncoding.VarInt;
         writer.WriteArrayHeader(Count, encoding);
         foreach (var value in _values)
         {

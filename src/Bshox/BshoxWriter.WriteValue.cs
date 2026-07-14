@@ -90,7 +90,7 @@ public ref partial struct BshoxWriter
     /// </summary>
     /// <param name="key"></param>
     /// <param name="encoding"></param>
-    public void WriteTag(uint key, BshoxCode encoding)
+    public void WriteTag(uint key, BshoxEncoding encoding)
     {
         if (key == 0 || key > BshoxConstants.MaxKey)
         {
@@ -105,19 +105,19 @@ public ref partial struct BshoxWriter
     /// </summary>
     /// <param name="count"></param>
     /// <param name="elementEncoding"></param>
-    public void WriteArrayHeader(int count, BshoxCode elementEncoding)
+    public void WriteArrayHeader(int count, BshoxEncoding elementEncoding)
     {
         Debug.Assert(count >= 0, "count >= 0");
         WriteVarInt64(((ulong)count << 3) | (ulong)elementEncoding);
     }
 
     /// <summary>
-    /// Writes a <see cref="double"/> using the <see cref="BshoxCode.Fixed8"/> encoding.
+    /// Writes a <see cref="double"/> using the <see cref="BshoxEncoding.Fixed8"/> encoding.
     /// </summary>
     public unsafe void WriteDouble(double value) => WriteUInt64(*(ulong*)&value);
 
     /// <summary>
-    /// Writes a <see cref="ulong"/> using the <see cref="BshoxCode.Fixed8"/> encoding.
+    /// Writes a <see cref="ulong"/> using the <see cref="BshoxEncoding.Fixed8"/> encoding.
     /// </summary>
     public void WriteUInt64(ulong value)
     {
@@ -131,12 +131,12 @@ public ref partial struct BshoxWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="float"/> using the <see cref="BshoxCode.Fixed4"/> encoding.
+    /// Writes a <see cref="float"/> using the <see cref="BshoxEncoding.Fixed4"/> encoding.
     /// </summary>
     public unsafe void WriteSingle(float value) => WriteUInt32(*(uint*)&value);
 
     /// <summary>
-    /// Writes a <see cref="uint"/> using the <see cref="BshoxCode.Fixed4"/> encoding.
+    /// Writes a <see cref="uint"/> using the <see cref="BshoxEncoding.Fixed4"/> encoding.
     /// </summary>
     public void WriteUInt32(uint value)
     {
@@ -150,7 +150,7 @@ public ref partial struct BshoxWriter
     }
 
     /// <summary>
-    /// Writes a <see cref="string"/> as a UTF-8 encoded byte array using the <see cref="BshoxCode.Prefixed"/> encoding.
+    /// Writes a <see cref="string"/> as a UTF-8 encoded byte array using the <see cref="BshoxEncoding.Prefixed"/> encoding.
     /// </summary>
     public void WriteString(string value)
     {
@@ -242,7 +242,7 @@ public ref partial struct BshoxWriter
     }
 
     /// <summary>
-    /// Writes a byte array using the <see cref="BshoxCode.Prefixed"/> encoding.
+    /// Writes a byte array using the <see cref="BshoxEncoding.Prefixed"/> encoding.
     /// </summary>
     public void WriteByteArray(byte[] value)
     {

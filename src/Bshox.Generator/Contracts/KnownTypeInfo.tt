@@ -38,7 +38,7 @@ partial struct KnownTypeInfo
         if (c is Primitive p && p.Write is not null)
         {
 #>
-        dict["<#= p.Type #>"] = new("<#= p.Name #>", "<#= p.Write #>;", "<#= p.Read #>", BshoxCode.<#= p.Encoding #>);
+        dict["<#= p.Type #>"] = new("<#= p.Name #>", "<#= p.Write #>;", "<#= p.Read #>", BshoxEncoding.<#= p.Encoding #>);
 <#
         }
         else

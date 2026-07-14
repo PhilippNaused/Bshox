@@ -127,7 +127,7 @@ public class CustomContractTests
                                   using Bshox.Attributes;
                                   namespace TestModels;
 
-                                  public abstract class MyContract<T>() : BshoxContract<T>(BshoxCode.VarInt);
+                                  public abstract class MyContract<T>() : BshoxContract<T>(BshoxEncoding.VarInt);
 
                                   internal class Test1<T>
                                   {

@@ -93,7 +93,7 @@ public class EdgeCaseTests
         Assert.Throws<ArgumentOutOfRangeException>(static () =>
         {
             var writer = new BshoxWriter(new FixedBufferWriter());
-            writer.WriteTag(0, BshoxCode.VarInt);
+            writer.WriteTag(0, BshoxEncoding.VarInt);
         });
     }
 
@@ -103,7 +103,7 @@ public class EdgeCaseTests
         Assert.Throws<ArgumentOutOfRangeException>(static () =>
         {
             var writer = new BshoxWriter(new FixedBufferWriter());
-            writer.WriteTag(BshoxConstants.MaxKey + 1, BshoxCode.VarInt);
+            writer.WriteTag(BshoxConstants.MaxKey + 1, BshoxEncoding.VarInt);
         });
     }
 

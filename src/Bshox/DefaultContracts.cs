@@ -152,8 +152,8 @@ public static partial class DefaultContracts
 
     private partial class ComplexContract
     {
-        private const byte _tagReal = (1 << 3) | (byte)BshoxCode.Fixed8;
-        private const byte _tagImaginary = (2 << 3) | (byte)BshoxCode.Fixed8;
+        private const byte _tagReal = (1 << 3) | (byte)BshoxEncoding.Fixed8;
+        private const byte _tagImaginary = (2 << 3) | (byte)BshoxEncoding.Fixed8;
 
         public override partial void Deserialize(ref BshoxReader reader, out Complex value)
         {

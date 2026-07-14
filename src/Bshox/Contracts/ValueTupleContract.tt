@@ -34,7 +34,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<<#= genericParameters #>>(<#= ctorParameters #>) : BshoxContract<<#= typeName #>>(BshoxCode.SubObject)<#= ((i == 8) ? " where TRest : struct" : "") #>
+    internal sealed class ValueTupleContract<<#= genericParameters #>>(<#= ctorParameters #>) : BshoxContract<<#= typeName #>>(BshoxEncoding.Object)<#= ((i == 8) ? " where TRest : struct" : "") #>
     {
 <# for(var j = 1; j <= i; j++) { #>
         private readonly byte _tag<#= j #> = (byte)((<#= j #> << 3) | (byte)<#= Contract(j) #>.Encoding);

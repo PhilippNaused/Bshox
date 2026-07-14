@@ -21,7 +21,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1>(BshoxContract<T1> contract1) : BshoxContract<ValueTuple<T1>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1>(BshoxContract<T1> contract1) : BshoxContract<ValueTuple<T1>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
 
@@ -69,7 +69,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2>(BshoxContract<T1> contract1, BshoxContract<T2> contract2) : BshoxContract<ValueTuple<T1, T2>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1, T2>(BshoxContract<T1> contract1, BshoxContract<T2> contract2) : BshoxContract<ValueTuple<T1, T2>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
@@ -128,7 +128,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2, T3>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3) : BshoxContract<ValueTuple<T1, T2, T3>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1, T2, T3>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3) : BshoxContract<ValueTuple<T1, T2, T3>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
@@ -198,7 +198,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2, T3, T4>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4) : BshoxContract<ValueTuple<T1, T2, T3, T4>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1, T2, T3, T4>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4) : BshoxContract<ValueTuple<T1, T2, T3, T4>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
@@ -279,7 +279,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
@@ -371,7 +371,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
@@ -474,7 +474,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6, T7>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>(BshoxCode.SubObject)
+    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6, T7>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>(BshoxEncoding.Object)
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
@@ -588,7 +588,7 @@ namespace Bshox
 namespace Bshox.Contracts
 {
     [ExcludeFromCodeCoverage]
-    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6, T7, TRest>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7, BshoxContract<TRest> contract8) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>(BshoxCode.SubObject) where TRest : struct
+    internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6, T7, TRest>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7, BshoxContract<TRest> contract8) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>(BshoxEncoding.Object) where TRest : struct
     {
         private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
         private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);

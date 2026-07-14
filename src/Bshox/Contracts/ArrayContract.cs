@@ -5,7 +5,7 @@ namespace Bshox.Contracts;
 /// <summary>
 /// A Bshox contract for an array of <typeparamref name="T"/>.
 /// </summary>
-internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContract<T[]>(BshoxCode.Array) where T : notnull
+internal sealed class ArrayContract<T>(BshoxContract<T> contract) : BshoxContract<T[]>(BshoxEncoding.Array) where T : notnull
 {
     private readonly ISpanContract<T>? _spanContract = contract as ISpanContract<T>;
 

@@ -8,9 +8,9 @@ SharpFuzz.Fuzzer.OutOfProcess.Run(stream =>
     ms.Position = 0;
     var array = ms.ToArray();
 #if NETCOREAPP
-    foreach (BshoxCode code in Enum.GetValues<BshoxCode>())
+    foreach (BshoxEncoding code in Enum.GetValues<BshoxEncoding>())
 #else
-    foreach (BshoxCode code in Enum.GetValues(typeof(BshoxCode)))
+    foreach (BshoxEncoding code in Enum.GetValues(typeof(BshoxEncoding)))
 #endif
     {
         var reader = new BshoxReader(array);

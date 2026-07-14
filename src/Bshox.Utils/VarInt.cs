@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Bshox.Utils;
 
-public sealed class VarInt(ulong Value) : BshoxValue(BshoxCode.VarInt)
+public sealed class VarInt(ulong Value) : BshoxValue(BshoxEncoding.VarInt)
 {
     public VarInt(int value) : this((ulong)value) { }
 

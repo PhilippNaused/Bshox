@@ -14,7 +14,7 @@ partial class RecursiveTestTypeSerializer
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_RecursiveTestType__BshoxContract : bsx::BshoxContract<global::TestModels.RecursiveTestType>
     {
-        internal TestModels_RecursiveTestType__BshoxContract() : base(bsx::BshoxCode.SubObject)
+        internal TestModels_RecursiveTestType__BshoxContract() : base(bsx::BshoxEncoding.Object)
         {
         }
 
@@ -37,7 +37,7 @@ partial class RecursiveTestTypeSerializer
             reader.IncreaseDepth();
             while (true)
             {
-                uint key = reader.ReadTag(out bsx::BshoxCode encoding);
+                uint key = reader.ReadTag(out bsx::BshoxEncoding encoding);
                 switch (key)
                 {
                     case 0:

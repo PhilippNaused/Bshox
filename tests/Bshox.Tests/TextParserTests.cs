@@ -124,13 +124,13 @@ public class TextParserTests
     [Test]
     [Arguments("[]", 0, null)]
     [Arguments("    [ # This is a comment\n  ]   ", 0, null)]
-    [Arguments("[1 2 3 4]", 4, BshoxCode.VarInt)]
-    [Arguments("[1.0i32 2i32 0xAi32 1e-5]", 4, BshoxCode.Fixed4)]
-    [Arguments("[1.0 2i64 0xAi64 1e-5]", 4, BshoxCode.Fixed8)]
-    [Arguments("[\"Hi!\" `AABBCC`]", 2, BshoxCode.Prefixed)]
-    [Arguments("[[][]]", 2, BshoxCode.Array)]
-    [Arguments("[{}{}{}]", 3, BshoxCode.SubObject)]
-    public async Task ParseArray(string text, int count, BshoxCode? encoding)
+    [Arguments("[1 2 3 4]", 4, BshoxEncoding.VarInt)]
+    [Arguments("[1.0i32 2i32 0xAi32 1e-5]", 4, BshoxEncoding.Fixed4)]
+    [Arguments("[1.0 2i64 0xAi64 1e-5]", 4, BshoxEncoding.Fixed8)]
+    [Arguments("[\"Hi!\" `AABBCC`]", 2, BshoxEncoding.Prefixed)]
+    [Arguments("[[][]]", 2, BshoxEncoding.Array)]
+    [Arguments("[{}{}{}]", 3, BshoxEncoding.Object)]
+    public async Task ParseArray(string text, int count, BshoxEncoding? encoding)
     {
         var actual = await GetValue<BshoxArray>(text);
         await Assert.That(actual).IsNotNull();
@@ -233,29 +233,29 @@ public class TextParserTests
     }
 
     [Test]
-    [Arguments("123456", BshoxCode.VarInt)] // no suffix
-    [Arguments("123456z", BshoxCode.VarInt)] // zigzag suffix
-    [Arguments("0x123456", BshoxCode.VarInt)] // hex without suffix
-    [Arguments("18446744073709551615", BshoxCode.VarInt)] // ulong.MaxValue
-    [Arguments("123456i32", BshoxCode.Fixed4)] // i32 suffix
-    [Arguments("123456i64", BshoxCode.Fixed8)] // i64 suffix
-    [Arguments("123.0", BshoxCode.Fixed8)] // floats are assumed to be fixed8 unless they have a suffix
-    [Arguments("123.4567890123456789", BshoxCode.Fixed8)]
-    [Arguments("`AABBCC`", BshoxCode.Prefixed)] // hex literal
-    [Arguments("\"AABBCC\"", BshoxCode.Prefixed)] // uft8 literal
+    [Arguments("123456", BshoxEncoding.VarInt)] // no suffix
+    [Arguments("123456z", BshoxEncoding.VarInt)] // zigzag suffix
+    [Arguments("0x123456", BshoxEncoding.VarInt)] // hex without suffix
+    [Arguments("18446744073709551615", BshoxEncoding.VarInt)] // ulong.MaxValue
+    [Arguments("123456i32", BshoxEncoding.Fixed4)] // i32 suffix
+    [Arguments("123456i64", BshoxEncoding.Fixed8)] // i64 suffix
+    [Arguments("123.0", BshoxEncoding.Fixed8)] // floats are assumed to be fixed8 unless they have a suffix
+    [Arguments("123.4567890123456789", BshoxEncoding.Fixed8)]
+    [Arguments("`AABBCC`", BshoxEncoding.Prefixed)] // hex literal
+    [Arguments("\"AABBCC\"", BshoxEncoding.Prefixed)] // uft8 literal
 
-    [Arguments("true", BshoxCode.VarInt)] // literal
-    [Arguments("false", BshoxCode.VarInt)] // literal
-    [Arguments("inf32", BshoxCode.Fixed4)] // literal
-    [Arguments("-inf32", BshoxCode.Fixed4)] // literal
-    [Arguments("nan32", BshoxCode.Fixed4)] // literal
-    [Arguments("inf64", BshoxCode.Fixed8)] // literal
-    [Arguments("-inf64", BshoxCode.Fixed8)] // literal
-    [Arguments("nan64", BshoxCode.Fixed8)] // literal
+    [Arguments("true", BshoxEncoding.VarInt)] // literal
+    [Arguments("false", BshoxEncoding.VarInt)] // literal
+    [Arguments("inf32", BshoxEncoding.Fixed4)] // literal
+    [Arguments("-inf32", BshoxEncoding.Fixed4)] // literal
+    [Arguments("nan32", BshoxEncoding.Fixed4)] // literal
+    [Arguments("inf64", BshoxEncoding.Fixed8)] // literal
+    [Arguments("-inf64", BshoxEncoding.Fixed8)] // literal
+    [Arguments("nan64", BshoxEncoding.Fixed8)] // literal
 
-    [Arguments("{", BshoxCode.SubObject)]
-    [Arguments("[", BshoxCode.Array)]
-    public async Task GuessEncoding(string text, BshoxCode value)
+    [Arguments("{", BshoxEncoding.Object)]
+    [Arguments("[", BshoxEncoding.Array)]
+    public async Task GuessEncoding(string text, BshoxEncoding value)
     {
         await Assert.That(BshoxTextParser.GuessEncoding(GetToken(text))).IsEqualTo(value);
     }
