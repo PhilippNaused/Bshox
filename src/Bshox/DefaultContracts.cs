@@ -152,46 +152,43 @@ public static partial class DefaultContracts
 
     private partial class ComplexContract
     {
+        private const byte _tagReal = (1 << 3) | (byte)BshoxCode.Fixed8;
+        private const byte _tagImaginary = (2 << 3) | (byte)BshoxCode.Fixed8;
+
         public override partial void Deserialize(ref BshoxReader reader, out Complex value)
         {
             double re = 0, im = 0;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tagReal)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        value = new Complex(re, im);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Fixed8);
-                        re = reader.ReadDouble();
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.Fixed8);
-                        im = reader.ReadDouble();
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                re = reader.ReadDouble();
+                tag = reader.ReadByte();
             }
+            if (tag == _tagImaginary)
+            {
+                im = reader.ReadDouble();
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+            {
+                value = new Complex(re, im);
+                return;
+            }
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly Complex value)
         {
-            writer.WriteTag(1, BshoxCode.Fixed8);
-            writer.WriteDouble(value.Real);
-
-            writer.WriteTag(2, BshoxCode.Fixed8);
-            writer.WriteDouble(value.Imaginary);
-
+            if (value.Real != 0)
+            {
+                writer.WriteByte(_tagReal);
+                writer.WriteDouble(value.Real);
+            }
+            if (value.Imaginary != 0)
+            {
+                writer.WriteByte(_tagImaginary);
+                writer.WriteDouble(value.Imaginary);
+            }
             writer.WriteByte(0);
         }
     }

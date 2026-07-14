@@ -36,31 +36,24 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<<#= genericParameters #>>(<#= ctorParameters #>) : BshoxContract<<#= typeName #>>(BshoxCode.SubObject)<#= ((i == 8) ? " where TRest : struct" : "") #>
     {
+<# for(var j = 1; j <= i; j++) { #>
+        private readonly byte _tag<#= j #> = (byte)((<#= j #> << 3) | (byte)<#= Contract(j) #>.Encoding);
+<# } #>
+
         public override void Deserialize(ref BshoxReader reader, out <#= typeName #> value)
         {
             value = default;
-            while (true)
-            {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
+            byte tag = reader.ReadByte();
 <# for(var j = 1; j <= i; j++) { #>
-                    case <#= j #>:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, <#= Contract(j) #>.Encoding);
-                        <#= Contract(j) #>.Deserialize(ref reader, out value.<#= ItemName(j) #>);
-                        break;
-                    }
-<# } #>
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+            if (tag == _tag<#= j #>)
+            {
+                <#= Contract(j) #>.Deserialize(ref reader, out value.<#= ItemName(j) #>);
+                tag = reader.ReadByte();
             }
+<# } #>
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly <#= typeName #> value)
@@ -70,7 +63,7 @@ namespace Bshox.Contracts
             if (value.<#= ItemName(j) #> is not null)
 <# } #>
             {
-                writer.WriteTag(<#= j #>, <#= Contract(j) #>.Encoding);
+                writer.WriteByte(_tag<#= j #>);
                 <#= Contract(j) #>.Serialize(ref writer, in value.<#= ItemName(j) #>);
             }
 <# } #>

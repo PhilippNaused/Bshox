@@ -79,7 +79,12 @@ public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection
         _ = text.Append(Constants.EndObject);
     }
 
-    public void Add(uint key, BshoxValue value) => _values.Add(new KeyValuePair<uint, BshoxValue>(key, value));
+    public void Add(uint key, BshoxValue value)
+    {
+        ArgumentOutOfRangeException.ThrowIfZero(key);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(key, BshoxConstants.MaxKey);
+        _values.Add(new KeyValuePair<uint, BshoxValue>(key, value));
+    }
 
     /// <inheritdoc />
     public void Clear() => _values.Clear();

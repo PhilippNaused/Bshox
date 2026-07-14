@@ -111,7 +111,7 @@ public class TextParserTests
                 7: [0 0]
                 8: `00`
                 9: "0" #0
-                9999: {0: {0: 0i64}}
+                9999: {1: {1: 0i64}}
               }
               """, new uint[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 9999 })]
     [Arguments("{}", new uint[0])] // edge case: empty object
