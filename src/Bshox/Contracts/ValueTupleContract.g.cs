@@ -23,36 +23,27 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1>(BshoxContract<T1> contract1) : BshoxContract<ValueTuple<T1>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             writer.WriteByte(0);
@@ -80,47 +71,38 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2>(BshoxContract<T1> contract1, BshoxContract<T2> contract2) : BshoxContract<ValueTuple<T1, T2>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             writer.WriteByte(0);
@@ -148,58 +130,49 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2, T3>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3) : BshoxContract<ValueTuple<T1, T2, T3>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+        private readonly byte _tag3 = (byte)((3 << 3) | (byte)contract3.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2, T3> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    case 3:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract3.Encoding);
-                        contract3.Deserialize(ref reader, out value.Item3);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag3)
+            {
+                contract3.Deserialize(ref reader, out value.Item3);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             if (value.Item3 is not null)
             {
-                writer.WriteTag(3, contract3.Encoding);
+                writer.WriteByte(_tag3);
                 contract3.Serialize(ref writer, in value.Item3);
             }
             writer.WriteByte(0);
@@ -227,69 +200,60 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2, T3, T4>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4) : BshoxContract<ValueTuple<T1, T2, T3, T4>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+        private readonly byte _tag3 = (byte)((3 << 3) | (byte)contract3.Encoding);
+        private readonly byte _tag4 = (byte)((4 << 3) | (byte)contract4.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2, T3, T4> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    case 3:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract3.Encoding);
-                        contract3.Deserialize(ref reader, out value.Item3);
-                        break;
-                    }
-                    case 4:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract4.Encoding);
-                        contract4.Deserialize(ref reader, out value.Item4);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag3)
+            {
+                contract3.Deserialize(ref reader, out value.Item3);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag4)
+            {
+                contract4.Deserialize(ref reader, out value.Item4);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             if (value.Item3 is not null)
             {
-                writer.WriteTag(3, contract3.Encoding);
+                writer.WriteByte(_tag3);
                 contract3.Serialize(ref writer, in value.Item3);
             }
             if (value.Item4 is not null)
             {
-                writer.WriteTag(4, contract4.Encoding);
+                writer.WriteByte(_tag4);
                 contract4.Serialize(ref writer, in value.Item4);
             }
             writer.WriteByte(0);
@@ -317,80 +281,71 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2, T3, T4, T5>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+        private readonly byte _tag3 = (byte)((3 << 3) | (byte)contract3.Encoding);
+        private readonly byte _tag4 = (byte)((4 << 3) | (byte)contract4.Encoding);
+        private readonly byte _tag5 = (byte)((5 << 3) | (byte)contract5.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2, T3, T4, T5> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    case 3:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract3.Encoding);
-                        contract3.Deserialize(ref reader, out value.Item3);
-                        break;
-                    }
-                    case 4:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract4.Encoding);
-                        contract4.Deserialize(ref reader, out value.Item4);
-                        break;
-                    }
-                    case 5:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract5.Encoding);
-                        contract5.Deserialize(ref reader, out value.Item5);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag3)
+            {
+                contract3.Deserialize(ref reader, out value.Item3);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag4)
+            {
+                contract4.Deserialize(ref reader, out value.Item4);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag5)
+            {
+                contract5.Deserialize(ref reader, out value.Item5);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             if (value.Item3 is not null)
             {
-                writer.WriteTag(3, contract3.Encoding);
+                writer.WriteByte(_tag3);
                 contract3.Serialize(ref writer, in value.Item3);
             }
             if (value.Item4 is not null)
             {
-                writer.WriteTag(4, contract4.Encoding);
+                writer.WriteByte(_tag4);
                 contract4.Serialize(ref writer, in value.Item4);
             }
             if (value.Item5 is not null)
             {
-                writer.WriteTag(5, contract5.Encoding);
+                writer.WriteByte(_tag5);
                 contract5.Serialize(ref writer, in value.Item5);
             }
             writer.WriteByte(0);
@@ -418,91 +373,82 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+        private readonly byte _tag3 = (byte)((3 << 3) | (byte)contract3.Encoding);
+        private readonly byte _tag4 = (byte)((4 << 3) | (byte)contract4.Encoding);
+        private readonly byte _tag5 = (byte)((5 << 3) | (byte)contract5.Encoding);
+        private readonly byte _tag6 = (byte)((6 << 3) | (byte)contract6.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2, T3, T4, T5, T6> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    case 3:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract3.Encoding);
-                        contract3.Deserialize(ref reader, out value.Item3);
-                        break;
-                    }
-                    case 4:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract4.Encoding);
-                        contract4.Deserialize(ref reader, out value.Item4);
-                        break;
-                    }
-                    case 5:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract5.Encoding);
-                        contract5.Deserialize(ref reader, out value.Item5);
-                        break;
-                    }
-                    case 6:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract6.Encoding);
-                        contract6.Deserialize(ref reader, out value.Item6);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag3)
+            {
+                contract3.Deserialize(ref reader, out value.Item3);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag4)
+            {
+                contract4.Deserialize(ref reader, out value.Item4);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag5)
+            {
+                contract5.Deserialize(ref reader, out value.Item5);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag6)
+            {
+                contract6.Deserialize(ref reader, out value.Item6);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5, T6> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             if (value.Item3 is not null)
             {
-                writer.WriteTag(3, contract3.Encoding);
+                writer.WriteByte(_tag3);
                 contract3.Serialize(ref writer, in value.Item3);
             }
             if (value.Item4 is not null)
             {
-                writer.WriteTag(4, contract4.Encoding);
+                writer.WriteByte(_tag4);
                 contract4.Serialize(ref writer, in value.Item4);
             }
             if (value.Item5 is not null)
             {
-                writer.WriteTag(5, contract5.Encoding);
+                writer.WriteByte(_tag5);
                 contract5.Serialize(ref writer, in value.Item5);
             }
             if (value.Item6 is not null)
             {
-                writer.WriteTag(6, contract6.Encoding);
+                writer.WriteByte(_tag6);
                 contract6.Serialize(ref writer, in value.Item6);
             }
             writer.WriteByte(0);
@@ -530,102 +476,93 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6, T7>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7>>(BshoxCode.SubObject)
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+        private readonly byte _tag3 = (byte)((3 << 3) | (byte)contract3.Encoding);
+        private readonly byte _tag4 = (byte)((4 << 3) | (byte)contract4.Encoding);
+        private readonly byte _tag5 = (byte)((5 << 3) | (byte)contract5.Encoding);
+        private readonly byte _tag6 = (byte)((6 << 3) | (byte)contract6.Encoding);
+        private readonly byte _tag7 = (byte)((7 << 3) | (byte)contract7.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2, T3, T4, T5, T6, T7> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    case 3:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract3.Encoding);
-                        contract3.Deserialize(ref reader, out value.Item3);
-                        break;
-                    }
-                    case 4:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract4.Encoding);
-                        contract4.Deserialize(ref reader, out value.Item4);
-                        break;
-                    }
-                    case 5:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract5.Encoding);
-                        contract5.Deserialize(ref reader, out value.Item5);
-                        break;
-                    }
-                    case 6:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract6.Encoding);
-                        contract6.Deserialize(ref reader, out value.Item6);
-                        break;
-                    }
-                    case 7:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract7.Encoding);
-                        contract7.Deserialize(ref reader, out value.Item7);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag3)
+            {
+                contract3.Deserialize(ref reader, out value.Item3);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag4)
+            {
+                contract4.Deserialize(ref reader, out value.Item4);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag5)
+            {
+                contract5.Deserialize(ref reader, out value.Item5);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag6)
+            {
+                contract6.Deserialize(ref reader, out value.Item6);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag7)
+            {
+                contract7.Deserialize(ref reader, out value.Item7);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5, T6, T7> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             if (value.Item3 is not null)
             {
-                writer.WriteTag(3, contract3.Encoding);
+                writer.WriteByte(_tag3);
                 contract3.Serialize(ref writer, in value.Item3);
             }
             if (value.Item4 is not null)
             {
-                writer.WriteTag(4, contract4.Encoding);
+                writer.WriteByte(_tag4);
                 contract4.Serialize(ref writer, in value.Item4);
             }
             if (value.Item5 is not null)
             {
-                writer.WriteTag(5, contract5.Encoding);
+                writer.WriteByte(_tag5);
                 contract5.Serialize(ref writer, in value.Item5);
             }
             if (value.Item6 is not null)
             {
-                writer.WriteTag(6, contract6.Encoding);
+                writer.WriteByte(_tag6);
                 contract6.Serialize(ref writer, in value.Item6);
             }
             if (value.Item7 is not null)
             {
-                writer.WriteTag(7, contract7.Encoding);
+                writer.WriteByte(_tag7);
                 contract7.Serialize(ref writer, in value.Item7);
             }
             writer.WriteByte(0);
@@ -653,112 +590,103 @@ namespace Bshox.Contracts
     [ExcludeFromCodeCoverage]
     internal sealed class ValueTupleContract<T1, T2, T3, T4, T5, T6, T7, TRest>(BshoxContract<T1> contract1, BshoxContract<T2> contract2, BshoxContract<T3> contract3, BshoxContract<T4> contract4, BshoxContract<T5> contract5, BshoxContract<T6> contract6, BshoxContract<T7> contract7, BshoxContract<TRest> contract8) : BshoxContract<ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest>>(BshoxCode.SubObject) where TRest : struct
     {
+        private readonly byte _tag1 = (byte)((1 << 3) | (byte)contract1.Encoding);
+        private readonly byte _tag2 = (byte)((2 << 3) | (byte)contract2.Encoding);
+        private readonly byte _tag3 = (byte)((3 << 3) | (byte)contract3.Encoding);
+        private readonly byte _tag4 = (byte)((4 << 3) | (byte)contract4.Encoding);
+        private readonly byte _tag5 = (byte)((5 << 3) | (byte)contract5.Encoding);
+        private readonly byte _tag6 = (byte)((6 << 3) | (byte)contract6.Encoding);
+        private readonly byte _tag7 = (byte)((7 << 3) | (byte)contract7.Encoding);
+        private readonly byte _tag8 = (byte)((8 << 3) | (byte)contract8.Encoding);
+
         public override void Deserialize(ref BshoxReader reader, out ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> value)
         {
             value = default;
-            while (true)
+            byte tag = reader.ReadByte();
+            if (tag == _tag1)
             {
-                uint key = reader.ReadTag(out var encoding);
-                switch (key)
-                {
-                    case 0:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, 0);
-                        return;
-                    }
-                    case 1:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract1.Encoding);
-                        contract1.Deserialize(ref reader, out value.Item1);
-                        break;
-                    }
-                    case 2:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract2.Encoding);
-                        contract2.Deserialize(ref reader, out value.Item2);
-                        break;
-                    }
-                    case 3:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract3.Encoding);
-                        contract3.Deserialize(ref reader, out value.Item3);
-                        break;
-                    }
-                    case 4:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract4.Encoding);
-                        contract4.Deserialize(ref reader, out value.Item4);
-                        break;
-                    }
-                    case 5:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract5.Encoding);
-                        contract5.Deserialize(ref reader, out value.Item5);
-                        break;
-                    }
-                    case 6:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract6.Encoding);
-                        contract6.Deserialize(ref reader, out value.Item6);
-                        break;
-                    }
-                    case 7:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract7.Encoding);
-                        contract7.Deserialize(ref reader, out value.Item7);
-                        break;
-                    }
-                    case 8:
-                    {
-                        BshoxException.ThrowIfWrongEncoding(encoding, contract8.Encoding);
-                        contract8.Deserialize(ref reader, out value.Rest);
-                        break;
-                    }
-                    default:
-                        throw BshoxException.InvalidEncoding(encoding);
-                }
+                contract1.Deserialize(ref reader, out value.Item1);
+                tag = reader.ReadByte();
             }
+            if (tag == _tag2)
+            {
+                contract2.Deserialize(ref reader, out value.Item2);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag3)
+            {
+                contract3.Deserialize(ref reader, out value.Item3);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag4)
+            {
+                contract4.Deserialize(ref reader, out value.Item4);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag5)
+            {
+                contract5.Deserialize(ref reader, out value.Item5);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag6)
+            {
+                contract6.Deserialize(ref reader, out value.Item6);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag7)
+            {
+                contract7.Deserialize(ref reader, out value.Item7);
+                tag = reader.ReadByte();
+            }
+            if (tag == _tag8)
+            {
+                contract8.Deserialize(ref reader, out value.Rest);
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+                return;
+            throw BshoxException.UnexpectedTag(tag);
         }
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> value)
         {
             if (value.Item1 is not null)
             {
-                writer.WriteTag(1, contract1.Encoding);
+                writer.WriteByte(_tag1);
                 contract1.Serialize(ref writer, in value.Item1);
             }
             if (value.Item2 is not null)
             {
-                writer.WriteTag(2, contract2.Encoding);
+                writer.WriteByte(_tag2);
                 contract2.Serialize(ref writer, in value.Item2);
             }
             if (value.Item3 is not null)
             {
-                writer.WriteTag(3, contract3.Encoding);
+                writer.WriteByte(_tag3);
                 contract3.Serialize(ref writer, in value.Item3);
             }
             if (value.Item4 is not null)
             {
-                writer.WriteTag(4, contract4.Encoding);
+                writer.WriteByte(_tag4);
                 contract4.Serialize(ref writer, in value.Item4);
             }
             if (value.Item5 is not null)
             {
-                writer.WriteTag(5, contract5.Encoding);
+                writer.WriteByte(_tag5);
                 contract5.Serialize(ref writer, in value.Item5);
             }
             if (value.Item6 is not null)
             {
-                writer.WriteTag(6, contract6.Encoding);
+                writer.WriteByte(_tag6);
                 contract6.Serialize(ref writer, in value.Item6);
             }
             if (value.Item7 is not null)
             {
-                writer.WriteTag(7, contract7.Encoding);
+                writer.WriteByte(_tag7);
                 contract7.Serialize(ref writer, in value.Item7);
             }
             {
-                writer.WriteTag(8, contract8.Encoding);
+                writer.WriteByte(_tag8);
                 contract8.Serialize(ref writer, in value.Rest);
             }
             writer.WriteByte(0);

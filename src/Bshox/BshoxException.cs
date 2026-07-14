@@ -72,6 +72,9 @@ public class BshoxException : Exception
     internal static BshoxException InvalidEncoding(BshoxCode encoding) => new($"Invalid encoding: {encoding}");
 
     [MethodImpl(MethodImplOptions.NoInlining)]
+    internal static BshoxException UnexpectedTag(uint tag) => new($"Unexpected tag: {tag}.");
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
     internal static BshoxException VarIntTooLong() => new("VarInt is too long.");
 
     [MethodImpl(MethodImplOptions.NoInlining)]
