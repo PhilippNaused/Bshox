@@ -50,9 +50,11 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
             writer.WriteByte(0);
         }
     }
@@ -111,12 +113,16 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
             writer.WriteByte(0);
         }
     }
@@ -181,15 +187,21 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
-            writer.WriteTag(3, contract3.Encoding);
-            contract3.Serialize(ref writer, in value.Item3);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
+            if (value.Item3 is not null)
+            {
+                writer.WriteTag(3, contract3.Encoding);
+                contract3.Serialize(ref writer, in value.Item3);
+            }
             writer.WriteByte(0);
         }
     }
@@ -260,18 +272,26 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
-            writer.WriteTag(3, contract3.Encoding);
-            contract3.Serialize(ref writer, in value.Item3);
-
-            writer.WriteTag(4, contract4.Encoding);
-            contract4.Serialize(ref writer, in value.Item4);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
+            if (value.Item3 is not null)
+            {
+                writer.WriteTag(3, contract3.Encoding);
+                contract3.Serialize(ref writer, in value.Item3);
+            }
+            if (value.Item4 is not null)
+            {
+                writer.WriteTag(4, contract4.Encoding);
+                contract4.Serialize(ref writer, in value.Item4);
+            }
             writer.WriteByte(0);
         }
     }
@@ -348,21 +368,31 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
-            writer.WriteTag(3, contract3.Encoding);
-            contract3.Serialize(ref writer, in value.Item3);
-
-            writer.WriteTag(4, contract4.Encoding);
-            contract4.Serialize(ref writer, in value.Item4);
-
-            writer.WriteTag(5, contract5.Encoding);
-            contract5.Serialize(ref writer, in value.Item5);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
+            if (value.Item3 is not null)
+            {
+                writer.WriteTag(3, contract3.Encoding);
+                contract3.Serialize(ref writer, in value.Item3);
+            }
+            if (value.Item4 is not null)
+            {
+                writer.WriteTag(4, contract4.Encoding);
+                contract4.Serialize(ref writer, in value.Item4);
+            }
+            if (value.Item5 is not null)
+            {
+                writer.WriteTag(5, contract5.Encoding);
+                contract5.Serialize(ref writer, in value.Item5);
+            }
             writer.WriteByte(0);
         }
     }
@@ -445,24 +475,36 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5, T6> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
-            writer.WriteTag(3, contract3.Encoding);
-            contract3.Serialize(ref writer, in value.Item3);
-
-            writer.WriteTag(4, contract4.Encoding);
-            contract4.Serialize(ref writer, in value.Item4);
-
-            writer.WriteTag(5, contract5.Encoding);
-            contract5.Serialize(ref writer, in value.Item5);
-
-            writer.WriteTag(6, contract6.Encoding);
-            contract6.Serialize(ref writer, in value.Item6);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
+            if (value.Item3 is not null)
+            {
+                writer.WriteTag(3, contract3.Encoding);
+                contract3.Serialize(ref writer, in value.Item3);
+            }
+            if (value.Item4 is not null)
+            {
+                writer.WriteTag(4, contract4.Encoding);
+                contract4.Serialize(ref writer, in value.Item4);
+            }
+            if (value.Item5 is not null)
+            {
+                writer.WriteTag(5, contract5.Encoding);
+                contract5.Serialize(ref writer, in value.Item5);
+            }
+            if (value.Item6 is not null)
+            {
+                writer.WriteTag(6, contract6.Encoding);
+                contract6.Serialize(ref writer, in value.Item6);
+            }
             writer.WriteByte(0);
         }
     }
@@ -551,27 +593,41 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5, T6, T7> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
-            writer.WriteTag(3, contract3.Encoding);
-            contract3.Serialize(ref writer, in value.Item3);
-
-            writer.WriteTag(4, contract4.Encoding);
-            contract4.Serialize(ref writer, in value.Item4);
-
-            writer.WriteTag(5, contract5.Encoding);
-            contract5.Serialize(ref writer, in value.Item5);
-
-            writer.WriteTag(6, contract6.Encoding);
-            contract6.Serialize(ref writer, in value.Item6);
-
-            writer.WriteTag(7, contract7.Encoding);
-            contract7.Serialize(ref writer, in value.Item7);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
+            if (value.Item3 is not null)
+            {
+                writer.WriteTag(3, contract3.Encoding);
+                contract3.Serialize(ref writer, in value.Item3);
+            }
+            if (value.Item4 is not null)
+            {
+                writer.WriteTag(4, contract4.Encoding);
+                contract4.Serialize(ref writer, in value.Item4);
+            }
+            if (value.Item5 is not null)
+            {
+                writer.WriteTag(5, contract5.Encoding);
+                contract5.Serialize(ref writer, in value.Item5);
+            }
+            if (value.Item6 is not null)
+            {
+                writer.WriteTag(6, contract6.Encoding);
+                contract6.Serialize(ref writer, in value.Item6);
+            }
+            if (value.Item7 is not null)
+            {
+                writer.WriteTag(7, contract7.Encoding);
+                contract7.Serialize(ref writer, in value.Item7);
+            }
             writer.WriteByte(0);
         }
     }
@@ -666,30 +722,45 @@ namespace Bshox.Contracts
 
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ValueTuple<T1, T2, T3, T4, T5, T6, T7, TRest> value)
         {
-            writer.WriteTag(1, contract1.Encoding);
-            contract1.Serialize(ref writer, in value.Item1);
-
-            writer.WriteTag(2, contract2.Encoding);
-            contract2.Serialize(ref writer, in value.Item2);
-
-            writer.WriteTag(3, contract3.Encoding);
-            contract3.Serialize(ref writer, in value.Item3);
-
-            writer.WriteTag(4, contract4.Encoding);
-            contract4.Serialize(ref writer, in value.Item4);
-
-            writer.WriteTag(5, contract5.Encoding);
-            contract5.Serialize(ref writer, in value.Item5);
-
-            writer.WriteTag(6, contract6.Encoding);
-            contract6.Serialize(ref writer, in value.Item6);
-
-            writer.WriteTag(7, contract7.Encoding);
-            contract7.Serialize(ref writer, in value.Item7);
-
-            writer.WriteTag(8, contract8.Encoding);
-            contract8.Serialize(ref writer, in value.Rest);
-
+            if (value.Item1 is not null)
+            {
+                writer.WriteTag(1, contract1.Encoding);
+                contract1.Serialize(ref writer, in value.Item1);
+            }
+            if (value.Item2 is not null)
+            {
+                writer.WriteTag(2, contract2.Encoding);
+                contract2.Serialize(ref writer, in value.Item2);
+            }
+            if (value.Item3 is not null)
+            {
+                writer.WriteTag(3, contract3.Encoding);
+                contract3.Serialize(ref writer, in value.Item3);
+            }
+            if (value.Item4 is not null)
+            {
+                writer.WriteTag(4, contract4.Encoding);
+                contract4.Serialize(ref writer, in value.Item4);
+            }
+            if (value.Item5 is not null)
+            {
+                writer.WriteTag(5, contract5.Encoding);
+                contract5.Serialize(ref writer, in value.Item5);
+            }
+            if (value.Item6 is not null)
+            {
+                writer.WriteTag(6, contract6.Encoding);
+                contract6.Serialize(ref writer, in value.Item6);
+            }
+            if (value.Item7 is not null)
+            {
+                writer.WriteTag(7, contract7.Encoding);
+                contract7.Serialize(ref writer, in value.Item7);
+            }
+            {
+                writer.WriteTag(8, contract8.Encoding);
+                contract8.Serialize(ref writer, in value.Rest);
+            }
             writer.WriteByte(0);
         }
     }

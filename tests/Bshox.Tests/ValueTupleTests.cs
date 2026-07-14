@@ -9,6 +9,14 @@ public class ValueTupleTests
     {
         await ValueTupleSerializer.ValueTupleInt32Int32Int32Int32.TestSerialization((1, 2, 3, 4), "080110021803200400");
         await ValueTupleSerializer.ValueTupleUInt32StringByte.TestSerialization((7u, "Test", (byte)0x23), "0807130454657374182300");
+        await ValueTupleSerializer.ValueTupleUInt32StringByte.TestSerialization((0, null, 0), "0800180000");
+    }
+
+    [Test]
+    public async Task Test2()
+    {
+        await ValueTupleSerializer.ValueTupleInt32Int32Int32Int32Int32Int32Int32ValueTupleInt32Int32
+            .TestSerialization((1, 2, 3, 4, 5, 6, 7, 8, 9), "080110021803200428053006380745080810090000");
     }
 
     [Test]
@@ -30,5 +38,33 @@ public class ValueTupleTests
               3: 35
             }
             """);
+
+        await ValueTupleSerializer.ValueTupleUInt32StringByte.TestProtoScope((0, null, 0), """
+            {
+              1: 0
+              3: 0
+            }
+            """);
+    }
+
+    [Test]
+    public async Task ProtoScope2()
+    {
+        await ValueTupleSerializer.ValueTupleInt32Int32Int32Int32Int32Int32Int32ValueTupleInt32Int32
+            .TestProtoScope((1, 2, 3, 4, 5, 6, 7, 8, 9), """
+             {
+               1: 1
+               2: 2
+               3: 3
+               4: 4
+               5: 5
+               6: 6
+               7: 7
+               8: {
+                 1: 8
+                 2: 9
+               }
+             }
+             """);
     }
 }

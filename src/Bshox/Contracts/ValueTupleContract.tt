@@ -66,9 +66,13 @@ namespace Bshox.Contracts
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly <#= typeName #> value)
         {
 <# for(var j = 1; j <= i; j++) { #>
-            writer.WriteTag(<#= j #>, <#= Contract(j) #>.Encoding);
-            <#= Contract(j) #>.Serialize(ref writer, in value.<#= ItemName(j) #>);
-
+<# if (j < 8) { #>
+            if (value.<#= ItemName(j) #> is not null)
+<# } #>
+            {
+                writer.WriteTag(<#= j #>, <#= Contract(j) #>.Encoding);
+                <#= Contract(j) #>.Serialize(ref writer, in value.<#= ItemName(j) #>);
+            }
 <# } #>
             writer.WriteByte(0);
         }
