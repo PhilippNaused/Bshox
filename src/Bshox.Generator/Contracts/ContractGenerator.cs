@@ -177,7 +177,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         code.WriteLine($$"""
                         private sealed class {{generatedTypeName}} : bsx::BshoxContract<{{typeName}}>
                         {
-                            internal {{generatedTypeName}}() : base(bsx::BshoxCode.SubObject)
+                            internal {{generatedTypeName}}() : base(bsx::BshoxEncoding.Object)
                             {
                             }
                         """);
@@ -222,7 +222,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
         code.WriteLine("""
                         while (true)
                         {
-                            uint key = reader.ReadTag(out bsx::BshoxCode encoding);
+                            uint key = reader.ReadTag(out bsx::BshoxEncoding encoding);
                             switch (key)
                             {
                                 case 0:

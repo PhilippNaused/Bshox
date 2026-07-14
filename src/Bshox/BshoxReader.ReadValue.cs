@@ -103,10 +103,10 @@ public ref partial struct BshoxReader
     /// </summary>
     /// <param name="encoding">The encoding of the field</param>
     /// <returns>The key of the field</returns>
-    public uint ReadTag(out BshoxCode encoding)
+    public uint ReadTag(out BshoxEncoding encoding)
     {
         uint tag = ReadVarInt32();
-        encoding = (BshoxCode)(tag & 0b111);
+        encoding = (BshoxEncoding)(tag & 0b111);
         return tag >>> 3;
     }
 
@@ -119,10 +119,10 @@ public ref partial struct BshoxReader
     /// This method will throw an exception if the array is too large to be read safely.
     /// </remarks>
     /// <exception cref="BshoxException">Thrown when the array is too large to be read safely.</exception>
-    public int ReadArrayHeader(out BshoxCode encoding)
+    public int ReadArrayHeader(out BshoxEncoding encoding)
     {
         uint tag = ReadVarInt32();
-        encoding = (BshoxCode)(tag & 0b111);
+        encoding = (BshoxEncoding)(tag & 0b111);
         uint count = tag >>> 3;
         // guard against malicious input by checking if the array is too large
         long minSize = GetMinLength(encoding) * count;
@@ -137,16 +137,16 @@ public ref partial struct BshoxReader
     /// <summary>
     /// Gets the minimum length of a value encoded with the specified encoding.
     /// </summary>
-    private static uint GetMinLength(BshoxCode encoding)
+    private static uint GetMinLength(BshoxEncoding encoding)
     {
         return encoding switch
         {
-            BshoxCode.VarInt => 1,
-            BshoxCode.Fixed4 => 4,
-            BshoxCode.Fixed8 => 8,
-            BshoxCode.Prefixed => 1,
-            BshoxCode.Array => 1,
-            BshoxCode.SubObject => 1,
+            BshoxEncoding.VarInt => 1,
+            BshoxEncoding.Fixed4 => 4,
+            BshoxEncoding.Fixed8 => 8,
+            BshoxEncoding.Prefixed => 1,
+            BshoxEncoding.Array => 1,
+            BshoxEncoding.Object => 1,
             _ => throw BshoxException.InvalidEncoding(encoding),
         };
     }
@@ -209,29 +209,29 @@ public ref partial struct BshoxReader
     /// Skips over a value of the specified encoding.
     /// </summary>
     /// <param name="encoding"></param>
-    public void SkipValue(BshoxCode encoding)
+    public void SkipValue(BshoxEncoding encoding)
     {
         switch (encoding)
         {
-            case BshoxCode.VarInt:
+            case BshoxEncoding.VarInt:
                 _ = ReadVarInt64();
                 break;
-            case BshoxCode.Fixed4:
+            case BshoxEncoding.Fixed4:
                 Advance(4);
                 break;
-            case BshoxCode.Fixed8:
+            case BshoxEncoding.Fixed8:
                 Advance(8);
                 break;
-            case BshoxCode.Prefixed:
+            case BshoxEncoding.Prefixed:
                 int length = (int)ReadVarInt32();
                 if (length < 0)
                     throw BshoxException.VarIntTooLong();
                 Advance(length);
                 break;
-            case BshoxCode.Array:
+            case BshoxEncoding.Array:
             {
                 IncreaseDepth();
-                int count = ReadArrayHeader(out BshoxCode code);
+                int count = ReadArrayHeader(out BshoxEncoding code);
                 for (int i = 0; i < count; i++)
                 {
                     SkipValue(code);
@@ -239,12 +239,12 @@ public ref partial struct BshoxReader
                 DecreaseDepth();
                 break;
             }
-            case BshoxCode.SubObject:
+            case BshoxEncoding.Object:
             {
                 IncreaseDepth();
                 while (true)
                 {
-                    uint key = ReadTag(out BshoxCode code);
+                    uint key = ReadTag(out BshoxEncoding code);
                     if (key == 0)
                     {
                         BshoxException.ThrowIfWrongEncoding(code, 0);

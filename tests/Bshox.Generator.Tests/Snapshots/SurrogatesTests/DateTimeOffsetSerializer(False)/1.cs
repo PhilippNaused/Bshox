@@ -14,7 +14,7 @@ partial class DateTimeOffsetSerializer
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_DateTimeOffsetSurrogate__SurrogateContract : bsx::BshoxContract<global::System.DateTimeOffset>
     {
-        internal TestModels_DateTimeOffsetSurrogate__SurrogateContract() : base(bsx::BshoxCode.SubObject)
+        internal TestModels_DateTimeOffsetSurrogate__SurrogateContract() : base(bsx::BshoxEncoding.Object)
         {
         }
     

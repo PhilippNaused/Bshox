@@ -50,7 +50,7 @@ internal sealed class SurrogateGenerator(INamedTypeSymbol surrogateType, string 
             code.WriteLine($$"""
                              private sealed class {{contractClassName}} : bsx::BshoxContract<{{typeName}}>
                              {
-                                 internal {{contractClassName}}() : base(bsx::BshoxCode.SubObject)
+                                 internal {{contractClassName}}() : base(bsx::BshoxEncoding.Object)
                                  {
                                  }
 

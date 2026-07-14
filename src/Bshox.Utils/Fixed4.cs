@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bshox.Utils;
 
-public sealed class Fixed4(float Value) : BshoxValue(BshoxCode.Fixed4)
+public sealed class Fixed4(float Value) : BshoxValue(BshoxEncoding.Fixed4)
 {
     public float Value { get; set; } = Value;
 

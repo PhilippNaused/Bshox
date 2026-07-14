@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Bshox.Utils;
 
-public sealed class Fixed8(double Value) : BshoxValue(BshoxCode.Fixed8)
+public sealed class Fixed8(double Value) : BshoxValue(BshoxEncoding.Fixed8)
 {
     public double Value { get; set; } = Value;
 

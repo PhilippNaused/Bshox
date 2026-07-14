@@ -27,7 +27,7 @@ namespace Bshox.Utils
         public BshoxArray(int capacity);
         public BshoxArray();
         public int Count { get; }
-        public Bshox.BshoxCode? ElementEncoding { get; }
+        public Bshox.BshoxEncoding? ElementEncoding { get; }
         public Bshox.Utils.BshoxValue this[int index] { get; set; }
         public void Add(Bshox.Utils.BshoxValue item);
         public void Clear();
@@ -77,8 +77,8 @@ namespace Bshox.Utils
     }
     public abstract class BshoxValue
     {
-        public Bshox.BshoxCode Encoding { get; }
-        public static Bshox.Utils.BshoxValue Read(ref Bshox.BshoxReader reader, Bshox.BshoxCode encoding);
+        public Bshox.BshoxEncoding Encoding { get; }
+        public static Bshox.Utils.BshoxValue Read(ref Bshox.BshoxReader reader, Bshox.BshoxEncoding encoding);
         public override string ToString();
         public abstract void Write(ref Bshox.BshoxWriter writer);
     }

@@ -4,7 +4,7 @@ namespace Bshox.Contracts;
 /// A Bshox contract for a type derived from <see cref="IDictionary{TKey,TValue}"/> or <see cref="IReadOnlyDictionary{TKey,TValue}"/>."/>
 /// </summary>
 internal abstract class DictionaryContractBase<TDict, TKey, TValue>(BshoxContract<TKey> keyContract, BshoxContract<TValue> valueContract)
-    : BshoxContract<TDict>(BshoxCode.Array)
+    : BshoxContract<TDict>(BshoxEncoding.Array)
     where TKey : notnull
     where TDict : IEnumerable<KeyValuePair<TKey, TValue>>
 {
@@ -18,11 +18,11 @@ internal abstract class DictionaryContractBase<TDict, TKey, TValue>(BshoxContrac
 
         if (count == 0)
         {
-            writer.WriteByte((byte)BshoxCode.SubObject);
+            writer.WriteByte((byte)BshoxEncoding.Object);
             return;
         }
 
-        writer.WriteArrayHeader(count, BshoxCode.SubObject);
+        writer.WriteArrayHeader(count, BshoxEncoding.Object);
 
 #if NET6_0_OR_GREATER
         foreach ((TKey key, TValue value1) in value)
@@ -48,7 +48,7 @@ internal abstract class DictionaryContractBase<TDict, TKey, TValue>(BshoxContrac
     public override void Deserialize(ref BshoxReader reader, out TDict value)
     {
         int count = reader.ReadArrayHeader(out var encoding);
-        BshoxException.ThrowIfWrongEncoding(encoding, BshoxCode.SubObject);
+        BshoxException.ThrowIfWrongEncoding(encoding, BshoxEncoding.Object);
 
         value = DeserializeInner(ref reader, count);
     }

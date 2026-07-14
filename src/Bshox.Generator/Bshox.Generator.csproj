@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Compile Include="..\Bshox\Attributes\BshoxAttributes.cs" />
-    <Compile Include="..\Bshox\BshoxCode.cs" />
+    <Compile Include="..\Bshox\BshoxEncoding.cs" />
     <Compile Include="..\Bshox\BshoxConstants.cs" />
   </ItemGroup>
 

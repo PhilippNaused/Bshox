@@ -214,7 +214,7 @@ internal sealed class MemberInfo
         {
             code.WriteComment($"Encoding: {inlineData.Encoding}");
 
-            code.WriteLine($"bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.{inlineData.Encoding});");
+            code.WriteLine($"bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxEncoding.{inlineData.Encoding});");
 
             code.WriteLine($"{LocalVariableName} = {inlineData.DeserializeString};");
         }

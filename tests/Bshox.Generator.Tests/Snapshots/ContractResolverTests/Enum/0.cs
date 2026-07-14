@@ -14,7 +14,7 @@ partial class Serializer1
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_Type1__BshoxContract : bsx::BshoxContract<global::TestModels.Type1>
     {
-        internal TestModels_Type1__BshoxContract() : base(bsx::BshoxCode.SubObject)
+        internal TestModels_Type1__BshoxContract() : base(bsx::BshoxEncoding.Object)
         {
         }
 
@@ -36,7 +36,7 @@ partial class Serializer1
             reader.IncreaseDepth();
             while (true)
             {
-                uint key = reader.ReadTag(out bsx::BshoxCode encoding);
+                uint key = reader.ReadTag(out bsx::BshoxEncoding encoding);
                 switch (key)
                 {
                     case 0:
@@ -51,7 +51,7 @@ partial class Serializer1
                     }
                     case 1:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxEncoding.VarInt);
                         __Value = (global::TestModels.Enum1)unchecked((int)reader.ReadVarInt32());
                         break;
                     }
