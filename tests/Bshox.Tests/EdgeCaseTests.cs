@@ -1,4 +1,5 @@
 using Bshox.TestUtils;
+using Bshox.Utils;
 using TestModels;
 
 namespace Bshox.Tests;
@@ -84,5 +85,49 @@ public class EdgeCaseTests
     public async Task NullList()
     {
         await Assert.ThrowsAsync<NullReferenceException>(async () => await DefaultContracts.List(DefaultContracts.String).TestSerialization(null!));
+    }
+
+    [Test]
+    public async Task InvalidKey1()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(static () =>
+        {
+            var writer = new BshoxWriter(new FixedBufferWriter());
+            writer.WriteTag(0, BshoxCode.VarInt);
+        });
+    }
+
+    [Test]
+    public async Task InvalidKey2()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(static () =>
+        {
+            var writer = new BshoxWriter(new FixedBufferWriter());
+            writer.WriteTag(BshoxConstants.MaxKey + 1, BshoxCode.VarInt);
+        });
+    }
+
+    [Test]
+    public async Task InvalidKey3()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(static () =>
+        {
+            _ = new BshoxObject
+            {
+                { 0, new VarInt(1) }
+            };
+        });
+    }
+
+    [Test]
+    public async Task InvalidKey4()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(static () =>
+        {
+            _ = new BshoxObject
+            {
+                { BshoxConstants.MaxKey + 1, new VarInt(1) }
+            };
+        });
     }
 }

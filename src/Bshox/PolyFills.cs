@@ -38,6 +38,22 @@ internal static class PolyFills
                 throw new ArgumentOutOfRangeException(paramName);
             }
         }
+
+        internal static void ThrowIfZero(uint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value == 0)
+            {
+                throw new ArgumentOutOfRangeException(paramName);
+            }
+        }
+
+        internal static void ThrowIfGreaterThan(uint value, uint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value > other)
+            {
+                throw new ArgumentOutOfRangeException(paramName);
+            }
+        }
     }
     extension(ArgumentNullException)
     {

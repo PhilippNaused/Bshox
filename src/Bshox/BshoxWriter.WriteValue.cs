@@ -92,9 +92,12 @@ public ref partial struct BshoxWriter
     /// <param name="encoding"></param>
     public void WriteTag(uint key, BshoxCode encoding)
     {
-        Debug.Assert(key >= BshoxConstants.MinKey, "key >= BshoxConstants.MinKey");
-        Debug.Assert(key <= BshoxConstants.MaxKey, "key <= BshoxConstants.MaxKey");
+        if (key == 0 || key > BshoxConstants.MaxKey)
+        {
+            Throw(key);
+        }
         WriteVarInt32((key << 3) | (uint)encoding);
+        static void Throw(uint key) => throw new ArgumentOutOfRangeException(nameof(key), key, $"Key must be between {BshoxConstants.MinKey} and {BshoxConstants.MaxKey}.");
     }
 
     /// <summary>

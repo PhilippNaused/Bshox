@@ -1,3 +1,4 @@
+using Bshox.Utils;
 using TestModels;
 
 namespace Bshox.Tests;
@@ -17,6 +18,54 @@ public class ValueTupleTests
     {
         await ValueTupleSerializer.ValueTupleInt32Int32Int32Int32Int32Int32Int32ValueTupleInt32Int32
             .TestSerialization((1, 2, 3, 4, 5, 6, 7, 8, 9), "080110021803200428053006380745080810090000");
+    }
+
+    [Test]
+    public async Task InvalidDataUnknownKey()
+    {
+        TestInvalidData(new BshoxObject
+        {
+            { 1, new VarInt(1) },
+            { 3, new VarInt(2) } // wrong key
+        });
+    }
+
+    [Test]
+    public async Task InvalidDataWrongOrder()
+    {
+        TestInvalidData(new BshoxObject
+        {
+            { 2, new VarInt(2) }, // out of order key
+            { 1, new VarInt(1) }
+        });
+    }
+
+    [Test]
+    public async Task InvalidDataWrongType()
+    {
+        TestInvalidData(new BshoxObject
+        {
+            { 1, new VarInt(1) },
+            { 2, new Fixed4(2) } // wrong type
+        });
+    }
+
+    [Test]
+    public async Task InvalidDataTooLong()
+    {
+        TestInvalidData(new BshoxObject
+        {
+            { 1, new VarInt(1) },
+            { 2, new VarInt(2) },
+            { 3, new VarInt(3) }
+        });
+    }
+
+    private static void TestInvalidData(BshoxObject x)
+    {
+        var data = x.ToBytes();
+        var c = ValueTupleSerializer.ValueTupleInt32Int64;
+        var ex = Assert.Throws<BshoxException>(() => c.Deserialize(data));
     }
 
     [Test]
