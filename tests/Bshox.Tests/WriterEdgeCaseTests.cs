@@ -19,7 +19,7 @@ public class WriterEdgeCaseTests
     }
 
     [Test]
-    public async Task WriteBytes0()
+    public void WriteBytes0()
     {
         var buffer = new FixedBufferWriter();
         var writer = new BshoxWriter(buffer);
