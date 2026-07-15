@@ -13,7 +13,7 @@ public interface IBshoxContract
     /// <summary>
     /// The encoding format used by this contract
     /// </summary>
-    BshoxCode Encoding { get; }
+    BshoxEncoding Encoding { get; }
 
     /// <summary>
     /// Serializes a value of type <see cref="Type"/>.
@@ -35,10 +35,10 @@ public interface IBshoxContract
 /// </summary>
 /// <typeparam name="T">The type that this contract is describing</typeparam>
 /// <param name="encoding">The encoding format used by this contract</param>
-public abstract class BshoxContract<T>(BshoxCode encoding) : IBshoxContract
+public abstract class BshoxContract<T>(BshoxEncoding encoding) : IBshoxContract
 {
     /// <inheritdoc />
-    public BshoxCode Encoding { get; } = encoding;
+    public BshoxEncoding Encoding { get; } = encoding;
 
     /// <inheritdoc />
     Type IBshoxContract.Type { get; } = typeof(T);
@@ -77,7 +77,7 @@ public abstract class BshoxContract<T>(BshoxCode encoding) : IBshoxContract
 /// </summary>
 /// <typeparam name="T">The type of elements contained in the span to be serialized or deserialized.</typeparam>
 /// <remarks>
-/// Contracts that serialize/deserialize spans of values using the <see cref="BshoxCode.Array"/> encoding can use
+/// Contracts that serialize/deserialize spans of values using the <see cref="BshoxEncoding.Array"/> encoding can use
 /// this interface to provide optimized implementations for span operations if the contract for the element type
 /// <typeparamref name="T"/> implements this interface.
 /// </remarks>

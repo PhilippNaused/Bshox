@@ -21,7 +21,7 @@ public partial class CustomContracts3;
 //[BshoxDefaultContract(typeof(CustomListContract<>), nameof(CustomListContract<>.Instance))]
 //public partial class CustomContracts4;
 
-public sealed class CustomIntContract() : BshoxContract<int>(BshoxCode.Fixed4)
+public sealed class CustomIntContract() : BshoxContract<int>(BshoxEncoding.Fixed4)
 {
     /// <inheritdoc />
     public override void Serialize(ref BshoxWriter writer, scoped ref readonly int value)
@@ -38,7 +38,7 @@ public sealed class CustomIntContract() : BshoxContract<int>(BshoxCode.Fixed4)
     public static BshoxContract<int> Instance { get; } = new CustomIntContract();
 }
 
-public sealed class CustomListContract<T>() : BshoxContract<List<T>>(BshoxCode.VarInt)
+public sealed class CustomListContract<T>() : BshoxContract<List<T>>(BshoxEncoding.VarInt)
 {
 #pragma warning disable CA1000 // Do not declare static members on generic types
     public static BshoxContract<List<T>> Instance { get; } = new CustomListContract<T>();

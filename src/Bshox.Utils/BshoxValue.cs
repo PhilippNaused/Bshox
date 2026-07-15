@@ -5,23 +5,23 @@ namespace Bshox.Utils;
 
 public abstract class BshoxValue
 {
-    private protected BshoxValue(BshoxCode encoding)
+    private protected BshoxValue(BshoxEncoding encoding)
     {
         Encoding = encoding;
     }
 
-    public BshoxCode Encoding { get; }
+    public BshoxEncoding Encoding { get; }
 
-    public static BshoxValue Read(ref BshoxReader reader, BshoxCode encoding)
+    public static BshoxValue Read(ref BshoxReader reader, BshoxEncoding encoding)
     {
         return encoding switch
         {
-            BshoxCode.VarInt => VarInt.Read(ref reader),
-            BshoxCode.Fixed4 => Fixed4.Read(ref reader),
-            BshoxCode.Fixed8 => Fixed8.Read(ref reader),
-            BshoxCode.Prefixed => BshoxBlob.Read(ref reader),
-            BshoxCode.SubObject => BshoxObject.Read(ref reader),
-            BshoxCode.Array => BshoxArray.Read(ref reader),
+            BshoxEncoding.VarInt => VarInt.Read(ref reader),
+            BshoxEncoding.Fixed4 => Fixed4.Read(ref reader),
+            BshoxEncoding.Fixed8 => Fixed8.Read(ref reader),
+            BshoxEncoding.Prefixed => BshoxBlob.Read(ref reader),
+            BshoxEncoding.Object => BshoxObject.Read(ref reader),
+            BshoxEncoding.Array => BshoxArray.Read(ref reader),
             _ => throw BshoxException.InvalidEncoding(encoding),
         };
     }

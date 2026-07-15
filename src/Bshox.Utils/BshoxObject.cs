@@ -6,7 +6,7 @@ using System.Text;
 namespace Bshox.Utils;
 
 #pragma warning disable CA1710 // Identifiers should have correct suffix
-public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection<KeyValuePair<uint, BshoxValue>>
+public sealed class BshoxObject() : BshoxValue(BshoxEncoding.Object), ICollection<KeyValuePair<uint, BshoxValue>>
 #pragma warning restore CA1710 // Identifiers should have correct suffix
 {
     private readonly List<KeyValuePair<uint, BshoxValue>> _values = [];
@@ -79,7 +79,12 @@ public sealed class BshoxObject() : BshoxValue(BshoxCode.SubObject), ICollection
         _ = text.Append(Constants.EndObject);
     }
 
-    public void Add(uint key, BshoxValue value) => _values.Add(new KeyValuePair<uint, BshoxValue>(key, value));
+    public void Add(uint key, BshoxValue value)
+    {
+        ArgumentOutOfRangeException.ThrowIfZero(key);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(key, BshoxConstants.MaxKey);
+        _values.Add(new KeyValuePair<uint, BshoxValue>(key, value));
+    }
 
     /// <inheritdoc />
     public void Clear() => _values.Clear();

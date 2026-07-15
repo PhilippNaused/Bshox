@@ -64,7 +64,7 @@ public class ReaderEdgeCaseTests
         {
             var memory = new byte[10];
             var reader = new BshoxReader(memory);
-            reader.SkipValue((BshoxCode)6); // valid values are 0-5, so this should throw an exception
+            reader.SkipValue((BshoxEncoding)6); // valid values are 0-5, so this should throw an exception
         });
         await Assert.That(ex.InnerException).IsNull();
     }

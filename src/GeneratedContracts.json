@@ -149,11 +149,23 @@
       "Encoding": "Fixed8"
     },
     {
+      "Name": "Complex",
+      "Type": "System.Numerics.Complex",
+      "Encoding": "Object"
+    },
+    {
       "Name": "TimeSpan",
       "Type": "System.TimeSpan",
       "Encoding": "VarInt",
       "Read": "new System.TimeSpan(reader.ReadZigZagVarInt64())",
       "Write": "writer.WriteZigZagVarInt64({0}.Ticks)"
+    },
+    {
+      "Name": "Uri",
+      "Type": "System.Uri",
+      "Encoding": "Prefixed",
+      "Read": "new System.Uri(reader.ReadString(), UriKind.RelativeOrAbsolute)",
+      "Write": "writer.WriteString({0}.OriginalString)"
     }
   ],
   "Other": [

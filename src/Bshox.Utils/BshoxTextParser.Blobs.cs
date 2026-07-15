@@ -9,7 +9,7 @@ public partial class BshoxTextParser
     internal static byte[] ParseBlob(Token token)
     {
         if (token.EmptyOrWhitespace() || token.Length < 2)
-            throw BshoxException.CannotParse(token, BshoxCode.Prefixed);
+            throw BshoxException.CannotParse(token, BshoxEncoding.Prefixed);
         try
         {
             char first = token[0];
@@ -19,12 +19,12 @@ public partial class BshoxTextParser
             {
                 (Constants.HexDelimiter, Constants.HexDelimiter) => ParseHex(inner.Span),
                 (Constants.TextDelimiter, Constants.TextDelimiter) => ParseUtf8(inner.Span),
-                _ => throw BshoxException.CannotParse(token, BshoxCode.Prefixed)
+                _ => throw BshoxException.CannotParse(token, BshoxEncoding.Prefixed)
             };
         }
         catch (FormatException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.Prefixed, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.Prefixed, e);
         }
     }
 

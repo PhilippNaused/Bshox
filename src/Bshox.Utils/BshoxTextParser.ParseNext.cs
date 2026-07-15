@@ -46,11 +46,11 @@ public partial class BshoxTextParser
         }
         catch (FormatException e)
         {
-            throw BshoxException.CannotParse(tag, BshoxCode.VarInt, e);
+            throw BshoxException.CannotParse(tag, BshoxEncoding.VarInt, e);
         }
         catch (OverflowException e)
         {
-            throw BshoxException.CannotParse(tag, BshoxCode.VarInt, e);
+            throw BshoxException.CannotParse(tag, BshoxEncoding.VarInt, e);
         }
         return key;
     }
@@ -63,7 +63,7 @@ public partial class BshoxTextParser
         if (start != Constants.StartArray)
             throw new BshoxParserException(start, $"Expected '{Constants.StartArray}' but got '{start}'.");
         BshoxArray array = [];
-        BshoxCode? encoding = null;
+        BshoxEncoding? encoding = null;
         while (_tokens.Count > 0)
         {
             if (_tokens.Peek() == Constants.EndArray) // end of array
@@ -83,7 +83,7 @@ public partial class BshoxTextParser
 
     private int depth;
 
-    internal BshoxValue ParseNextValue(BshoxCode? encoding = null)
+    internal BshoxValue ParseNextValue(BshoxEncoding? encoding = null)
     {
         if (_tokens.Count == 0)
             throw BshoxException.EndOfInput();
@@ -96,12 +96,12 @@ public partial class BshoxTextParser
             encoding ??= GuessNextEncoding();
             return encoding switch
             {
-                BshoxCode.VarInt => new VarInt(ParseVarInt(_tokens.Dequeue())),
-                BshoxCode.Fixed4 => new Fixed4(ParseFixed4(_tokens.Dequeue())),
-                BshoxCode.Fixed8 => new Fixed8(ParseFixed8(_tokens.Dequeue())),
-                BshoxCode.Prefixed => new BshoxBlob(ParseBlob(_tokens.Dequeue())),
-                BshoxCode.Array => ParseNextArray(),
-                BshoxCode.SubObject => ParseNextObject(),
+                BshoxEncoding.VarInt => new VarInt(ParseVarInt(_tokens.Dequeue())),
+                BshoxEncoding.Fixed4 => new Fixed4(ParseFixed4(_tokens.Dequeue())),
+                BshoxEncoding.Fixed8 => new Fixed8(ParseFixed8(_tokens.Dequeue())),
+                BshoxEncoding.Prefixed => new BshoxBlob(ParseBlob(_tokens.Dequeue())),
+                BshoxEncoding.Array => ParseNextArray(),
+                BshoxEncoding.Object => ParseNextObject(),
                 _ => throw new NotSupportedException($"Unsupported encoding: {encoding}"),
             };
         }
@@ -111,7 +111,7 @@ public partial class BshoxTextParser
         }
     }
 
-    private BshoxCode GuessNextEncoding()
+    private BshoxEncoding GuessNextEncoding()
     {
         return GuessEncoding(_tokens.Peek());
     }

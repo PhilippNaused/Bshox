@@ -11,7 +11,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<sbyte> SByte { get; } = new SByteContract();
 
-    private sealed partial class SByteContract() : BshoxContract<sbyte>(BshoxCode.VarInt)
+    private sealed partial class SByteContract() : BshoxContract<sbyte>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out sbyte value) => value = unchecked((sbyte)checked((byte)reader.ReadVarInt32()));
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly sbyte value) => writer.WriteVarInt32(unchecked((byte)value));
@@ -22,7 +22,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<byte> Byte { get; } = new ByteContract();
 
-    private sealed partial class ByteContract() : BshoxContract<byte>(BshoxCode.VarInt)
+    private sealed partial class ByteContract() : BshoxContract<byte>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out byte value) => value = checked((byte)reader.ReadVarInt32());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly byte value) => writer.WriteVarInt32(value);
@@ -33,7 +33,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<short> Int16 { get; } = new Int16Contract();
 
-    private sealed partial class Int16Contract() : BshoxContract<short>(BshoxCode.VarInt)
+    private sealed partial class Int16Contract() : BshoxContract<short>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out short value) => value = unchecked((short)checked((ushort)reader.ReadVarInt32()));
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly short value) => writer.WriteVarInt32(unchecked((ushort)value));
@@ -44,7 +44,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<ushort> UInt16 { get; } = new UInt16Contract();
 
-    private sealed partial class UInt16Contract() : BshoxContract<ushort>(BshoxCode.VarInt)
+    private sealed partial class UInt16Contract() : BshoxContract<ushort>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out ushort value) => value = checked((ushort)reader.ReadVarInt32());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ushort value) => writer.WriteVarInt32(value);
@@ -55,7 +55,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<char> Char { get; } = new CharContract();
 
-    private sealed partial class CharContract() : BshoxContract<char>(BshoxCode.VarInt)
+    private sealed partial class CharContract() : BshoxContract<char>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out char value) => value = checked((char)reader.ReadVarInt32());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly char value) => writer.WriteVarInt32((uint)value);
@@ -66,7 +66,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<int> Int32 { get; } = new Int32Contract();
 
-    private sealed partial class Int32Contract() : BshoxContract<int>(BshoxCode.VarInt)
+    private sealed partial class Int32Contract() : BshoxContract<int>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out int value) => value = unchecked((int)reader.ReadVarInt32());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly int value) => writer.WriteVarInt32(unchecked((uint)value));
@@ -77,7 +77,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<int> Int32Z { get; } = new Int32ZContract();
 
-    private sealed partial class Int32ZContract() : BshoxContract<int>(BshoxCode.VarInt)
+    private sealed partial class Int32ZContract() : BshoxContract<int>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out int value) => value = reader.ReadZigZagVarInt32();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly int value) => writer.WriteZigZagVarInt32(value);
@@ -88,7 +88,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<uint> UInt32 { get; } = new UInt32Contract();
 
-    private sealed partial class UInt32Contract() : BshoxContract<uint>(BshoxCode.VarInt)
+    private sealed partial class UInt32Contract() : BshoxContract<uint>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out uint value) => value = reader.ReadVarInt32();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly uint value) => writer.WriteVarInt32(value);
@@ -99,7 +99,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<ulong> UInt64 { get; } = new UInt64Contract();
 
-    private sealed partial class UInt64Contract() : BshoxContract<ulong>(BshoxCode.VarInt)
+    private sealed partial class UInt64Contract() : BshoxContract<ulong>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out ulong value) => value = reader.ReadVarInt64();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly ulong value) => writer.WriteVarInt64(value);
@@ -110,7 +110,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<long> Int64 { get; } = new Int64Contract();
 
-    private sealed partial class Int64Contract() : BshoxContract<long>(BshoxCode.VarInt)
+    private sealed partial class Int64Contract() : BshoxContract<long>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out long value) => value = unchecked((long)reader.ReadVarInt64());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly long value) => writer.WriteVarInt64(unchecked((ulong)value));
@@ -121,7 +121,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<long> Int64Z { get; } = new Int64ZContract();
 
-    private sealed partial class Int64ZContract() : BshoxContract<long>(BshoxCode.VarInt)
+    private sealed partial class Int64ZContract() : BshoxContract<long>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out long value) => value = reader.ReadZigZagVarInt64();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly long value) => writer.WriteZigZagVarInt64(value);
@@ -132,7 +132,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<float> Single { get; } = new SingleContract();
 
-    private sealed partial class SingleContract() : BshoxContract<float>(BshoxCode.Fixed4), ISpanContract<float>
+    private sealed partial class SingleContract() : BshoxContract<float>(BshoxEncoding.Fixed4), ISpanContract<float>
     {
         public override void Deserialize(ref BshoxReader reader, out float value) => value = reader.ReadSingle();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly float value) => writer.WriteSingle(value);
@@ -145,7 +145,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<double> Double { get; } = new DoubleContract();
 
-    private sealed partial class DoubleContract() : BshoxContract<double>(BshoxCode.Fixed8), ISpanContract<double>
+    private sealed partial class DoubleContract() : BshoxContract<double>(BshoxEncoding.Fixed8), ISpanContract<double>
     {
         public override void Deserialize(ref BshoxReader reader, out double value) => value = reader.ReadDouble();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly double value) => writer.WriteDouble(value);
@@ -158,7 +158,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<string> String { get; } = new StringContract();
 
-    private sealed partial class StringContract() : BshoxContract<string>(BshoxCode.Prefixed)
+    private sealed partial class StringContract() : BshoxContract<string>(BshoxEncoding.Prefixed)
     {
         public override void Deserialize(ref BshoxReader reader, out string value) => value = reader.ReadString();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly string value) => writer.WriteString(value);
@@ -169,7 +169,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<bool> Boolean { get; } = new BooleanContract();
 
-    private sealed partial class BooleanContract() : BshoxContract<bool>(BshoxCode.VarInt)
+    private sealed partial class BooleanContract() : BshoxContract<bool>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out bool value) => value = reader.ReadByte() != 0;
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly bool value) => writer.WriteByte(value ? (byte)1 : (byte)0);
@@ -180,7 +180,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<byte[]> ByteArray { get; } = new ByteArrayContract();
 
-    private sealed partial class ByteArrayContract() : BshoxContract<byte[]>(BshoxCode.Prefixed)
+    private sealed partial class ByteArrayContract() : BshoxContract<byte[]>(BshoxEncoding.Prefixed)
     {
         public override void Deserialize(ref BshoxReader reader, out byte[] value) => value = reader.ReadByteArray();
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly byte[] value) => writer.WriteByteArray(value);
@@ -191,7 +191,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<System.Collections.Specialized.BitVector32> BitVector32 { get; } = new BitVector32Contract();
 
-    private sealed partial class BitVector32Contract() : BshoxContract<System.Collections.Specialized.BitVector32>(BshoxCode.Fixed4)
+    private sealed partial class BitVector32Contract() : BshoxContract<System.Collections.Specialized.BitVector32>(BshoxEncoding.Fixed4)
     {
         public override void Deserialize(ref BshoxReader reader, out System.Collections.Specialized.BitVector32 value) => value = new System.Collections.Specialized.BitVector32(unchecked((int)reader.ReadUInt32()));
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Collections.Specialized.BitVector32 value) => writer.WriteUInt32(unchecked((uint)value.Data));
@@ -202,7 +202,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<System.Guid> Guid { get; } = new GuidContract();
 
-    private sealed partial class GuidContract() : BshoxContract<System.Guid>(BshoxCode.Prefixed)
+    private sealed partial class GuidContract() : BshoxContract<System.Guid>(BshoxEncoding.Prefixed)
     {
         public override partial void Deserialize(ref BshoxReader reader, out System.Guid value);
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.Guid value);
@@ -213,7 +213,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<System.Numerics.BigInteger> BigInteger { get; } = new BigIntegerContract();
 
-    private sealed partial class BigIntegerContract() : BshoxContract<System.Numerics.BigInteger>(BshoxCode.Prefixed)
+    private sealed partial class BigIntegerContract() : BshoxContract<System.Numerics.BigInteger>(BshoxEncoding.Prefixed)
     {
         public override partial void Deserialize(ref BshoxReader reader, out System.Numerics.BigInteger value);
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.Numerics.BigInteger value);
@@ -224,7 +224,7 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<decimal> Decimal { get; } = new DecimalContract();
 
-    private sealed partial class DecimalContract() : BshoxContract<decimal>(BshoxCode.Prefixed)
+    private sealed partial class DecimalContract() : BshoxContract<decimal>(BshoxEncoding.Prefixed)
     {
         public override partial void Deserialize(ref BshoxReader reader, out decimal value);
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly decimal value);
@@ -235,10 +235,21 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<System.DateTime> DateTime { get; } = new DateTimeContract();
 
-    private sealed partial class DateTimeContract() : BshoxContract<System.DateTime>(BshoxCode.Fixed8)
+    private sealed partial class DateTimeContract() : BshoxContract<System.DateTime>(BshoxEncoding.Fixed8)
     {
         public override partial void Deserialize(ref BshoxReader reader, out System.DateTime value);
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.DateTime value);
+    }
+
+    /// <summary>
+    /// A Bshox contract for <see cref="System.Numerics.Complex" />
+    /// </summary>
+    public static BshoxContract<System.Numerics.Complex> Complex { get; } = new ComplexContract();
+
+    private sealed partial class ComplexContract() : BshoxContract<System.Numerics.Complex>(BshoxEncoding.Object)
+    {
+        public override partial void Deserialize(ref BshoxReader reader, out System.Numerics.Complex value);
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly System.Numerics.Complex value);
     }
 
     /// <summary>
@@ -246,10 +257,21 @@ partial class DefaultContracts
     /// </summary>
     public static BshoxContract<System.TimeSpan> TimeSpan { get; } = new TimeSpanContract();
 
-    private sealed partial class TimeSpanContract() : BshoxContract<System.TimeSpan>(BshoxCode.VarInt)
+    private sealed partial class TimeSpanContract() : BshoxContract<System.TimeSpan>(BshoxEncoding.VarInt)
     {
         public override void Deserialize(ref BshoxReader reader, out System.TimeSpan value) => value = new System.TimeSpan(reader.ReadZigZagVarInt64());
         public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.TimeSpan value) => writer.WriteZigZagVarInt64(value.Ticks);
+    }
+
+    /// <summary>
+    /// A Bshox contract for <see cref="System.Uri" />
+    /// </summary>
+    public static BshoxContract<System.Uri> Uri { get; } = new UriContract();
+
+    private sealed partial class UriContract() : BshoxContract<System.Uri>(BshoxEncoding.Prefixed)
+    {
+        public override void Deserialize(ref BshoxReader reader, out System.Uri value) => value = new System.Uri(reader.ReadString(), UriKind.RelativeOrAbsolute);
+        public override void Serialize(ref BshoxWriter writer, scoped ref readonly System.Uri value) => writer.WriteString(value.OriginalString);
     }
 
 }

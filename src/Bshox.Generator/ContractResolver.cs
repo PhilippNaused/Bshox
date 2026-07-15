@@ -290,10 +290,9 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
 
     private ContractInfo CreateEnumContract(INamedTypeSymbol enumType, INamedTypeSymbol enumUnderlyingType)
     {
-        var innerContractDemand = ContractDemand.DefaultForType(enumUnderlyingType);
-        var innerContract = ResolveContract(innerContractDemand);
         InlineContractData? inlineData = null;
-        if (innerContract.InlineData is { } innerData)
+        var underlyingInfo = KnownTypeInfo.GetKnownTypeInfo(enumUnderlyingType);
+        if (underlyingInfo?.InlineData is { } innerData)
         {
             // inline the underlying type contract by adding a cast to/from the enum type
             var underlyingTypeName = enumUnderlyingType.FullyQualifiedToString();
@@ -304,12 +303,15 @@ internal sealed class ContractResolver(IGeneratorContext context) : IContractRes
             var deserializeString = $"({typeName}){innerData.DeserializeString}";
             inlineData = new InlineContractData(serializeFormat, deserializeString, innerData.Encoding);
         }
+        else
+        {
+            Debug.Fail("Failed to get inline data for enum underlying type");
+        }
         return new ContractInfo(enumType, GetUniqueName(enumType), ContractKind.BuiltIn)
         {
-            Dependencies = [innerContractDemand],
-            StaticDependencies = true,
+            Dependencies = [],
             InlineData = inlineData,
-            InitializeStatementFormat = $"bsx::DefaultContracts.Enum<{enumType.FullyQualifiedToString()}>($0)"
+            InitializeStatementFormat = $"bsx::DefaultContracts.Enum<{enumType.FullyQualifiedToString()}>()"
         };
     }
 

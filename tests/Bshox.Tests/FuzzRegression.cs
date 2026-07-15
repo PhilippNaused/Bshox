@@ -73,9 +73,9 @@ public class FuzzRegression(bool segmented)
     {
         bool success = false;
 #if NETCOREAPP
-        foreach (BshoxCode code in Enum.GetValues<BshoxCode>())
+        foreach (BshoxEncoding code in Enum.GetValues<BshoxEncoding>())
 #else
-        foreach (BshoxCode code in Enum.GetValues(typeof(BshoxCode)))
+        foreach (BshoxEncoding code in Enum.GetValues(typeof(BshoxEncoding)))
 #endif
         {
             BshoxReader reader;

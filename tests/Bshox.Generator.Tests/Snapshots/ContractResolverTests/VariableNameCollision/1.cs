@@ -26,7 +26,6 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     /// <para><c>2</c>: <see cref="global::TestModels2.MyEnum" /> Value2</para>
     /// </remarks>
     public static bsx::BshoxContract<global::TestModels.Type1> Type1 => c_Type1;
-    private static readonly bsx::BshoxContract<int> c_Int32;
     private static readonly bsx::BshoxContract<global::TestModels2.MyEnum> c_MyEnum;
     private static readonly bsx::BshoxContract<global::TestModels.MyEnum> c_MyEnum_1;
 
@@ -38,17 +37,14 @@ sealed partial class Serializer1 : bsx::BshoxSerializer
     static Serializer1()
     {
         c_Type1 = new TestModels_Type1__BshoxContract();
-        c_Int32 = bsx::DefaultContracts.Int32;
-        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels2.MyEnum>(c_Int32);
-        c_MyEnum_1 = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>(c_Int32);
+        c_MyEnum = bsx::DefaultContracts.Enum<global::TestModels2.MyEnum>();
+        c_MyEnum_1 = bsx::DefaultContracts.Enum<global::TestModels.MyEnum>();
     }
 
     protected override bsx::IBshoxContract? GetContractInternal(global::System.Type type)
     {
         if (type == typeof(global::TestModels.Type1))
             return c_Type1;
-        if (type == typeof(int))
-            return c_Int32;
         if (type == typeof(global::TestModels2.MyEnum))
             return c_MyEnum;
         if (type == typeof(global::TestModels.MyEnum))

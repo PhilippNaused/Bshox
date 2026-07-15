@@ -311,6 +311,17 @@ internal static class ExampleData
         }
     }
 
+    public static IEnumerable<Uri> Uris()
+    {
+        yield return new Uri("http://example.com");
+        yield return new Uri("https://example.com");
+        yield return new Uri("https://example.com?query=example%23&param=value#fragment");
+        yield return new Uri("ftp://example.com");
+        yield return new Uri("file:///C:/path/to/file.txt");
+        yield return new Uri("mailto:example@example.com");
+        // relative URIs
+    }
+
     public static IEnumerable<BigInteger> BigIntegers()
     {
         yield return BigInteger.Zero;
@@ -325,6 +336,20 @@ internal static class ExampleData
             byte[] bytes = new byte[rand.Next(1, 1000)]; // use values over 256 to test the non stack allocated path
             rand.NextBytes(bytes);
             yield return new BigInteger(bytes);
+        }
+    }
+
+    public static IEnumerable<Complex> Complexes()
+    {
+        yield return Complex.Zero;
+        yield return Complex.One;
+        yield return Complex.ImaginaryOne;
+        yield return new Complex(double.PositiveInfinity, double.PositiveInfinity);
+        yield return new Complex(double.NaN, double.NaN);
+        var rand = Randomizer;
+        for (int i = 0; i < TestCount; i++)
+        {
+            yield return new Complex(rand.NextDouble2(), rand.NextDouble2());
         }
     }
 

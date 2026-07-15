@@ -12,11 +12,11 @@ public partial class BshoxTextParser
         }
         catch (FormatException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.VarInt, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.VarInt, e);
         }
         catch (OverflowException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.VarInt, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.VarInt, e);
         }
     }
 
@@ -76,11 +76,11 @@ public partial class BshoxTextParser
         // TODO: consider adding a custom exception type
         catch (FormatException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.Fixed4, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.Fixed4, e);
         }
         catch (OverflowException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.Fixed4, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.Fixed4, e);
         }
     }
 
@@ -152,11 +152,11 @@ public partial class BshoxTextParser
         // TODO: consider adding a custom exception type
         catch (FormatException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.Fixed8, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.Fixed8, e);
         }
         catch (OverflowException e)
         {
-            throw BshoxException.CannotParse(token, BshoxCode.Fixed8, e);
+            throw BshoxException.CannotParse(token, BshoxEncoding.Fixed8, e);
         }
     }
 

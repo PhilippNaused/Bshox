@@ -28,7 +28,7 @@ foreach (var type in contracts.Primitives)
     /// </summary>
     public static BshoxContract<<#= type.Type #>> <#= type.Name #> { get; } = new <#= type.Name #>Contract();
 
-    private sealed partial class <#= type.Name #>Contract() : BshoxContract<<#= type.Type #>>(BshoxCode.<#= type.Encoding #>)<#= type.SpanOptimized ? ($", ISpanContract<{type.Type}>") : "" #>
+    private sealed partial class <#= type.Name #>Contract() : BshoxContract<<#= type.Type #>>(BshoxEncoding.<#= type.Encoding #>)<#= type.SpanOptimized ? ($", ISpanContract<{type.Type}>") : "" #>
     {
 <#
 if (type.Write is null)

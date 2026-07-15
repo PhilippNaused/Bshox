@@ -23,15 +23,6 @@
 [module: System.Security.UnverifiableCode]
 namespace Bshox
 {
-    public enum BshoxCode : byte
-    {
-        VarInt = 0,
-        Fixed4 = 1,
-        Fixed8 = 2,
-        Prefixed = 3,
-        Array = 4,
-        SubObject = 5
-    }
     public static class BshoxConstants
     {
         public const uint MinKey = 1u;
@@ -39,8 +30,8 @@ namespace Bshox
     }
     public abstract class BshoxContract<T> : Bshox.IBshoxContract
     {
-        protected BshoxContract(Bshox.BshoxCode encoding);
-        public Bshox.BshoxCode Encoding { get; }
+        protected BshoxContract(Bshox.BshoxEncoding encoding);
+        public Bshox.BshoxEncoding Encoding { get; }
         public abstract void Deserialize(ref Bshox.BshoxReader reader, out T value);
         public abstract void Serialize(ref Bshox.BshoxWriter writer, scoped ref readonly T value);
     }
@@ -58,6 +49,15 @@ namespace Bshox
             public async System.Threading.Tasks.Task<T> DeserializeAsync(System.IO.Stream stream, Bshox.BshoxOptions? options = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         }
     }
+    public enum BshoxEncoding : byte
+    {
+        VarInt = 0,
+        Fixed4 = 1,
+        Fixed8 = 2,
+        Prefixed = 3,
+        Array = 4,
+        Object = 5
+    }
     [System.Serializable]
     public class BshoxException : System.Exception
     {
@@ -66,7 +66,7 @@ namespace Bshox
         protected BshoxException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);
         public static Bshox.BshoxException RequiredMemberMissing(string name, uint id);
-        public static void ThrowIfWrongEncoding(Bshox.BshoxCode encoding, Bshox.BshoxCode expected);
+        public static void ThrowIfWrongEncoding(Bshox.BshoxEncoding encoding, Bshox.BshoxEncoding expected);
     }
     public sealed record BshoxOptions
     {
@@ -94,20 +94,20 @@ namespace Bshox
         public void CopyTo(scoped System.Span<byte> destination);
         public void DecreaseDepth();
         public void IncreaseDepth();
-        public int ReadArrayHeader(out Bshox.BshoxCode encoding);
+        public int ReadArrayHeader(out Bshox.BshoxEncoding encoding);
         public byte ReadByte();
         public byte[] ReadByteArray();
         public double ReadDouble();
         public float ReadSingle();
         public string ReadString();
-        public uint ReadTag(out Bshox.BshoxCode encoding);
+        public uint ReadTag(out Bshox.BshoxEncoding encoding);
         public uint ReadUInt32();
         public ulong ReadUInt64();
         public uint ReadVarInt32();
         public ulong ReadVarInt64();
         public int ReadZigZagVarInt32();
         public long ReadZigZagVarInt64();
-        public void SkipValue(Bshox.BshoxCode encoding);
+        public void SkipValue(Bshox.BshoxEncoding encoding);
     }
     public abstract class BshoxSerializer
     {
@@ -134,14 +134,14 @@ namespace Bshox
         public void Flush();
         public System.Span<byte> GetSpan(int sizeHint);
         public void IncreaseDepth();
-        public void WriteArrayHeader(int count, Bshox.BshoxCode elementEncoding);
+        public void WriteArrayHeader(int count, Bshox.BshoxEncoding elementEncoding);
         public void WriteByte(byte value);
         public void WriteByteArray(byte[] value);
         public void WriteBytes(System.ReadOnlySpan<byte> source);
         public void WriteDouble(double value);
         public void WriteSingle(float value);
         public void WriteString(string value);
-        public void WriteTag(uint key, Bshox.BshoxCode encoding);
+        public void WriteTag(uint key, Bshox.BshoxEncoding encoding);
         public void WriteUInt32(uint value);
         public void WriteUInt64(ulong value);
         public void WriteVarInt32(uint value);
@@ -157,6 +157,7 @@ namespace Bshox
         public static Bshox.BshoxContract<byte> Byte { get; }
         public static Bshox.BshoxContract<byte[]> ByteArray { get; }
         public static Bshox.BshoxContract<char> Char { get; }
+        public static Bshox.BshoxContract<System.Numerics.Complex> Complex { get; }
         public static Bshox.BshoxContract<System.DateTime> DateTime { get; }
         public static Bshox.BshoxContract<decimal> Decimal { get; }
         public static Bshox.BshoxContract<double> Double { get; }
@@ -173,6 +174,7 @@ namespace Bshox
         public static Bshox.BshoxContract<ushort> UInt16 { get; }
         public static Bshox.BshoxContract<uint> UInt32 { get; }
         public static Bshox.BshoxContract<ulong> UInt64 { get; }
+        public static Bshox.BshoxContract<System.Uri> Uri { get; }
         public static Bshox.BshoxContract<T[]> Array<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.ArraySegment<T>> ArraySegment<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.BlockingCollection<T>> BlockingCollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
@@ -182,7 +184,7 @@ namespace Bshox
         public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentQueue<T>> ConcurrentQueue<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Concurrent.ConcurrentStack<T>> ConcurrentStack<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.Dictionary<TKey, TValue>> Dictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
-        public static Bshox.BshoxContract<T> Enum<T>(Bshox.IBshoxContract contract) where T : unmanaged, System.Enum;
+        public static Bshox.BshoxContract<T> Enum<T>() where T : unmanaged, System.Enum;
         public static Bshox.BshoxContract<System.Collections.Generic.HashSet<T>> HashSet<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.ICollection<T>> ICollection<T>(Bshox.BshoxContract<T> contract) where T : notnull;
         public static Bshox.BshoxContract<System.Collections.Generic.IDictionary<TKey, TValue>> IDictionary<TKey, TValue>(Bshox.BshoxContract<TKey> keyContract, Bshox.BshoxContract<TValue> valueContract) where TKey : notnull;
@@ -212,7 +214,7 @@ namespace Bshox
     }
     public interface IBshoxContract
     {
-        Bshox.BshoxCode Encoding { get; }
+        Bshox.BshoxEncoding Encoding { get; }
         System.Type Type { get; }
         void Deserialize(ref Bshox.BshoxReader reader, out object value);
         void Serialize(ref Bshox.BshoxWriter writer, object value);

@@ -12,7 +12,7 @@ internal readonly partial struct KnownTypeInfo // TODO: rename
     public string Name { get; }
     public InlineContractData? InlineData { get; }
 
-    private KnownTypeInfo(string name, [StringSyntax("C#")] string serializeFormat, [StringSyntax("C#")] string deserializeString, BshoxCode encoding)
+    private KnownTypeInfo(string name, [StringSyntax("C#")] string serializeFormat, [StringSyntax("C#")] string deserializeString, BshoxEncoding encoding)
     {
         Name = name;
         InlineData = new InlineContractData(serializeFormat, deserializeString, encoding);

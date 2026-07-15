@@ -26,7 +26,7 @@ public class GenerateBase
                                     """;
 
     [StringSyntax("C#")]
-    protected const string BshoxCode = $$"""
+    protected const string BshoxEncoding = $$"""
                                         using System.Collections.Generic;
                                         {{BaseCode}}
 
@@ -73,7 +73,7 @@ public class Generate : GenerateBase
     public (List<SyntaxTree>, ImmutableArray<Diagnostic>) Base() => Build(BaseCode, baseDriver);
 
     [Benchmark]
-    public (List<SyntaxTree>, ImmutableArray<Diagnostic>) BshoxGenerator() => Build(BshoxCode, bshoxDriver);
+    public (List<SyntaxTree>, ImmutableArray<Diagnostic>) BshoxGenerator() => Build(BshoxEncoding, bshoxDriver);
 
     [Benchmark]
     public (List<SyntaxTree>, ImmutableArray<Diagnostic>) JsonGenerator() => Build(JsonCode, jsonDriver);
@@ -91,7 +91,7 @@ public class GenerateIncremental : GenerateBase
     {
         BaseCompilation = Create(BaseCode);
         JsonCompilation = Create(JsonCode);
-        BshoxCompilation = Create(BshoxCode);
+        BshoxCompilation = Create(BshoxEncoding);
     }
 
     private CSharpCompilation Create(string code) => Utils.GetCompilation(code, options, parseOptions);
@@ -126,5 +126,5 @@ public class GenerateIncremental : GenerateBase
     public (IEnumerable<SyntaxTree>, ImmutableArray<Diagnostic>) Json() => Build(UpdateCode(JsonCode), ref JsonCompilation, jsonDriver);
 
     [Benchmark]
-    public (IEnumerable<SyntaxTree>, ImmutableArray<Diagnostic>) Bshox() => Build(UpdateCode(BshoxCode), ref BshoxCompilation, bshoxDriver);
+    public (IEnumerable<SyntaxTree>, ImmutableArray<Diagnostic>) Bshox() => Build(UpdateCode(BshoxEncoding), ref BshoxCompilation, bshoxDriver);
 }

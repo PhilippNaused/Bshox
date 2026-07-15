@@ -51,14 +51,14 @@ internal sealed class BshoxEncodingTests
     }
 
     private static readonly uint[] exampleKeys = [1u, 2u, 15u, byte.MaxValue, BshoxConstants.MaxKey];
-    private static readonly BshoxCode[] exampleCodes =
+    private static readonly BshoxEncoding[] exampleCodes =
 #if NETCOREAPP
-        Enum.GetValues<BshoxCode>();
+        Enum.GetValues<BshoxEncoding>();
 #else
-        (BshoxCode[])Enum.GetValues(typeof(BshoxCode));
+        (BshoxEncoding[])Enum.GetValues(typeof(BshoxEncoding));
 #endif
 
-    public static IEnumerable<(uint key, BshoxCode type)> TagExamples()
+    public static IEnumerable<(uint key, BshoxEncoding type)> TagExamples()
     {
         foreach (var key in exampleKeys)
         {
@@ -71,7 +71,7 @@ internal sealed class BshoxEncodingTests
 
     [Test]
     [MethodDataSource(nameof(TagExamples))]
-    public async Task TagRoundTrip(uint key, BshoxCode type)
+    public async Task TagRoundTrip(uint key, BshoxEncoding type)
     {
         using var stream = new PooledByteBufferWriter();
         var writer = new BshoxWriter(stream);

@@ -150,6 +150,49 @@ public static partial class DefaultContracts
         }
     }
 
+    private partial class ComplexContract
+    {
+        private const byte _tagReal = (1 << 3) | (byte)BshoxEncoding.Fixed8;
+        private const byte _tagImaginary = (2 << 3) | (byte)BshoxEncoding.Fixed8;
+
+        public override partial void Deserialize(ref BshoxReader reader, out Complex value)
+        {
+            double re = 0, im = 0;
+            byte tag = reader.ReadByte();
+            if (tag == _tagReal)
+            {
+                re = reader.ReadDouble();
+                tag = reader.ReadByte();
+            }
+            if (tag == _tagImaginary)
+            {
+                im = reader.ReadDouble();
+                tag = reader.ReadByte();
+            }
+            if (tag == 0)
+            {
+                value = new Complex(re, im);
+                return;
+            }
+            throw BshoxException.UnexpectedTag(tag);
+        }
+
+        public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly Complex value)
+        {
+            if (value.Real != 0)
+            {
+                writer.WriteByte(_tagReal);
+                writer.WriteDouble(value.Real);
+            }
+            if (value.Imaginary != 0)
+            {
+                writer.WriteByte(_tagImaginary);
+                writer.WriteDouble(value.Imaginary);
+            }
+            writer.WriteByte(0);
+        }
+    }
+
     private partial class BigIntegerContract
     {
         [SkipLocalsInit] // prevents zeroing the stack-allocated buffer
@@ -300,33 +343,43 @@ public static partial class DefaultContracts
 #pragma warning restore CA1822 // Mark members as static
 
     /// <summary>
-    /// A Bshox contract for an enum of type <typeparamref name="T"/>, using the specified underlying type contract.
+    /// A Bshox contract for an enum of type <typeparamref name="T"/>, using the built-in default contract for the underlying type.
     /// </summary>
     /// <typeparam name="T">The enum type</typeparam>
-    /// <param name="contract">The contract for the underlying type of <typeparamref name="T"/>.</param>
     /// <returns>A Bshox contract for <typeparamref name="T"/></returns>
     /// <exception cref="ArgumentException"><typeparamref name="T"/> has an unsupported underlying type.</exception>
-    /// <exception cref="InvalidCastException"><paramref name="contract"/> is not a <see cref="BshoxContract{T}"/> for the underlying type of <typeparamref name="T"/>.</exception>
-    public static BshoxContract<T> Enum<T>(IBshoxContract contract) where T : unmanaged, Enum
+    public static BshoxContract<T> Enum<T>() where T : unmanaged, Enum
     {
-#pragma warning disable IDE0072 // Add missing cases
-        return Type.GetTypeCode(typeof(T)) switch
-#pragma warning restore IDE0072 // Add missing cases
-        {
-            TypeCode.SByte => new EnumContract<T, sbyte>((BshoxContract<sbyte>)contract),
-            TypeCode.Byte => new EnumContract<T, byte>((BshoxContract<byte>)contract),
-            TypeCode.Int16 => new EnumContract<T, short>((BshoxContract<short>)contract),
-            TypeCode.UInt16 => new EnumContract<T, ushort>((BshoxContract<ushort>)contract),
-            TypeCode.Int32 => new EnumContract<T, int>((BshoxContract<int>)contract), // default value => hot path
-            TypeCode.UInt32 => new EnumContract<T, uint>((BshoxContract<uint>)contract),
-            TypeCode.Int64 => new EnumContract<T, long>((BshoxContract<long>)contract),
-            TypeCode.UInt64 => new EnumContract<T, ulong>((BshoxContract<ulong>)contract),
+        return EnumContractCache<T>.Instance;
+    }
 
-            // The runtime also allows these types, but the language doesn't, so we don't support them:
-            // char, float, double, nint, nuint, bool
-            // See: https://github.com/dotnet/runtime/blob/d3425021075c54d095e7d6b3afd611c4fd81b913/src/coreclr/System.Private.CoreLib/src/System/Enum.CoreCLR.cs#L35
-            _ => throw new ArgumentException($"Unsupported enum underlying type: {typeof(T).GetEnumUnderlyingType()}"),
-        };
+    private static class EnumContractCache<T> where T : unmanaged, Enum
+    {
+        // This cache ensures that we only create one instance for each enum type.
+
+        internal static readonly BshoxContract<T> Instance = Make();
+
+        private static BshoxContract<T> Make()
+        {
+#pragma warning disable IDE0072 // Add missing cases
+            return Type.GetTypeCode(typeof(T)) switch
+#pragma warning restore IDE0072 // Add missing cases
+            {
+                TypeCode.SByte => new EnumContract<T, sbyte>(SByte),
+                TypeCode.Byte => new EnumContract<T, byte>(Byte),
+                TypeCode.Int16 => new EnumContract<T, short>(Int16),
+                TypeCode.UInt16 => new EnumContract<T, ushort>(UInt16),
+                TypeCode.Int32 => new EnumContract<T, int>(Int32),
+                TypeCode.UInt32 => new EnumContract<T, uint>(UInt32),
+                TypeCode.Int64 => new EnumContract<T, long>(Int64),
+                TypeCode.UInt64 => new EnumContract<T, ulong>(UInt64),
+
+                // The runtime also allows these types, but the language doesn't, so we don't support them:
+                // char, float, double, nint, nuint, bool
+                // See: https://github.com/dotnet/runtime/blob/d3425021075c54d095e7d6b3afd611c4fd81b913/src/coreclr/System.Private.CoreLib/src/System/Enum.CoreCLR.cs#L35
+                _ => throw new ArgumentException($"Unsupported enum underlying type: {typeof(T).GetEnumUnderlyingType()}"),
+            };
+        }
     }
 
     private sealed class EnumContract<TEnum, TInner>(BshoxContract<TInner> contract) : BshoxContract<TEnum>(contract.Encoding) where TEnum : unmanaged, Enum where TInner : unmanaged

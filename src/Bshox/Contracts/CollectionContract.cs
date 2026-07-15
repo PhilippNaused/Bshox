@@ -22,7 +22,7 @@ internal abstract class CollectionContractBase<TCollection, T>
     /// <summary>
     /// A Bshox contract for a <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>
     /// </summary>
-    protected CollectionContractBase(BshoxContract<T> contract, Func<int, TCollection> factory, Func<IReadOnlyList<T>, TCollection> factory2) : base(BshoxCode.Array)
+    protected CollectionContractBase(BshoxContract<T> contract, Func<int, TCollection> factory, Func<IReadOnlyList<T>, TCollection> factory2) : base(BshoxEncoding.Array)
     {
         _contract = contract;
         _factory = factory;

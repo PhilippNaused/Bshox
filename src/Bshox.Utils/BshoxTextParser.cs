@@ -15,7 +15,7 @@ public partial class BshoxTextParser
 
     private static class BshoxException
     {
-        public static BshoxParserException CannotParse(Token token, BshoxCode encoding, Exception? innerException = null)
+        public static BshoxParserException CannotParse(Token token, BshoxEncoding encoding, Exception? innerException = null)
         {
             return new BshoxParserException(token, $"Cannot parse '{token}' as a {encoding} value.", innerException);
         }
@@ -47,7 +47,7 @@ public partial class BshoxTextParser
     /// <summary>
     /// Try to guess the encoding of the next token.
     /// </summary>
-    internal static BshoxCode GuessEncoding(Token token)
+    internal static BshoxEncoding GuessEncoding(Token token)
     {
         if (token.EmptyOrWhitespace())
             throw BshoxException.CannotGuessEncoding(token);
@@ -57,15 +57,15 @@ public partial class BshoxTextParser
         {
             case Constants.True:
             case Constants.False:
-                return BshoxCode.VarInt;
+                return BshoxEncoding.VarInt;
             case Constants.PositiveInfinity32:
             case Constants.NegativeInfinity32:
             case Constants.NaN32:
-                return BshoxCode.Fixed4;
+                return BshoxEncoding.Fixed4;
             case Constants.PositiveInfinity64:
             case Constants.NegativeInfinity64:
             case Constants.NaN64:
-                return BshoxCode.Fixed8;
+                return BshoxEncoding.Fixed8;
         }
 
         // check if the first character is unambiguous
@@ -73,7 +73,7 @@ public partial class BshoxTextParser
         {
             case Constants.HexDelimiter:
             case Constants.TextDelimiter:
-                return BshoxCode.Prefixed;
+                return BshoxEncoding.Prefixed;
         }
 
         if (token.Length == 1)
@@ -82,27 +82,27 @@ public partial class BshoxTextParser
             switch (token[0])
             {
                 case Constants.StartObject:
-                    return BshoxCode.SubObject;
+                    return BshoxEncoding.Object;
                 case Constants.StartArray:
-                    return BshoxCode.Array;
+                    return BshoxEncoding.Array;
             }
         }
 
         // check if the text has a suffix
         if (token.EndsWith(Constants.Fixed4Suffix))
-            return BshoxCode.Fixed4;
+            return BshoxEncoding.Fixed4;
         if (token.EndsWith(Constants.Fixed8Suffix))
-            return BshoxCode.Fixed8;
+            return BshoxEncoding.Fixed8;
         if (token.EndsWith(Constants.ZigZagSuffix))
-            return BshoxCode.VarInt;
+            return BshoxEncoding.VarInt;
 
         // hex number
         if (token.StartsWith(Constants.HexPrefix))
-            return BshoxCode.VarInt;
+            return BshoxEncoding.VarInt;
 
         // check if the text is an unsigned integer
         if (token.TryParseULong(out _))
-            return BshoxCode.VarInt;
+            return BshoxEncoding.VarInt;
 
         // check if the text is a negative integer
         if (token.TryParseLong(out long l) && l < 0)
@@ -110,7 +110,7 @@ public partial class BshoxTextParser
 
         // try a floating point number
         if (token.TryParseDouble(out _))
-            return BshoxCode.Fixed8;
+            return BshoxEncoding.Fixed8;
 
         throw BshoxException.CannotGuessEncoding(token);
     }

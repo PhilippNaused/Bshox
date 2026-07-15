@@ -3,7 +3,7 @@ using Bshox.Internals;
 
 namespace Bshox.Utils;
 
-public sealed class BshoxBlob(byte[] Data) : BshoxValue(BshoxCode.Prefixed)
+public sealed class BshoxBlob(byte[] Data) : BshoxValue(BshoxEncoding.Prefixed)
 {
     public BshoxBlob(string utf8String) : this(EncodingHelper.Utf8NoBom.GetBytes(utf8String)) { }
 

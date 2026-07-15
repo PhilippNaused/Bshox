@@ -14,7 +14,7 @@ partial class DateTimeOffsetSerializer
     [global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private sealed class TestModels_DateTimeOffsetSurrogate__BshoxContract : bsx::BshoxContract<global::TestModels.DateTimeOffsetSurrogate>
     {
-        internal TestModels_DateTimeOffsetSurrogate__BshoxContract() : base(bsx::BshoxCode.SubObject)
+        internal TestModels_DateTimeOffsetSurrogate__BshoxContract() : base(bsx::BshoxEncoding.Object)
         {
         }
 
@@ -43,7 +43,7 @@ partial class DateTimeOffsetSerializer
             reader.IncreaseDepth();
             while (true)
             {
-                uint key = reader.ReadTag(out bsx::BshoxCode encoding);
+                uint key = reader.ReadTag(out bsx::BshoxEncoding encoding);
                 switch (key)
                 {
                     case 0:
@@ -59,13 +59,13 @@ partial class DateTimeOffsetSerializer
                     }
                     case 1:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxEncoding.VarInt);
                         __UtcTicks = unchecked((long)reader.ReadVarInt64());
                         break;
                     }
                     case 2:
                     {
-                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxCode.VarInt);
+                        bsx::BshoxException.ThrowIfWrongEncoding(encoding, bsx::BshoxEncoding.VarInt);
                         __TotalOffsetMinutes = unchecked((short)checked((ushort)reader.ReadVarInt32()));
                         break;
                     }
