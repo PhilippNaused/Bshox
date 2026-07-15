@@ -24,7 +24,7 @@
     <PackageVersion Include="protobuf-net" Version="3.2.56" />
     <PackageVersion Include="SharpFuzz" Version="2.3.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
-    <PackageVersion Include="System.Text.Json" Version="11.0.0-preview.5.26302.115" />
+    <PackageVersion Include="System.Text.Json" Version="11.0.0-preview.6.26359.118" />
     <PackageVersion Include="TUnit" Version="1.59.0" />
     <PackageVersion Include="TUnit.Core" Version="1.59.0" />
   </ItemGroup>
