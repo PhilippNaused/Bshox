@@ -8,7 +8,7 @@ namespace Bshox.Tests;
 public class ReaderEdgeCaseTests
 {
     [Test]
-    public async Task ReaderAdvanceNegative()
+    public void ReaderAdvanceNegative()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {

@@ -20,6 +20,11 @@
     <TestingPlatformCommandLineArguments>--disable-logo</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
+  <!-- Runtime Async -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+    <Features>$(Features);runtime-async=on</Features>
+  </PropertyGroup>
+
   <!-- Code Analysis -->
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -30,7 +35,7 @@
     <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
     <MSBuildTreatWarningsAsErrors>True</MSBuildTreatWarningsAsErrors>
-    <AnalysisLevel>10.0</AnalysisLevel>
+    <AnalysisLevel>11.0</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- <AnalysisModeStyle>Recommended</AnalysisModeStyle> -->
