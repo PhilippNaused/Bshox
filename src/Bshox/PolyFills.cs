@@ -9,7 +9,7 @@ namespace Bshox;
 /// </summary>
 internal static class PolyFills
 {
-    internal static unsafe string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
+    internal static string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
     {
         if (bytes.Length == 0)
         {

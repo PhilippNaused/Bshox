@@ -88,7 +88,7 @@ public class EdgeCaseTests
     }
 
     [Test]
-    public async Task InvalidKey1()
+    public void InvalidKey1()
     {
         Assert.Throws<ArgumentOutOfRangeException>(static () =>
         {
@@ -98,7 +98,7 @@ public class EdgeCaseTests
     }
 
     [Test]
-    public async Task InvalidKey2()
+    public void InvalidKey2()
     {
         Assert.Throws<ArgumentOutOfRangeException>(static () =>
         {
@@ -108,7 +108,7 @@ public class EdgeCaseTests
     }
 
     [Test]
-    public async Task InvalidKey3()
+    public void InvalidKey3()
     {
         Assert.Throws<ArgumentOutOfRangeException>(static () =>
         {
@@ -120,7 +120,7 @@ public class EdgeCaseTests
     }
 
     [Test]
-    public async Task InvalidKey4()
+    public void InvalidKey4()
     {
         Assert.Throws<ArgumentOutOfRangeException>(static () =>
         {
