@@ -122,7 +122,7 @@ public ref partial struct BshoxWriter
     public void WriteUInt64(ulong value)
     {
         Check();
-        if (Options.ReverseEndianness)
+        if (BshoxConstants.ReverseEndianness)
         {
             value = BinaryPrimitives.ReverseEndianness(value);
         }
@@ -141,7 +141,7 @@ public ref partial struct BshoxWriter
     public void WriteUInt32(uint value)
     {
         Check();
-        if (Options.ReverseEndianness)
+        if (BshoxConstants.ReverseEndianness)
         {
             value = BinaryPrimitives.ReverseEndianness(value);
         }

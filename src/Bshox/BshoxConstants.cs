@@ -17,4 +17,9 @@ public static class BshoxConstants
     /// <seealso href="https://protobuf.dev/programming-guides/proto3/#assigning"/>
     /// </summary>
     public const uint MaxKey = uint.MaxValue >> 3;
+
+    /// <summary>
+    /// <see langword="true"/> if the endianness of multi-byte numeric values should be reversed when reading or writing data.
+    /// </summary>
+    internal static readonly bool ReverseEndianness = !BitConverter.IsLittleEndian;
 }

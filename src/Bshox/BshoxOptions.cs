@@ -22,11 +22,6 @@ public sealed record BshoxOptions
     public static readonly BshoxOptions Default = new();
 
     /// <summary>
-    /// Same as <see cref="BshoxOptions.Default"/> but with little-endian byte order.
-    /// </summary>
-    public static readonly BshoxOptions DefaultLittleEndian = Default with { LittleEndian = true };
-
-    /// <summary>
     /// The maximum depth of nested objects and arrays allowed during serialization and deserialization.<br/>
     /// If this value is exceeded, a <see cref="BshoxException"/> will be thrown.<br/>
     /// </summary>
@@ -46,17 +41,6 @@ public sealed record BshoxOptions
             field = value;
         }
     } = DefaultMaxDepth;
-
-    /// <summary>
-    /// Sets whether multi-byte numeric values are encoded in little-endian byte order.<br/>
-    /// This doesn't affect the encoding of variable-length integers or <see cref="Guid"/>.
-    /// </summary>
-    public bool LittleEndian { get; init; }
-
-    /// <summary>
-    /// <see langword="true"/> if the endianness of multi-byte numeric values should be reversed when reading or writing data.
-    /// </summary>
-    internal bool ReverseEndianness => LittleEndian != BitConverter.IsLittleEndian;
 
     /// <summary>
     /// The buffer size that <i>should</i> be used.<br/>

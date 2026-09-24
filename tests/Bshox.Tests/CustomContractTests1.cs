@@ -8,7 +8,7 @@ public class CustomContractTests1
     public async Task Test1()
     {
         await Assert.That(CustomContracts1.Int32).IsSameReferenceAs(CustomIntContract.Instance);
-        await CustomContracts1.Int32.TestSerialization(0x24, "00000024");
+        await CustomContracts1.Int32.TestSerialization(0x24, "24000000");
     }
 
     [Test]
