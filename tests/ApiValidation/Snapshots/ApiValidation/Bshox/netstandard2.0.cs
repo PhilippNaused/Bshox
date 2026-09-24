@@ -72,12 +72,8 @@ namespace Bshox
     {
         public BshoxOptions();
         public static readonly Bshox.BshoxOptions Default;
-        public static readonly Bshox.BshoxOptions DefaultLittleEndian;
         public int DefaultBufferSize { get; init; }
-        public bool LittleEndian { get; init; }
         public int MaxDepth { get; init; }
-        public bool Equals(Bshox.BshoxOptions? other);
-        public override int GetHashCode();
     }
     public ref struct BshoxReader
     {
