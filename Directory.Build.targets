@@ -55,9 +55,12 @@
           Condition=" '$(TargetFramework)' == '' ">
     <!-- https://stackoverflow.com/questions/43947599/how-to-publish-for-all-target-frameworks -->
     <ItemGroup>
+      <_PublishFramework Include="$(TargetFrameworks)" />
+    </ItemGroup>
+    <ItemGroup>
       <_Project Include="$(MSBuildProjectFile)"
-                Condition="$([MSBuild]::IsTargetFrameworkCompatible('%(TargetFrameworks.Identity)', 'net10.0'))"
-                AdditionalProperties="TargetFramework=%(TargetFrameworks.Identity);PublishDir=$([System.IO.Path]::Combine('$(PublishDir)', '%(TargetFrameworks.Identity)'))" />
+                Condition="$([MSBuild]::IsTargetFrameworkCompatible('%(_PublishFramework.Identity)', 'net10.0'))"
+                AdditionalProperties="TargetFramework=%(_PublishFramework.Identity);PublishDir=$([System.IO.Path]::Combine('$(PublishDir)', '%(_PublishFramework.Identity)'))" />
     </ItemGroup>
     <MSBuild Projects="@(_Project)"
              BuildInParallel="true"
@@ -100,16 +103,5 @@
              ContinueOnError="ErrorAndContinue"
              Targets="InvokeTestingPlatform" />
   </Target>
-
-  <!--
-  Workaround for https://github.com/dotnet/sdk/issues/51953
-  See: https://github.com/dotnet/sdk/pull/52091
-
-  TODO: consider removing tests for mono entirely
-  -->
-  <PropertyGroup Condition="$([MSBuild]::IsOSUnixLike()) AND !$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">
-    <RunCommand Condition="'$(RunCommand)' == ''">mono</RunCommand>
-    <RunArguments Condition="'$(RunArguments)' == ''">&quot;$(TargetPath)&quot; $(StartArguments)</RunArguments>
-  </PropertyGroup>
 
 </Project>
