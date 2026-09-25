@@ -20,6 +20,11 @@
     <TestingPlatformCommandLineArguments>--disable-logo</TestingPlatformCommandLineArguments>
   </PropertyGroup>
 
+  <!-- Runtime Async -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net11.0'">
+    <Features>$(Features);runtime-async=on</Features>
+  </PropertyGroup>
+
   <!-- Code Analysis -->
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>

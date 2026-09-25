@@ -14,7 +14,7 @@ internal static class EndiannessHelper
     }
 
     [StructLayout(LayoutKind.Sequential, Size = 16)]
-    private unsafe struct Guid2
+    private struct Guid2
     {
         private int _a;
         private short _b;

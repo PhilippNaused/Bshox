@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net9.0;net10.0;net48;net472</TargetFrameworks>
-    <TargetFrameworks Condition="!$(IsWindows)">net8.0;net9.0;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0;net11.0;net48;net472</TargetFrameworks>
+    <TargetFrameworks Condition="!$(IsWindows)">net10.0;net11.0</TargetFrameworks>
     <!--
     Workaround for https://github.com/thomhurst/TUnit/issues/3445
     TODO: Remove when fixed
@@ -19,8 +19,8 @@
     TODO: Remove when fixed
     -->
     <WarningsNotAsErrors>$(WarningsNotAsErrors);IL2041</WarningsNotAsErrors>
-    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
-    <PublishAot Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</PublishAot>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">true</IsAotCompatible>
+    <PublishAot Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">true</PublishAot>
   </PropertyGroup>
 
   <ItemGroup>

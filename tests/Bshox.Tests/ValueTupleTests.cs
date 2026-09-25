@@ -21,7 +21,7 @@ public class ValueTupleTests
     }
 
     [Test]
-    public async Task InvalidDataUnknownKey()
+    public void InvalidDataUnknownKey()
     {
         TestInvalidData(new BshoxObject
         {
@@ -31,7 +31,7 @@ public class ValueTupleTests
     }
 
     [Test]
-    public async Task InvalidDataWrongOrder()
+    public void InvalidDataWrongOrder()
     {
         TestInvalidData(new BshoxObject
         {
@@ -41,7 +41,7 @@ public class ValueTupleTests
     }
 
     [Test]
-    public async Task InvalidDataWrongType()
+    public void InvalidDataWrongType()
     {
         TestInvalidData(new BshoxObject
         {
@@ -51,7 +51,7 @@ public class ValueTupleTests
     }
 
     [Test]
-    public async Task InvalidDataTooLong()
+    public void InvalidDataTooLong()
     {
         TestInvalidData(new BshoxObject
         {

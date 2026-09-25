@@ -9,16 +9,19 @@ namespace Bshox;
 /// </summary>
 internal static class PolyFills
 {
-    internal static unsafe string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
+    internal static string GetString(this Encoding encoding, ReadOnlySpan<byte> bytes)
     {
         if (bytes.Length == 0)
         {
             return string.Empty;
         }
 
-        fixed (byte* pBytes = bytes)
+        unsafe
         {
-            return encoding.GetString(pBytes, bytes.Length);
+            fixed (byte* pBytes = bytes)
+            {
+                return encoding.GetString(pBytes, bytes.Length);
+            }
         }
     }
     extension(ArgumentOutOfRangeException)

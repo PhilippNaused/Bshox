@@ -46,7 +46,7 @@ internal class ApiValidation
 
     private static string GetFtm(TargetFrameworkIdentifier type, Version version)
     {
-        // get framework moniker like "net48", "net6.0", "netstandard2.0", etc.
+        // get framework moniker like "net48", "net10.0", "netstandard2.0", etc.
         return type switch
         {
             TargetFrameworkIdentifier.NETFramework => version.Build > 0
@@ -55,7 +55,7 @@ internal class ApiValidation
             // cspell:words netcoreapp
             TargetFrameworkIdentifier.NETCoreApp => $"netcoreapp{version.Major}.{version.Minor}", // e.g. netcoreapp3.1
             TargetFrameworkIdentifier.NETStandard => $"netstandard{version.Major}.{version.Minor}", // e.g. netstandard2.0
-            TargetFrameworkIdentifier.NET => $"net{version.Major}.{version.Minor}", // e.g. net8.0
+            TargetFrameworkIdentifier.NET => $"net{version.Major}.{version.Minor}", // e.g. net10.0
             _ => "unknown",
         };
     }
