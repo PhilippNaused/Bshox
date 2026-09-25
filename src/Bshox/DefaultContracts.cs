@@ -1,4 +1,4 @@
-#if NETCOREAPP
+#if NET
 using System.Buffers;
 #else
 using System.Buffers.Text;
@@ -100,7 +100,7 @@ public static partial class DefaultContracts
             }
             Span<byte> buffer = stackalloc byte[length];
             reader.CopyTo(buffer);
-#if NETCOREAPP
+#if NET
             var success = decimal.TryParse(buffer, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out value);
 #else
             var success = Utf8Parser.TryParse(buffer, out value, out int consumed) && consumed == length;
@@ -121,7 +121,7 @@ public static partial class DefaultContracts
         public override partial void Serialize(ref BshoxWriter writer, scoped ref readonly decimal value)
         {
             var span = writer.GetSpan(DecimalMaxLength + 1);
-#if NETCOREAPP
+#if NET
             var success = value.TryFormat(span.Slice(1), out int bytesWritten, default, System.Globalization.CultureInfo.InvariantCulture);
 #else
             var success = Utf8Formatter.TryFormat(value, span.Slice(1), out int bytesWritten);
@@ -198,7 +198,7 @@ public static partial class DefaultContracts
         [SkipLocalsInit] // prevents zeroing the stack-allocated buffer
         public override partial void Deserialize(ref BshoxReader reader, out BigInteger value)
         {
-#if NETCOREAPP
+#if NET
             var size = (int)reader.ReadVarInt32();
             if (size == 0)
             {
@@ -230,7 +230,7 @@ public static partial class DefaultContracts
 #endif
         }
 
-#if NETCOREAPP
+#if NET
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void DeserializeSlow(ref BshoxReader reader, int size, out BigInteger value)
         {
@@ -255,7 +255,7 @@ public static partial class DefaultContracts
                 writer.WriteByte(0);
                 return;
             }
-#if NETCOREAPP
+#if NET
             var size = value.GetByteCount();
             writer.WriteVarInt32((uint)size);
             var span = writer.GetSpan(size);

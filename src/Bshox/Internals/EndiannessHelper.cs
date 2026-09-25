@@ -32,7 +32,7 @@ internal static class EndiannessHelper
 
     public static void Reverse(ReadOnlySpan<int> source, Span<int> dest)
     {
-#if NET8_0_OR_GREATER
+#if NET
         BinaryPrimitives.ReverseEndianness(source, dest);
 #else
         int c = dest.Length;
@@ -43,7 +43,7 @@ internal static class EndiannessHelper
 
     public static void Reverse(ReadOnlySpan<long> source, Span<long> dest)
     {
-#if NET8_0_OR_GREATER
+#if NET
         BinaryPrimitives.ReverseEndianness(source, dest);
 #else
         int c = dest.Length;

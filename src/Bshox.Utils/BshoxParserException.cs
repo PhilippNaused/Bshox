@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-#if NET8_0_OR_GREATER
+#if NET
 using Bshox.Internals;
 #endif
 
@@ -27,7 +27,7 @@ public sealed class BshoxParserException : BshoxException
     }
 
     [ExcludeFromCodeCoverage]
-#if NET8_0_OR_GREATER
+#if NET
     [Obsolete(Obsoletions.LegacyFormatterMessage, DiagnosticId = Obsoletions.LegacyFormatterDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 #endif
     private BshoxParserException(SerializationInfo info, StreamingContext context) : base(info, context)
@@ -36,7 +36,7 @@ public sealed class BshoxParserException : BshoxException
     }
 
     [ExcludeFromCodeCoverage]
-#if NET8_0_OR_GREATER
+#if NET
     [Obsolete(Obsoletions.LegacyFormatterMessage, DiagnosticId = Obsoletions.LegacyFormatterDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 #endif
     public override void GetObjectData(SerializationInfo info, StreamingContext context)

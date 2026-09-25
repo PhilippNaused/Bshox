@@ -50,7 +50,7 @@ public static class RandomExtension
         [SkipLocalsInit]
         public string NextString(int length = 20)
         {
-#if NETCOREAPP
+#if NET
             Span<char> chars = stackalloc char[length];
 #else
             char[] chars = new char[length];
@@ -163,7 +163,7 @@ public static class RandomExtension
 
         public T NextEnum<T>() where T : struct, Enum
         {
-#if NETCOREAPP
+#if NET
             var values = Enum.GetValues<T>();
 #else
             var values = Enum.GetValues(typeof(T)).Cast<T>().ToArray();
@@ -174,7 +174,7 @@ public static class RandomExtension
         [SkipLocalsInit]
         public Guid NextGuid()
         {
-#if NETCOREAPP
+#if NET
             Span<byte> bytes = stackalloc byte[16];
 #else
             byte[] bytes = new byte[16];

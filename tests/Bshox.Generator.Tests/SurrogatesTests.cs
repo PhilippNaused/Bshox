@@ -28,7 +28,7 @@ internal class SurrogatesTests
                                 public DateTimeOffsetSurrogate(DateTimeOffset value)
                                 {
                                     UtcTicks = value.UtcTicks;
-                            #if NET8_0_OR_GREATER
+                            #if NET
                                     TotalOffsetMinutes = (short)value.TotalOffsetMinutes;
                             #else
                                     TotalOffsetMinutes = (short)value.Offset.TotalMinutes;

@@ -7,7 +7,7 @@ SharpFuzz.Fuzzer.OutOfProcess.Run(stream =>
     stream.CopyTo(ms);
     ms.Position = 0;
     var array = ms.ToArray();
-#if NETCOREAPP
+#if NET
     foreach (BshoxEncoding code in Enum.GetValues<BshoxEncoding>())
 #else
     foreach (BshoxEncoding code in Enum.GetValues(typeof(BshoxEncoding)))

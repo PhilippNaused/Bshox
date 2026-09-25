@@ -62,7 +62,7 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<ReadOnlyCollection<T>> ReadOnlyCollection<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract2<ReadOnlyCollection<T>, T>(contract,
-#if NETCOREAPP
+#if NET
             static _ => System.Collections.ObjectModel.ReadOnlyCollection<T>.Empty,
 #else
             static _ => Bshox.Internals.Utils<T>.EmptyReadOnlyObservableCollection,
@@ -74,7 +74,7 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<ReadOnlyObservableCollection<T>> ReadOnlyObservableCollection<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract2<ReadOnlyObservableCollection<T>, T>(contract,
-#if NETCOREAPP
+#if NET
             static _ => System.Collections.ObjectModel.ReadOnlyObservableCollection<T>.Empty,
 #else
             static _ => Bshox.Internals.Utils<T>.EmptyReadOnlyObservableCollection,
@@ -118,7 +118,7 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<HashSet<T>> HashSet<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract<HashSet<T>, T>(contract,
-#if NETCOREAPP
+#if NET
             static capacity => new HashSet<T>(capacity),
 #else
             static _ => new HashSet<T>(),
@@ -130,7 +130,7 @@ public static partial class DefaultContracts
     /// </summary>
     public static BshoxContract<ISet<T>> ISet<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract<ISet<T>, T>(contract,
-#if NETCOREAPP
+#if NET
             static capacity => new HashSet<T>(capacity),
 #else
             static _ => new HashSet<T>(),

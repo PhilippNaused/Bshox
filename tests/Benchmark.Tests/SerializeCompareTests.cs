@@ -19,7 +19,7 @@ public sealed class SerializeCompareTests : SerializeCompare
         byte[] google = ((FixedBufferWriter)GoogleProtobuf()).WrittenMemory.ToArray();
         using (Assert.Multiple())
         {
-#if NETCOREAPP // netfx uses less compact json
+#if NET // netfx uses less compact json
             await Assert.That(json).Count().IsEqualTo(941_402);
 #else
             await Assert.That(json).Count().IsEqualTo(986_354);
@@ -30,7 +30,7 @@ public sealed class SerializeCompareTests : SerializeCompare
             await Assert.That(google).Count().IsEqualTo(426_874);
             await Assert.That(proto).Count().IsEqualTo(426_556);
 
-#if NET9_0_OR_GREATER // older frameworks give different compression ratios
+#if NET     // older frameworks give different compression ratios
             // Compression ratio after GZip compression (bigger is better)
             await Assert.That(CompressionRatio(json)).IsEqualTo(44.7);
             await Assert.That(CompressionRatio(bshox)).IsEqualTo(94.7);
@@ -48,7 +48,7 @@ public sealed class SerializeCompareTests : SerializeCompare
         return VeriGit.Validation.Validate(bshox.Replace("\r\n", "\n"));
     }
 
-#if NET9_0_OR_GREATER
+#if NET
     private static double CompressionRatio(byte[] data)
     {
         var ms = new MemoryStream();

@@ -49,7 +49,7 @@ internal abstract class CollectionContractBase<TCollection, T>
         writer.WriteArrayHeader(count, _contract.Encoding);
 
         // These value have been determined experimentally.
-#if NETCOREAPP
+#if NET
         const int minSpanLength = 3;
 #else
         const int minSpanLength = 13;
@@ -131,7 +131,7 @@ internal abstract class CollectionContractBase<TCollection, T>
 
     private void SerializeSpan(ref BshoxWriter writer, scoped ref readonly TCollection value)
     {
-#if NETCOREAPP
+#if NET
         if (value is List<T> list)
         {
             var span = System.Runtime.InteropServices.CollectionsMarshal.AsSpan(list);
@@ -165,7 +165,7 @@ internal abstract class CollectionContractBase<TCollection, T>
         }
 
         // These value have been determined experimentally.
-#if NETCOREAPP
+#if NET
         const int minSpanLength = 11;
 #else
         const int minSpanLength = 7;

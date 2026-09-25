@@ -66,7 +66,7 @@ public partial class BshoxTextParser
 
         public bool StartsWith(string s)
         {
-#if NETCOREAPP
+#if NET
             return Span.StartsWith(s.AsSpan());
 #else
             if (s.Length > Length)
@@ -77,7 +77,7 @@ public partial class BshoxTextParser
 
         public bool EndsWith(string s)
         {
-#if NETCOREAPP
+#if NET
             return Span.EndsWith(s.AsSpan());
 #else
             if (s.Length > Length)
@@ -98,7 +98,7 @@ public partial class BshoxTextParser
 
         #region Parse
 
-#if NETCOREAPP
+#if NET
         private ReadOnlySpan<char> Parsable => Span;
 #else
         private string Parsable => Span.ToString();
@@ -170,7 +170,7 @@ public partial class BshoxTextParser
 
         public override int GetHashCode()
         {
-#if NETCOREAPP
+#if NET
             return HashCode.Combine(Text, Offset, Length);
 #else
             return Text.GetHashCode() ^ (Offset.GetHashCode() * 2718281) ^ (Length.GetHashCode() * 314159);

@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-#if NET8_0_OR_GREATER
+#if NET
 using Bshox.Internals;
 #endif
 
@@ -28,14 +28,14 @@ public class BshoxException : Exception
 
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
-#if NET8_0_OR_GREATER
+#if NET
     [Obsolete(Obsoletions.LegacyFormatterMessage, DiagnosticId = Obsoletions.LegacyFormatterDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 #endif
     protected BshoxException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
     /// <inheritdoc/>
     [ExcludeFromCodeCoverage]
-#if NET8_0_OR_GREATER
+#if NET
     [Obsolete(Obsoletions.LegacyFormatterMessage, DiagnosticId = Obsoletions.LegacyFormatterDiagId, UrlFormat = Obsoletions.SharedUrlFormat)]
 #endif
     public override void GetObjectData(SerializationInfo info, StreamingContext context)

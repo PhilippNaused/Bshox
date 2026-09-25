@@ -155,7 +155,7 @@ public ref partial struct BshoxReader
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal T ReadUnsafe<T>() where T : unmanaged
-#if NET9_0_OR_GREATER
+#if NET
         , allows ref struct
 #endif
     {
@@ -165,7 +165,7 @@ public ref partial struct BshoxReader
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void ReadUnsafe<T>(scoped out T value) where T : unmanaged
-#if NET9_0_OR_GREATER
+#if NET
         , allows ref struct
 #endif
     {
@@ -239,7 +239,7 @@ public ref partial struct BshoxReader
                 int bytesRead = Math.Min(remainingByteLength, SpanLength);
                 remainingByteLength -= bytesRead;
                 bool flush = remainingByteLength == 0;
-#if NETCOREAPP
+#if NET
                 initializedChars += decoder.GetChars(GetSpan(bytesRead), charArray.AsSpan(initializedChars), flush);
 #else
                 unsafe
@@ -265,7 +265,7 @@ public ref partial struct BshoxReader
     }
 
     private T ReadUnsafeSlow<T>() where T : unmanaged
-#if NET9_0_OR_GREATER
+#if NET
         , allows ref struct
 #endif
     {

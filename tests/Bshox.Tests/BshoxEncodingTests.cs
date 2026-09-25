@@ -52,7 +52,7 @@ internal sealed class BshoxEncodingTests
 
     private static readonly uint[] exampleKeys = [1u, 2u, 15u, byte.MaxValue, BshoxConstants.MaxKey];
     private static readonly BshoxEncoding[] exampleCodes =
-#if NETCOREAPP
+#if NET
         Enum.GetValues<BshoxEncoding>();
 #else
         (BshoxEncoding[])Enum.GetValues(typeof(BshoxEncoding));

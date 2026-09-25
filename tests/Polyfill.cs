@@ -1,4 +1,4 @@
-#if !NETCOREAPP
+#if !NET
 #pragma warning disable
 
 // ReSharper disable once CheckNamespace

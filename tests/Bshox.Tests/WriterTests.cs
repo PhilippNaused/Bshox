@@ -489,7 +489,7 @@ internal sealed class WriterTests : IDisposable
         await Assert.That(array.Skip(1)).ContainsOnly(b => b == 0);
     }
 
-#if NET8_0_OR_GREATER
+#if NET
     [InlineArray(TestBufferSize)]
     private struct Buffer2
     {
