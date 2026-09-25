@@ -166,7 +166,7 @@ public ref partial struct BshoxReader
     public uint ReadUInt32()
     {
         uint value = ReadUnsafe<uint>();
-        if (Options.ReverseEndianness)
+        if (BshoxConstants.ReverseEndianness)
             value = BinaryPrimitives.ReverseEndianness(value);
         return value;
     }
@@ -177,7 +177,7 @@ public ref partial struct BshoxReader
     public ulong ReadUInt64()
     {
         ulong value = ReadUnsafe<ulong>();
-        if (Options.ReverseEndianness)
+        if (BshoxConstants.ReverseEndianness)
             value = BinaryPrimitives.ReverseEndianness(value);
         return value;
     }

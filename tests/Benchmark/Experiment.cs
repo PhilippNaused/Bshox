@@ -16,14 +16,11 @@ public class Experiment
     [Params(100, 10_000)]
     public int Size { get; set; }
 
-    [Params(true, false)]
-    public bool LittleEndian { get; set; }
-
     [GlobalSetup]
     public void Setup()
     {
         data = new Random().NextArray(Size, float.MinValue, float.MaxValue);
-        options = new() { LittleEndian = LittleEndian };
+        options = new();
     }
 
     [Benchmark]

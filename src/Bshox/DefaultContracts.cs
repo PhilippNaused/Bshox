@@ -212,7 +212,7 @@ public static partial class DefaultContracts
                 {
                     Span<byte> span = stackalloc byte[size];
                     reader.CopyTo(span);
-                    value = new BigInteger(span, isBigEndian: !reader.Options.LittleEndian);
+                    value = new BigInteger(span, isBigEndian: false);
                 }
             }
             else
@@ -225,11 +225,6 @@ public static partial class DefaultContracts
             {
                 value = System.Numerics.BigInteger.Zero;
                 return;
-            }
-            if (!reader.Options.LittleEndian)
-            {
-                Span<byte> span = bytes;
-                span.Reverse();
             }
             value = new BigInteger(bytes); // this constructor expects little-endian
 #endif
@@ -244,7 +239,7 @@ public static partial class DefaultContracts
             {
                 var span = new Span<byte>(bytes, 0, size);
                 reader.CopyTo(span);
-                value = new BigInteger(span, isBigEndian: !reader.Options.LittleEndian);
+                value = new BigInteger(span, isBigEndian: false);
             }
             finally
             {
@@ -264,17 +259,12 @@ public static partial class DefaultContracts
             var size = value.GetByteCount();
             writer.WriteVarInt32((uint)size);
             var span = writer.GetSpan(size);
-            var success = value.TryWriteBytes(span, out int bytesWritten, isBigEndian: !writer.Options.LittleEndian);
+            var success = value.TryWriteBytes(span, out int bytesWritten, isBigEndian: false);
             writer.Advance(bytesWritten);
             Debug.Assert(success, "BigInteger formatting failed!");
             Debug.Assert(bytesWritten == size, "bytesWritten == size");
 #else
             var bytes = value.ToByteArray(); // this is always little-endian
-            if (!writer.Options.LittleEndian)
-            {
-                Span<byte> span = bytes;
-                span.Reverse();
-            }
             writer.WriteByteArray(bytes);
 #endif
         }
@@ -287,7 +277,7 @@ public static partial class DefaultContracts
         public partial void Deserialize(ref BshoxReader reader, Span<float> destination)
         {
             reader.CopyTo(MemoryMarshal.AsBytes(destination));
-            if (reader.Options.ReverseEndianness)
+            if (BshoxConstants.ReverseEndianness)
             {
                 var span = MemoryMarshal.Cast<float, int>(destination);
                 EndiannessHelper.Reverse(span, span);
@@ -299,7 +289,7 @@ public static partial class DefaultContracts
             int size = values.Length * sizeof(float);
             var source = MemoryMarshal.Cast<float, int>(values);
             var dest = MemoryMarshal.Cast<byte, int>(writer.GetSpan(size).Slice(0, size));
-            if (writer.Options.ReverseEndianness)
+            if (BshoxConstants.ReverseEndianness)
             {
                 EndiannessHelper.Reverse(source, dest);
             }
@@ -316,7 +306,7 @@ public static partial class DefaultContracts
         public partial void Deserialize(ref BshoxReader reader, Span<double> destination)
         {
             reader.CopyTo(MemoryMarshal.AsBytes(destination));
-            if (reader.Options.ReverseEndianness)
+            if (BshoxConstants.ReverseEndianness)
             {
                 var span = MemoryMarshal.Cast<double, long>(destination);
                 EndiannessHelper.Reverse(span, span);
@@ -328,7 +318,7 @@ public static partial class DefaultContracts
             int size = values.Length * sizeof(double);
             var source = MemoryMarshal.Cast<double, long>(values);
             var dest = MemoryMarshal.Cast<byte, long>(writer.GetSpan(size).Slice(0, size));
-            if (writer.Options.ReverseEndianness)
+            if (BshoxConstants.ReverseEndianness)
             {
                 EndiannessHelper.Reverse(source, dest);
             }

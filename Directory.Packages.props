@@ -9,26 +9,26 @@
   </PropertyGroup>
   <ItemGroup>
     <GlobalPackageReference Include="Microsoft.CodeAnalysis.BannedApiAnalyzers" Version="5.6.0" />
-    <GlobalPackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="5.6.0" />
+    <GlobalPackageReference Include="Microsoft.CodeAnalysis.CSharp.CodeStyle" Version="5.9.0" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
-    <PackageVersion Include="Google.Protobuf" Version="3.35.1" />
-    <PackageVersion Include="Grpc.Tools" Version="2.83.0" />
-    <PackageVersion Include="ICSharpCode.Decompiler" Version="10.1.1.8388" />
-    <PackageVersion Include="MessagePack" Version="3.1.8" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.6.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.6.0" />
-    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.9.0" />
+    <PackageVersion Include="Google.Protobuf" Version="3.36.2" />
+    <PackageVersion Include="Grpc.Tools" Version="2.84.0" />
+    <PackageVersion Include="ICSharpCode.Decompiler" Version="11.0.0.9375" />
+    <PackageVersion Include="MessagePack" Version="3.1.10" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.9.0" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.CodeCoverage" Version="18.11.2" />
     <PackageVersion Include="PolySharp" Version="1.16.0" />
-    <PackageVersion Include="protobuf-net" Version="3.2.56" />
+    <PackageVersion Include="protobuf-net" Version="3.4.30" />
     <PackageVersion Include="SharpFuzz" Version="2.3.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <PackageVersion Include="System.Text.Json" Version="11.0.0-preview.6.26359.118" />
-    <PackageVersion Include="TUnit" Version="1.61.38" />
-    <PackageVersion Include="TUnit.Core" Version="1.61.38" />
+    <PackageVersion Include="TUnit" Version="1.69.16" />
+    <PackageVersion Include="TUnit.Core" Version="1.69.16" />
   </ItemGroup>
   <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">
-    <PackageVersion Update="System.Text.Json" Version="10.0.10" />
+    <PackageVersion Update="System.Text.Json" Version="10.0.12" />
   </ItemGroup>
 </Project>

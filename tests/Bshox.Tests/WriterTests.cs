@@ -6,20 +6,13 @@ using Bshox.TestUtils;
 
 namespace Bshox.Tests;
 
-[Arguments(true)]
-[Arguments(false)]
 internal sealed class WriterTests : IDisposable
 {
     #region Boilerplate
 
-    public WriterTests(bool littleEndian)
-    {
-        options = new() { LittleEndian = littleEndian };
-    }
-
     private readonly Random rng = new(42);
     private readonly PooledByteBufferWriter buffer = new();
-    private readonly BshoxOptions options;
+    private readonly BshoxOptions options = BshoxOptions.Default;
 
     private BshoxWriter GetWriter() => new(buffer, options);
 
@@ -263,11 +256,11 @@ internal sealed class WriterTests : IDisposable
 
     [Test]
     [Arguments(0d, "00-00-00-00-00-00-00-00")]
-    [Arguments(1d, "3F-F0-00-00-00-00-00-00")]
-    [Arguments(double.Epsilon, "00-00-00-00-00-00-00-01")]
-    [Arguments(double.MaxValue, "7F-EF-FF-FF-FF-FF-FF-FF")]
-    [Arguments(double.MinValue, "FF-EF-FF-FF-FF-FF-FF-FF")]
-    [Arguments(double.NaN, "FF-F8-00-00-00-00-00-00")]
+    [Arguments(1d, "00-00-00-00-00-00-F0-3F")]
+    [Arguments(double.Epsilon, "01-00-00-00-00-00-00-00")]
+    [Arguments(double.MaxValue, "FF-FF-FF-FF-FF-FF-EF-7F")]
+    [Arguments(double.MinValue, "FF-FF-FF-FF-FF-FF-EF-FF")]
+    [Arguments(double.NaN, "00-00-00-00-00-00-F8-FF")]
     public async Task WriteDouble_Hex(double value, string expected)
     {
         var writer = GetWriter();
@@ -275,10 +268,6 @@ internal sealed class WriterTests : IDisposable
         writer.Flush();
 
         var array = GetOutput();
-        if (options.LittleEndian)
-        {
-            Array.Reverse(array);
-        }
         await Assert.That(Hex(array)).IsEqualTo(expected);
 
         var decoded = GetReader().ReadDouble();
@@ -314,11 +303,11 @@ internal sealed class WriterTests : IDisposable
 
     [Test]
     [Arguments(0f, "00-00-00-00")]
-    [Arguments(1f, "3F-80-00-00")]
-    [Arguments(float.Epsilon, "00-00-00-01")]
-    [Arguments(float.MaxValue, "7F-7F-FF-FF")]
-    [Arguments(float.MinValue, "FF-7F-FF-FF")]
-    [Arguments(float.NaN, "FF-C0-00-00")]
+    [Arguments(1f, "00-00-80-3F")]
+    [Arguments(float.Epsilon, "01-00-00-00")]
+    [Arguments(float.MaxValue, "FF-FF-7F-7F")]
+    [Arguments(float.MinValue, "FF-FF-7F-FF")]
+    [Arguments(float.NaN, "00-00-C0-FF")]
     public async Task WriteSingle_Hex(float value, string expected)
     {
         var writer = GetWriter();
@@ -326,10 +315,6 @@ internal sealed class WriterTests : IDisposable
         writer.Flush();
 
         var array = GetOutput();
-        if (options.LittleEndian)
-        {
-            Array.Reverse(array);
-        }
         await Assert.That(Hex(array)).IsEqualTo(expected);
 
         var decoded = GetReader().ReadSingle();

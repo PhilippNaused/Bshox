@@ -35,14 +35,6 @@ public static class TestHelper
         await CompareEnumerable<T, T2>(value, actual);
 
         await PostTest(hex, bytes, metaValue, BshoxOptions.Default);
-
-        // again, but little-endian
-        (bytes, metaValue, actual) = await PreTest(contract, value, BshoxOptions.DefaultLittleEndian);
-
-        await CompareEnumerable<T, T2>(value, actual);
-
-        // don't pass hex here, since the endianness is different
-        await PostTest(null, bytes, metaValue, BshoxOptions.DefaultLittleEndian);
     }
 
     private static async Task CompareEnumerable<T, T2>(T value, T actual) where T : IEnumerable<T2>
@@ -90,14 +82,6 @@ public static class TestHelper
         await Assert.That(actual).IsEqualTo(value);
 
         await PostTest(hex, bytes, metaValue, BshoxOptions.Default);
-
-        // again, but little-endian
-        (bytes, metaValue, actual) = await PreTest(contract, value, BshoxOptions.DefaultLittleEndian);
-
-        await Assert.That(actual).IsEqualTo(value);
-
-        // don't pass hex here, since the endianness is different
-        await PostTest(null, bytes, metaValue, BshoxOptions.DefaultLittleEndian);
     }
 
     private static async Task<(byte[] bytes, BshoxValue metaValue, T actual)> PreTest<T>(BshoxContract<T> contract, T value, BshoxOptions options)
