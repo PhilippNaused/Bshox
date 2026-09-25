@@ -1,4 +1,4 @@
-#if !NETCOREAPP
+#if !NET
 using System.Collections.ObjectModel;
 #endif
 using System.Runtime.CompilerServices;
@@ -10,7 +10,7 @@ internal static class Utils
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static T[] Allocate<T>(int length)
     {
-#if NETCOREAPP
+#if NET
         return GC.AllocateUninitializedArray<T>(length);
 #else
         return new T[length];
@@ -26,7 +26,7 @@ internal static class Utils<T>
 
     private static bool GetIsReferenceOrContainsReferences()
     {
-#if NETCOREAPP
+#if NET
         return RuntimeHelpers.IsReferenceOrContainsReferences<T>();
 #else
         // This code is only called once per type, so it doesn't need to be very optimized.
@@ -62,7 +62,7 @@ internal static class Utils<T>
 #endif
     }
 
-#if !NETCOREAPP
+#if !NET
     public static ReadOnlyObservableCollection<T> EmptyReadOnlyObservableCollection { get; } = new(new ObservableCollection<T>());
 #endif
 }

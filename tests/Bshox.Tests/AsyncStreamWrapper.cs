@@ -29,7 +29,7 @@ internal sealed class AsyncStreamWrapper(Stream stream, bool yield = true) : Str
 
     /// <inheritdoc />
     public override int ReadByte() => throw new NotSupportedException();
-#if NETCOREAPP
+#if NET
     /// <inheritdoc />
     public override int Read(Span<byte> buffer) => throw new NotSupportedException();
 
@@ -69,7 +69,7 @@ internal sealed class AsyncStreamWrapper(Stream stream, bool yield = true) : Str
     /// <inheritdoc />
     public override void Close() => Inner.Close();
 
-#if NETCOREAPP
+#if NET
 
     /// <inheritdoc />
     public override async ValueTask DisposeAsync()

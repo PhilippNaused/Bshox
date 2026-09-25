@@ -72,7 +72,7 @@ public class FuzzRegression(bool segmented)
     private bool CanParseBinary(byte[] array, bool skip)
     {
         bool success = false;
-#if NETCOREAPP
+#if NET
         foreach (BshoxEncoding code in Enum.GetValues<BshoxEncoding>())
 #else
         foreach (BshoxEncoding code in Enum.GetValues(typeof(BshoxEncoding)))

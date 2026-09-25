@@ -239,7 +239,7 @@ public ref partial struct BshoxReader
                 int bytesRead = Math.Min(remainingByteLength, SpanLength);
                 remainingByteLength -= bytesRead;
                 bool flush = remainingByteLength == 0;
-#if NETCOREAPP
+#if NET
                 initializedChars += decoder.GetChars(GetSpan(bytesRead), charArray.AsSpan(initializedChars), flush);
 #else
                 unsafe

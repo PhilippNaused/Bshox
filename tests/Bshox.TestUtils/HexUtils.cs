@@ -1,4 +1,4 @@
-#if !NETCOREAPP
+#if !NET
 using System.Diagnostics;
 #endif
 
@@ -19,7 +19,7 @@ public static class HexUtils
 
     public static byte[] FromHex(this string hex)
     {
-#if NETCOREAPP
+#if NET
         return Convert.FromHexString(hex);
 #else
         if (hex.Length % 2 != 0)
@@ -32,7 +32,7 @@ public static class HexUtils
 #endif
     }
 
-#if !NETCOREAPP
+#if !NET
     private static bool TryDecodeFromUtf16(ReadOnlySpan<char> chars, Span<byte> bytes, out int charsProcessed)
     {
         Debug.Assert(chars.Length % 2 == 0, "Un-even number of characters provided");

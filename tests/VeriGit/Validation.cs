@@ -53,7 +53,7 @@ public static class Validation
         bool overwrite;
         if (File.Exists(path))
         {
-#if NETCOREAPP
+#if NET
             var before = await File.ReadAllTextAsync(path, encoding);
 #else
             var before = File.ReadAllText(path, encoding);
@@ -72,7 +72,7 @@ public static class Validation
 
         if (overwrite)
         {
-#if NETCOREAPP
+#if NET
             await File.WriteAllTextAsync(path, actual, encoding);
 #else
             File.WriteAllText(path, actual, encoding);
@@ -108,7 +108,7 @@ public static class Validation
         // https://git-scm.com/docs/git-status#_output
         //var x = (FileStatus)status[0]; // index status
         var y = (FileStatus)status[1]; // working tree status
-#if NETCOREAPP
+#if NET
         Debug.Assert(Enum.IsDefined(y), $"Unknown value: {y}");
 #else
         Debug.Assert(Enum.IsDefined(typeof(FileStatus), y), $"Unknown value: {y}");
@@ -146,7 +146,7 @@ public static class Validation
                 }
             };
             var process = Process.Start(info)!;
-#if NETCOREAPP
+#if NET
             var output = await process.StandardOutput.ReadToEndAsync(token);
             await process.WaitForExitAsync(token);
 #else

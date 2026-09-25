@@ -13,7 +13,6 @@ lscache
 msbuild
 nameof
 Naused
-NETCOREAPP
 NETFRAMEWORK
 netstandard
 Obsoletions

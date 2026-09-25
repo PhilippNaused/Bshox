@@ -30,7 +30,7 @@
     <RunAnalyzersDuringLiveAnalysis>True</RunAnalyzersDuringLiveAnalysis>
     <RunAnalyzersDuringBuild>True</RunAnalyzersDuringBuild>
     <MSBuildTreatWarningsAsErrors>True</MSBuildTreatWarningsAsErrors>
-    <AnalysisLevel>10.0</AnalysisLevel>
+    <AnalysisLevel>latest</AnalysisLevel>
     <AnalysisMode>All</AnalysisMode>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <!-- <AnalysisModeStyle>Recommended</AnalysisModeStyle> -->

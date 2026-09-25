@@ -161,7 +161,7 @@ internal sealed class PooledByteBufferWriter : IBufferWriter<byte>, IDisposable
 
     // TODO: add more unit tests for this type!
 
-#if NETCOREAPP
+#if NET
     internal ValueTask CopyToStreamAsync(Stream destination, CancellationToken cancellationToken)
     {
         if (_segments.Count == 0)

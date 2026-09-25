@@ -52,6 +52,7 @@ internal class ApiValidation
             TargetFrameworkIdentifier.NETFramework => version.Build > 0
                 ? $"net{version.Major}{version.Minor}{version.Build}" // e.g. net462
                 : $"net{version.Major}{version.Minor}", // e.g. net48
+            // cspell:words netcoreapp
             TargetFrameworkIdentifier.NETCoreApp => $"netcoreapp{version.Major}.{version.Minor}", // e.g. netcoreapp3.1
             TargetFrameworkIdentifier.NETStandard => $"netstandard{version.Major}.{version.Minor}", // e.g. netstandard2.0
             TargetFrameworkIdentifier.NET => $"net{version.Major}.{version.Minor}", // e.g. net8.0

@@ -91,7 +91,7 @@ public partial class BshoxTextParser
 
     private static byte[] ParseHex(ReadOnlySpan<char> input)
     {
-#if NETCOREAPP
+#if NET
         return Convert.FromHexString(input);
 #else
         if (input.Length % 2 != 0)
@@ -103,7 +103,7 @@ public partial class BshoxTextParser
 #endif
     }
 
-#if !NETCOREAPP
+#if !NET
     private static bool TryDecodeFromUtf16(ReadOnlySpan<char> chars, Span<byte> bytes, out int charsProcessed)
     {
         Debug.Assert(chars.Length % 2 == 0, "Un-even number of characters provided");

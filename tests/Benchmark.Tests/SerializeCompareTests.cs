@@ -19,7 +19,7 @@ public sealed class SerializeCompareTests : SerializeCompare
         byte[] google = ((FixedBufferWriter)GoogleProtobuf()).WrittenMemory.ToArray();
         using (Assert.Multiple())
         {
-#if NETCOREAPP // netfx uses less compact json
+#if NET // netfx uses less compact json
             await Assert.That(json).Count().IsEqualTo(941_402);
 #else
             await Assert.That(json).Count().IsEqualTo(986_354);

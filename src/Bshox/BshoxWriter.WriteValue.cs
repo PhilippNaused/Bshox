@@ -162,7 +162,7 @@ public ref partial struct BshoxWriter
 
         Check();
         const int maxHotPathSize = 127; // largest int that can be encoded in 1 byte.
-#if !NET8_0_OR_GREATER
+#if !NET
         const int maxCharExpansion = 3; // max bytes per char in UTF-8
         const int maxHotPathLength = maxHotPathSize / maxCharExpansion; // max chars that can be encoded in 1 byte prefix, with worst case expansion (42).
         if (value.Length <= maxHotPathLength) // 42
@@ -178,7 +178,7 @@ public ref partial struct BshoxWriter
             return;
         }
 #endif
-#if NET8_0_OR_GREATER // TryGetBytes only exists in .NET 8+ ;(
+#if NET // TryGetBytes only exists in .NET 8+ ;(
         if (value.Length <= maxHotPathSize)
         {
             // less hot path for strings that can be encoded with a 1 byte prefix, if they are mostly ASCII (i.e. 1 byte per char).
