@@ -81,10 +81,10 @@ namespace Bshox
         public BshoxReader(System.ReadOnlyMemory<byte> memory, Bshox.BshoxOptions? options = null);
         [System.Obsolete("Do not use the parameterless constructor.", true)]
         public BshoxReader();
-        public long Consumed { readonly get; }
+        public long Consumed { get; }
         public readonly int CurrentDepth { get; }
-        public readonly long Length { get; }
-        public readonly Bshox.BshoxOptions Options { get; }
+        public long Length { get; }
+        public Bshox.BshoxOptions Options { get; }
         public readonly long Remaining { get; }
         public void Advance(int count);
         public void CopyTo(scoped System.Span<byte> destination);
@@ -124,7 +124,7 @@ namespace Bshox
         [System.Obsolete("Do not use the parameterless constructor.", true)]
         public BshoxWriter();
         public readonly int CurrentDepth { get; }
-        public readonly Bshox.BshoxOptions Options { get; }
+        public Bshox.BshoxOptions Options { get; }
         public void Advance(int count);
         public void DecreaseDepth();
         public void Flush();
