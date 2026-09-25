@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net10.0;net48;net472</TargetFrameworks>
+    <TargetFrameworks Condition="!$(IsWindows)">net8.0;net9.0;net10.0</TargetFrameworks>
     <!--
     Workaround for https://github.com/thomhurst/TUnit/issues/3445
     TODO: Remove when fixed
