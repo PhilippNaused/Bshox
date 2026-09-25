@@ -16,9 +16,12 @@ internal static class PolyFills
             return string.Empty;
         }
 
-        fixed (byte* pBytes = bytes)
+        unsafe
         {
-            return encoding.GetString(pBytes, bytes.Length);
+            fixed (byte* pBytes = bytes)
+            {
+                return encoding.GetString(pBytes, bytes.Length);
+            }
         }
     }
     extension(ArgumentOutOfRangeException)

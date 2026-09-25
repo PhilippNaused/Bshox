@@ -269,12 +269,15 @@ public ref partial struct BshoxReader
         , allows ref struct
 #endif
     {
-        Debug.Assert(SpanLength < sizeof(T), "SpanLength < sizeof(T)");
-        CheckBufferSize(sizeof(T));
-        T value = default;
-        Span<byte> span = new(&value, sizeof(T));
-        CopyToSlow(span);
-        return value;
+        unsafe
+        {
+            Debug.Assert(SpanLength < sizeof(T), "SpanLength < sizeof(T)");
+            CheckBufferSize(sizeof(T));
+            T value = default;
+            Span<byte> span = new(&value, sizeof(T));
+            CopyToSlow(span);
+            return value;
+        }
     }
 
     /// <summary>
