@@ -155,7 +155,7 @@ public ref partial struct BshoxReader
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal T ReadUnsafe<T>() where T : unmanaged
-#if NET9_0_OR_GREATER
+#if NET
         , allows ref struct
 #endif
     {
@@ -164,8 +164,8 @@ public ref partial struct BshoxReader
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal unsafe void ReadUnsafe<T>(scoped out T value) where T : unmanaged
-#if NET9_0_OR_GREATER
+    internal void ReadUnsafe<T>(scoped out T value) where T : unmanaged
+#if NET
         , allows ref struct
 #endif
     {
@@ -264,17 +264,20 @@ public ref partial struct BshoxReader
         }
     }
 
-    private unsafe T ReadUnsafeSlow<T>() where T : unmanaged
-#if NET9_0_OR_GREATER
+    private T ReadUnsafeSlow<T>() where T : unmanaged
+#if NET
         , allows ref struct
 #endif
     {
-        Debug.Assert(SpanLength < sizeof(T), "SpanLength < sizeof(T)");
-        CheckBufferSize(sizeof(T));
-        T value = default;
-        Span<byte> span = new(&value, sizeof(T));
-        CopyToSlow(span);
-        return value;
+        unsafe
+        {
+            Debug.Assert(SpanLength < sizeof(T), "SpanLength < sizeof(T)");
+            CheckBufferSize(sizeof(T));
+            T value = default;
+            Span<byte> span = new(&value, sizeof(T));
+            CopyToSlow(span);
+            return value;
+        }
     }
 
     /// <summary>

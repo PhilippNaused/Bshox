@@ -24,8 +24,11 @@
     <PackageVersion Include="protobuf-net" Version="3.4.40" />
     <PackageVersion Include="SharpFuzz" Version="2.3.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
-    <PackageVersion Include="System.Text.Json" Version="10.0.14" />
-    <PackageVersion Include="TUnit" Version="1.76.0" />
-    <PackageVersion Include="TUnit.Core" Version="1.76.0" />
+    <PackageVersion Include="System.Text.Json" Version="11.0.0-rc.3.26522.148" />
+    <PackageVersion Include="TUnit" Version="1.76.45" />
+    <PackageVersion Include="TUnit.Core" Version="1.76.45" />
+  </ItemGroup>
+  <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">
+    <PackageVersion Update="System.Text.Json" Version="10.0.14" />
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 <Project>
 
   <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('.Tests'))">
-    <UseCurrentRuntimeIdentifier Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</UseCurrentRuntimeIdentifier>
+    <UseCurrentRuntimeIdentifier Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net10.0'))">true</UseCurrentRuntimeIdentifier>
   </PropertyGroup>
 
   <Import Project="../Directory.Build.props" />
