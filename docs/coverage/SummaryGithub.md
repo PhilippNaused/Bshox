@@ -1,17 +1,17 @@
 # Summary
 <details open><summary>Summary</summary>
 
-|                    |                                       |
-|:-------------------|:--------------------------------------|
-| Parser:            | MultiReport (10x DynamicCodeCoverage) |
-| Assemblies:        | 3                                     |
-| Classes:           | 59                                    |
-| Files:             | 65                                    |
-| **Line coverage:** | 91.8% (4328 of 4712)                  |
-| Covered lines:     | 4328                                  |
-| Uncovered lines:   | 384                                   |
-| Coverable lines:   | 4712                                  |
-| Total lines:       | 8664                                  |
+|                    |                                      |
+|:-------------------|:-------------------------------------|
+| Parser:            | MultiReport (8x DynamicCodeCoverage) |
+| Assemblies:        | 3                                    |
+| Classes:           | 59                                   |
+| Files:             | 65                                   |
+| **Line coverage:** | 91.8% (4330 of 4714)                 |
+| Covered lines:     | 4330                                 |
+| Uncovered lines:   | 384                                  |
+| Coverable lines:   | 4714                                 |
+| Total lines:       | 8671                                 |
 
 </details>
 
@@ -42,7 +42,7 @@
 | Bshox.Internals.PooledByteBufferWriter |     80.5% |
 | Bshox.Internals.StreamSequence         |     92.8% |
 | Bshox.Internals.Utils                  |      100% |
-| Bshox.PolyFills                        |     81.8% |
+| Bshox.PolyFills                        |     82.3% |
 
 </details>
 <details><summary>Bshox.Generator.dll - 91.4%</summary>

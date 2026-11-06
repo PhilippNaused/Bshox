@@ -278,8 +278,8 @@ public ref partial struct BshoxWriter
         Advance(source.Length);
     }
 
-    internal unsafe void WriteUnsafe<T>(ref readonly T value) where T : unmanaged
-#if NET9_0_OR_GREATER
+    internal void WriteUnsafe<T>(ref readonly T value) where T : unmanaged
+#if NET
         , allows ref struct
 #endif
     {

@@ -3,6 +3,7 @@ using Bshox.Internals;
 namespace Bshox.Utils;
 
 #pragma warning disable CA1034 // Nested types should not be visible (false positive for extension blocks)
+#pragma warning disable CA1724 // Type names should not match namespaces
 
 public static class Extensions
 {
