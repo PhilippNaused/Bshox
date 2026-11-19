@@ -7,26 +7,26 @@
 | Assemblies:        | 3                                    |
 | Classes:           | 59                                   |
 | Files:             | 65                                   |
-| **Line coverage:** | 91.8% (4373 of 4760)                 |
-| Covered lines:     | 4373                                 |
+| **Line coverage:** | 91.9% (4403 of 4790)                 |
+| Covered lines:     | 4403                                 |
 | Uncovered lines:   | 387                                  |
-| Coverable lines:   | 4760                                 |
-| Total lines:       | 8726                                 |
+| Coverable lines:   | 4790                                 |
+| Total lines:       | 8759                                 |
 
 </details>
 
 ## Coverage
-<details><summary>Bshox.dll - 93.4%</summary>
+<details><summary>Bshox.dll - 93.5%</summary>
 
 | **Name**                               |  **Line** |
 |:---------------------------------------|----------:|
-| **Bshox.dll**                          | **93.4%** |
+| **Bshox.dll**                          | **93.5%** |
 | Bshox.BshoxConstants                   |      100% |
 | Bshox.BshoxContract                    |      100% |
 | Bshox.BshoxContractExtensions          |     88.6% |
 | Bshox.BshoxException                   |      100% |
 | Bshox.BshoxOptions                     |      100% |
-| Bshox.BshoxReader                      |     97.5% |
+| Bshox.BshoxReader                      |     97.6% |
 | Bshox.BshoxSerializer                  |     93.9% |
 | Bshox.BshoxWriter                      |     96.2% |
 | Bshox.Contracts.ArrayContract          |      100% |

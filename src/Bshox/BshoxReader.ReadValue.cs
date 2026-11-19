@@ -12,18 +12,13 @@ public ref partial struct BshoxReader
     /// </summary>
     public ulong ReadVarInt64()
     {
-        ulong value = 0;
-        int bitShift = 0;
-        byte b;
-        do
-        {
-            b = ReadByte();
-            value |= (b & 0x7Ful) << bitShift;
-            bitShift += 7;
-            if (bitShift > 10 * 7)
-                throw BshoxException.VarIntTooLong();
-        } while (b > 127);
-        return value;
+        ulong value = ReadByte();
+        if (value < 128u)
+            return value; // hot path
+        value &= 0x7Fu;
+        if (SpanLength >= 9)
+            return ReadVarInt64Fast(value); // lukewarm path
+        return ReadVarInt64Slow(value); // cold path
     }
 
     /// <summary>
@@ -36,32 +31,68 @@ public ref partial struct BshoxReader
             return value; // hot path
         value &= 0x7Fu;
         if (SpanLength >= 4)
-        {
             return ReadVarInt32Fast(value); // lukewarm path
-        }
         return ReadVarInt32Slow(value); // cold path
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)] // lukewarm path
+    private ulong ReadVarInt64Fast(ulong value)
+    {
+        Debug.Assert(SpanLength >= 9, "SpanLength >= 9");
+        ref byte r = ref GetRef();
+        int shift = 0;
+        for (int i = 1; i <= 9; i++)
+        {
+            byte b = r;
+            r = ref Unsafe.Add(ref r, 1);
+            value |= (b & 0x7Ful) << (i * 7);
+            shift = i;
+            if (b <= 127)
+                break;
+            if (i == 9)
+                throw BshoxException.VarIntTooLong();
+        }
+
+        Advance(shift);
+        return value;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)] // lukewarm path
     private uint ReadVarInt32Fast(uint value)
     {
         Debug.Assert(SpanLength >= 4, "SpanLength >= 4");
-        int shift = 0;
-        bool c; // continuation bit is set
         ref byte r = ref GetRef();
-        do
+        int shift = 0;
+        for (int i = 1; i <= 4; i++)
         {
             byte b = r;
             r = ref Unsafe.Add(ref r, 1);
-            shift++;
-            value |= (b & 0x7Fu) << (shift * 7);
-            c = b > 127;
-            if (shift > 3 && c)
+            value |= (b & 0x7Fu) << (i * 7);
+            shift = i;
+            if (b <= 127)
+                break;
+            if (i == 4)
                 throw BshoxException.VarIntTooLong();
-        } while (c);
+        }
 
         Advance(shift);
+        return value;
+    }
 
+    [MethodImpl(MethodImplOptions.NoInlining)] // cold path
+    private ulong ReadVarInt64Slow(ulong value)
+    {
+        Debug.Assert(SpanLength < 9, "SpanLength < 9");
+        int bitShift = 0;
+        byte b;
+        do
+        {
+            b = ReadByte();
+            bitShift += 7;
+            value |= (b & 0x7Ful) << bitShift;
+            if (bitShift >= 9 * 7 && b > 127)
+                throw BshoxException.VarIntTooLong();
+        } while (b > 127);
         return value;
     }
 

@@ -152,6 +152,8 @@ internal sealed class BshoxEncodingTests
         yield return ("808001", 16384);
         yield return ("FFFFFFFF0F", uint.MaxValue);
         yield return ("FFFFFFFF7F", 34359738367ul);
+        yield return ("FFFFFFFFFFFFFFFFFF01", ulong.MaxValue);
+        yield return ("8080808080808080808000", null); // 11-byte value
         yield return ("8080808080808080808001", null); // overflow
         yield return ("80808080808080808080", null); // overflow & end of stream
         yield return ("808080808080808080", null); // end of stream
@@ -162,24 +164,47 @@ internal sealed class BshoxEncodingTests
     [MethodDataSource(nameof(VarInts32))]
     public async Task VarInt32DecodingTests(string hex, uint? expected)
     {
-        var reader = new BshoxReader(hex.FromHex());
-        if (expected.HasValue)
+        byte[] bytes = hex.FromHex();
+        var segmented = SequenceSegmenter.MakeSegmentedSequence(bytes, 1);
+        foreach (bool useSegmented in new[] { false, true })
         {
-            uint value = reader.ReadVarInt32();
-            var size = DefaultContracts.UInt32.Serialize(in value).Length;
-            await Assert.That(reader.Consumed).IsEqualTo(size); // Reader must consume only as many bytes as needed
-            await Assert.That(value).IsEqualTo(expected.Value);
-        }
-        else
-        {
-            try
+            if (expected.HasValue)
             {
-                reader.ReadVarInt32();
-                Assert.Fail("Expected exception was not thrown");
+                uint value;
+                long consumed;
+                if (useSegmented)
+                {
+                    var reader = new BshoxReader(segmented);
+                    value = reader.ReadVarInt32();
+                    consumed = reader.Consumed;
+                }
+                else
+                {
+                    var reader = new BshoxReader(bytes);
+                    value = reader.ReadVarInt32();
+                    consumed = reader.Consumed;
+                }
+                var size = DefaultContracts.UInt32.Serialize(in value).Length;
+                await Assert.That(consumed).IsEqualTo(size); // Reader must consume only as many bytes as needed
+                await Assert.That(value).IsEqualTo(expected.Value);
             }
-            catch (BshoxException)
+            else if (useSegmented)
             {
-                // passed
+                void Read()
+                {
+                    var reader = new BshoxReader(segmented);
+                    reader.ReadVarInt32();
+                }
+                Assert.Throws<BshoxException>(Read);
+            }
+            else
+            {
+                void Read()
+                {
+                    var reader = new BshoxReader(bytes);
+                    reader.ReadVarInt32();
+                }
+                Assert.Throws<BshoxException>(Read);
             }
         }
     }
@@ -188,40 +213,48 @@ internal sealed class BshoxEncodingTests
     [MethodDataSource(nameof(VarInts64))]
     public async Task VarInt64DecodingTests(string hex, ulong? expected)
     {
-        var reader = new BshoxReader(hex.FromHex());
-        if (expected.HasValue)
+        byte[] bytes = hex.FromHex();
+        var segmented = SequenceSegmenter.MakeSegmentedSequence(bytes, 1);
+        foreach (bool useSegmented in new[] { false, true })
         {
-            ulong value = reader.ReadVarInt64();
-            var size = DefaultContracts.UInt64.Serialize(in value).Length;
-            await Assert.That(reader.Consumed).IsEqualTo(size); // Reader must consume only as many bytes as needed
-            await Assert.That(value).IsEqualTo(expected.Value);
-        }
-        else
-        {
-            try
+            if (expected.HasValue)
             {
-                reader.ReadVarInt64();
-                Assert.Fail("Expected exception was not thrown");
+                ulong value;
+                long consumed;
+                if (useSegmented)
+                {
+                    var reader = new BshoxReader(segmented);
+                    value = reader.ReadVarInt64();
+                    consumed = reader.Consumed;
+                }
+                else
+                {
+                    var reader = new BshoxReader(bytes);
+                    value = reader.ReadVarInt64();
+                    consumed = reader.Consumed;
+                }
+                var size = DefaultContracts.UInt64.Serialize(in value).Length;
+                await Assert.That(consumed).IsEqualTo(size); // Reader must consume only as many bytes as needed
+                await Assert.That(value).IsEqualTo(expected.Value);
             }
-            catch (BshoxException)
+            else if (useSegmented)
             {
-                // passed
+                void Read()
+                {
+                    var reader = new BshoxReader(segmented);
+                    reader.ReadVarInt64();
+                }
+                Assert.Throws<BshoxException>(Read);
+            }
+            else
+            {
+                void Read()
+                {
+                    var reader = new BshoxReader(bytes);
+                    reader.ReadVarInt64();
+                }
+                Assert.Throws<BshoxException>(Read);
             }
         }
-    }
-
-    [Test]
-    public void InvalidVarIntEdgeCase()
-    {
-        byte[] bytes = [0x80, 0x80, 0x80, 0x80, 0x80, 0x01];
-        var sequence = SequenceSegmenter.MakeSegmentedSequence(bytes, 1);
-
-        void ReadVarInt32()
-        {
-            var reader = new BshoxReader(sequence);
-            reader.ReadVarInt32();
-        }
-
-        Assert.Throws<BshoxException>(ReadVarInt32);
     }
 }
