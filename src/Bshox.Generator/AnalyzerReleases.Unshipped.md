@@ -18,6 +18,7 @@ Bshox013 | Bshox | Error | Surrogate types must have the required 'Convert' meth
 Bshox014 | Bshox | Error | The current compiler version is too low
 Bshox015 | Bshox | Error | Required members cannot have default values
 Bshox016 | Bshox | Error | The specified symbol for the contract is not unique
+Bshox017 | Bshox | Error | Bshox serializable members must be accessible and writable
 
 Bshox998 | Bshox | Error | Feature not implemented
 Bshox999 | Bshox | Error | Internal Error

@@ -65,6 +65,10 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
     public bool TryGenerate(ContractInfo contract, SerializerInfo serializer)
     {
         Debug.Assert(contract.Kind is ContractKind.SourceGenerated, "contract.Kind is ContractKind.SourceGenerated");
+        if (members.Any(static member => !member.IsValid))
+        {
+            return false;
+        }
         var code = new SourceWriter();
 
         code.WriteComment($"ImplicitDefaultValues = {parameters.ImplicitDefaultValues}");
@@ -241,7 +245,7 @@ internal sealed class ContractGenerator(ContractParameters parameters, List<Memb
             code.OpenScope();
             foreach (var member in members)
             {
-                code.WriteLine($"{member.Name} = {member.LocalVariableName},");
+                code.WriteLine($"{member.EscapedName} = {member.LocalVariableName},");
             }
             code.Indentation--;
             code.WriteLine("};");

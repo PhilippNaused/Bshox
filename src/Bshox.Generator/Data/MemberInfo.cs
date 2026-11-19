@@ -30,6 +30,12 @@ internal sealed class MemberInfo
             throw new InvalidOperationException("member is neither field nor property.");
         }
 
+        IsValid = IsAccessibleAndWritable(Symbol, context.KnownSymbols.Compilation.Assembly);
+        if (!IsValid)
+        {
+            context.ReportDiagnostic(Diagnostics.MemberMustBeAccessibleAndWritable, Symbol, Symbol);
+        }
+
         if (Symbol.TryParseBshoxMemberAttribute(context.KnownSymbols, out uint key))
         {
             Key = key;
@@ -67,6 +73,11 @@ internal sealed class MemberInfo
     public ITypeSymbol MemberType { get; }
     public ContractDemand ContractDemand { get; }
     public bool IsRequired { get; }
+    public bool IsValid { get; }
+
+    public string EscapedName => SyntaxFacts.GetKeywordKind(Name) == SyntaxKind.None && SyntaxFacts.GetContextualKeywordKind(Name) == SyntaxKind.None
+        ? Name
+        : $"@{Name}";
 
     public bool IsValueType => MemberType.IsValueType;
     public bool IsReferenceType => MemberType.IsReferenceType;
@@ -115,6 +126,32 @@ internal sealed class MemberInfo
         return Contract is not null;
     }
 
+    private static bool IsAccessibleAndWritable(ISymbol symbol, IAssemblySymbol serializerAssembly)
+    {
+        bool IsAccessible(ISymbol member) => member.DeclaredAccessibility switch
+        {
+            Accessibility.Public => true,
+            Accessibility.Internal or Accessibility.ProtectedOrInternal =>
+                SymbolEqualityComparer.Default.Equals(member.ContainingAssembly, serializerAssembly),
+            _ => false
+        };
+
+        return symbol switch
+        {
+            IPropertySymbol property => !property.IsStatic
+                                       && !property.IsIndexer
+                                       && property.GetMethod is { } getter
+                                       && IsAccessible(getter)
+                                       && property.SetMethod is { } setter
+                                       && IsAccessible(setter),
+            IFieldSymbol field => !field.IsStatic
+                                  && !field.IsConst
+                                  && !field.IsReadOnly
+                                  && IsAccessible(field),
+            _ => false
+        };
+    }
+
     private bool NeedsExplicitNullSupport()
     {
         if (IsValueType && !MemberType.IsNullableValueType())
@@ -133,7 +170,7 @@ internal sealed class MemberInfo
 
     public void WriteSerialize(SourceWriter code)
     {
-        code.WriteLine($"var {LocalVariableName} = value.{Name};");
+        code.WriteLine($"var {LocalVariableName} = value.{EscapedName};");
         if (NeedsExplicitNullSupport())
         {
             code.WriteLine($"if ({LocalVariableName} is not null)");

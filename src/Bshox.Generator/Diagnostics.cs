@@ -158,6 +158,14 @@ public static class Diagnostics
         defaultSeverity: DiagnosticSeverity.Error,
         isEnabledByDefault: true);
 
+    public static readonly DiagnosticDescriptor MemberMustBeAccessibleAndWritable = new(
+        id: $"{Prefix}017",
+        title: "Bshox serializable members must be accessible and writable",
+        messageFormat: "Member '{0}' must be an accessible instance field or an accessible instance property with a getter and setter",
+        category: Category,
+        defaultSeverity: DiagnosticSeverity.Error,
+        isEnabledByDefault: true);
+
 #pragma warning disable CA1034 // Nested types should not be visible (false positive for extension blocks)
 
     extension(IDiagnosticOutput diagnostics)

@@ -80,9 +80,59 @@ public class GeneratedContractTests
         }
         else
         {
-            await Assert.That(diagnostics.Select(d => d.Id)).All().Satisfy(x => x.IsEqualTo("CS0122"));
-            await Assert.That(generatedOutput).IsNotEmpty(); // TODO: fix this
+            await Assert.That(diagnostics).HasSingleItem();
+            await diagnostics.Single().AssertEqual(Diagnostics.MemberMustBeAccessibleAndWritable, "Member 'TestModels.Type1.Value' must be an accessible instance field or an accessible instance property with a getter and setter");
+            await Assert.That(generatedOutput).IsEmpty();
         }
+    }
+
+    [Test]
+    [Arguments("public int Value { get; }")]
+    [Arguments("public readonly int Value;")]
+    [Arguments("public int Value { private get; set; }")]
+    [Arguments("public int Value { get; private set; }")]
+    public async Task MemberMustBeReadableAndWritable(string member)
+    {
+        string sourceCode = $$"""
+                            using Bshox.Attributes;
+                            namespace TestModels;
+
+                            [BshoxSerializable<Type1>]
+                            public partial class Serializer1;
+
+                            [BshoxContract(ImplicitMembers = true)]
+                            public class Type1
+                            {
+                                {{member}}
+                            }
+                            """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).HasSingleItem();
+        await diagnostics.Single().AssertEqual(Diagnostics.MemberMustBeAccessibleAndWritable, "Member 'TestModels.Type1.Value' must be an accessible instance field or an accessible instance property with a getter and setter");
+        await Assert.That(generatedOutput).IsEmpty();
+    }
+
+    [Test]
+    public async Task KeywordMemberName()
+    {
+        const string sourceCode = """
+                                  using Bshox.Attributes;
+                                  namespace TestModels;
+
+                                  [BshoxSerializable<Type1>]
+                                  public partial class Serializer1;
+
+                                  [BshoxContract(ImplicitMembers = true)]
+                                  public class Type1
+                                  {
+                                      public int @class { get; set; }
+                                  }
+                                  """;
+        var generatedOutput = Utils.GetGeneratedOutput(sourceCode, out var diagnostics);
+
+        await Assert.That(diagnostics).IsEmpty();
+        await Assert.That(generatedOutput).IsNotEmpty();
     }
 
     [Test]
