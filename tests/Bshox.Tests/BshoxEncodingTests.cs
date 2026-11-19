@@ -209,4 +209,19 @@ internal sealed class BshoxEncodingTests
             }
         }
     }
+
+    [Test]
+    public void InvalidVarIntEdgeCase()
+    {
+        byte[] bytes = [0x80, 0x80, 0x80, 0x80, 0x80, 0x01];
+        var sequence = SequenceSegmenter.MakeSegmentedSequence(bytes, 1);
+
+        void ReadVarInt32()
+        {
+            var reader = new BshoxReader(sequence);
+            reader.ReadVarInt32();
+        }
+
+        Assert.Throws<BshoxException>(ReadVarInt32);
+    }
 }

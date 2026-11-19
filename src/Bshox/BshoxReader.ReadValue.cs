@@ -76,7 +76,7 @@ public ref partial struct BshoxReader
             b = ReadByte();
             bitShift += 7;
             value |= (b & 0x7Fu) << bitShift;
-            if (bitShift > 5 * 7)
+            if (bitShift >= 4 * 7 && b > 127)
                 throw BshoxException.VarIntTooLong();
         } while (b > 127);
         return value;

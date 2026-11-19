@@ -12,6 +12,7 @@
     <File Path="global.json" />
     <File Path="nuget.config" />
     <File Path="BannedSymbols.txt" />
+    <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
     <File Path="src/GeneratedContracts.json" />

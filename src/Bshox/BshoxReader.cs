@@ -347,15 +347,14 @@ public ref partial struct BshoxReader
     {
         Debug.Assert(_moreData, nameof(_moreData));
         Debug.Assert(_usingSequence, nameof(_usingSequence));
-        if (TryMoveNext())
+        while (TryMoveNext())
         {
-            if (SpanLength == 0)
+            if (SpanLength != 0)
             {
-                Debug.Fail("Expected non-empty span");
-                throw new InvalidOperationException("Sequence returned an empty segment.");
+                Check();
+                return;
             }
-            Check();
-            return;
+            continue;
         }
 #if REF_FIELD
         _ref = ref Unsafe.NullRef<byte>();

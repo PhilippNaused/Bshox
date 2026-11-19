@@ -43,6 +43,11 @@ internal sealed class StreamSequence(Stream stream) : IDisposable
             }
         }
         _segments.Clear();
+        if (_lastBuff is not null && _lastBuffIndex == 0)
+        {
+            ArrayPool<byte>.Shared.Return(_lastBuff);
+            _lastBuff = null;
+        }
     }
 
     public void ReadAll()
