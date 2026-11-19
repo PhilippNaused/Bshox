@@ -7,11 +7,11 @@
 | Assemblies:        | 3                                    |
 | Classes:           | 59                                   |
 | Files:             | 65                                   |
-| **Line coverage:** | 91.8% (4372 of 4759)                 |
-| Covered lines:     | 4372                                 |
+| **Line coverage:** | 91.8% (4373 of 4760)                 |
+| Covered lines:     | 4373                                 |
 | Uncovered lines:   | 387                                  |
-| Coverable lines:   | 4759                                 |
-| Total lines:       | 8724                                 |
+| Coverable lines:   | 4760                                 |
+| Total lines:       | 8726                                 |
 
 </details>
 

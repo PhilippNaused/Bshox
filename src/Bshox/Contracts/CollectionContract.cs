@@ -17,12 +17,12 @@ internal abstract class CollectionContractBase<TCollection, T>
     protected readonly ISpanContract<T>? _spanContract;
     protected readonly BshoxContract<T> _contract;
     protected readonly Func<int, TCollection> _factory;
-    protected readonly Func<IReadOnlyList<T>, TCollection> _factory2;
+    protected readonly Func<ArraySegment<T>, TCollection> _factory2;
 
     /// <summary>
     /// A Bshox contract for a <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>
     /// </summary>
-    protected CollectionContractBase(BshoxContract<T> contract, Func<int, TCollection> factory, Func<IReadOnlyList<T>, TCollection> factory2) : base(BshoxEncoding.Array)
+    protected CollectionContractBase(BshoxContract<T> contract, Func<int, TCollection> factory, Func<ArraySegment<T>, TCollection> factory2) : base(BshoxEncoding.Array)
     {
         _contract = contract;
         _factory = factory;
@@ -57,7 +57,7 @@ internal abstract class CollectionContractBase<TCollection, T>
 
         if (_spanContract is not null && count >= minSpanLength)
         {
-            SerializeSpan(ref writer, in value);
+            SerializeSpan(ref writer, in value, count);
             return;
         }
 
@@ -121,6 +121,7 @@ internal abstract class CollectionContractBase<TCollection, T>
 
     private void SerializeList(ref BshoxWriter writer, IReadOnlyList<T> value, int count)
     {
+        // value.Count may be larger than count if value is a rented buffer from ArrayPool.
         Debug.Assert(value.Count >= count, "value.Count >= count");
         for (int i = 0; i < count; i++)
         {
@@ -129,8 +130,9 @@ internal abstract class CollectionContractBase<TCollection, T>
         }
     }
 
-    private void SerializeSpan(ref BshoxWriter writer, scoped ref readonly TCollection value)
+    private void SerializeSpan(ref BshoxWriter writer, scoped ref readonly TCollection value, int count)
     {
+        Debug.Assert(value.Count() == count, "value.Count() == count");
 #if NET
         if (value is List<T> list)
         {
@@ -139,7 +141,6 @@ internal abstract class CollectionContractBase<TCollection, T>
             return;
         }
 #endif
-        int count = GetCount(value);
         var array = ArrayPool<T>.Shared.Rent(count);
         try
         {
@@ -200,7 +201,7 @@ internal abstract class CollectionContractBase<TCollection, T>
 /// <summary>
 /// A Bshox contract for a <see cref="ICollection{T}"/>
 /// </summary>
-internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contract, Func<int, TCollection> factory, Func<IReadOnlyList<T>, TCollection> factory2)
+internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contract, Func<int, TCollection> factory, Func<ArraySegment<T>, TCollection> factory2)
     : CollectionContractBase<TCollection, T>(contract, factory, factory2)
     where TCollection : ICollection<T>
     where T : notnull
@@ -211,7 +212,7 @@ internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contra
     /// <inheritdoc />
     protected override TCollection DeserializeInner(ref BshoxReader reader, int count)
     {
-        Debug.Assert(count >= 0, "count >= 0");
+        Debug.Assert(count > 0, "count > 0");
         var collection = _factory(count);
         for (int i = 0; i < count; i++)
         {
@@ -223,9 +224,9 @@ internal sealed class CollectionContract<TCollection, T>(BshoxContract<T> contra
 }
 
 /// <summary>
-/// A Bshox contract for a <see cref="IReadOnlyCollection{T}"/>
+/// A Bshox contract for a <see cref="IReadOnlyCollection{T}"/>.
 /// </summary>
-internal sealed class CollectionContract2<TCollection, T>(BshoxContract<T> contract, Func<int, TCollection> factory, Func<IReadOnlyList<T>, TCollection> factory2)
+internal sealed class CollectionContract2<TCollection, T>(BshoxContract<T> contract, Func<int, TCollection> factory, Func<ArraySegment<T>, TCollection> factory2)
     : CollectionContractBase<TCollection, T>(contract, factory, factory2)
     where TCollection : IReadOnlyCollection<T>
     where T : notnull
@@ -236,7 +237,7 @@ internal sealed class CollectionContract2<TCollection, T>(BshoxContract<T> contr
     /// <inheritdoc />
     protected override TCollection DeserializeInner(ref BshoxReader reader, int count)
     {
-        Debug.Assert(count >= 0, "count >= 0");
+        Debug.Assert(count > 0, "count > 0");
         var array = ArrayPool<T>.Shared.Rent(count);
         try
         {

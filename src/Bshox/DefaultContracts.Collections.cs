@@ -9,7 +9,7 @@ namespace Bshox;
 public static partial class DefaultContracts
 {
     private static List<T> ListFactory<T>(int count) => new(count);
-    private static List<T> ListFactory2<T>(IReadOnlyList<T> segment) => new(segment);
+    private static List<T> ListFactory2<T>(ArraySegment<T> segment) => new(segment);
 
     /// <summary>
     /// A Bshox contract for a <see cref="System.Collections.Generic.List{T}"/>.
@@ -111,6 +111,7 @@ public static partial class DefaultContracts
     public static BshoxContract<ArraySegment<T>> ArraySegment<T>(BshoxContract<T> contract) where T : notnull
         => new CollectionContract2<ArraySegment<T>, T>(contract,
             static capacity => new ArraySegment<T>(new T[capacity]),
+            // this redundant copy operation is not being optimized since ArraySegment is an unlikely type for serialization data contracts.
             static segment => new ArraySegment<T>(segment.ToArray()));
 
     /// <summary>

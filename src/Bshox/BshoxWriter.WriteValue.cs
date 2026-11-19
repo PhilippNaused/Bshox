@@ -273,6 +273,8 @@ public ref partial struct BshoxWriter
         source.Slice(0, toCopy).CopyTo(dest);
         Advance(toCopy);
         source = source.Slice(toCopy);
+        if (source.IsEmpty)
+            return; // unlikely edge-case, but cheap to check.
         dest = GetSpan(source.Length);
         source.CopyTo(dest);
         Advance(source.Length);
