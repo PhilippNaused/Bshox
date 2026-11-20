@@ -36,11 +36,13 @@ internal static class Utils<T>
             return false;
         if (!type.IsValueType)
             return true;
+#pragma warning disable RS0030 // Do not use banned APIs (These methods cannot fail and are called at most once per type)
         var fields = type.GetFields(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
 
         // Do not use recursion here. Preventing stack overflow is too much work to be worth it.
         if (fields.All(f => HasNoReference(f.FieldType)))
             return false;
+#pragma warning restore RS0030 // Do not use banned APIs
 
         return true;
 

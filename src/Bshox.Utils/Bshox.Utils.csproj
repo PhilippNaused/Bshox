@@ -22,6 +22,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Banned API analyzer -->
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)..\BannedSymbols.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <InternalsVisibleTo Include="Bshox.Tests"
                         PublicKey="$(SnkPublicKey)" />
   </ItemGroup>

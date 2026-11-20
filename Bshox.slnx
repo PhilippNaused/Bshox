@@ -11,10 +11,10 @@
     <File Path="Directory.Packages.props" />
     <File Path="global.json" />
     <File Path="nuget.config" />
-    <File Path="BannedSymbols.txt" />
     <File Path="README.md" />
   </Folder>
   <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
     <File Path="src/GeneratedContracts.json" />
     <Project Path="src/Bshox.Generator/Bshox.Generator.csproj" />
     <Project Path="src/Bshox.Utils/Bshox.Utils.csproj" />

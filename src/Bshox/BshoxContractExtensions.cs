@@ -188,46 +188,55 @@ public static class BshoxContractExtensions
         }
     }
 
+#pragma warning disable RS0030 // Do not use banned APIs
+    private static bool DisableMemoryStreamReflection;
+    private static readonly FieldInfo? MemoryStreamBuffer = typeof(MemoryStream).GetField("_buffer", BindingFlags.NonPublic | BindingFlags.Instance);
+    private static readonly FieldInfo? MemoryStreamOrigin = typeof(MemoryStream).GetField("_origin", BindingFlags.NonPublic | BindingFlags.Instance);
+#pragma warning restore RS0030 // Do not use banned APIs
+
     /// <summary>
     /// Attempts to return the internal buffer of the specified <paramref name="memoryStream"/> even if its exposable flag is not set.
     /// </summary>
+    /// <remarks>
+    /// This is the only method in the library that uses reflection.
+    /// Reflection is generally banned in this project because it is unreliable and bad for performance.
+    /// But this method is properly guarded against failure and significantly improves performance when reading from a MemoryStream.
+    /// </remarks>
     internal static bool TryGetBuffer(MemoryStream memoryStream, out ArraySegment<byte> buffer)
     {
         if (memoryStream.TryGetBuffer(out buffer))
         {
             return true;
         }
-        if (memoryStream.GetType() != typeof(MemoryStream))
+#pragma warning disable RS0030 // Do not use banned APIs
+        if (DisableMemoryStreamReflection || memoryStream.GetType() != typeof(MemoryStream))
         {
             // derived type - we cannot rely on the internal structure of MemoryStream
             return false;
         }
 
         // the _exposable flag is not set.
-        // => use reflection to get the private _buffer field
-        byte[]? array = null;
-        int? origin = null;
+        // => try to use reflection to get the private _buffer field
         try
         {
-            array = typeof(MemoryStream).GetField("_buffer", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(memoryStream) as byte[];
-            var obj = typeof(MemoryStream).GetField("_origin", BindingFlags.NonPublic | BindingFlags.Instance)?.GetValue(memoryStream);
-            if (obj is int originValue)
+            byte[]? array = MemoryStreamBuffer?.GetValue(memoryStream) as byte[];
+            object? obj = MemoryStreamOrigin?.GetValue(memoryStream);
+            if (obj is int originValue && array is not null)
             {
-                origin = originValue;
+                buffer = new ArraySegment<byte>(array, originValue, (int)memoryStream.Length);
+                return true;
             }
         }
+#pragma warning restore RS0030 // Do not use banned APIs
 #pragma warning disable CA1031 // Do not catch general exception types
         catch
 #pragma warning restore CA1031 // Do not catch general exception types
         {
             Debug.Fail("Failed to get the _buffer field from MemoryStream.");
         }
-        if (array is not null && origin is not null)
-        {
-            buffer = new ArraySegment<byte>(array, origin.Value, (int)memoryStream.Length);
-            return true;
-        }
 
+        // Permanently disable reflection.
+        DisableMemoryStreamReflection = true;
         buffer = default;
         return false;
     }

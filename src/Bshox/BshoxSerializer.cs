@@ -143,8 +143,9 @@ public abstract class BshoxSerializer
 
     private static bool TryDeserialize(IBshoxContract contract, MemoryStream memoryStream, [NotNullWhen(true)] out object? value, BshoxOptions? options = null)
     {
-        if (BshoxContractExtensions.TryGetBuffer(memoryStream, out var memory))
+        if (BshoxContractExtensions.TryGetBuffer(memoryStream, out var buffer))
         {
+            var memory = buffer.AsMemory((int)memoryStream.Position);
             var reader = new BshoxReader(memory, options);
             contract.Deserialize(ref reader, out value);
             memoryStream.Position += reader.Consumed;
